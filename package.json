@@ -54,6 +54,8 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.0.0",
+    "@swc/jest": "^0.2.36",
+    "@types/jest": "^30.0.0",
     "@types/node": "^20.11.17",
     "@types/pdfkit": "^0.17.3",
     "@types/through2": "^2.0.41",
@@ -64,7 +66,6 @@
     "jest": "^30.2.0",
     "markdownlint-cli": "^0.45.0",
     "prettier": "^3.2.5",
-    "@swc/jest": "^0.2.36",
     "typescript": "^5.3.3"
   }
 }

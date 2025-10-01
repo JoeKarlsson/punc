@@ -15,5 +15,6 @@ export default {
   ],
   collectCoverage: false,
   moduleFileExtensions: ['ts', 'js', 'json'],
-  testTimeout: 10000
+  testTimeout: 10000,
+  injectGlobals: true
 };

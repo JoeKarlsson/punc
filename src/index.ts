@@ -342,9 +342,14 @@ function validateOptions(
     throw new TypeError('expected options to be either an object or a string');
   }
 
+  // Merge custom mapping with default mapping to ensure all keys are present
+  const defaultMap = defaultMapping();
+  const customMapping = options.mapping || {};
+  const mergedMapping = { ...defaultMap, ...customMapping };
+
   return {
     encoding: options.encoding || 'utf8',
-    mapping: options.mapping || defaultMapping(),
+    mapping: mergedMapping,
   };
 }
 
@@ -431,9 +436,9 @@ function findAndCount(map: PunctuationCount, dest: string[]): Transform {
               map[key] += count;
               dest.push(...matches);
             } else {
-              console.warn(
-                `Warning: Invalid count value for key '${key}': ${map[key]}`
-              );
+              // Initialize invalid count values to 0 and continue processing
+              map[key] = count;
+              dest.push(...matches);
             }
           }
         } catch (patternError) {
@@ -463,9 +468,9 @@ function findAndCount(map: PunctuationCount, dest: string[]): Transform {
               map[key]++;
               dest.push(punctuation);
             } else {
-              console.warn(
-                `Warning: Invalid count value for key '${key}': ${map[key]}`
-              );
+              // Initialize invalid count values to 1 and continue processing
+              map[key] = 1;
+              dest.push(punctuation);
             }
           }
         } catch (charError) {

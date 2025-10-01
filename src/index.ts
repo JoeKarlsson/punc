@@ -90,8 +90,8 @@ function removeAndReplace(
 ): Transform {
   return through2.obj(function (
     chunk: Buffer,
-    _: any,
-    callback: (error: Error | null, data?: any) => void
+    _: unknown,
+    callback: (error: Error | null, data?: string) => void
   ) {
     const result = chunk.toString().replace(regex, replace);
     if (dest) dest(result);
@@ -103,8 +103,8 @@ function removeAndReplace(
 function findWordsPerSentence(changeCount: (count: number) => void): Transform {
   return through2.obj(function (
     chunk: Buffer,
-    _: any,
-    callback: (error: Error | null, data?: any) => void
+    _: unknown,
+    callback: (error: Error | null, data?: string) => void
   ) {
     const chunkStr = chunk.toString();
     const periodCount = (chunkStr.match(/\.|\?|\!/g) || []).length;
@@ -118,8 +118,8 @@ function findWordsPerSentence(changeCount: (count: number) => void): Transform {
 function findAndCount(map: PunctuationCount, dest: string[]): Transform {
   return through2.obj(function (
     chunk: Buffer,
-    _: any,
-    callback: (error: Error | null, data?: any) => void
+    _: unknown,
+    callback: (error: Error | null, data?: string) => void
   ) {
     const chunkStr = chunk.toString();
     for (const punctuation of chunkStr) {

@@ -5,10 +5,9 @@
     "es2022": true,
     "jest": true
   },
-  "extends": [
-    "eslint:recommended"
-  ],
+  "extends": ["eslint:recommended"],
   "parser": "@typescript-eslint/parser",
+  "plugins": ["@typescript-eslint"],
   "parserOptions": {
     "ecmaVersion": 2022,
     "sourceType": "module"
@@ -18,7 +17,9 @@
     "no-var": "error",
     "no-unused-vars": "off",
     "no-undef": "off",
-    "no-useless-escape": "off"
+    "no-useless-escape": "off",
+    "@typescript-eslint/no-unused-vars": "error",
+    "@typescript-eslint/no-explicit-any": "warn"
   },
   "ignorePatterns": ["dist/", "node_modules/", "coverage/"]
 }

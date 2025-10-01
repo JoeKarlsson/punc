@@ -1,8 +1,8 @@
-// src/index.ts
-import { createReadStream, createWriteStream } from "fs";
+// src/punc.ts
+import { createReadStream } from "fs";
 import { pipeline } from "stream/promises";
-import PDFDocument from "pdfkit";
-import through2 from "through2";
+
+// src/mapping.ts
 function defaultMapping() {
   return {
     // Basic punctuation
@@ -148,6 +148,8 @@ function defaultMapping() {
     "\u2612": 0
   };
 }
+
+// src/validation.ts
 function validateOptions(filePath, options) {
   if (!filePath || typeof filePath !== "string") {
     throw new Error("Invalid file path: expected non-empty string");
@@ -161,17 +163,26 @@ function validateOptions(filePath, options) {
   if (typeof options === "string") {
     return { encoding: options, mapping: defaultMapping() };
   }
-  if (typeof options !== "object") {
+  if (typeof options !== "object" || Array.isArray(options)) {
     throw new TypeError("expected options to be either an object or a string");
   }
   const defaultMap = defaultMapping();
   const customMapping = options.mapping || {};
-  const mergedMapping = { ...defaultMap, ...customMapping };
+  const filteredCustomMapping = {};
+  for (const key in customMapping) {
+    if (key in defaultMap) {
+      filteredCustomMapping[key] = customMapping[key];
+    }
+  }
+  const mergedMapping = { ...defaultMap, ...filteredCustomMapping };
   return {
     encoding: options.encoding || "utf8",
     mapping: mergedMapping
   };
 }
+
+// src/streams.ts
+import through2 from "through2";
 function removeAndReplace(regex, replace, dest) {
   return through2.obj(function(chunk, _, callback) {
     const chunkStr = typeof chunk === "string" ? chunk : chunk.toString();
@@ -209,8 +220,9 @@ function findAndCount(map, dest) {
         { pattern: /!!!+/g, key: "!!!" },
         { pattern: /\?\?\?+/g, key: "???" },
         { pattern: /\.\.\.+/g, key: "..." },
-        { pattern: /---+$/g, key: "---" }
+        { pattern: /---+/g, key: "---" }
       ];
+      const processedIndices = /* @__PURE__ */ new Set();
       for (const { pattern, key } of repeatedPatterns) {
         try {
           if (!(key in map)) {
@@ -227,6 +239,14 @@ function findAndCount(map, dest) {
               map[key] = count;
               dest.push(...matches);
             }
+            let lastIndex = 0;
+            for (const match of matches) {
+              const index = chunkStr.indexOf(match, lastIndex);
+              for (let j = index; j < index + match.length; j++) {
+                processedIndices.add(j);
+              }
+              lastIndex = index + 1;
+            }
           }
         } catch (patternError) {
           console.warn(
@@ -235,8 +255,12 @@ function findAndCount(map, dest) {
           );
         }
       }
-      for (let i = 0; i < chunkStr.length; i++) {
-        const punctuation = chunkStr[i];
+      const characters = Array.from(chunkStr);
+      for (let i = 0; i < characters.length; i++) {
+        if (processedIndices.has(i)) {
+          continue;
+        }
+        const punctuation = characters[i];
         try {
           if (punctuation && punctuation in map) {
             const key = punctuation;
@@ -271,6 +295,8 @@ function findAndCount(map, dest) {
     }
   });
 }
+
+// src/punc.ts
 async function punc(filePath, options) {
   const validatedOptions = validateOptions(filePath, options);
   const punctuationStore = [];
@@ -350,11 +376,16 @@ async function punc(filePath, options) {
     }
   });
 }
+
+// src/pdf.ts
+import { createReadStream as createReadStream2, createWriteStream } from "fs";
+import { pipeline as pipeline2 } from "stream/promises";
+import PDFDocument from "pdfkit";
 async function createPDF(filePath, options) {
   const validatedOptions = validateOptions(filePath, options);
   const newFileName = `${filePath}-visual.pdf`;
   return new Promise((resolve, reject) => {
-    const readStream = createReadStream(filePath, {
+    const readStream = createReadStream2(filePath, {
       encoding: validatedOptions.encoding
     });
     readStream.on("error", (error) => {
@@ -367,7 +398,7 @@ async function createPDF(filePath, options) {
     });
     pdf.pipe(writeStream);
     let processedText = "";
-    pipeline(
+    pipeline2(
       readStream,
       removeAndReplace(/[a-zA-Z\d]+/g, " ", (chunk) => {
         processedText += chunk;
@@ -383,9 +414,10 @@ async function createPDF(filePath, options) {
     });
   });
 }
-var index_default = punc;
 export {
   createPDF,
-  index_default as default,
-  punc
+  punc as default,
+  defaultMapping,
+  punc,
+  validateOptions
 };

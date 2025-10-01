@@ -17,7 +17,7 @@
     "lib"
   ],
   "scripts": {
-    "build": "tsc && esbuild src/index.ts --bundle --platform=node --outfile=dist/index.js --external:pdfkit --external:through2",
+    "build": "tsc && esbuild src/index.ts --bundle --platform=node --format=esm --outfile=dist/index.js --external:pdfkit --external:through2",
     "dev": "tsc --watch",
     "test": "jest",
     "test:watch": "jest --watch",
@@ -58,8 +58,8 @@
     "@types/node": "^20.11.17",
     "@types/pdfkit": "^0.17.3",
     "@types/through2": "^2.0.41",
-    "@typescript-eslint/eslint-plugin": "^8.45.0",
-    "@typescript-eslint/parser": "^8.45.0",
+    "@typescript-eslint/eslint-plugin": "^6.21.0",
+    "@typescript-eslint/parser": "^6.21.0",
     "esbuild": "^0.25.10",
     "eslint": "^8.56.0",
     "eslint-config-prettier": "^9.1.0",

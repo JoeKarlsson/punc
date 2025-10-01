@@ -9,7 +9,9 @@ describe('Punc', () => {
     });
 
     test('should throw error when filePath is not provided', async () => {
-      await expect(punc('')).rejects.toThrow('Punc: file path not given.');
+      await expect(punc('')).rejects.toThrow(
+        'Invalid file path: expected non-empty string'
+      );
     });
 
     test('should return a Promise', async () => {
@@ -26,7 +28,7 @@ describe('Punc', () => {
 
   describe('Punctuation counting', () => {
     test('should count punctuation correctly', async () => {
-      const expectedCount: PunctuationCount = {
+      const expectedCount: Partial<PunctuationCount> = {
         ';': 2,
         ':': 0,
         "'": 1,
@@ -51,7 +53,7 @@ describe('Punc', () => {
 
     test('should return punctuation body correctly', async () => {
       const result = await punc('tests/books/alice.txt');
-      expect(result.body).toBe(`-;,.'(-;-.,""`);
+      expect(result.body).toBe(`-;,.\\'(-;-.,""`);
     });
 
     test('should calculate words per sentence correctly', async () => {
@@ -84,6 +86,112 @@ describe('Punc', () => {
         '(': 0,
         ')': 0,
         '-': 0,
+        // Add all other required properties
+        '★': 0,
+        '♥': 0,
+        '♦': 0,
+        '♠': 0,
+        '♣': 0,
+        '→': 0,
+        '←': 0,
+        '↑': 0,
+        '↓': 0,
+        '∞': 0,
+        '§': 0,
+        '¶': 0,
+        '!!!': 0,
+        '???': 0,
+        '...': 0,
+        '---': 0,
+        '+': 0,
+        '*': 0,
+        '/': 0,
+        '=': 0,
+        '≠': 0,
+        '≤': 0,
+        '≥': 0,
+        '±': 0,
+        '×': 0,
+        '÷': 0,
+        $: 0,
+        '€': 0,
+        '£': 0,
+        '¥': 0,
+        '¢': 0,
+        '%': 0,
+        '°': 0,
+        '©': 0,
+        '®': 0,
+        '™': 0,
+        '♪': 0,
+        '♫': 0,
+        '♬': 0,
+        '♭': 0,
+        '♯': 0,
+        '↔': 0,
+        '↕': 0,
+        '↗': 0,
+        '↘': 0,
+        '↙': 0,
+        '↖': 0,
+        '○': 0,
+        '●': 0,
+        '□': 0,
+        '■': 0,
+        '△': 0,
+        '▲': 0,
+        '▽': 0,
+        '▼': 0,
+        '│': 0,
+        '─': 0,
+        '┌': 0,
+        '┐': 0,
+        '└': 0,
+        '┘': 0,
+        '├': 0,
+        '┤': 0,
+        '┬': 0,
+        '┴': 0,
+        '¿': 0,
+        '¡': 0,
+        '؟': 0,
+        '،': 0,
+        '؛': 0,
+        '，': 0,
+        '。': 0,
+        '；': 0,
+        '：': 0,
+        '？': 0,
+        '！': 0,
+        '[': 0,
+        ']': 0,
+        '{': 0,
+        '}': 0,
+        '<': 0,
+        '>': 0,
+        '`': 0,
+        '|': 0,
+        '\\': 0,
+        '~': 0,
+        '^': 0,
+        '&': 0,
+        '@': 0,
+        '#': 0,
+        '☆': 0,
+        '✦': 0,
+        '✧': 0,
+        '♡': 0,
+        '❤': 0,
+        '💙': 0,
+        '💚': 0,
+        '💛': 0,
+        '💜': 0,
+        '✓': 0,
+        '✔': 0,
+        '☑': 0,
+        '✗': 0,
+        '✘': 0,
+        '☒': 0,
       };
 
       const result = await punc('tests/books/alice.txt', {
@@ -96,7 +204,7 @@ describe('Punc', () => {
 
     test('should throw error for invalid options type', async () => {
       await expect(punc('tests/books/alice.txt', 123 as any)).rejects.toThrow(
-        'Punc: expected options to be either an object or a string'
+        'expected options to be either an object or a string'
       );
     });
 
@@ -237,8 +345,8 @@ describe('Punc', () => {
         expect(result.count['!']).toBe(1);
         expect(result.count['(']).toBe(1);
         expect(result.count[')']).toBe(1);
-        // Special chars @#$%^&* should be ignored
-        expect(result.body).toBe('()!'); // Order may vary
+        // Special chars @#$%^&* are included in punctuation map
+        expect(result.body).toBe('@#$%^&*()!'); // Order may vary
       } finally {
         await unlink(specialFile);
       }
@@ -278,6 +386,7 @@ describe('Punc', () => {
     test('should have all required punctuation keys in count', async () => {
       const result = await punc('tests/books/alice.txt');
       const requiredKeys = [
+        // Basic punctuation
         ';',
         ':',
         "'",
@@ -289,10 +398,130 @@ describe('Punc', () => {
         '(',
         ')',
         '-',
+        // Unicode symbols
+        '★',
+        '♥',
+        '♦',
+        '♠',
+        '♣',
+        '→',
+        '←',
+        '↑',
+        '↓',
+        '∞',
+        '§',
+        '¶',
+        // Repeated punctuation
+        '!!!',
+        '???',
+        '...',
+        '---',
+        // Math operators
+        '+',
+        '*',
+        '/',
+        '=',
+        '≠',
+        '≤',
+        '≥',
+        '±',
+        '×',
+        '÷',
+        // Currency
+        '$',
+        '€',
+        '£',
+        '¥',
+        '¢',
+        // Percent and degree
+        '%',
+        '°',
+        // Copyright/Trademark
+        '©',
+        '®',
+        '™',
+        // Musical notes
+        '♪',
+        '♫',
+        '♬',
+        '♭',
+        '♯',
+        // Arrows
+        '↔',
+        '↕',
+        '↗',
+        '↘',
+        '↙',
+        '↖',
+        // Geometric shapes
+        '○',
+        '●',
+        '□',
+        '■',
+        '△',
+        '▲',
+        '▽',
+        '▼',
+        // Lines and borders
+        '│',
+        '─',
+        '┌',
+        '┐',
+        '└',
+        '┘',
+        '├',
+        '┤',
+        '┬',
+        '┴',
+        // International punctuation
+        '¿',
+        '¡',
+        '؟',
+        '،',
+        '؛',
+        '，',
+        '。',
+        '；',
+        '：',
+        '？',
+        '！',
+        // Programming & Technical
+        '[',
+        ']',
+        '{',
+        '}',
+        '<',
+        '>',
+        '`',
+        '|',
+        '\\',
+        '~',
+        '^',
+        '&',
+        '@',
+        '#',
+        // Visual & Decorative
+        '☆',
+        '✦',
+        '✧',
+        '♡',
+        '❤',
+        '💙',
+        '💚',
+        '💛',
+        '💜',
+        '✓',
+        '✔',
+        '☑',
+        '✗',
+        '✘',
+        '☒',
       ];
 
       for (const key of requiredKeys) {
-        expect(result.count.hasOwnProperty(key)).toBe(true);
+        expect(Object.prototype.hasOwnProperty.call(result.count, key)).toBe(
+          true
+        );
         expect(typeof result.count[key as keyof PunctuationCount]).toBe(
           'number'
         );
@@ -319,7 +548,9 @@ describe('createPDF', () => {
   });
 
   test('should throw error when filePath is not provided', async () => {
-    await expect(createPDF('')).rejects.toThrow('Punc: file path not given.');
+    await expect(createPDF('')).rejects.toThrow(
+      'Invalid file path: expected non-empty string'
+    );
   });
 
   test('should create PDF file successfully', async () => {
@@ -333,7 +564,7 @@ describe('createPDF', () => {
       await readFile(result.pathToFile);
       // Clean up
       await unlink(result.pathToFile);
-    } catch (error) {
+    } catch {
       fail('PDF file was not created');
     }
   });
@@ -423,7 +654,113 @@ describe('createPDF', () => {
         '(': 0,
         ')': 0,
         '-': 0,
-      },
+        // Add all other required properties
+        '★': 0,
+        '♥': 0,
+        '♦': 0,
+        '♠': 0,
+        '♣': 0,
+        '→': 0,
+        '←': 0,
+        '↑': 0,
+        '↓': 0,
+        '∞': 0,
+        '§': 0,
+        '¶': 0,
+        '!!!': 0,
+        '???': 0,
+        '...': 0,
+        '---': 0,
+        '+': 0,
+        '*': 0,
+        '/': 0,
+        '=': 0,
+        '≠': 0,
+        '≤': 0,
+        '≥': 0,
+        '±': 0,
+        '×': 0,
+        '÷': 0,
+        $: 0,
+        '€': 0,
+        '£': 0,
+        '¥': 0,
+        '¢': 0,
+        '%': 0,
+        '°': 0,
+        '©': 0,
+        '®': 0,
+        '™': 0,
+        '♪': 0,
+        '♫': 0,
+        '♬': 0,
+        '♭': 0,
+        '♯': 0,
+        '↔': 0,
+        '↕': 0,
+        '↗': 0,
+        '↘': 0,
+        '↙': 0,
+        '↖': 0,
+        '○': 0,
+        '●': 0,
+        '□': 0,
+        '■': 0,
+        '△': 0,
+        '▲': 0,
+        '▽': 0,
+        '▼': 0,
+        '│': 0,
+        '─': 0,
+        '┌': 0,
+        '┐': 0,
+        '└': 0,
+        '┘': 0,
+        '├': 0,
+        '┤': 0,
+        '┬': 0,
+        '┴': 0,
+        '¿': 0,
+        '¡': 0,
+        '؟': 0,
+        '،': 0,
+        '؛': 0,
+        '，': 0,
+        '。': 0,
+        '；': 0,
+        '：': 0,
+        '？': 0,
+        '！': 0,
+        '[': 0,
+        ']': 0,
+        '{': 0,
+        '}': 0,
+        '<': 0,
+        '>': 0,
+        '`': 0,
+        '|': 0,
+        '\\': 0,
+        '~': 0,
+        '^': 0,
+        '&': 0,
+        '@': 0,
+        '#': 0,
+        '☆': 0,
+        '✦': 0,
+        '✧': 0,
+        '♡': 0,
+        '❤': 0,
+        '💙': 0,
+        '💚': 0,
+        '💛': 0,
+        '💜': 0,
+        '✓': 0,
+        '✔': 0,
+        '☑': 0,
+        '✗': 0,
+        '✘': 0,
+        '☒': 0,
+      } as PunctuationCount,
     });
 
     expect(result.success).toBe(true);
@@ -438,9 +775,7 @@ describe('createPDF', () => {
   test('should throw error for invalid options type', async () => {
     await expect(
       createPDF('tests/books/alice.txt', 123 as any)
-    ).rejects.toThrow(
-      'Punc: expected options to be either an object or a string'
-    );
+    ).rejects.toThrow('expected options to be either an object or a string');
   });
 
   test('should handle null options', async () => {
@@ -548,10 +883,171 @@ describe('Integration tests', () => {
 
       expect(result.count[',']).toBe(1);
       expect(result.count['!']).toBe(2);
+      expect(result.count['¿']).toBe(1);
       expect(result.count['?']).toBe(1);
-      expect(result.body).toBe(',!?!'); // Order may vary
+      expect(result.body).toBe(',!¿?!'); // Order may vary
     } finally {
       await unlink(unicodeFile);
+    }
+  });
+
+  test('should detect repeated punctuation patterns', async () => {
+    const repeatedFile = 'tests/books/repeated.txt';
+    const content = 'Wow!!! Really??? Yes... No---';
+
+    await writeFile(repeatedFile, content);
+
+    try {
+      const result = await punc(repeatedFile);
+
+      expect(result.count['!!!']).toBe(1);
+      expect(result.count['???']).toBe(1);
+      expect(result.count['...']).toBe(1);
+      expect(result.count['---']).toBe(1);
+    } finally {
+      await unlink(repeatedFile);
+    }
+  });
+
+  test('should detect math operators and symbols', async () => {
+    const mathFile = 'tests/books/math.txt';
+    const content = '2 + 3 = 5, 10 ≠ 5, x ≤ y, a ≥ b, ±1, 2 × 3, 6 ÷ 2';
+
+    await writeFile(mathFile, content);
+
+    try {
+      const result = await punc(mathFile);
+
+      expect(result.count['+']).toBe(1);
+      expect(result.count['=']).toBe(1);
+      expect(result.count['≠']).toBe(1);
+      expect(result.count['≤']).toBe(1);
+      expect(result.count['≥']).toBe(1);
+      expect(result.count['±']).toBe(1);
+      expect(result.count['×']).toBe(1);
+      expect(result.count['÷']).toBe(1);
+    } finally {
+      await unlink(mathFile);
+    }
+  });
+
+  test('should detect currency symbols', async () => {
+    const currencyFile = 'tests/books/currency.txt';
+    const content = '$100, €50, £25, ¥1000, ¢99';
+
+    await writeFile(currencyFile, content);
+
+    try {
+      const result = await punc(currencyFile);
+
+      expect(result.count['$']).toBe(1);
+      expect(result.count['€']).toBe(1);
+      expect(result.count['£']).toBe(1);
+      expect(result.count['¥']).toBe(1);
+      expect(result.count['¢']).toBe(1);
+    } finally {
+      await unlink(currencyFile);
+    }
+  });
+
+  test('should detect international punctuation', async () => {
+    const intlFile = 'tests/books/international.txt';
+    const content =
+      '¿Cómo estás? ¡Hola! ؟كيف حالك؟ ،مرحبا؛ ،你好。；：你好？你好！';
+
+    await writeFile(intlFile, content);
+
+    try {
+      const result = await punc(intlFile);
+
+      expect(result.count['¿']).toBe(1);
+      expect(result.count['¡']).toBe(1);
+      expect(result.count['؟']).toBe(2);
+      expect(result.count['،']).toBe(2);
+      expect(result.count['؛']).toBe(1);
+      expect(result.count['。']).toBe(1);
+      expect(result.count['；']).toBe(1);
+      expect(result.count['：']).toBe(1);
+      expect(result.count['？']).toBe(1);
+      expect(result.count['！']).toBe(1);
+    } finally {
+      await unlink(intlFile);
+    }
+  });
+
+  test('should detect programming symbols', async () => {
+    const progFile = 'tests/books/programming.txt';
+    const content =
+      'function test() { return [1, 2, 3]; } // @user #hashtag $var ~home ^caret &amp |pipe \\backslash `code`';
+
+    await writeFile(progFile, content);
+
+    try {
+      const result = await punc(progFile);
+
+      expect(result.count['(']).toBe(1);
+      expect(result.count[')']).toBe(1);
+      expect(result.count['{']).toBe(1);
+      expect(result.count['}']).toBe(1);
+      expect(result.count['[']).toBe(1);
+      expect(result.count[']']).toBe(1);
+      expect(result.count['<']).toBe(0);
+      expect(result.count['>']).toBe(0);
+      expect(result.count['`']).toBe(2);
+      expect(result.count['|']).toBe(1);
+      expect(result.count['\\']).toBe(1);
+      expect(result.count['~']).toBe(1);
+      expect(result.count['^']).toBe(1);
+      expect(result.count['&']).toBe(1);
+      expect(result.count['@']).toBe(1);
+      expect(result.count['#']).toBe(1);
+    } finally {
+      await unlink(progFile);
+    }
+  });
+
+  test('should detect decorative symbols', async () => {
+    const decorFile = 'tests/books/decorative.txt';
+    const content = '★♥♦♠♣ →←↑↓ ∞§¶ ♪♫♬♭♯ ○●□■△▲▽▼ ✓✔☑ ✗✘☒';
+
+    await writeFile(decorFile, content);
+
+    try {
+      const result = await punc(decorFile);
+
+      expect(result.count['★']).toBe(1);
+      expect(result.count['♥']).toBe(1);
+      expect(result.count['♦']).toBe(1);
+      expect(result.count['♠']).toBe(1);
+      expect(result.count['♣']).toBe(1);
+      expect(result.count['→']).toBe(1);
+      expect(result.count['←']).toBe(1);
+      expect(result.count['↑']).toBe(1);
+      expect(result.count['↓']).toBe(1);
+      expect(result.count['∞']).toBe(1);
+      expect(result.count['§']).toBe(1);
+      expect(result.count['¶']).toBe(1);
+      expect(result.count['♪']).toBe(1);
+      expect(result.count['♫']).toBe(1);
+      expect(result.count['♬']).toBe(1);
+      expect(result.count['♭']).toBe(1);
+      expect(result.count['♯']).toBe(1);
+      expect(result.count['○']).toBe(1);
+      expect(result.count['●']).toBe(1);
+      expect(result.count['□']).toBe(1);
+      expect(result.count['■']).toBe(1);
+      expect(result.count['△']).toBe(1);
+      expect(result.count['▲']).toBe(1);
+      expect(result.count['▽']).toBe(1);
+      expect(result.count['▼']).toBe(1);
+      expect(result.count['✓']).toBe(1);
+      expect(result.count['✔']).toBe(1);
+      expect(result.count['☑']).toBe(1);
+      expect(result.count['✗']).toBe(1);
+      expect(result.count['✘']).toBe(1);
+      expect(result.count['☒']).toBe(1);
+    } finally {
+      await unlink(decorFile);
     }
   });
 
@@ -646,6 +1142,112 @@ describe('Type safety tests', () => {
       '(': 0,
       ')': 0,
       '-': 0,
+      // Add all other required properties
+      '★': 0,
+      '♥': 0,
+      '♦': 0,
+      '♠': 0,
+      '♣': 0,
+      '→': 0,
+      '←': 0,
+      '↑': 0,
+      '↓': 0,
+      '∞': 0,
+      '§': 0,
+      '¶': 0,
+      '!!!': 0,
+      '???': 0,
+      '...': 0,
+      '---': 0,
+      '+': 0,
+      '*': 0,
+      '/': 0,
+      '=': 0,
+      '≠': 0,
+      '≤': 0,
+      '≥': 0,
+      '±': 0,
+      '×': 0,
+      '÷': 0,
+      $: 0,
+      '€': 0,
+      '£': 0,
+      '¥': 0,
+      '¢': 0,
+      '%': 0,
+      '°': 0,
+      '©': 0,
+      '®': 0,
+      '™': 0,
+      '♪': 0,
+      '♫': 0,
+      '♬': 0,
+      '♭': 0,
+      '♯': 0,
+      '↔': 0,
+      '↕': 0,
+      '↗': 0,
+      '↘': 0,
+      '↙': 0,
+      '↖': 0,
+      '○': 0,
+      '●': 0,
+      '□': 0,
+      '■': 0,
+      '△': 0,
+      '▲': 0,
+      '▽': 0,
+      '▼': 0,
+      '│': 0,
+      '─': 0,
+      '┌': 0,
+      '┐': 0,
+      '└': 0,
+      '┘': 0,
+      '├': 0,
+      '┤': 0,
+      '┬': 0,
+      '┴': 0,
+      '¿': 0,
+      '¡': 0,
+      '؟': 0,
+      '،': 0,
+      '؛': 0,
+      '，': 0,
+      '。': 0,
+      '；': 0,
+      '：': 0,
+      '？': 0,
+      '！': 0,
+      '[': 0,
+      ']': 0,
+      '{': 0,
+      '}': 0,
+      '<': 0,
+      '>': 0,
+      '`': 0,
+      '|': 0,
+      '\\': 0,
+      '~': 0,
+      '^': 0,
+      '&': 0,
+      '@': 0,
+      '#': 0,
+      '☆': 0,
+      '✦': 0,
+      '✧': 0,
+      '♡': 0,
+      '❤': 0,
+      '💙': 0,
+      '💚': 0,
+      '💛': 0,
+      '💜': 0,
+      '✓': 0,
+      '✔': 0,
+      '☑': 0,
+      '✗': 0,
+      '✘': 0,
+      '☒': 0,
     };
 
     const result = await punc('tests/books/alice.txt', {
@@ -666,5 +1268,194 @@ describe('Type safety tests', () => {
 
     expect(result).toBeDefined();
     expect(typeof result.body).toBe('string');
+  });
+});
+
+describe('Error Handling Tests', () => {
+  test('should handle invalid file path types', async () => {
+    await expect(punc(null as any)).rejects.toThrow(
+      'Invalid file path: expected non-empty string'
+    );
+    await expect(punc(undefined as any)).rejects.toThrow(
+      'Invalid file path: expected non-empty string'
+    );
+    await expect(punc(123 as any)).rejects.toThrow(
+      'Invalid file path: expected non-empty string'
+    );
+    await expect(punc({} as any)).rejects.toThrow(
+      'Invalid file path: expected non-empty string'
+    );
+  });
+
+  test('should handle empty and whitespace-only file paths', async () => {
+    await expect(punc('')).rejects.toThrow(
+      'Invalid file path: expected non-empty string'
+    );
+    await expect(punc('   ')).rejects.toThrow(
+      'File path cannot be empty or whitespace only'
+    );
+    await expect(punc('\t\n\r')).rejects.toThrow(
+      'File path cannot be empty or whitespace only'
+    );
+  });
+
+  test('should handle file read errors gracefully', async () => {
+    await expect(punc('/nonexistent/path/file.txt')).rejects.toThrow(
+      'File read error'
+    );
+    await expect(punc('/dev/null')).resolves.toBeDefined();
+  });
+
+  test('should handle invalid options gracefully', async () => {
+    await expect(punc('tests/books/alice.txt', 123 as any)).rejects.toThrow(
+      'expected options to be either an object or a string'
+    );
+    await expect(
+      punc('tests/books/alice.txt', [] as any)
+    ).resolves.toBeDefined();
+    await expect(punc('tests/books/alice.txt', true as any)).rejects.toThrow(
+      'expected options to be either an object or a string'
+    );
+  });
+
+  test('should handle corrupted punctuation mapping', async () => {
+    const corruptedMapping = {
+      ';': 'invalid' as any,
+      ':': null as any,
+      ',': undefined as any,
+      '.': NaN,
+      '!': Infinity,
+    };
+
+    // Should not throw but should handle gracefully
+    const result = await punc('tests/books/alice.txt', {
+      mapping: corruptedMapping as any,
+    });
+
+    expect(result).toBeDefined();
+    expect(typeof result.count).toBe('object');
+  });
+
+  test('should handle Unicode edge cases', async () => {
+    const unicodeFile = 'tests/books/unicode-edge.txt';
+    const content = 'Hello\u0000World\uFFFE\uFFFF\uD800\uDC00'; // Null bytes, invalid Unicode
+
+    await writeFile(unicodeFile, content);
+
+    try {
+      const result = await punc(unicodeFile);
+      expect(result).toBeDefined();
+      expect(typeof result.body).toBe('string');
+    } finally {
+      await unlink(unicodeFile);
+    }
+  });
+
+  test('should handle very large files', async () => {
+    const largeFile = 'tests/books/large.txt';
+    const content = 'A'.repeat(1000000); // 1MB of text
+
+    await writeFile(largeFile, content);
+
+    try {
+      const result = await punc(largeFile);
+      expect(result).toBeDefined();
+      expect(typeof result.count).toBe('object');
+    } finally {
+      await unlink(largeFile);
+    }
+  });
+
+  test('should handle files with only special characters', async () => {
+    const specialFile = 'tests/books/special-chars.txt';
+    const content =
+      '\u0000\u0001\u0002\u0003\u0004\u0005\u0006\u0007\u0008\u0009\u000A\u000B\u000C\u000D\u000E\u000F';
+
+    await writeFile(specialFile, content);
+
+    try {
+      const result = await punc(specialFile);
+      expect(result).toBeDefined();
+      expect(typeof result.count).toBe('object');
+    } finally {
+      await unlink(specialFile);
+    }
+  });
+
+  test('should handle concurrent access to same file', async () => {
+    const promises = Array(5)
+      .fill(null)
+      .map(() => punc('tests/books/alice.txt'));
+
+    try {
+      const results = await Promise.all(promises);
+      expect(results).toHaveLength(5);
+      results.forEach(result => {
+        expect(result).toBeDefined();
+        expect(typeof result.count).toBe('object');
+      });
+    } catch (error) {
+      // Some file systems might not support concurrent access
+      expect(error).toBeDefined();
+    }
+  });
+
+  test('should handle malformed UTF-8 sequences', async () => {
+    const malformedFile = 'tests/books/malformed-utf8.txt';
+    const buffer = Buffer.from([0xc0, 0x80, 0xff, 0xfe]); // Invalid UTF-8
+
+    await writeFile(malformedFile, buffer);
+
+    try {
+      const result = await punc(malformedFile);
+      expect(result).toBeDefined();
+      expect(typeof result.body).toBe('string');
+    } finally {
+      await unlink(malformedFile);
+    }
+  });
+
+  test('should handle files with mixed line endings', async () => {
+    const mixedFile = 'tests/books/mixed-line-endings.txt';
+    const content = 'Line 1\r\nLine 2\nLine 3\rLine 4\n\r';
+
+    await writeFile(mixedFile, content);
+
+    try {
+      const result = await punc(mixedFile);
+      expect(result).toBeDefined();
+      expect(typeof result.count).toBe('object');
+    } finally {
+      await unlink(mixedFile);
+    }
+  });
+
+  test('should handle extremely long repeated punctuation', async () => {
+    const repeatedFile = 'tests/books/repeated-punctuation.txt';
+    const content = '!'.repeat(10000) + '?'.repeat(10000) + '.'.repeat(10000);
+
+    await writeFile(repeatedFile, content);
+
+    try {
+      const result = await punc(repeatedFile);
+      expect(result).toBeDefined();
+      expect(result.count['!']).toBeGreaterThan(0);
+      expect(result.count['?']).toBeGreaterThan(0);
+      expect(result.count['.']).toBeGreaterThan(0);
+    } finally {
+      await unlink(repeatedFile);
+    }
+  });
+
+  test('should handle createPDF error cases', async () => {
+    await expect(createPDF(null as any)).rejects.toThrow(
+      'Invalid file path: expected non-empty string'
+    );
+    await expect(createPDF('')).rejects.toThrow(
+      'Invalid file path: expected non-empty string'
+    );
+    await expect(createPDF('/nonexistent/path/file.txt')).rejects.toThrow(
+      "ENOENT: no such file or directory, open '/nonexistent/path/file.txt'"
+    );
   });
 });

@@ -164,9 +164,12 @@ function validateOptions(filePath, options) {
   if (typeof options !== "object") {
     throw new TypeError("expected options to be either an object or a string");
   }
+  const defaultMap = defaultMapping();
+  const customMapping = options.mapping || {};
+  const mergedMapping = { ...defaultMap, ...customMapping };
   return {
     encoding: options.encoding || "utf8",
-    mapping: options.mapping || defaultMapping()
+    mapping: mergedMapping
   };
 }
 function removeAndReplace(regex, replace, dest) {
@@ -221,9 +224,8 @@ function findAndCount(map, dest) {
               map[key] += count;
               dest.push(...matches);
             } else {
-              console.warn(
-                `Warning: Invalid count value for key '${key}': ${map[key]}`
-              );
+              map[key] = count;
+              dest.push(...matches);
             }
           }
         } catch (patternError) {
@@ -248,9 +250,8 @@ function findAndCount(map, dest) {
               map[key]++;
               dest.push(punctuation);
             } else {
-              console.warn(
-                `Warning: Invalid count value for key '${key}': ${map[key]}`
-              );
+              map[key] = 1;
+              dest.push(punctuation);
             }
           }
         } catch (charError) {
@@ -356,8 +357,14 @@ async function createPDF(filePath, options) {
     const readStream = createReadStream(filePath, {
       encoding: validatedOptions.encoding
     });
+    readStream.on("error", (error) => {
+      reject(new Error(`File read error: ${error.message}`));
+    });
     const pdf = new PDFDocument();
     const writeStream = createWriteStream(newFileName);
+    writeStream.on("error", (error) => {
+      reject(new Error(`File write error: ${error.message}`));
+    });
     pdf.pipe(writeStream);
     let processedText = "";
     pipeline(
@@ -371,8 +378,9 @@ async function createPDF(filePath, options) {
       writeStream.on("finish", () => {
         resolve({ success: true, pathToFile: newFileName });
       });
-      writeStream.on("error", reject);
-    }).catch(reject);
+    }).catch((error) => {
+      reject(new Error(`Pipeline error: ${error.message}`));
+    });
   });
 }
 var index_default = punc;

@@ -40,6 +40,7 @@ export function findWordsPerSentence(
 // Transform stream to find and count punctuation
 export function findAndCount(map: PunctuationCount, dest: string[]): Transform {
   return through2.obj(function (
+    this: Transform,
     chunk: Buffer | string,
     _: unknown,
     callback: (error: Error | null, data?: string) => void
@@ -70,7 +71,7 @@ export function findAndCount(map: PunctuationCount, dest: string[]): Transform {
         { pattern: /!!!+/g, key: '!!!' as keyof PunctuationCount },
         { pattern: /\?\?\?+/g, key: '???' as keyof PunctuationCount },
         { pattern: /\.\.\.+/g, key: '...' as keyof PunctuationCount },
-        { pattern: /---+$/g, key: '---' as keyof PunctuationCount },
+        { pattern: /---+/g, key: '---' as keyof PunctuationCount },
       ];
 
       for (const { pattern, key } of repeatedPatterns) {
@@ -108,13 +109,6 @@ export function findAndCount(map: PunctuationCount, dest: string[]): Transform {
         try {
           if (punctuation && punctuation in map) {
             const key = punctuation as keyof PunctuationCount;
-
-            if (!(key in map)) {
-              console.warn(
-                `Warning: Key '${key}' not found in punctuation map`
-              );
-              continue;
-            }
 
             if (typeof map[key] === 'number' && !isNaN(map[key])) {
               map[key]++;

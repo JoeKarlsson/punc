@@ -7,11 +7,21 @@ export type {
   PuncOptions,
   PuncResult,
   PDFResult,
+  PuncPosition,
+  DensityWindow,
+  SVGOptions,
+  SVGResult,
 } from './types';
 
 // Export main functions
 export { punc } from './punc';
 export { createPDF } from './pdf';
+
+// Export analysis functions
+export { getPositions, windowedDensity } from './analysis';
+
+// Export SVG visualization functions
+export { createBarcodeSVG, createHeatmapSVG, createWaveformSVG, createRadialSVG, createScoreSVG, createSpiralSVG } from './svg';
 
 // Export utility functions
 export { defaultMapping } from './mapping';

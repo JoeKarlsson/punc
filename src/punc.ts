@@ -9,7 +9,7 @@ import {
 } from './streams';
 
 // Main Punc function
-export async function punc(
+export function punc(
   filePath: string,
   options?: PuncOptions | string
 ): Promise<PuncResult> {

@@ -161,3 +161,34 @@ export interface PDFResult {
   success: boolean;
   pathToFile: string;
 }
+
+export interface PuncPosition {
+  char: string;
+  offset: number;
+}
+
+export interface DensityWindow {
+  index: number;
+  startOffset: number;
+  endOffset: number;
+  counts: Partial<PunctuationCount>;
+  totalPunctuation: number;
+  density: number;
+}
+
+export interface SVGOptions extends PuncOptions {
+  width?: number;
+  height?: number;
+  background?: string;
+  windows?: number;
+  outputPath?: string;
+  title?: string;
+  subtitle?: string;
+  format?: 'svg' | 'png';
+}
+
+export interface SVGResult {
+  success: boolean;
+  pathToFile: string;
+  svg: string;
+}

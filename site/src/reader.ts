@@ -131,6 +131,19 @@ function showBook(rawText: string, title: string, byline: string, fileStem: stri
       downloadCanvas(canvas, `${fileStem}-${kind}.png`);
     });
   });
+
+  // The whole book as one string of marks, in reading order.
+  const copyButton = byId<HTMLButtonElement>('copy-marks');
+  copyButton.addEventListener('click', async () => {
+    try {
+      await navigator.clipboard.writeText(book.marks.join(''));
+    } catch (error) {
+      showStatus(`Couldn't copy to the clipboard: ${error instanceof Error ? error.message : String(error)}`);
+      return;
+    }
+    copyButton.textContent = `Copied ${book.marks.length.toLocaleString()} marks`;
+    setTimeout(() => (copyButton.textContent = 'Copy the marks'), 2500);
+  });
 }
 
 function renderCounts(book: BookAnalysis): void {

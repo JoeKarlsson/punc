@@ -240,6 +240,6 @@ if (slug) {
   byId('upload').hidden = true;
   // A shelf book belongs to the shelf in the site nav, not to "Read your own".
   document.querySelector('.site-header [aria-current]')?.removeAttribute('aria-current');
-  document.querySelector('.site-header a[href="./"]')?.setAttribute('aria-current', 'page');
+  document.querySelector('.site-header nav a[href="./"]')?.setAttribute('aria-current', 'page');
   void loadFromShelf(slug);
 }

@@ -1,6 +1,7 @@
 // Canvas renderers for the reader. Canvas, not SVG, because a novel has tens
 // of thousands of marks. Spiral geometry is the library's spiralLayout.
 import { spiralLayout, type SpiralLayout } from '../../src/layout';
+import { panView, zoomViewAt, type View, type ViewBounds } from './view';
 
 const INK = '#000000';
 const PAPER = '#ededed';
@@ -79,25 +80,17 @@ export function createSpiralExplorer(
   const layout = spiralLayout(marks.length, SPIRAL_SIZE, SPIRAL_SIZE);
   const ctx = canvas.getContext('2d');
   if (!ctx) throw new Error('This browser could not open a 2D canvas');
-  let zoom = MIN_ZOOM;
-  // Layout coordinates at the center of the view
-  let centerX = SPIRAL_SIZE / 2;
-  let centerY = SPIRAL_SIZE / 2;
+  const bounds: ViewBounds = { size: SPIRAL_SIZE, minZoom: MIN_ZOOM, maxZoom: MAX_ZOOM };
+  const wholeBook: View = { zoom: MIN_ZOOM, centerX: SPIRAL_SIZE / 2, centerY: SPIRAL_SIZE / 2 };
+  let view = wholeBook;
   let frame = 0;
 
   const cssSize = () => canvas.clientWidth || SPIRAL_SIZE;
   const dpr = () => Math.min(window.devicePixelRatio || 1, 2);
-  const unitsPerCssPixel = () => SPIRAL_SIZE / cssSize() / zoom;
-
-  const clamp = () => {
-    zoom = Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, zoom));
-    const half = SPIRAL_SIZE / 2 / zoom;
-    centerX = Math.min(SPIRAL_SIZE - half, Math.max(half, centerX));
-    centerY = Math.min(SPIRAL_SIZE - half, Math.max(half, centerY));
-  };
 
   // How far through the book the mark nearest the view's center is
   const percentAtCenter = (): number | null => {
+    const { zoom, centerX, centerY } = view;
     if (zoom < 2) return null;
     let best = -1;
     let bestDist = Infinity;
@@ -119,31 +112,20 @@ export function createSpiralExplorer(
       canvas.width = size;
       canvas.height = size;
     }
-    const scale = (size / SPIRAL_SIZE) * zoom;
-    paintSpiral(ctx, marks, layout, scale, size / 2 - centerX * scale, size / 2 - centerY * scale, size, size);
-    onChange(zoom, percentAtCenter());
+    const scale = (size / SPIRAL_SIZE) * view.zoom;
+    paintSpiral(ctx, marks, layout, scale, size / 2 - view.centerX * scale, size / 2 - view.centerY * scale, size, size);
+    onChange(view.zoom, percentAtCenter());
   };
   const schedule = () => {
     if (!frame) frame = requestAnimationFrame(render);
   };
 
-  // Zoom by `factor`, keeping the layout point under (cssX, cssY) fixed.
   const zoomAt = (factor: number, cssX: number, cssY: number) => {
-    const before = unitsPerCssPixel();
-    const anchorX = centerX + (cssX - cssSize() / 2) * before;
-    const anchorY = centerY + (cssY - cssSize() / 2) * before;
-    zoom *= factor;
-    clamp();
-    const after = unitsPerCssPixel();
-    centerX = anchorX - (cssX - cssSize() / 2) * after;
-    centerY = anchorY - (cssY - cssSize() / 2) * after;
-    clamp();
+    view = zoomViewAt(view, factor, cssX, cssY, cssSize(), bounds);
     schedule();
   };
   const panBy = (dxCss: number, dyCss: number) => {
-    centerX -= dxCss * unitsPerCssPixel();
-    centerY -= dyCss * unitsPerCssPixel();
-    clamp();
+    view = panView(view, dxCss, dyCss, cssSize(), bounds);
     schedule();
   };
   const local = (e: { clientX: number; clientY: number }) => {
@@ -217,8 +199,7 @@ export function createSpiralExplorer(
   const explorer: SpiralExplorer = {
     zoomBy: factor => zoomAt(factor, cssSize() / 2, cssSize() / 2),
     reset: () => {
-      zoom = MIN_ZOOM;
-      centerX = centerY = SPIRAL_SIZE / 2;
+      view = wholeBook;
       schedule();
     },
     exportCanvas: () => {

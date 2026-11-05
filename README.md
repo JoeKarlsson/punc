@@ -32,6 +32,7 @@ Everything runs in the browser.
 ```bash
 npm run site:build   # build the static site into site-dist/
 npm run site:serve   # build, then serve it at http://localhost:4173
+npm run test:e2e     # Playwright browser tests against the built site
 ```
 
 The site lives in `site/`: page fragments in `site/pages`, browser code in

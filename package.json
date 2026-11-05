@@ -26,7 +26,7 @@
     "test": "node --experimental-vm-modules node_modules/.bin/jest",
     "test:watch": "node --experimental-vm-modules node_modules/.bin/jest --watch",
     "test:coverage": "node --experimental-vm-modules node_modules/.bin/jest --coverage",
-    "lint": "eslint 'src/**/*.ts' 'site/src/**/*.ts'",
+    "lint": "eslint 'src/**/*.ts' 'site/src/**/*.ts' 'e2e/**/*.ts'",
     "lint:fix": "eslint src/**/*.ts --fix",
     "format": "prettier --write src/**/*.ts",
     "type-check": "tsc --noEmit && tsc -p site",
@@ -35,7 +35,8 @@
     "clean": "rm -rf dist",
     "prepublishOnly": "npm run clean && npm run build",
     "site:build": "node site/build.mjs",
-    "site:serve": "npm run site:build && python3 -m http.server 4173 -d site-dist"
+    "site:serve": "npm run site:build && python3 -m http.server 4173 -d site-dist",
+    "test:e2e": "playwright test"
   },
   "keywords": [
     "punc",
@@ -62,6 +63,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.0.0",
+    "@playwright/test": "^1.64.1",
     "@swc/jest": "^0.2.36",
     "@types/jest": "^30.0.0",
     "@types/node": "^20.11.17",

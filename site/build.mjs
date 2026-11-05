@@ -48,7 +48,7 @@ for (const meta of catalog) {
   const start = Math.floor(book.marks.length * 0.1);
   books.push({
     ...meta,
-    byline: meta.lifespan ? `${meta.author}, ${meta.lifespan}` : meta.author,
+    byline: meta.published ? `${meta.author}, ${meta.published}` : meta.author,
     authorSort: meta.author.split(' ').at(-1),
     sample: book.marks.slice(start, start + 90).join(' '),
     words: book.wordCount,
@@ -64,11 +64,11 @@ function card(book, i) {
   const poster = book.cover
     ? `<img data-poster src="covers/${book.slug}.jpg" alt="" loading="lazy" decoding="async">`
     : '';
-  return `    <li class="cover poster" style="--tilt:${TILTS[i % TILTS.length]}deg" data-title="${escapeHTML(book.title)}" data-author="${escapeHTML(book.author)}" data-author-sort="${escapeHTML(book.authorSort)}" data-genres="${escapeHTML(book.genres.join('|'))}" data-rank="${book.rank ?? 9999}" data-born="${book.born ?? 9999}" data-words="${book.words}" data-wps="${book.wps.toFixed(2)}" data-density="${book.density.toFixed(2)}">
+  return `    <li class="cover poster" style="--tilt:${TILTS[i % TILTS.length]}deg" data-title="${escapeHTML(book.title)}" data-author="${escapeHTML(book.author)}" data-author-sort="${escapeHTML(book.authorSort)}" data-genres="${escapeHTML(book.genres.join('|'))}" data-rank="${book.rank ?? 9999}" data-published="${book.publishedSort ?? 99999}" data-words="${book.words}" data-wps="${book.wps.toFixed(2)}" data-density="${book.density.toFixed(2)}">
       <a href="books/${book.slug}/">
         ${poster}
         <span class="poster-marks" aria-hidden="true">${escapeHTML(book.sample)}</span>
-        <span class="cover-label"><span class="cover-title">${escapeHTML(book.title)}</span><span class="cover-author">${escapeHTML(book.author)}</span></span>
+        <span class="cover-label"><span class="cover-title">${escapeHTML(book.title)}</span><span class="cover-author">${escapeHTML(book.byline)}</span></span>
       </a>
       <p class="cover-meta">${fmt(book.words)} words removed, ${fmt(book.marks)} marks left</p>
     </li>`;
@@ -214,7 +214,7 @@ await writePage({
 
 for (const book of books) {
   const poster = book.cover
-    ? `    <figure class="book-poster poster" aria-hidden="true"><img data-poster src="covers/${book.slug}.jpg" alt=""></figure>`
+    ? `    <a class="book-poster poster" href="https://www.gutenberg.org/ebooks/${book.id}" target="_blank" rel="noopener noreferrer" aria-label="${escapeHTML(book.title)} on Project Gutenberg (opens in a new tab)"><img data-poster src="covers/${book.slug}.jpg" alt=""></a>`
     : '';
   await writePage({
     path: `books/${book.slug}/index.html`,
@@ -222,7 +222,7 @@ for (const book of books) {
     nav: 'shelf',
     title: `${book.title} without words · Punc`,
     socialTitle: `${book.title}, without words`,
-    description: `${book.author}'s ${book.title} with all ${fmt(book.words)} words removed. ${fmt(book.marks)} punctuation marks are left, about ${book.wps.toFixed(1)} words to a sentence.`,
+    description: `${book.author}'s ${book.title}${book.published ? ` (${book.published})` : ''} with all ${fmt(book.words)} words removed. ${fmt(book.marks)} punctuation marks are left, about ${book.wps.toFixed(1)} words to a sentence.`,
     body: readBody.replace('<!--POSTER-->', poster),
     script: 'reader.js',
     dataset: { slug: book.slug, title: book.title, byline: book.byline },

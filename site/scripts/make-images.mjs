@@ -1,5 +1,5 @@
 // Renders the favicons (from site/static/favicon.svg, with resvg) and the
-// 1200x630 share image (a page in the site's own styles, screenshotted with
+// share images (a page in the site's own styles, screenshotted with
 // Playwright) into site/static/. Run by hand after `npm run site:build`:
 //   node site/scripts/make-images.mjs
 import { Resvg } from '@resvg/resvg-js';
@@ -29,6 +29,12 @@ await writeFile(
 <link rel="stylesheet" href="styles.css">
 <style>
   body { margin: 0; width: 1200px; height: 630px; overflow: hidden; position: relative; }
+  /* GitHub's social preview: 1280x640, and its card crops the sides, so the art sits further in */
+  body.github { width: 1280px; height: 640px; }
+  body.github .ransom, body.github .wordmark { left: 120px; }
+  body.github .ransom { font-size: 68px; width: 540px; }
+  body.github .url { left: 294px; }
+  body.github .shelf { right: 90px; }
   .ransom { position: absolute; left: 56px; top: 84px; width: 600px; font-size: 76px; }
   .ring path { animation: none; stroke-dashoffset: 0; }
   .wordmark { position: absolute; left: 56px; bottom: 40px; font-size: 64px; }
@@ -58,14 +64,20 @@ const { port } = server.address();
 
 const browser = await chromium.launch();
 try {
-  const page = await browser.newPage({ viewport: { width: 1200, height: 630 } });
-  await page.goto(`http://localhost:${port}/_share.html`, { waitUntil: 'networkidle' });
-  await page.waitForFunction(n => document.querySelectorAll('.poster-art').length === n, SHARE_BOOKS.length);
-  await page.evaluate(() => document.fonts.ready);
-  await page.screenshot({ path: join(STATIC, 'og.png') });
+  // og.png: the page preview for social cards. github-social.png: the repo's
+  // social preview, uploaded by hand in the repo's settings.
+  for (const [file, width, height, bodyClass] of [['og.png', 1200, 630, ''], ['github-social.png', 1280, 640, 'github']]) {
+    const page = await browser.newPage({ viewport: { width, height } });
+    await page.goto(`http://localhost:${port}/_share.html`, { waitUntil: 'networkidle' });
+    await page.evaluate(name => name && document.body.classList.add(name), bodyClass);
+    await page.waitForFunction(n => document.querySelectorAll('.poster-art').length === n, SHARE_BOOKS.length);
+    await page.evaluate(() => document.fonts.ready);
+    await page.screenshot({ path: join(STATIC, file) });
+    await page.close();
+  }
 } finally {
   await browser.close();
   server.close();
   await rm(join(DIST, '_share.html'));
 }
-console.log(`Wrote favicons and og.png to ${STATIC}/`);
+console.log(`Wrote favicons, og.png and github-social.png to ${STATIC}/`);

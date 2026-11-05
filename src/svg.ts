@@ -1,6 +1,7 @@
 import { writeFile } from 'fs/promises';
 import { Resvg } from '@resvg/resvg-js';
 import { getPositions, windowedDensity } from './analysis';
+import { spiralLayout } from './layout';
 import { SVGOptions, SVGResult, PunctuationCount, DensityWindow, PuncPosition } from './types';
 
 // ── colour helpers ────────────────────────────────────────────────────────────
@@ -384,44 +385,10 @@ function buildSpiral(
   }
 
   const titleReserve = title ? 52 : 0;
-  const cx = w / 2;
-  const cy = (h - titleReserve) / 2;
-  const maxRadius = Math.min(w, h - titleReserve) * 0.46;
-  // fontSize so inter-turn gap ≈ fontSize (solid-disk fill): sqrt(π·R²/N/0.7)
-  const fontSize = Math.max(4, Math.min(16, Math.sqrt((Math.PI * maxRadius * maxRadius) / Math.max(N, 1) / 0.5)));
-  const TURNS = Math.max(4, Math.floor(maxRadius / fontSize));
-  const thetaTot = TURNS * 2 * Math.PI;
-  // Leave a clean empty center — inner rings have tiny circumference so
-  // start the spiral far enough out that the first ring is legible.
-  const minRadius = Math.max(fontSize * 3, maxRadius * 0.06);
-  const drPerTheta = (maxRadius - minRadius) / thetaTot;
-
-  // Build cumulative arc-length table so marks are spaced by physical distance
-  // along the spiral (inner rings fewer marks, outer rings more — uniform density).
-  // Arc element: ds = sqrt(r² + (dr/dθ)²) dθ
-  const ARC_SAMPLES = 2000;
-  const arcTable: number[] = new Array(ARC_SAMPLES + 1).fill(0) as number[];
-  for (let i = 1; i <= ARC_SAMPLES; i++) {
-    const thetaMid = ((i - 0.5) / ARC_SAMPLES) * thetaTot;
-    const rMid = minRadius + drPerTheta * thetaMid;
-    const ds = Math.sqrt(rMid * rMid + drPerTheta * drPerTheta) * (thetaTot / ARC_SAMPLES);
-    arcTable[i] = (arcTable[i - 1] ?? 0) + ds;
-  }
-  const totalArcLen = arcTable[ARC_SAMPLES] ?? 0;
-
-  const arcToTheta = (target: number): number => {
-    let lo = 0, hi = ARC_SAMPLES;
-    while (lo < hi - 1) {
-      const mid = (lo + hi) >> 1;
-      if ((arcTable[mid] ?? 0) <= target) lo = mid; else hi = mid;
-    }
-    const span = (arcTable[lo + 1] ?? 0) - (arcTable[lo] ?? 0);
-    const frac = span > 0 ? (target - (arcTable[lo] ?? 0)) / span : 0;
-    return ((lo + frac) / ARC_SAMPLES) * thetaTot;
-  };
+  const { cx, cy, fontSize, minRadius, drPerTheta, thetaTot, turns, points } = spiralLayout(N, w, h, titleReserve);
 
   // Guide spiral path (subtle background trace)
-  const GUIDE_STEPS = Math.min(1500, TURNS * 25);
+  const GUIDE_STEPS = Math.min(1500, turns * 25);
   const spiralD: string[] = [];
   for (let i = 0; i <= GUIDE_STEPS; i++) {
     const theta = (i / GUIDE_STEPS) * thetaTot;
@@ -431,24 +398,12 @@ function buildSpiral(
   }
   const guideSpiral = `<path d="${spiralD.join(' ')}" fill="none" stroke="#1e293b" stroke-width="0.5" opacity="0.2"/>`;
 
-  // All marks evenly spaced by arc length, rotated along the tangent direction.
   const marks = positions
     .map(({ char }, i) => {
-      const target = N > 1 ? (i / (N - 1)) * totalArcLen : 0;
-      const theta = arcToTheta(Math.min(target, totalArcLen));
-      const phi = theta - Math.PI / 2;
-      const r = minRadius + drPerTheta * theta;
-      const cosPhi = Math.cos(phi);
-      const sinPhi = Math.sin(phi);
-      const x = cx + r * cosPhi;
-      const y = cy + r * sinPhi;
-      const dxdtheta = drPerTheta * cosPhi - r * sinPhi;
-      const dydtheta = drPerTheta * sinPhi + r * cosPhi;
-      const angleDeg = (Math.atan2(dydtheta, dxdtheta) * 180) / Math.PI;
+      const { x, y, angleDeg } = points[i]!;
       return `<text transform="translate(${x.toFixed(1)},${y.toFixed(1)}) rotate(${angleDeg.toFixed(1)})" text-anchor="middle" dominant-baseline="central" font-family="monospace" font-size="${fontSize.toFixed(1)}" fill="${MARK_COLOR}" opacity="1">${escapeXML(char)}</text>`;
     })
     .join('');
-
 
   const titleBlock = title ? `
 <text x="${cx.toFixed(1)}" y="${h - (subtitle ? 28 : 14)}" text-anchor="middle" font-family="monospace" font-size="15" font-weight="bold" fill="#f1f5f9">${escapeXML(title)}</text>

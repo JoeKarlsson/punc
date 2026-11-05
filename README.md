@@ -23,6 +23,23 @@ per sentence, and can generate PDF visualizations showing only the punctuation.
 - ✅ **Comprehensive Testing**: 100% test coverage with Jest
 - 🔧 **Developer Experience**: ESLint, Prettier, and automated CI/CD
 
+## Website
+
+The [Punc website](https://joekarlsson.github.io/punc/) shows a shelf of public
+domain books as punctuation only, and opens any `.txt` file you drop in.
+Everything runs in the browser.
+
+```bash
+npm run site:build   # build the static site into site-dist/
+npm run site:serve   # build, then serve it at http://localhost:4173
+```
+
+The site lives in `site/`: page fragments in `site/pages`, browser code in
+`site/src`, shelf books in `site/books` (listed in `site/catalog.json`). It uses
+the library's own `analyzeText` and `spiralLayout`, so it counts marks the same
+way the CLI does. Pushes to `main` deploy it through
+`.github/workflows/pages.yml`.
+
 ## Installation
 
 ```bash

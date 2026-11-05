@@ -19,6 +19,8 @@ export { createPDF } from './pdf';
 
 // Export analysis functions
 export { getPositions, windowedDensity } from './analysis';
+export { analyzeText, wordsPerSentence } from './text';
+export { spiralLayout } from './layout';
 
 // Export SVG visualization functions
 export { createBarcodeSVG, createHeatmapSVG, createWaveformSVG, createRadialSVG, createScoreSVG, createSpiralSVG } from './svg';

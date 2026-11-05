@@ -1,0 +1,11 @@
+[
+  { "slug": "alice", "title": "Alice's Adventures in Wonderland", "author": "Lewis Carroll", "year": 1865 },
+  { "slug": "pride-and-prejudice", "title": "Pride and Prejudice", "author": "Jane Austen", "year": 1813 },
+  { "slug": "moby-dick", "title": "Moby-Dick", "author": "Herman Melville", "year": 1851 },
+  { "slug": "ulysses", "title": "Ulysses", "author": "James Joyce", "year": 1922 },
+  { "slug": "the-great-gatsby", "title": "The Great Gatsby", "author": "F. Scott Fitzgerald", "year": 1925 },
+  { "slug": "the-sun-also-rises", "title": "The Sun Also Rises", "author": "Ernest Hemingway", "year": 1926 },
+  { "slug": "frankenstein", "title": "Frankenstein", "author": "Mary Shelley", "year": 1818 },
+  { "slug": "tristram-shandy", "title": "Tristram Shandy", "author": "Laurence Sterne", "year": 1759 },
+  { "slug": "dickinson-poems", "title": "Poems", "author": "Emily Dickinson", "year": 1890 }
+]

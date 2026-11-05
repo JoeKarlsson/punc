@@ -1,43 +1,15 @@
-import { createReadStream } from 'fs';
-import { pipeline } from 'stream/promises';
-import { Transform } from 'stream';
-import through2 from 'through2';
+import { readFile } from 'fs/promises';
 import { PuncOptions, PunctuationCount, PuncPosition, DensityWindow } from './types';
 import { validateOptions } from './validation';
-import { removeAndReplace } from './streams';
+import { analyzeText } from './text';
 
 export async function getPositions(
   filePath: string,
   options?: PuncOptions | string
 ): Promise<{ positions: PuncPosition[]; totalChars: number; map: PunctuationCount }> {
   const validatedOptions = validateOptions(filePath, options);
-  const positions: PuncPosition[] = [];
-  const map = validatedOptions.mapping!;
-  let offset = 0;
-
-  await pipeline(
-    createReadStream(filePath, { encoding: validatedOptions.encoding }),
-    removeAndReplace(/[\r\n]/g, ''),
-    removeAndReplace(/[\s]+/g, ' '),
-    through2.obj(function (
-      this: Transform,
-      chunk: Buffer | string,
-      _: unknown,
-      callback: (err: Error | null, data?: string) => void
-    ) {
-      const str = typeof chunk === 'string' ? chunk : chunk.toString('utf8');
-      for (const char of Array.from(str)) {
-        if (char in map) {
-          positions.push({ char, offset });
-          map[char as keyof PunctuationCount]++;
-        }
-        offset++;
-      }
-      callback(null, str);
-    })
-  );
-
-  return { positions, totalChars: offset, map };
+  const text = await readFile(filePath, { encoding: validatedOptions.encoding ?? 'utf8' });
+  return analyzeText(text, validatedOptions.mapping!);
 }
 
 export function windowedDensity(

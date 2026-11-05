@@ -26,14 +26,16 @@
     "test": "node --experimental-vm-modules node_modules/.bin/jest",
     "test:watch": "node --experimental-vm-modules node_modules/.bin/jest --watch",
     "test:coverage": "node --experimental-vm-modules node_modules/.bin/jest --coverage",
-    "lint": "eslint src/**/*.ts",
+    "lint": "eslint 'src/**/*.ts' 'site/src/**/*.ts'",
     "lint:fix": "eslint src/**/*.ts --fix",
     "format": "prettier --write src/**/*.ts",
-    "type-check": "tsc --noEmit",
+    "type-check": "tsc --noEmit && tsc -p site",
     "markdown-lint": "markdownlint README.md --fix",
     "check": "npm run type-check && npm run lint && npm run markdown-lint && npm test",
     "clean": "rm -rf dist",
-    "prepublishOnly": "npm run clean && npm run build"
+    "prepublishOnly": "npm run clean && npm run build",
+    "site:build": "node site/build.mjs",
+    "site:serve": "npm run site:build && python3 -m http.server 4173 -d site-dist"
   },
   "keywords": [
     "punc",

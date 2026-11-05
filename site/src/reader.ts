@@ -1,11 +1,10 @@
 import { analyzeBook, erasedPages, type BookAnalysis } from './analyze';
 import { createSpiralExplorer, drawScore, downloadCanvas, type SpiralExplorer } from './canvas';
+import { initPosters } from './posters';
+import { initShare } from './share';
 
 interface CatalogBook {
   slug: string;
-  title: string;
-  author: string;
-  year: number;
 }
 
 const MAX_UPLOAD_BYTES = 30 * 1024 * 1024;
@@ -186,20 +185,32 @@ function setUpPages(pages: string[]): void {
 
 // loading
 
-async function loadFromShelf(slug: string): Promise<void> {
+// Shelf texts are stored gzipped. Hosts that send them with Content-Encoding
+// have already unpacked them, so check for the gzip magic bytes first.
+async function fetchBookText(slug: string): Promise<string> {
+  const res = await fetch(`${document.body.dataset['root'] ?? ''}books/${slug}.txt.gz`);
+  if (!res.ok) throw new Error(`Couldn't load the book (${res.status})`);
+  const bytes = new Uint8Array(await res.arrayBuffer());
+  if (bytes[0] !== 0x1f || bytes[1] !== 0x8b) return new TextDecoder().decode(bytes);
+  const stream = new Blob([bytes]).stream().pipeThrough(new DecompressionStream('gzip'));
+  return new Response(stream).text();
+}
+
+async function loadFromShelf(slug: string, title: string, byline: string): Promise<void> {
   showStatus('Taking the words out…');
+  const text = await fetchBookText(slug);
+  // Let the status paint before the synchronous analysis.
+  requestAnimationFrame(() => showBook(text, title, byline, slug));
+}
+
+// Old links were read.html?b=<slug>; each book has its own page now.
+async function redirectOldLink(slug: string): Promise<void> {
   const catalog = (await (await fetch('books.json')).json()) as CatalogBook[];
-  const meta = catalog.find(b => b.slug === slug);
-  if (!meta) {
-    showStatus(`There's no "${slug}" on the shelf.`);
-    byId('upload').hidden = false;
+  if (catalog.some(b => b.slug === slug)) {
+    location.replace(`books/${slug}/`);
     return;
   }
-  const res = await fetch(`books/${slug}.txt`);
-  if (!res.ok) throw new Error(`Couldn't load ${meta.title} (${res.status})`);
-  const text = await res.text();
-  // Let the status paint before the synchronous analysis.
-  requestAnimationFrame(() => showBook(text, meta.title, `${meta.author}, ${meta.year}`, slug));
+  showStatus(`There's no "${slug}" on the shelf.`);
 }
 
 async function loadFile(file: File): Promise<void> {
@@ -234,12 +245,14 @@ function setUpUpload(): void {
   });
 }
 
-const slug = new URLSearchParams(location.search).get('b');
+initPosters();
+initShare();
 setUpUpload();
-if (slug) {
+const { slug, title, byline } = document.body.dataset;
+const oldLink = new URLSearchParams(location.search).get('b');
+if (slug && title && byline !== undefined) {
   byId('upload').hidden = true;
-  // A shelf book belongs to the shelf in the site nav, not to "Read your own".
-  document.querySelector('.site-header [aria-current]')?.removeAttribute('aria-current');
-  document.querySelector('.site-header nav a[href="./"]')?.setAttribute('aria-current', 'page');
-  void loadFromShelf(slug);
+  void loadFromShelf(slug, title, byline);
+} else if (oldLink) {
+  void redirectOldLink(oldLink);
 }

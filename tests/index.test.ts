@@ -883,3 +883,43 @@ describe('SVG Rendering Correctness — Score & Spiral', () => {
     await unlink(result.pathToFile);
   }, 60000);
 });
+
+describe('punc() counts like the site does', () => {
+  test('curly quotes, long dashes and ellipses count as their plain marks', async () => {
+    const testFile = 'tests/test-typography.txt';
+    await writeFile(testFile, '“Wait—is it you?” she said… ‘Yes.’');
+    try {
+      const result = await punc(testFile);
+      expect(result.count['"']).toBe(2);
+      expect(result.count["'"]).toBe(2);
+      expect(result.count['-']).toBe(1);
+      expect(result.count['...']).toBe(1);
+    } finally {
+      await unlink(testFile);
+    }
+  });
+
+  test('words per sentence covers the whole file, not just the last chunk', async () => {
+    const testFile = 'tests/test-long-wps.txt';
+    // About 1 MB: many stream chunks. First half has 10-word sentences, second half 2-word.
+    const text = 'one two three four five six seven eight nine ten. '.repeat(10000) + 'short one. '.repeat(10000);
+    await writeFile(testFile, text);
+    try {
+      const result = await punc(testFile);
+      expect(result.wordsPerSentence).toBeCloseTo(6, 5);
+    } finally {
+      await unlink(testFile);
+    }
+  });
+
+  test('a line break separates words instead of joining them', async () => {
+    const testFile = 'tests/test-wrapped.txt';
+    await writeFile(testFile, 'It was the best\nof times.');
+    try {
+      const result = await punc(testFile);
+      expect(result.wordsPerSentence).toBe(6);
+    } finally {
+      await unlink(testFile);
+    }
+  });
+});

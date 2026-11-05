@@ -8,9 +8,10 @@ describe('analyzeText', () => {
     expect(positions).toEqual([
       { char: ',', offset: 2 },
       { char: '.', offset: 7 },
-      { char: '!', offset: 11 },
+      { char: '!', offset: 12 },
     ]);
-    expect(totalChars).toBe(12);
+    // "Hi, you. Yes!": the line break became a space
+    expect(totalChars).toBe(13);
     expect(map[',']).toBe(1);
   });
 });

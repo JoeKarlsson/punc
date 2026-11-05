@@ -8,6 +8,7 @@
   --chalk: #ece6da;
   --pink: #ff4fd8;
   --muted: #a3a3a3;
+  --surface-line: #3a3a3a;
   --poster: 'Anton', Impact, 'Arial Narrow', sans-serif;
   --book: 'Fraunces', Georgia, serif;
   --ui: 'Hanken Grotesk', system-ui, sans-serif;
@@ -498,11 +499,12 @@ main {
   grid-template-columns: minmax(0, 1fr) auto;
   /* The empty last row takes up the poster's extra height, so the text on
      the left stays together instead of spreading out to match it. */
-  grid-template-rows: auto auto auto 1fr;
+  grid-template-rows: auto auto auto auto 1fr;
   grid-template-areas:
     'title poster'
     'byline poster'
     'stats poster'
+    'fp poster'
     '. poster';
   align-items: start;
   column-gap: clamp(1rem, 4vw, 3rem);
@@ -744,6 +746,237 @@ main {
   line-height: 1;
 }
 
+/* Punctuation fingerprint: ten fixed slots, the same order and scale for
+   every book, a bar for each mark's share (site/src/patterns.ts). */
+.fingerprint {
+  display: grid;
+  grid-template-columns: repeat(10, minmax(0, 1fr));
+  gap: 3px;
+  margin: 0.7rem 0 0;
+  font-family: var(--book);
+  font-weight: 700;
+  font-size: 0.85rem;
+  line-height: 1;
+  --fp-height: 30px;
+}
+
+.fp-slot {
+  display: grid;
+  grid-template-rows: var(--fp-height) auto;
+  justify-items: stretch;
+  row-gap: 3px;
+}
+
+.fp-bar {
+  align-self: end;
+  background: var(--pink);
+  border-radius: 2px 2px 0 0;
+}
+
+.fp-mark {
+  text-align: center;
+  color: var(--paper);
+}
+
+.book-fingerprint {
+  grid-area: fp;
+  max-width: 34rem;
+  margin-top: 1.5rem;
+}
+
+.fp-caption {
+  margin: 0.6rem 0 0;
+  font-family: var(--ui);
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.fingerprint-large {
+  font-size: 1.4rem;
+  gap: 6px;
+  --fp-height: 72px;
+}
+
+.view-heading {
+  margin: 0 0 0.75rem;
+  font-family: var(--poster);
+  font-weight: 400;
+  font-size: clamp(1.6rem, 4vw, 2.2rem);
+  text-transform: uppercase;
+}
+
+.view-heading + .view-note {
+  margin-bottom: 1.25rem;
+}
+
+#through-book {
+  margin-bottom: 3.5rem;
+}
+
+.through-book {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  max-width: 900px;
+  display: grid;
+  gap: 0.9rem;
+}
+
+.through-book li {
+  display: grid;
+  grid-template-columns: 3.5rem 11rem minmax(0, 1fr);
+  column-gap: 1rem;
+  align-items: end;
+}
+
+.tb-mark {
+  font-family: var(--book);
+  font-weight: 700;
+  font-size: 2.4rem;
+  line-height: 1;
+  text-align: center;
+  color: var(--pink);
+}
+
+.tb-name {
+  font-family: var(--ui);
+  font-size: 0.95rem;
+  line-height: 1.35;
+}
+
+.tb-peak {
+  color: var(--muted);
+}
+
+.tb-bars {
+  display: block;
+  width: 100%;
+  height: 40px;
+  fill: var(--paper);
+}
+
+.tb-bars rect:hover {
+  fill: var(--pink);
+}
+
+/* The shelf map */
+.map-page .lede {
+  margin-bottom: 2rem;
+}
+
+.shelf-map {
+  position: relative;
+  max-width: 1100px;
+  margin: 0;
+}
+
+.map-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.map-grid {
+  stroke: var(--surface-line);
+  stroke-width: 1;
+}
+
+.map-tick,
+.map-axis,
+.map-label {
+  font-family: var(--ui);
+  fill: var(--muted);
+}
+
+.map-tick {
+  font-size: 18px;
+}
+
+.map-axis {
+  font-size: 20px;
+  fill: var(--paper);
+}
+
+.map-label {
+  font-size: 19px;
+  fill: var(--paper);
+  /* A black outline keeps labels readable where they cross other dots */
+  paint-order: stroke;
+  stroke: var(--ink);
+  stroke-width: 6px;
+  stroke-linejoin: round;
+  pointer-events: none;
+}
+
+.map-hit {
+  fill: transparent;
+}
+
+.map-dot {
+  fill: var(--pink);
+  stroke: var(--ink);
+  stroke-width: 2;
+}
+
+.shelf-map a:hover .map-dot,
+.shelf-map a:focus-visible .map-dot {
+  fill: var(--chalk);
+}
+
+.shelf-map a:focus-visible {
+  outline: none;
+}
+
+.map-tip {
+  position: absolute;
+  z-index: 3;
+  max-width: 18rem;
+  margin: 0;
+  padding: 0.35rem 0.6rem;
+  background: var(--chalk);
+  color: var(--ink);
+  font-family: var(--ui);
+  font-size: 0.9rem;
+  line-height: 1.35;
+  pointer-events: none;
+}
+
+.map-table {
+  max-width: 900px;
+  margin-top: 2.5rem;
+  font-family: var(--ui);
+}
+
+.map-table summary {
+  cursor: pointer;
+  font-family: var(--poster);
+  font-size: 1.3rem;
+  text-transform: uppercase;
+}
+
+.map-table table {
+  width: 100%;
+  margin-top: 1rem;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+}
+
+.map-table th,
+.map-table td {
+  padding: 0.35rem 0.75rem 0.35rem 0;
+  text-align: left;
+  font-weight: 400;
+}
+
+.map-table thead th {
+  color: var(--muted);
+}
+
+.map-table td {
+  font-variant-numeric: tabular-nums;
+}
+
 .counts {
   list-style: none;
   margin: 0;
@@ -868,11 +1101,12 @@ code {
     grid-template-areas:
       'title'
       'byline'
-      'stats';
+      'stats'
+      'fp';
   }
 
   .book-head:has(.book-poster) {
-    grid-template-rows: minmax(14rem, 52vw) auto auto auto;
+    grid-template-rows: minmax(14rem, 52vw) auto auto auto auto;
     grid-template-areas: none;
   }
 
@@ -904,6 +1138,10 @@ code {
     grid-area: 4 / 1 / 5 / 2;
   }
 
+  .book-head:has(.book-poster) .book-fingerprint {
+    grid-area: 5 / 1 / 6 / 2;
+  }
+
   .book-title {
     font-size: clamp(2.2rem, 11vw, 3.5rem);
   }
@@ -911,6 +1149,29 @@ code {
   .stats {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     column-gap: 1rem;
+  }
+
+  /* Keep the map's labels readable: it scrolls sideways in its own frame */
+  .shelf-map {
+    overflow-x: auto;
+  }
+
+  .map-svg {
+    min-width: 640px;
+  }
+
+  .through-book li {
+    grid-template-columns: 2.5rem minmax(0, 1fr);
+    row-gap: 0.3rem;
+  }
+
+  .tb-bars {
+    grid-column: 1 / -1;
+  }
+
+  .fingerprint-large {
+    font-size: 1.15rem;
+    --fp-height: 56px;
   }
 
   .shelf {

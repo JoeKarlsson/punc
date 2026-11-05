@@ -1,6 +1,7 @@
 import { Transform } from 'stream';
 import through2 from 'through2';
 import { PunctuationCount } from './types';
+import { countWords } from './text';
 
 // Transform stream to remove and replace text
 export function removeAndReplace(
@@ -20,21 +21,50 @@ export function removeAndReplace(
   });
 }
 
-// Transform stream to find words per sentence
-export function findWordsPerSentence(
-  changeCount: (count: number) => void
-): Transform {
+// Transform stream that applies a text function to every chunk
+export function mapText(fn: (text: string) => string): Transform {
   return through2.obj(function (
     chunk: Buffer | string,
     _: unknown,
     callback: (error: Error | null, data?: string) => void
   ) {
-    const chunkStr = typeof chunk === 'string' ? chunk : chunk.toString();
-    const periodCount = (chunkStr.match(/\.|\?|\!/g) || []).length;
-    const wordCount = chunkStr.split(' ').length;
-    changeCount(wordCount / periodCount);
-    callback(null, chunkStr);
+    callback(null, fn(typeof chunk === 'string' ? chunk : chunk.toString()));
   });
+}
+
+// Transform stream to find words per sentence across the whole stream.
+// Reports once, at the end: 0 for no text, Infinity for words with no
+// sentence ending, otherwise words over sentence-ending runs (as in
+// wordsPerSentence). A word or run of marks cut off at the end of a chunk is
+// held back and counted with the next one, so chunk size doesn't change it.
+export function findWordsPerSentence(
+  changeCount: (count: number) => void
+): Transform {
+  let words = 0;
+  let sentenceEnds = 0;
+  let carry = '';
+  const tally = (text: string) => {
+    words += countWords(text);
+    sentenceEnds += text.match(/[.?!]+/g)?.length ?? 0;
+  };
+  return through2.obj(
+    function (
+      chunk: Buffer | string,
+      _: unknown,
+      callback: (error: Error | null, data?: string) => void
+    ) {
+      const chunkStr = typeof chunk === 'string' ? chunk : chunk.toString();
+      const text = carry + chunkStr;
+      carry = text.match(/[^\s]+$/)?.[0] ?? '';
+      tally(text.slice(0, text.length - carry.length));
+      callback(null, chunkStr);
+    },
+    function (callback: () => void) {
+      tally(carry);
+      changeCount(sentenceEnds > 0 ? words / sentenceEnds : words > 0 ? Infinity : 0);
+      callback();
+    }
+  );
 }
 
 // Transform stream to find and count punctuation

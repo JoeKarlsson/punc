@@ -1,7 +1,9 @@
 // Book analysis for the site, used in the browser (reader.ts) and at build
 // time (site/build.mjs, for the shelf covers). Counting is the library's own
 // analyzeText, so the site and the CLI agree.
-import { analyzeText, countWords, wordsPerSentence } from '../../src/text';
+
+export { foldTypography };
+import { analyzeText, countWords, foldTypography, wordsPerSentence } from '../../src/text';
 import { defaultMapping } from '../../src/mapping';
 import type { PunctuationCount } from '../../src/types';
 
@@ -11,16 +13,6 @@ export interface BookAnalysis {
   wordsPerSentence: number;
   wordCount: number;
   text: string;
-}
-
-// Modern editions set quotes and dashes typographically; the mapping counts
-// the ASCII marks, so fold them first or most dialogue would disappear.
-export function foldTypography(text: string): string {
-  return text
-    .replace(/[“”„«»]/g, '"')
-    .replace(/[‘’‚]/g, "'")
-    .replace(/[–—―]/g, '-')
-    .replace(/…/g, '...');
 }
 
 export function analyzeBook(rawText: string): BookAnalysis {

@@ -1,6 +1,8 @@
 // @ts-expect-error: plain ESM maintenance script, no type declarations
 import { parseAuthor, parseCSV, publicationOf, stripGutenberg } from '../site/scripts/fetch-books.mjs';
-import catalog from '../site/catalog.json';
+import { readFileSync } from 'node:fs';
+
+const catalog = JSON.parse(readFileSync('site/catalog.json', 'utf8')) as Array<{ id: number }>;
 
 describe('Gutenberg catalog parsing', () => {
   test('parseCSV handles quoted commas, doubled quotes and newlines', () => {

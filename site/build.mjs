@@ -20,7 +20,7 @@ await rm(OUT, { recursive: true, force: true });
 await mkdir(join(OUT, 'assets'), { recursive: true });
 
 await build({
-  entryPoints: [join(SITE, 'src/reader.ts'), join(SITE, 'src/shelf.ts'), join(SITE, 'src/page.ts')],
+  entryPoints: [join(SITE, 'src/reader.ts'), join(SITE, 'src/shelf.ts'), join(SITE, 'src/page.ts'), join(SITE, 'src/map.ts')],
   bundle: true,
   format: 'esm',
   target: 'es2020',
@@ -30,8 +30,8 @@ await build({
 
 // The same analysis the browser runs, bundled for Node so the numbers match.
 const analyzerPath = join(tmpdir(), `punc-site-analyze-${process.pid}.mjs`);
-await build({ entryPoints: [join(SITE, 'src/analyze.ts')], bundle: true, platform: 'node', format: 'esm', outfile: analyzerPath });
-const { analyzeBook } = await import(pathToFileURL(analyzerPath).href);
+await build({ entryPoints: [join(SITE, 'src/node-entry.ts')], bundle: true, platform: 'node', format: 'esm', outfile: analyzerPath });
+const { analyzeBook, fingerprintHTML, markShares, shelfPosition } = await import(pathToFileURL(analyzerPath).href);
 await rm(analyzerPath);
 
 const escapeHTML = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
@@ -55,6 +55,8 @@ for (const meta of catalog) {
     marks: book.marks.length,
     wps: book.wordsPerSentence,
     density: (book.marks.length / Math.max(book.wordCount, 1)) * 100,
+    fingerprint: fingerprintHTML(markShares(book.marks)),
+    ...shelfPosition(book.marks),
   });
 }
 const byRank = [...books].sort((a, b) => (a.rank ?? Infinity) - (b.rank ?? Infinity));
@@ -71,6 +73,7 @@ function card(book, i) {
         <span class="cover-label"><span class="cover-title">${escapeHTML(book.title)}</span><span class="cover-author">${escapeHTML(book.byline)}</span></span>
       </a>
       <p class="cover-meta">${fmt(book.words)} words removed, ${fmt(book.marks)} marks left</p>
+      ${book.fingerprint}
     </li>`;
 }
 
@@ -85,6 +88,7 @@ const crayonFilter = `<svg class="defs" aria-hidden="true" focusable="false"><fi
 
 const NAV = [
   { key: 'shelf', href: './', label: 'The shelf' },
+  { key: 'map', href: 'map.html', label: 'Map' },
   { key: 'read', href: 'read.html', label: 'Read your own' },
   { key: 'about', href: 'about.html', label: 'About' },
 ];
@@ -102,7 +106,10 @@ function shareLinks(url, title) {
     ['LinkedIn', `https://www.linkedin.com/sharing/share-offsite/?url=${u}`],
     ['X', `https://x.com/intent/post?text=${t}&url=${u}`],
   ];
-  const links = networks.map(([label, href]) => `<a href="${escapeHTML(href)}" target="_blank" rel="noopener noreferrer">${label}</a>`);
+  const links = networks.map(
+    ([label, href]) =>
+      `<a href="${escapeHTML(href)}" target="_blank" rel="noopener noreferrer" class="plausible-event-name=Share+Click plausible-event-network=${label.replace(/ /g, '+')}">${label}</a>`
+  );
   return `<p class="share">Share it on ${links.join(', ')}, or <button type="button" class="link-button" data-copy-link="${escapeHTML(url)}">copy the link</button>.</p>`;
 }
 
@@ -148,6 +155,17 @@ async function writePage({ path, nav, title, socialTitle, description, body, scr
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Fraunces:opsz,wght@9..144,400..700&family=Hanken+Grotesk:wght@400..700&display=swap">
 <link rel="stylesheet" href="styles.css?v=${version}">
+<script>
+  // Plausible (self-hosted, as on joekarlsson.com), skipped for bots and headless browsers
+  (function () {
+    if (navigator.webdriver || /bot|crawl|spider|scrape|headless/i.test(navigator.userAgent) || !navigator.languages || navigator.languages.length === 0) return;
+    var s = document.createElement('script');
+    s.defer = true;
+    s.dataset.domain = 'joekarlsson.github.io';
+    s.src = 'https://plausible.joekarlsson.io/js/script.tagged-events.outbound-links.file-downloads.js';
+    document.head.appendChild(s);
+  })();
+</script>
 </head>
 <body${data}>
 ${crayonFilter}
@@ -182,7 +200,7 @@ ${shareLinks(url, socialTitle ?? title)}
 // GitHub Pages lets browsers cache CSS and JS for 10 minutes. A content hash
 // in the URL makes each deploy load the new files right away.
 const assetHash = createHash('sha256');
-for (const file of ['styles.css', 'assets/reader.js', 'assets/shelf.js', 'assets/page.js']) assetHash.update(await readFile(join(OUT, file)));
+for (const file of ['styles.css', 'assets/reader.js', 'assets/shelf.js', 'assets/page.js', 'assets/map.js']) assetHash.update(await readFile(join(OUT, file)));
 const version = assetHash.digest('hex').slice(0, 10);
 
 const fragment = async name => readFile(join(SITE, 'pages', name), 'utf8');
@@ -228,6 +246,58 @@ for (const book of books) {
     dataset: { slug: book.slug, title: book.title, byline: book.byline },
   });
 }
+
+// The shelf map, drawn here so it works without JavaScript; map.ts only adds
+// the hover tooltip.
+function mapSVG(points) {
+  const W = 1000, H = 640, L = 70, R = 30, T = 30, B = 70;
+  const xs = points.map(b => b.pausesPerStop), ys = points.map(b => b.loudness * 100);
+  const niceMax = v => Math.ceil(v / 0.5) * 0.5;
+  const xMax = niceMax(Math.max(...xs) * 1.05), yMax = Math.ceil(Math.max(...ys) * 1.1);
+  const x = v => L + (v / xMax) * (W - L - R);
+  const y = v => H - B - (v / yMax) * (H - T - B);
+  const xTicks = Array.from({ length: Math.floor(xMax / 0.5) + 1 }, (_, i) => i * 0.5).filter((v, i, a) => a.length <= 9 || i % 2 === 0);
+  const yStep = yMax > 10 ? 2 : 1;
+  const yTicks = Array.from({ length: Math.floor(yMax / yStep) + 1 }, (_, i) => i * yStep);
+  const grid = [
+    ...xTicks.map(v => `<line class="map-grid" x1="${x(v)}" x2="${x(v)}" y1="${T}" y2="${H - B}"/><text class="map-tick" x="${x(v)}" y="${H - B + 26}" text-anchor="middle">${v}</text>`),
+    ...yTicks.map(v => `<line class="map-grid" x1="${L}" x2="${W - R}" y1="${y(v)}" y2="${y(v)}"/><text class="map-tick" x="${L - 12}" y="${y(v) + 6}" text-anchor="end">${v}%</text>`),
+  ].join('');
+  const axes = `<text class="map-axis" x="${(L + W - R) / 2}" y="${H - 14}" text-anchor="middle">pauses per stop</text><text class="map-axis" transform="translate(20 ${(T + H - B) / 2}) rotate(-90)" text-anchor="middle">? and ! share</text>`;
+  // Label the extremes and the featured books, the rest are hover-only.
+  const pick = new Set([
+    ...[...points].sort((a, b) => b.pausesPerStop - a.pausesPerStop).slice(0, 2),
+    ...[...points].sort((a, b) => b.loudness - a.loudness).slice(0, 2),
+    ...featured,
+  ].map(b => b.slug));
+  const dots = points.map(b => {
+    const cx = x(b.pausesPerStop), cy = y(b.loudness * 100);
+    const tip = `${b.title}, ${b.author}: ${b.pausesPerStop.toFixed(1)} pauses per stop, ${(b.loudness * 100).toFixed(1)}% ? and !`;
+    const label = pick.has(b.slug)
+      ? `<text class="map-label" x="${cx + (cx > W * 0.75 ? -14 : 14)}" y="${cy + 6}" text-anchor="${cx > W * 0.75 ? 'end' : 'start'}">${escapeHTML(b.title)}</text>`
+      : '';
+    return {
+      dot: `<a href="books/${b.slug}/" data-tip="${escapeHTML(tip)}" aria-label="${escapeHTML(tip)}"><circle class="map-hit" cx="${cx}" cy="${cy}" r="16"/><circle class="map-dot" cx="${cx}" cy="${cy}" r="7"/></a>`,
+      label,
+    };
+  });
+  // Labels go in their own layer above every dot, so later dots can't cover them.
+  return `<svg class="map-svg" viewBox="0 0 ${W} ${H}" role="group" aria-label="Map of the shelf: pauses per stop across, share of question and exclamation marks up">${grid}${axes}<g>${dots.map(d => d.dot).join('')}</g><g aria-hidden="true">${dots.map(d => d.label).join('')}</g></svg>`;
+}
+
+const mapRows = [...books]
+  .sort((a, b) => a.title.localeCompare(b.title))
+  .map(b => `        <tr><th scope="row"><a href="books/${b.slug}/">${escapeHTML(b.title)}</a>, ${escapeHTML(b.author)}</th><td>${b.pausesPerStop.toFixed(1)}</td><td>${(b.loudness * 100).toFixed(1)}%</td></tr>`)
+  .join('\n');
+await writePage({
+  path: 'map.html',
+  nav: 'map',
+  title: 'The map · Punc',
+  socialTitle: 'Punc: a map of famous books by their punctuation',
+  description: `${books.length} books placed by punctuation alone: how many pauses before each stop, and how many question and exclamation marks.`,
+  body: (await fragment('map.html')).replace('<!--MAP-->', mapSVG(books)).replace('<!--MAPTABLE-->', mapRows),
+  script: 'map.js',
+});
 
 await writePage({
   path: 'about.html',

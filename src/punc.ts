@@ -6,7 +6,9 @@ import {
   removeAndReplace,
   findAndCount,
   findWordsPerSentence,
+  mapText,
 } from './streams';
+import { foldTypography } from './text';
 
 // Main Punc function
 export function punc(
@@ -31,11 +33,12 @@ export function punc(
 
       pipeline(
         readStream,
-        removeAndReplace(/[\r\n]/g, ''),
+        mapText(foldTypography),
+        removeAndReplace(/[\r\n]/g, ' '),
         removeAndReplace(/[\s]+/g, ' '),
         findAndCount(validatedOptions.mapping!, punctuationStore),
         findWordsPerSentence(count => {
-          if (typeof count === 'number' && !isNaN(count)) {
+          if (typeof count === 'number' && !Number.isNaN(count)) {
             wordsPerSent = count;
           } else {
             console.warn('Warning: Invalid words per sentence count:', count);

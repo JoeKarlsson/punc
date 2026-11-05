@@ -9,13 +9,24 @@ export interface TextAnalysis {
   map: PunctuationCount;
 }
 
-// Same normalization as the stream pipeline: drop line breaks, collapse runs
-// of whitespace to one space, then record each mapped mark and its offset.
+// Modern editions set quotes and dashes typographically; the mapping counts
+// the ASCII marks, so fold them first or most dialogue would disappear.
+export function foldTypography(text: string): string {
+  return text
+    .replace(/[“”„«»]/g, '"')
+    .replace(/[‘’‚]/g, "'")
+    .replace(/[–—―]/g, '-')
+    .replace(/…/g, '...');
+}
+
+// Same normalization as the stream pipeline: fold typographic marks, turn line
+// breaks into spaces and collapse runs of whitespace to one, then record each
+// mapped mark and its offset.
 export function analyzeText(
   text: string,
   mapping: PunctuationCount = defaultMapping()
 ): TextAnalysis {
-  const normalized = text.replace(/[\r\n]/g, '').replace(/[\s]+/g, ' ');
+  const normalized = foldTypography(text).replace(/[\r\n]/g, ' ').replace(/[\s]+/g, ' ');
   const positions: PuncPosition[] = [];
   let offset = 0;
   for (const char of normalized) {

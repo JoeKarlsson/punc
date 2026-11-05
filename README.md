@@ -28,7 +28,8 @@ two parts:
   favorites. The front page features the top four, and the full shelf can be
   searched by title or author, filtered by genre, and sorted by popularity, title,
   author, or how heavily punctuated each book is. Each cover is the book's
-  Gutenberg cover dithered to hot pink and black.
+  Gutenberg cover dithered to hot pink and black, with the book's punctuation
+  fingerprint under it.
 - **A page for each book**, like
   [Frankenstein](https://joekarlsson.github.io/punc/books/frankenstein/), with
   four views:
@@ -37,7 +38,14 @@ two parts:
     explore it.
   - **Pages**: the book's pages with every letter erased and the marks left in
     place.
-  - **Counts**: every mark, most used first.
+  - **Counts**: how each mark's share changes through the book, tenth by
+    tenth, then every mark, most used first.
+
+  Each page also shows the book's **punctuation fingerprint**: ten bars for
+  the ten most common marks, on one scale shared by every book.
+- **[The map](https://joekarlsson.github.io/punc/map.html)**: every book on the
+  shelf placed by its punctuation alone, by pauses (`, ; : -`) per sentence
+  ending and by the share of `?` and `!`.
 - **[Read your own](https://joekarlsson.github.io/punc/read.html)**: open any
   plain text file and get the same views. It's read in your browser and never
   leaves your computer.
@@ -66,22 +74,27 @@ npm run test:e2e     # Playwright browser tests against the built site
 | `site/scripts/make-images.mjs` | Redraws the favicons and the share image |
 | `e2e/` | Playwright tests |
 
-To refresh the shelf, run `node site/scripts/fetch-books.mjs`. It reads
+The shelf is refreshed by hand, not on a schedule: each refresh commits its new
+books to git for good, and the shelf is about 23 MB already. To refresh it, run
+`node site/scripts/fetch-books.mjs`. It reads
 Gutenberg's "Top 100 EBooks last 30 days" and its catalog, skips reference
 books, non-English and repeat editions, and downloads anything new. Title and
-author fixes go in the script's `TITLES` and `AUTHORS` lists, not in
-`catalog.json`. After changing the shelf or the headline, run
+author fixes go in the script's `TITLES` and `AUTHORS` lists, and first
+publication years in `PUBLISHED`, not in `catalog.json`. The script stops if a
+new book has no publication year. After changing the shelf or the headline, run
 `npm run site:build && node site/scripts/make-images.mjs`.
 
 The site counts marks with the library's own `analyzeText`, so its numbers match
-the CLI. It also counts curly quotes and long dashes as their plain versions.
+the CLI. Both count curly quotes, long dashes and ellipses as their plain
+versions.
 Every push to `main` deploys it through `.github/workflows/pages.yml`.
 
 ## The library and CLI
 
 The version on npm (`punc@1.3.3`) is an older release that only counts marks and
 makes PDFs. Everything below, including the SVG and PNG pictures and the CLI, is
-version 2.0, which isn't published yet. To use it now, build it from source:
+version 2.0, which isn't published to npm yet. To use it now, build it from
+source:
 
 ```bash
 git clone https://github.com/JoeKarlsson/punc.git

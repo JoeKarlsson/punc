@@ -1,6 +1,6 @@
 // Canvas renderers for the reader. Canvas, not SVG, because a novel has tens
 // of thousands of marks. Spiral geometry is the library's spiralLayout.
-import { spiralLayout } from '../../src/layout';
+import { spiralLayout, type SpiralLayout } from '../../src/layout';
 
 const INK = '#000000';
 const PAPER = '#ededed';
@@ -24,21 +24,215 @@ function prepare(canvas: HTMLCanvasElement, w: number, h: number): CanvasRenderi
   return ctx;
 }
 
-export function drawSpiral(canvas: HTMLCanvasElement, marks: string[]): void {
-  const size = 1400;
-  const ctx = prepare(canvas, size, size);
-  const dpr = canvas.width / size;
-  const { fontSize, points } = spiralLayout(marks.length, size, size);
-  ctx.font = `${fontSize.toFixed(1)}px Fraunces, Georgia, serif`;
+const SPIRAL_SIZE = 1400;
+const MIN_ZOOM = 1;
+const MAX_ZOOM = 60;
+
+function paintSpiral(
+  ctx: CanvasRenderingContext2D,
+  marks: string[],
+  layout: SpiralLayout,
+  // Pixels per layout unit, and where the layout origin lands, in device pixels
+  scale: number,
+  offsetX: number,
+  offsetY: number,
+  width: number,
+  height: number
+): void {
+  ctx.setTransform(1, 0, 0, 1, 0, 0);
+  ctx.fillStyle = INK;
+  ctx.fillRect(0, 0, width, height);
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.font = `${layout.fontSize.toFixed(2)}px Fraunces, Georgia, serif`;
+  const margin = layout.fontSize * scale;
   marks.forEach((mark, i) => {
-    const { x, y, angleDeg } = points[i]!;
+    const { x, y, angleDeg } = layout.points[i]!;
+    const px = x * scale + offsetX;
+    const py = y * scale + offsetY;
+    // Skip marks off screen, so a deep zoom only draws what you can see.
+    if (px < -margin || py < -margin || px > width + margin || py > height + margin) return;
     const a = (angleDeg * Math.PI) / 180;
-    const cos = Math.cos(a) * dpr;
-    const sin = Math.sin(a) * dpr;
-    ctx.setTransform(cos, sin, -sin, cos, x * dpr, y * dpr);
+    const cos = Math.cos(a) * scale;
+    const sin = Math.sin(a) * scale;
+    ctx.setTransform(cos, sin, -sin, cos, px, py);
     ctx.fillStyle = ENDS_SENTENCE.has(mark) ? PINK : PAPER;
     ctx.fillText(mark, 0, 0);
   });
+}
+
+export interface SpiralExplorer {
+  zoomBy(factor: number): void;
+  reset(): void;
+  // The whole spiral at full resolution, whatever the current view
+  exportCanvas(): HTMLCanvasElement;
+}
+
+// The spiral as a map: wheel or pinch to zoom around the pointer, drag to pan,
+// + / - / arrow keys when focused. Redraws vectors at each zoom, so marks stay
+// sharp; the view is clamped so the spiral can't be dragged off screen.
+export function createSpiralExplorer(
+  canvas: HTMLCanvasElement,
+  marks: string[],
+  onChange: (zoom: number, percentThrough: number | null) => void
+): SpiralExplorer {
+  const layout = spiralLayout(marks.length, SPIRAL_SIZE, SPIRAL_SIZE);
+  const ctx = canvas.getContext('2d');
+  if (!ctx) throw new Error('This browser could not open a 2D canvas');
+  let zoom = MIN_ZOOM;
+  // Layout coordinates at the center of the view
+  let centerX = SPIRAL_SIZE / 2;
+  let centerY = SPIRAL_SIZE / 2;
+  let frame = 0;
+
+  const cssSize = () => canvas.clientWidth || SPIRAL_SIZE;
+  const dpr = () => Math.min(window.devicePixelRatio || 1, 2);
+  const unitsPerCssPixel = () => SPIRAL_SIZE / cssSize() / zoom;
+
+  const clamp = () => {
+    zoom = Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, zoom));
+    const half = SPIRAL_SIZE / 2 / zoom;
+    centerX = Math.min(SPIRAL_SIZE - half, Math.max(half, centerX));
+    centerY = Math.min(SPIRAL_SIZE - half, Math.max(half, centerY));
+  };
+
+  // How far through the book the mark nearest the view's center is
+  const percentAtCenter = (): number | null => {
+    if (zoom < 2) return null;
+    let best = -1;
+    let bestDist = Infinity;
+    layout.points.forEach((p, i) => {
+      const d = (p.x - centerX) ** 2 + (p.y - centerY) ** 2;
+      if (d < bestDist) {
+        bestDist = d;
+        best = i;
+      }
+    });
+    const reach = (layout.fontSize * 4) ** 2;
+    return best >= 0 && bestDist < reach ? (best / Math.max(marks.length - 1, 1)) * 100 : null;
+  };
+
+  const render = () => {
+    frame = 0;
+    const size = Math.round(cssSize() * dpr());
+    if (canvas.width !== size || canvas.height !== size) {
+      canvas.width = size;
+      canvas.height = size;
+    }
+    const scale = (size / SPIRAL_SIZE) * zoom;
+    paintSpiral(ctx, marks, layout, scale, size / 2 - centerX * scale, size / 2 - centerY * scale, size, size);
+    onChange(zoom, percentAtCenter());
+  };
+  const schedule = () => {
+    if (!frame) frame = requestAnimationFrame(render);
+  };
+
+  // Zoom by `factor`, keeping the layout point under (cssX, cssY) fixed.
+  const zoomAt = (factor: number, cssX: number, cssY: number) => {
+    const before = unitsPerCssPixel();
+    const anchorX = centerX + (cssX - cssSize() / 2) * before;
+    const anchorY = centerY + (cssY - cssSize() / 2) * before;
+    zoom *= factor;
+    clamp();
+    const after = unitsPerCssPixel();
+    centerX = anchorX - (cssX - cssSize() / 2) * after;
+    centerY = anchorY - (cssY - cssSize() / 2) * after;
+    clamp();
+    schedule();
+  };
+  const panBy = (dxCss: number, dyCss: number) => {
+    centerX -= dxCss * unitsPerCssPixel();
+    centerY -= dyCss * unitsPerCssPixel();
+    clamp();
+    schedule();
+  };
+  const local = (e: { clientX: number; clientY: number }) => {
+    const r = canvas.getBoundingClientRect();
+    return { x: e.clientX - r.left, y: e.clientY - r.top };
+  };
+
+  canvas.addEventListener(
+    'wheel',
+    e => {
+      e.preventDefault();
+      const { x, y } = local(e);
+      zoomAt(Math.exp(-e.deltaY * (e.ctrlKey ? 0.01 : 0.002)), x, y);
+    },
+    { passive: false }
+  );
+
+  // Pointer drag pans; two pointers pinch-zoom around their midpoint.
+  const pointers = new Map<number, { x: number; y: number }>();
+  let pinchDistance = 0;
+  canvas.addEventListener('pointerdown', e => {
+    canvas.setPointerCapture(e.pointerId);
+    pointers.set(e.pointerId, local(e));
+    pinchDistance = 0;
+  });
+  canvas.addEventListener('pointermove', e => {
+    const previous = pointers.get(e.pointerId);
+    if (!previous) return;
+    const now = local(e);
+    pointers.set(e.pointerId, now);
+    if (pointers.size === 1) {
+      panBy(now.x - previous.x, now.y - previous.y);
+    } else if (pointers.size === 2) {
+      const [a, b] = [...pointers.values()] as [{ x: number; y: number }, { x: number; y: number }];
+      const distance = Math.hypot(a.x - b.x, a.y - b.y);
+      if (pinchDistance > 0) zoomAt(distance / pinchDistance, (a.x + b.x) / 2, (a.y + b.y) / 2);
+      pinchDistance = distance;
+    }
+  });
+  const release = (e: PointerEvent) => {
+    pointers.delete(e.pointerId);
+    pinchDistance = 0;
+  };
+  canvas.addEventListener('pointerup', release);
+  canvas.addEventListener('pointercancel', release);
+  canvas.addEventListener('dblclick', e => {
+    const { x, y } = local(e);
+    zoomAt(e.shiftKey ? 0.5 : 2, x, y);
+  });
+  canvas.addEventListener('keydown', e => {
+    const step = cssSize() * 0.15;
+    const mid = cssSize() / 2;
+    const actions: Record<string, () => void> = {
+      '+': () => zoomAt(1.5, mid, mid),
+      '=': () => zoomAt(1.5, mid, mid),
+      '-': () => zoomAt(1 / 1.5, mid, mid),
+      '0': () => explorer.reset(),
+      ArrowLeft: () => panBy(step, 0),
+      ArrowRight: () => panBy(-step, 0),
+      ArrowUp: () => panBy(0, step),
+      ArrowDown: () => panBy(0, -step),
+    };
+    const action = actions[e.key];
+    if (action) {
+      e.preventDefault();
+      action();
+    }
+  });
+  new ResizeObserver(schedule).observe(canvas);
+
+  const explorer: SpiralExplorer = {
+    zoomBy: factor => zoomAt(factor, cssSize() / 2, cssSize() / 2),
+    reset: () => {
+      zoom = MIN_ZOOM;
+      centerX = centerY = SPIRAL_SIZE / 2;
+      schedule();
+    },
+    exportCanvas: () => {
+      const out = document.createElement('canvas');
+      const size = SPIRAL_SIZE * 2;
+      out.width = out.height = size;
+      const outCtx = out.getContext('2d');
+      if (!outCtx) throw new Error('This browser could not open a 2D canvas');
+      paintSpiral(outCtx, marks, layout, size / SPIRAL_SIZE, 0, 0, size, size);
+      return out;
+    },
+  };
+  render();
+  return explorer;
 }
 
 export function drawScore(canvas: HTMLCanvasElement, marks: string[]): void {

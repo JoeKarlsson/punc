@@ -15,20 +15,41 @@
     <h1 id="book-title" class="book-title"></h1>
     <p id="book-byline" class="book-byline"></p>
     <dl class="stats">
-      <div><dt>marks</dt><dd id="stat-marks"></dd></div>
+      <div><dt>words removed</dt><dd id="stat-words"></dd></div>
+      <div><dt>marks left</dt><dd id="stat-marks"></dd></div>
       <div><dt>words a sentence</dt><dd id="stat-wps"></dd></div>
       <div><dt>most used mark</dt><dd id="stat-top" class="serif-mark"></dd></div>
     </dl>
   </header>
 
   <nav class="views" aria-label="Ways to look at it">
-    <button type="button" data-view="pages" aria-pressed="true">Pages</button>
+    <button type="button" data-view="score" aria-pressed="true">Score</button>
     <button type="button" data-view="spiral" aria-pressed="false">Spiral</button>
-    <button type="button" data-view="score" aria-pressed="false">Score</button>
+    <button type="button" data-view="pages" aria-pressed="false">Pages</button>
     <button type="button" data-view="counts" aria-pressed="false">Counts</button>
   </nav>
 
-  <section id="view-pages" class="view">
+  <section id="view-score" class="view">
+    <p class="view-note">Every mark in reading order, left to right, top to bottom. Sentence endings are pink.</p>
+    <canvas id="score-canvas" class="art"></canvas>
+    <button type="button" class="button" data-download="score">Download PNG</button>
+  </section>
+
+  <section id="view-spiral" class="view" hidden>
+    <p class="view-note">The whole book, wound from the center out. Sentence endings are pink. Scroll or pinch to zoom, drag to move around.</p>
+    <div class="explorer">
+      <canvas id="spiral-canvas" class="art explorer-canvas" tabindex="0" aria-label="Spiral of every mark in the book. Use plus and minus to zoom and the arrow keys to move."></canvas>
+      <p class="explorer-readout" id="spiral-readout" aria-live="polite"></p>
+    </div>
+    <div class="explorer-controls">
+      <button type="button" class="button" id="spiral-zoom-in" aria-label="Zoom in">+</button>
+      <button type="button" class="button" id="spiral-zoom-out" aria-label="Zoom out">-</button>
+      <button type="button" class="button" id="spiral-reset">Whole book</button>
+      <button type="button" class="button" data-download="spiral">Download PNG</button>
+    </div>
+  </section>
+
+  <section id="view-pages" class="view" hidden>
     <p class="view-note">Every letter and number is gone. The marks stay where they were on the page.</p>
     <div class="spread">
       <div class="page"><pre id="page-left"></pre><span class="folio" id="folio-left"></span></div>
@@ -39,18 +60,6 @@
       <input type="range" id="page-range" min="0" value="0" aria-label="Page">
       <button type="button" class="button" id="page-next">Turn</button>
     </div>
-  </section>
-
-  <section id="view-spiral" class="view" hidden>
-    <p class="view-note">The whole book, wound from the center out. Sentence endings are pink.</p>
-    <canvas id="spiral-canvas" class="art"></canvas>
-    <button type="button" class="button" data-download="spiral">Download PNG</button>
-  </section>
-
-  <section id="view-score" class="view" hidden>
-    <p class="view-note">Every mark in reading order, left to right, top to bottom. Sentence endings are pink.</p>
-    <canvas id="score-canvas" class="art"></canvas>
-    <button type="button" class="button" data-download="score">Download PNG</button>
   </section>
 
   <section id="view-counts" class="view" hidden>

@@ -1,4 +1,4 @@
-import { analyzeText, wordsPerSentence } from '../src/text';
+import { analyzeText, countWords, wordsPerSentence } from '../src/text';
 import { spiralLayout } from '../src/layout';
 import { analyzeBook, erasedPages, foldTypography } from '../site/src/analyze';
 
@@ -50,5 +50,11 @@ describe('spiralLayout', () => {
     const { points } = spiralLayout(500, 400, 400);
     expect(points).toHaveLength(500);
     expect(points.every(p => p.x > 0 && p.x < 400 && p.y > 0 && p.y < 400)).toBe(true);
+  });
+});
+
+describe('countWords', () => {
+  test('counts words with inner apostrophes as one', () => {
+    expect(countWords("It's late, isn't it? 42 cats.")).toBe(6);
   });
 });

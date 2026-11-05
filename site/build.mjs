@@ -46,7 +46,7 @@ for (const [i, meta] of catalog.entries()) {
         <span class="cover-marks" aria-hidden="true">${escapeHTML(sample)}</span>
         <span class="cover-label"><span class="cover-title">${escapeHTML(meta.title)}</span><span class="cover-author">${escapeHTML(meta.author)}</span></span>
       </a>
-      <p class="cover-meta">${book.marks.length.toLocaleString('en-US')} marks, ${book.wordsPerSentence.toFixed(1)} words a sentence</p>
+      <p class="cover-meta">${book.wordCount.toLocaleString('en-US')} words removed, ${book.marks.length.toLocaleString('en-US')} marks left</p>
     </li>`);
 }
 await writeFile(join(OUT, 'books.json'), JSON.stringify(catalog));

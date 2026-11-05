@@ -168,6 +168,17 @@ test('pages turn with the buttons and the arrow keys', async ({ page }) => {
   await expect(page.locator('#page-left')).not.toHaveText(/[A-Za-z]/);
 });
 
+test('copy the marks puts only the punctuation on the clipboard', async ({ page, context }) => {
+  await context.grantPermissions(['clipboard-read', 'clipboard-write']);
+  await openBook(page, 'alice');
+  await page.getByRole('button', { name: 'Copy the marks' }).click();
+  await expect(page.getByRole('button', { name: 'Copied 8,076 marks' })).toBeVisible();
+  const copied = await page.evaluate(() => navigator.clipboard.readText());
+  expect([...copied]).toHaveLength(8076);
+  expect(copied).not.toMatch(/[A-Za-z0-9\s]/);
+  expect(copied.slice(0, 40)).toMatch(/^[.,;:'"!?()\-\[\]*_]+$/);
+});
+
 test('the counts list every mark, most used first', async ({ page }) => {
   await openBook(page, 'alice');
   await page.getByRole('button', { name: 'Counts', exact: true }).click();

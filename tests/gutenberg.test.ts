@@ -1,5 +1,6 @@
 // @ts-expect-error: plain ESM maintenance script, no type declarations
-import { parseAuthor, parseCSV, stripGutenberg } from '../site/scripts/fetch-books.mjs';
+import { parseAuthor, parseCSV, publicationOf, stripGutenberg } from '../site/scripts/fetch-books.mjs';
+import catalog from '../site/catalog.json';
 
 describe('Gutenberg catalog parsing', () => {
   test('parseCSV handles quoted commas, doubled quotes and newlines', () => {
@@ -10,13 +11,24 @@ describe('Gutenberg catalog parsing', () => {
   });
 
   test.each([
-    ['Austen, Jane, 1775-1817', 'Jane Austen', 1775],
-    ['Fitzgerald, F. Scott (Francis Scott), 1896-1940', 'F. Scott Fitzgerald', 1896],
-    ['Tolstoy, Leo, graf, 1828-1910; Maude, Aylmer [Translator]', 'Leo Tolstoy', 1828],
-    ['Plato, 428? BCE-348? BCE; Jowett, Benjamin [Translator]', 'Plato', -428],
-    ['', 'Anonymous', null],
-  ])('parseAuthor(%s)', (raw, name, born) => {
-    expect(parseAuthor(raw)).toMatchObject({ name, born });
+    ['Austen, Jane, 1775-1817', 'Jane Austen'],
+    ['Fitzgerald, F. Scott (Francis Scott), 1896-1940', 'F. Scott Fitzgerald'],
+    ['Tolstoy, Leo, graf, 1828-1910; Maude, Aylmer [Translator]', 'Leo Tolstoy'],
+    ['Plato, 428? BCE-348? BCE; Jowett, Benjamin [Translator]', 'Plato'],
+    ['', 'Anonymous'],
+  ])('parseAuthor(%s)', (raw, name) => {
+    expect(parseAuthor(raw)).toBe(name);
+  });
+
+  test('publicationOf gives a label and a sortable year', () => {
+    expect(publicationOf('84')).toEqual({ published: '1818', publishedSort: 1818 });
+    expect(publicationOf('1497')).toEqual({ published: 'c. 375 BCE', publishedSort: -375 });
+    expect(publicationOf('2148')).toEqual({ published: null, publishedSort: null });
+    expect(() => publicationOf('999999')).toThrow('add it to PUBLISHED');
+  });
+
+  test('every book on the shelf has a publication entry', () => {
+    for (const book of catalog) expect(() => publicationOf(String(book.id))).not.toThrow();
   });
 
   test('stripGutenberg keeps only the book between the markers', () => {

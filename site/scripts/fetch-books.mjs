@@ -37,6 +37,7 @@ const TITLES = {
   '6761': 'Ferdinand Count Fathom',
   '6593': 'Tom Jones',
   '33283': 'Calculus Made Easy',
+  '49008': 'The Works of William Shakespeare, Volume 8',
 };
 const AUTHORS = {
   '2680': 'Marcus Aurelius',
@@ -46,6 +47,39 @@ const AUTHORS = {
   '84': 'Mary Shelley',
   '45188': 'Sun Yat-sen',
 };
+// The year each book first appeared, as it's usually cited (Gutenberg's own
+// "Issued" date is when the ebook was added). Ancient and medieval works get
+// an approximate label and a sortable year; collected-works volumes have none.
+// Checked against Wikidata, which has dates for about two thirds of these.
+export const PUBLISHED = {
+  '1342': 1813, '84': 1818, '2701': 1851, '11': 1865, '1661': 1892, '345': 1897,
+  '98': 1859, '1513': 1597, '145': 1871, '174': 1890, '43': 1886, '1260': 1847,
+  '64317': 1925, '2554': 1866, '1232': 1532, '41': 1820, '5200': 1915, '205': 1854,
+  '1400': 1861, '2680': ['c. 180', 180], '1952': 1892, '1184': 1844, '2641': 1908,
+  '37106': 1868, '74': 1876, '2600': 1869, '1080': 1729, '67979': 1926,
+  '1727': ['8th century BCE', -750], '844': 1895, '768': 1847, '3207': 1651,
+  '46': 1843, '16389': 1922, '394': 1853, '55': 1900, '25344': 1850, '76': 1884,
+  '120': 1883, '6593': 1749, '2160': 1771, '45': 1908, '49008': null, '1259': 1845,
+  '4300': 1922, '6761': 1753, '35': 1895, '2591': 1812, '2542': 1879, '4085': 1748,
+  '16328': ['c. 1000', 1000], '5197': 1911, '161': 1811, '23': 1845,
+  '3296': ['c. 400', 400], '1497': ['c. 375 BCE', -375], '8492': 1895, '158': 1815,
+  '1998': 1883, '7370': 1689, '28054': 1880, '219': 1899, '4363': 1886, '408': 1903,
+  '34901': 1859, '132': ['5th century BCE', -500], '36': 1898, '3300': 1776,
+  '1228': 1859, '16': 1911, '20203': 1791, '2852': 1902, '135': 1862, '45188': 1922,
+  '244': 1887, '67098': 1926, '829': 1726, '36034': 1918, '2148': null, '996': 1605,
+  '27827': ['3rd century', 250], '1399': 1878, '10007': 1872, '8800': ['c. 1320', 1320],
+  '2814': 1914, '12': 1871, '1079': 1759, '12242': 1890, '67138': 1926,
+};
+
+// { published: '1818', publishedSort: 1818 }, or nulls when there's no single year
+export function publicationOf(id) {
+  if (!(id in PUBLISHED)) throw new Error(`No publication year for Gutenberg #${id}; add it to PUBLISHED`);
+  const value = PUBLISHED[id];
+  if (value === null) return { published: null, publishedSort: null };
+  if (Array.isArray(value)) return { published: value[0], publishedSort: value[1] };
+  return { published: String(value), publishedSort: value };
+}
+
 // Slugs already shared, kept stable
 const SLUGS = {
   '11': 'alice',
@@ -98,17 +132,14 @@ export function parseCSV(text) {
   return rows;
 }
 
-// "Fitzgerald, F. Scott (Francis Scott), 1896-1940" -> name and life years
+// "Fitzgerald, F. Scott (Francis Scott), 1896-1940" -> "F. Scott Fitzgerald"
 export function parseAuthor(authors) {
   const first = (authors.split(';')[0] ?? '').replace(/\s*\[[^\]]*\]/g, '').replace(/\s*\([^)]*\)/g, '').trim();
-  const parts = first.split(', ').map(s => s.trim()).filter(Boolean);
-  const dates = parts.find(p => /\d/.test(p));
-  const names = parts.filter(p => !/\d/.test(p) && !/^(graf|Saint|Emperor of Rome|active .*)$/.test(p));
-  const name = names.length >= 2 ? `${names[1]} ${names[0]}` : (names[0] ?? 'Anonymous');
-  const years = dates?.match(/(\d+)\??(?: BCE)?-(\d+)?/);
-  const bce = /BCE/.test(dates ?? '');
-  const born = years ? Number(years[1]) * (bce ? -1 : 1) : null;
-  return { name, born, lifespan: dates ? dates.replace(/-/g, '–') : '' };
+  const names = first
+    .split(', ')
+    .map(part => part.trim())
+    .filter(part => part && !/\d/.test(part) && !/^(graf|Saint|Emperor of Rome|active .*)$/.test(part));
+  return names.length >= 2 ? `${names[1]} ${names[0]}` : (names[0] ?? 'Anonymous');
 }
 
 export function stripGutenberg(text) {
@@ -143,8 +174,7 @@ async function main() {
     if (type !== 'Text' || language !== 'en' || SKIP_SHELVES.test(shelves)) { console.warn(`skip ${id}: ${type} ${language} ${rawTitle.slice(0, 30)}`); continue; }
     const title = TITLES[id] ?? rawTitle.split(/[;:\n]| — /)[0].replace(/,?\s*Complete$/, '').trim();
     if (seenTitles.has(title)) { console.warn(`skip ${id}: duplicate edition of ${title}`); continue; }
-    const author = parseAuthor(authors);
-    if (AUTHORS[id]) author.name = AUTHORS[id];
+    const author = AUTHORS[id] ?? parseAuthor(authors);
     const slug = SLUGS[id] ?? slugify(title);
 
     const textPath = `site/books/${slug}.txt.gz`;
@@ -178,14 +208,13 @@ async function main() {
       id: Number(id),
       slug,
       title,
-      author: author.name,
-      lifespan: author.lifespan,
-      born: author.born,
+      author,
       genres: GENRES.filter(([, re]) => re.test(shelves)).map(([g]) => g),
+      ...publicationOf(id),
       rank: ranked.includes(id) ? ranked.indexOf(id) + 1 : null,
       cover,
     });
-    console.log(`${catalog.length}. ${title} (${author.name})`);
+    console.log(`${catalog.length}. ${title} (${author})`);
   }
   await writeFile('site/catalog.json', JSON.stringify(catalog, null, 2) + '\n');
   console.log(`Wrote ${catalog.length} books to site/catalog.json`);

@@ -520,6 +520,17 @@ main {
   transform: rotate(2deg);
 }
 
+/* The poster links to the book on Project Gutenberg */
+.book-poster {
+  display: block;
+  transition: transform 0.2s ease-out;
+}
+
+.book-poster:hover,
+.book-poster:focus-visible {
+  transform: rotate(0deg) scale(1.02);
+}
+
 .book-title {
   grid-area: title;
   margin: 0;

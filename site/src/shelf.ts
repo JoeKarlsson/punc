@@ -11,7 +11,7 @@ interface Card {
   rank: number;
   title: string;
   authorSort: string;
-  born: number;
+  published: number;
   words: number;
   wps: number;
   density: number;
@@ -21,7 +21,8 @@ const SORTS: Record<string, (a: Card, b: Card) => number> = {
   popular: (a, b) => a.rank - b.rank,
   title: (a, b) => a.title.localeCompare(b.title),
   author: (a, b) => a.authorSort.localeCompare(b.authorSort) || a.title.localeCompare(b.title),
-  oldest: (a, b) => a.born - b.born,
+  oldest: (a, b) => a.published - b.published,
+  newest: (a, b) => (b.published === 99999 ? -Infinity : b.published) - (a.published === 99999 ? -Infinity : a.published),
   density: (a, b) => b.density - a.density,
   'long-sentences': (a, b) => b.wps - a.wps,
   'short-sentences': (a, b) => a.wps - b.wps,
@@ -55,7 +56,7 @@ function setUpShelf(): void {
       rank: Number(d['rank']),
       title: d['title'] ?? '',
       authorSort: d['authorSort'] ?? '',
-      born: Number(d['born']),
+      published: Number(d['published']),
       words: Number(d['words']),
       wps: Number(d['wps']),
       density: Number(d['density']),

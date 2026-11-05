@@ -4,12 +4,12 @@
     "slug": "pride-and-prejudice",
     "title": "Pride and Prejudice",
     "author": "Jane Austen",
-    "lifespan": "1775–1817",
-    "born": 1775,
     "genres": [
       "Novels",
       "Romance"
     ],
+    "published": "1813",
+    "publishedSort": 1813,
     "rank": 1,
     "cover": true
   },
@@ -18,13 +18,13 @@
     "slug": "frankenstein",
     "title": "Frankenstein",
     "author": "Mary Shelley",
-    "lifespan": "1797–1851",
-    "born": 1797,
     "genres": [
       "Novels",
       "Science fiction and fantasy",
       "Horror and gothic"
     ],
+    "published": "1818",
+    "publishedSort": 1818,
     "rank": 2,
     "cover": true
   },
@@ -33,12 +33,12 @@
     "slug": "moby-dick",
     "title": "Moby-Dick",
     "author": "Herman Melville",
-    "lifespan": "1819–1891",
-    "born": 1819,
     "genres": [
       "Novels",
       "Adventure"
     ],
+    "published": "1851",
+    "publishedSort": 1851,
     "rank": 3,
     "cover": true
   },
@@ -47,12 +47,12 @@
     "slug": "alice",
     "title": "Alice's Adventures in Wonderland",
     "author": "Lewis Carroll",
-    "lifespan": "1832–1898",
-    "born": 1832,
     "genres": [
       "Novels",
       "Children's"
     ],
+    "published": "1865",
+    "publishedSort": 1865,
     "rank": 4,
     "cover": true
   },
@@ -61,12 +61,12 @@
     "slug": "the-adventures-of-sherlock-holmes",
     "title": "The Adventures of Sherlock Holmes",
     "author": "Arthur Conan Doyle",
-    "lifespan": "1859–1930",
-    "born": 1859,
     "genres": [
       "Short stories",
       "Mystery and crime"
     ],
+    "published": "1892",
+    "publishedSort": 1892,
     "rank": 5,
     "cover": true
   },
@@ -75,14 +75,14 @@
     "slug": "dracula",
     "title": "Dracula",
     "author": "Bram Stoker",
-    "lifespan": "1847–1912",
-    "born": 1847,
     "genres": [
       "Novels",
       "Science fiction and fantasy",
       "Horror and gothic",
       "Mystery and crime"
     ],
+    "published": "1897",
+    "publishedSort": 1897,
     "rank": 6,
     "cover": true
   },
@@ -91,9 +91,9 @@
     "slug": "a-tale-of-two-cities",
     "title": "A Tale of Two Cities",
     "author": "Charles Dickens",
-    "lifespan": "1812–1870",
-    "born": 1812,
     "genres": [],
+    "published": "1859",
+    "publishedSort": 1859,
     "rank": 8,
     "cover": true
   },
@@ -102,12 +102,12 @@
     "slug": "romeo-and-juliet",
     "title": "Romeo and Juliet",
     "author": "William Shakespeare",
-    "lifespan": "1564–1616",
-    "born": 1564,
     "genres": [
       "Plays",
       "Romance"
     ],
+    "published": "1597",
+    "publishedSort": 1597,
     "rank": 10,
     "cover": true
   },
@@ -116,11 +116,11 @@
     "slug": "middlemarch",
     "title": "Middlemarch",
     "author": "George Eliot",
-    "lifespan": "1819–1880",
-    "born": 1819,
     "genres": [
       "Novels"
     ],
+    "published": "1871",
+    "publishedSort": 1871,
     "rank": 11,
     "cover": true
   },
@@ -129,12 +129,12 @@
     "slug": "the-picture-of-dorian-gray",
     "title": "The Picture of Dorian Gray",
     "author": "Oscar Wilde",
-    "lifespan": "1854–1900",
-    "born": 1854,
     "genres": [
       "Novels",
       "Horror and gothic"
     ],
+    "published": "1890",
+    "publishedSort": 1890,
     "rank": 12,
     "cover": true
   },
@@ -143,14 +143,14 @@
     "slug": "the-strange-case-of-dr-jekyll-and-mr-hyde",
     "title": "The strange case of Dr. Jekyll and Mr. Hyde",
     "author": "Robert Louis Stevenson",
-    "lifespan": "1850–1894",
-    "born": 1850,
     "genres": [
       "Novels",
       "Science fiction and fantasy",
       "Horror and gothic",
       "Mystery and crime"
     ],
+    "published": "1886",
+    "publishedSort": 1886,
     "rank": 13,
     "cover": true
   },
@@ -159,12 +159,12 @@
     "slug": "jane-eyre",
     "title": "Jane Eyre",
     "author": "Charlotte Brontë",
-    "lifespan": "1816–1855",
-    "born": 1816,
     "genres": [
       "Novels",
       "Romance"
     ],
+    "published": "1847",
+    "publishedSort": 1847,
     "rank": 14,
     "cover": true
   },
@@ -173,11 +173,11 @@
     "slug": "the-great-gatsby",
     "title": "The Great Gatsby",
     "author": "F. Scott Fitzgerald",
-    "lifespan": "1896–1940",
-    "born": 1896,
     "genres": [
       "Novels"
     ],
+    "published": "1925",
+    "publishedSort": 1925,
     "rank": 15,
     "cover": true
   },
@@ -186,12 +186,12 @@
     "slug": "crime-and-punishment",
     "title": "Crime and Punishment",
     "author": "Fyodor Dostoyevsky",
-    "lifespan": "1821–1881",
-    "born": 1821,
     "genres": [
       "Novels",
       "Mystery and crime"
     ],
+    "published": "1866",
+    "publishedSort": 1866,
     "rank": 16,
     "cover": true
   },
@@ -200,12 +200,12 @@
     "slug": "the-prince",
     "title": "The Prince",
     "author": "Niccolò Machiavelli",
-    "lifespan": "1469–1527",
-    "born": 1469,
     "genres": [
       "Philosophy and ideas",
       "History and lives"
     ],
+    "published": "1532",
+    "publishedSort": 1532,
     "rank": 17,
     "cover": true
   },
@@ -214,12 +214,12 @@
     "slug": "the-legend-of-sleepy-hollow",
     "title": "The Legend of Sleepy Hollow",
     "author": "Washington Irving",
-    "lifespan": "1783–1859",
-    "born": 1783,
     "genres": [
       "Short stories",
       "Children's"
     ],
+    "published": "1820",
+    "publishedSort": 1820,
     "rank": 18,
     "cover": true
   },
@@ -228,12 +228,12 @@
     "slug": "metamorphosis",
     "title": "Metamorphosis",
     "author": "Franz Kafka",
-    "lifespan": "1883–1924",
-    "born": 1883,
     "genres": [
       "Novels",
       "Horror and gothic"
     ],
+    "published": "1915",
+    "publishedSort": 1915,
     "rank": 19,
     "cover": true
   },
@@ -242,11 +242,11 @@
     "slug": "walden-and-on-the-duty-of-civil-disobedience",
     "title": "Walden, and On The Duty Of Civil Disobedience",
     "author": "Henry David Thoreau",
-    "lifespan": "1817–1862",
-    "born": 1817,
     "genres": [
       "Philosophy and ideas"
     ],
+    "published": "1854",
+    "publishedSort": 1854,
     "rank": 20,
     "cover": true
   },
@@ -255,11 +255,11 @@
     "slug": "great-expectations",
     "title": "Great Expectations",
     "author": "Charles Dickens",
-    "lifespan": "1812–1870",
-    "born": 1812,
     "genres": [
       "Novels"
     ],
+    "published": "1861",
+    "publishedSort": 1861,
     "rank": 21,
     "cover": true
   },
@@ -268,12 +268,12 @@
     "slug": "meditations",
     "title": "Meditations",
     "author": "Marcus Aurelius",
-    "lifespan": "121–180",
-    "born": 121,
     "genres": [
       "Philosophy and ideas",
       "History and lives"
     ],
+    "published": "c. 180",
+    "publishedSort": 180,
     "rank": 22,
     "cover": true
   },
@@ -282,12 +282,12 @@
     "slug": "the-yellow-wallpaper",
     "title": "The Yellow Wallpaper",
     "author": "Charlotte Perkins Gilman",
-    "lifespan": "1860–1935",
-    "born": 1860,
     "genres": [
       "Short stories",
       "Horror and gothic"
     ],
+    "published": "1892",
+    "publishedSort": 1892,
     "rank": 23,
     "cover": true
   },
@@ -296,12 +296,12 @@
     "slug": "the-count-of-monte-cristo",
     "title": "The Count of Monte Cristo",
     "author": "Alexandre Dumas",
-    "lifespan": "1802–1870",
-    "born": 1802,
     "genres": [
       "Novels",
       "Adventure"
     ],
+    "published": "1844",
+    "publishedSort": 1844,
     "rank": 24,
     "cover": true
   },
@@ -310,12 +310,12 @@
     "slug": "a-room-with-a-view",
     "title": "A Room with a View",
     "author": "E. M. Forster",
-    "lifespan": "1879–1970",
-    "born": 1879,
     "genres": [
       "Novels",
       "Romance"
     ],
+    "published": "1908",
+    "publishedSort": 1908,
     "rank": 25,
     "cover": true
   },
@@ -324,12 +324,12 @@
     "slug": "little-women",
     "title": "Little Women",
     "author": "Louisa May Alcott",
-    "lifespan": "1832–1888",
-    "born": 1832,
     "genres": [
       "Novels",
       "Children's"
     ],
+    "published": "1868",
+    "publishedSort": 1868,
     "rank": 26,
     "cover": true
   },
@@ -338,12 +338,12 @@
     "slug": "the-adventures-of-tom-sawyer",
     "title": "The Adventures of Tom Sawyer",
     "author": "Mark Twain",
-    "lifespan": "1835–1910",
-    "born": 1835,
     "genres": [
       "Novels",
       "Adventure"
     ],
+    "published": "1876",
+    "publishedSort": 1876,
     "rank": 27,
     "cover": true
   },
@@ -352,11 +352,11 @@
     "slug": "war-and-peace",
     "title": "War and Peace",
     "author": "Leo Tolstoy",
-    "lifespan": "1828–1910",
-    "born": 1828,
     "genres": [
       "Novels"
     ],
+    "published": "1869",
+    "publishedSort": 1869,
     "rank": 28,
     "cover": true
   },
@@ -365,11 +365,11 @@
     "slug": "a-modest-proposal",
     "title": "A Modest Proposal",
     "author": "Jonathan Swift",
-    "lifespan": "1667–1745",
-    "born": 1667,
     "genres": [
       "Philosophy and ideas"
     ],
+    "published": "1729",
+    "publishedSort": 1729,
     "rank": 29,
     "cover": true
   },
@@ -378,12 +378,12 @@
     "slug": "the-blue-castle",
     "title": "The Blue Castle",
     "author": "L. M. Montgomery",
-    "lifespan": "1874–1942",
-    "born": 1874,
     "genres": [
       "Novels",
       "Romance"
     ],
+    "published": "1926",
+    "publishedSort": 1926,
     "rank": 30,
     "cover": true
   },
@@ -392,11 +392,11 @@
     "slug": "the-odyssey",
     "title": "The Odyssey",
     "author": "Homer",
-    "lifespan": "751? BCE–651? BCE",
-    "born": -751,
     "genres": [
       "Poetry"
     ],
+    "published": "8th century BCE",
+    "publishedSort": -750,
     "rank": 31,
     "cover": true
   },
@@ -405,11 +405,11 @@
     "slug": "the-importance-of-being-earnest",
     "title": "The Importance of Being Earnest",
     "author": "Oscar Wilde",
-    "lifespan": "1854–1900",
-    "born": 1854,
     "genres": [
       "Plays"
     ],
+    "published": "1895",
+    "publishedSort": 1895,
     "rank": 32,
     "cover": true
   },
@@ -418,12 +418,12 @@
     "slug": "wuthering-heights",
     "title": "Wuthering Heights",
     "author": "Emily Brontë",
-    "lifespan": "1818–1848",
-    "born": 1818,
     "genres": [
       "Novels",
       "Horror and gothic"
     ],
+    "published": "1847",
+    "publishedSort": 1847,
     "rank": 33,
     "cover": true
   },
@@ -432,12 +432,12 @@
     "slug": "leviathan",
     "title": "Leviathan",
     "author": "Thomas Hobbes",
-    "lifespan": "1588–1679",
-    "born": 1588,
     "genres": [
       "Philosophy and ideas",
       "History and lives"
     ],
+    "published": "1651",
+    "publishedSort": 1651,
     "rank": 34,
     "cover": true
   },
@@ -446,12 +446,12 @@
     "slug": "a-christmas-carol",
     "title": "A Christmas Carol",
     "author": "Charles Dickens",
-    "lifespan": "1812–1870",
-    "born": 1812,
     "genres": [
       "Novels",
       "Children's"
     ],
+    "published": "1843",
+    "publishedSort": 1843,
     "rank": 35,
     "cover": true
   },
@@ -460,11 +460,11 @@
     "slug": "the-enchanted-april",
     "title": "The Enchanted April",
     "author": "Elizabeth Von Arnim",
-    "lifespan": "1866–1941",
-    "born": 1866,
     "genres": [
       "Novels"
     ],
+    "published": "1922",
+    "publishedSort": 1922,
     "rank": 36,
     "cover": true
   },
@@ -473,11 +473,11 @@
     "slug": "cranford",
     "title": "Cranford",
     "author": "Elizabeth Cleghorn Gaskell",
-    "lifespan": "1810–1865",
-    "born": 1810,
     "genres": [
       "Novels"
     ],
+    "published": "1853",
+    "publishedSort": 1853,
     "rank": 37,
     "cover": true
   },
@@ -486,13 +486,13 @@
     "slug": "the-wonderful-wizard-of-oz",
     "title": "The Wonderful Wizard of Oz",
     "author": "L. Frank Baum",
-    "lifespan": "1856–1919",
-    "born": 1856,
     "genres": [
       "Children's",
       "Science fiction and fantasy",
       "Adventure"
     ],
+    "published": "1900",
+    "publishedSort": 1900,
     "rank": 38,
     "cover": true
   },
@@ -501,11 +501,11 @@
     "slug": "the-scarlet-letter",
     "title": "The Scarlet Letter",
     "author": "Nathaniel Hawthorne",
-    "lifespan": "1804–1864",
-    "born": 1804,
     "genres": [
       "Novels"
     ],
+    "published": "1850",
+    "publishedSort": 1850,
     "rank": 39,
     "cover": true
   },
@@ -514,12 +514,12 @@
     "slug": "adventures-of-huckleberry-finn",
     "title": "Adventures of Huckleberry Finn",
     "author": "Mark Twain",
-    "lifespan": "1835–1910",
-    "born": 1835,
     "genres": [
       "Novels",
       "Adventure"
     ],
+    "published": "1884",
+    "publishedSort": 1884,
     "rank": 40,
     "cover": true
   },
@@ -528,13 +528,13 @@
     "slug": "treasure-island",
     "title": "Treasure Island",
     "author": "Robert Louis Stevenson",
-    "lifespan": "1850–1894",
-    "born": 1850,
     "genres": [
       "Novels",
       "Children's",
       "Adventure"
     ],
+    "published": "1883",
+    "publishedSort": 1883,
     "rank": 41,
     "cover": true
   },
@@ -543,11 +543,11 @@
     "slug": "tom-jones",
     "title": "Tom Jones",
     "author": "Henry Fielding",
-    "lifespan": "1707–1754",
-    "born": 1707,
     "genres": [
       "Novels"
     ],
+    "published": "1749",
+    "publishedSort": 1749,
     "rank": 42,
     "cover": true
   },
@@ -556,12 +556,12 @@
     "slug": "the-expedition-of-humphry-clinker",
     "title": "The Expedition of Humphry Clinker",
     "author": "T. Smollett",
-    "lifespan": "1721–1771",
-    "born": 1721,
     "genres": [
       "Novels",
       "Philosophy and ideas"
     ],
+    "published": "1771",
+    "publishedSort": 1771,
     "rank": 43,
     "cover": true
   },
@@ -570,25 +570,25 @@
     "slug": "anne-of-green-gables",
     "title": "Anne of Green Gables",
     "author": "L. M. Montgomery",
-    "lifespan": "1874–1942",
-    "born": 1874,
     "genres": [
       "Novels",
       "Children's"
     ],
+    "published": "1908",
+    "publishedSort": 1908,
     "rank": 44,
     "cover": true
   },
   {
     "id": 49008,
     "slug": "the-works-of-william-shakespeare-cambridge-edition-vol-8-of-9",
-    "title": "The Works of William Shakespeare [Cambridge Edition] [Vol. 8 of 9]",
+    "title": "The Works of William Shakespeare, Volume 8",
     "author": "William Shakespeare",
-    "lifespan": "1564–1616",
-    "born": 1564,
     "genres": [
       "Plays"
     ],
+    "published": null,
+    "publishedSort": null,
     "rank": 45,
     "cover": true
   },
@@ -597,12 +597,12 @@
     "slug": "twenty-years-after",
     "title": "Twenty years after",
     "author": "Alexandre Dumas",
-    "lifespan": "1802–1870",
-    "born": 1802,
     "genres": [
       "Novels",
       "Adventure"
     ],
+    "published": "1845",
+    "publishedSort": 1845,
     "rank": 46,
     "cover": true
   },
@@ -611,11 +611,11 @@
     "slug": "ulysses",
     "title": "Ulysses",
     "author": "James Joyce",
-    "lifespan": "1882–1941",
-    "born": 1882,
     "genres": [
       "Novels"
     ],
+    "published": "1922",
+    "publishedSort": 1922,
     "rank": 47,
     "cover": true
   },
@@ -624,11 +624,11 @@
     "slug": "ferdinand-count-fathom",
     "title": "Ferdinand Count Fathom",
     "author": "T. Smollett",
-    "lifespan": "1721–1771",
-    "born": 1721,
     "genres": [
       "Novels"
     ],
+    "published": "1753",
+    "publishedSort": 1753,
     "rank": 48,
     "cover": true
   },
@@ -637,12 +637,12 @@
     "slug": "the-time-machine",
     "title": "The Time Machine",
     "author": "H. G. Wells",
-    "lifespan": "1866–1946",
-    "born": 1866,
     "genres": [
       "Novels",
       "Science fiction and fantasy"
     ],
+    "published": "1895",
+    "publishedSort": 1895,
     "rank": 49,
     "cover": true
   },
@@ -651,12 +651,12 @@
     "slug": "grimms-fairy-tales",
     "title": "Grimms' Fairy Tales",
     "author": "Jacob Grimm",
-    "lifespan": "1785–1863",
-    "born": 1785,
     "genres": [
       "Short stories",
       "Children's"
     ],
+    "published": "1812",
+    "publishedSort": 1812,
     "rank": 50,
     "cover": true
   },
@@ -665,11 +665,11 @@
     "slug": "a-dolls-house",
     "title": "A Doll's House",
     "author": "Henrik Ibsen",
-    "lifespan": "1828–1906",
-    "born": 1828,
     "genres": [
       "Plays"
     ],
+    "published": "1879",
+    "publishedSort": 1879,
     "rank": 51,
     "cover": true
   },
@@ -678,11 +678,11 @@
     "slug": "the-adventures-of-roderick-random",
     "title": "The Adventures of Roderick Random",
     "author": "T. Smollett",
-    "lifespan": "1721–1771",
-    "born": 1721,
     "genres": [
       "Novels"
     ],
+    "published": "1748",
+    "publishedSort": 1748,
     "rank": 52,
     "cover": true
   },
@@ -691,11 +691,11 @@
     "slug": "beowulf",
     "title": "Beowulf",
     "author": "Anonymous",
-    "lifespan": "1856–1928",
-    "born": 1856,
     "genres": [
       "Poetry"
     ],
+    "published": "c. 1000",
+    "publishedSort": 1000,
     "rank": 53,
     "cover": true
   },
@@ -704,11 +704,11 @@
     "slug": "my-life-volume-1",
     "title": "My Life, Volume 1",
     "author": "Richard Wagner",
-    "lifespan": "1813–1883",
-    "born": 1813,
     "genres": [
       "History and lives"
     ],
+    "published": "1911",
+    "publishedSort": 1911,
     "rank": 54,
     "cover": true
   },
@@ -717,12 +717,12 @@
     "slug": "sense-and-sensibility",
     "title": "Sense and Sensibility",
     "author": "Jane Austen",
-    "lifespan": "1775–1817",
-    "born": 1775,
     "genres": [
       "Novels",
       "Romance"
     ],
+    "published": "1811",
+    "publishedSort": 1811,
     "rank": 55,
     "cover": true
   },
@@ -731,11 +731,11 @@
     "slug": "narrative-of-the-life-of-frederick-douglass",
     "title": "Narrative of the Life of Frederick Douglass",
     "author": "Frederick Douglass",
-    "lifespan": "1818–1895",
-    "born": 1818,
     "genres": [
       "History and lives"
     ],
+    "published": "1845",
+    "publishedSort": 1845,
     "rank": 56,
     "cover": true
   },
@@ -744,12 +744,12 @@
     "slug": "the-confessions-of-st-augustine",
     "title": "The Confessions of St. Augustine",
     "author": "Saint Augustine",
-    "lifespan": "354–430",
-    "born": 354,
     "genres": [
       "Philosophy and ideas",
       "History and lives"
     ],
+    "published": "c. 400",
+    "publishedSort": 400,
     "rank": 57,
     "cover": true
   },
@@ -758,11 +758,11 @@
     "slug": "the-republic",
     "title": "The Republic",
     "author": "Plato",
-    "lifespan": "428? BCE–348? BCE",
-    "born": -428,
     "genres": [
       "Philosophy and ideas"
     ],
+    "published": "c. 375 BCE",
+    "publishedSort": -375,
     "rank": 59,
     "cover": true
   },
@@ -771,14 +771,14 @@
     "slug": "the-king-in-yellow",
     "title": "The King in Yellow",
     "author": "Robert W. Chambers",
-    "lifespan": "1865–1933",
-    "born": 1865,
     "genres": [
       "Short stories",
       "Science fiction and fantasy",
       "Horror and gothic",
       "Mystery and crime"
     ],
+    "published": "1895",
+    "publishedSort": 1895,
     "rank": 60,
     "cover": true
   },
@@ -787,11 +787,11 @@
     "slug": "emma",
     "title": "Emma",
     "author": "Jane Austen",
-    "lifespan": "1775–1817",
-    "born": 1775,
     "genres": [
       "Novels"
     ],
+    "published": "1815",
+    "publishedSort": 1815,
     "rank": 61,
     "cover": true
   },
@@ -800,11 +800,11 @@
     "slug": "thus-spake-zarathustra",
     "title": "Thus Spake Zarathustra",
     "author": "Friedrich Wilhelm Nietzsche",
-    "lifespan": "1844–1900",
-    "born": 1844,
     "genres": [
       "Philosophy and ideas"
     ],
+    "published": "1883",
+    "publishedSort": 1883,
     "rank": 62,
     "cover": true
   },
@@ -813,12 +813,12 @@
     "slug": "second-treatise-of-government",
     "title": "Second Treatise of Government",
     "author": "John Locke",
-    "lifespan": "1632–1704",
-    "born": 1632,
     "genres": [
       "Philosophy and ideas",
       "History and lives"
     ],
+    "published": "1689",
+    "publishedSort": 1689,
     "rank": 63,
     "cover": true
   },
@@ -827,11 +827,11 @@
     "slug": "the-brothers-karamazov",
     "title": "The Brothers Karamazov",
     "author": "Fyodor Dostoyevsky",
-    "lifespan": "1821–1881",
-    "born": 1821,
     "genres": [
       "Novels"
     ],
+    "published": "1880",
+    "publishedSort": 1880,
     "rank": 65,
     "cover": true
   },
@@ -840,11 +840,11 @@
     "slug": "heart-of-darkness",
     "title": "Heart of Darkness",
     "author": "Joseph Conrad",
-    "lifespan": "1857–1924",
-    "born": 1857,
     "genres": [
       "Novels"
     ],
+    "published": "1899",
+    "publishedSort": 1899,
     "rank": 66,
     "cover": true
   },
@@ -853,11 +853,11 @@
     "slug": "beyond-good-and-evil",
     "title": "Beyond Good and Evil",
     "author": "Friedrich Wilhelm Nietzsche",
-    "lifespan": "1844–1900",
-    "born": 1844,
     "genres": [
       "Philosophy and ideas"
     ],
+    "published": "1886",
+    "publishedSort": 1886,
     "rank": 67,
     "cover": true
   },
@@ -866,12 +866,12 @@
     "slug": "the-souls-of-black-folk",
     "title": "The Souls of Black Folk",
     "author": "W. E. B. Du Bois",
-    "lifespan": "1868–1963",
-    "born": 1868,
     "genres": [
       "Philosophy and ideas",
       "History and lives"
     ],
+    "published": "1903",
+    "publishedSort": 1903,
     "rank": 68,
     "cover": true
   },
@@ -880,11 +880,11 @@
     "slug": "on-liberty",
     "title": "On Liberty",
     "author": "John Stuart Mill",
-    "lifespan": "1806–1873",
-    "born": 1806,
     "genres": [
       "Philosophy and ideas"
     ],
+    "published": "1859",
+    "publishedSort": 1859,
     "rank": 69,
     "cover": true
   },
@@ -893,11 +893,11 @@
     "slug": "the-art-of-war",
     "title": "The Art of War",
     "author": "Sun Tzu",
-    "lifespan": "active 6th century B.C.",
-    "born": null,
     "genres": [
       "History and lives"
     ],
+    "published": "5th century BCE",
+    "publishedSort": -500,
     "rank": 70,
     "cover": true
   },
@@ -906,12 +906,12 @@
     "slug": "the-war-of-the-worlds",
     "title": "The war of the worlds",
     "author": "H. G. Wells",
-    "lifespan": "1866–1946",
-    "born": 1866,
     "genres": [
       "Novels",
       "Science fiction and fantasy"
     ],
+    "published": "1898",
+    "publishedSort": 1898,
     "rank": 71,
     "cover": true
   },
@@ -920,11 +920,11 @@
     "slug": "the-wealth-of-nations",
     "title": "The Wealth of Nations",
     "author": "Adam Smith",
-    "lifespan": "1723–1790",
-    "born": 1723,
     "genres": [
       "History and lives"
     ],
+    "published": "1776",
+    "publishedSort": 1776,
     "rank": 72,
     "cover": true
   },
@@ -933,9 +933,9 @@
     "slug": "on-the-origin-of-species",
     "title": "On the Origin of Species",
     "author": "Charles Darwin",
-    "lifespan": "1809–1882",
-    "born": 1809,
     "genres": [],
+    "published": "1859",
+    "publishedSort": 1859,
     "rank": 73,
     "cover": true
   },
@@ -944,13 +944,13 @@
     "slug": "peter-pan",
     "title": "Peter Pan",
     "author": "J. M. Barrie",
-    "lifespan": "1860–1937",
-    "born": 1860,
     "genres": [
       "Novels",
       "Children's",
       "Adventure"
     ],
+    "published": "1911",
+    "publishedSort": 1911,
     "rank": 74,
     "cover": true
   },
@@ -959,11 +959,11 @@
     "slug": "autobiography-of-benjamin-franklin",
     "title": "Autobiography of Benjamin Franklin",
     "author": "Benjamin Franklin",
-    "lifespan": "1706–1790",
-    "born": 1706,
     "genres": [
       "History and lives"
     ],
+    "published": "1791",
+    "publishedSort": 1791,
     "rank": 76,
     "cover": true
   },
@@ -972,12 +972,12 @@
     "slug": "the-hound-of-the-baskervilles",
     "title": "The Hound of the Baskervilles",
     "author": "Arthur Conan Doyle",
-    "lifespan": "1859–1930",
-    "born": 1859,
     "genres": [
       "Novels",
       "Mystery and crime"
     ],
+    "published": "1902",
+    "publishedSort": 1902,
     "rank": 77,
     "cover": true
   },
@@ -986,11 +986,11 @@
     "slug": "les-miserables",
     "title": "Les Misérables",
     "author": "Victor Hugo",
-    "lifespan": "1802–1885",
-    "born": 1802,
     "genres": [
       "Novels"
     ],
+    "published": "1862",
+    "publishedSort": 1862,
     "rank": 78,
     "cover": true
   },
@@ -999,12 +999,12 @@
     "slug": "the-international-development-of-china",
     "title": "The International Development of China",
     "author": "Sun Yat-sen",
-    "lifespan": "1866–1925",
-    "born": 1866,
     "genres": [
       "Philosophy and ideas",
       "History and lives"
     ],
+    "published": "1922",
+    "publishedSort": 1922,
     "rank": 79,
     "cover": true
   },
@@ -1013,12 +1013,12 @@
     "slug": "a-study-in-scarlet",
     "title": "A Study in Scarlet",
     "author": "Arthur Conan Doyle",
-    "lifespan": "1859–1930",
-    "born": 1859,
     "genres": [
       "Novels",
       "Mystery and crime"
     ],
+    "published": "1887",
+    "publishedSort": 1887,
     "rank": 81,
     "cover": true
   },
@@ -1027,12 +1027,12 @@
     "slug": "winnie-the-pooh",
     "title": "Winnie-the-Pooh",
     "author": "A. A. Milne",
-    "lifespan": "1882–1956",
-    "born": 1882,
     "genres": [
       "Novels",
       "Children's"
     ],
+    "published": "1926",
+    "publishedSort": 1926,
     "rank": 83,
     "cover": true
   },
@@ -1041,13 +1041,13 @@
     "slug": "gullivers-travels",
     "title": "Gulliver's Travels",
     "author": "Jonathan Swift",
-    "lifespan": "1667–1745",
-    "born": 1667,
     "genres": [
       "Novels",
       "Science fiction and fantasy",
       "Adventure"
     ],
+    "published": "1726",
+    "publishedSort": 1726,
     "rank": 84,
     "cover": true
   },
@@ -1056,11 +1056,11 @@
     "slug": "white-nights-and-other-stories",
     "title": "White nights, and other stories",
     "author": "Fyodor Dostoyevsky",
-    "lifespan": "1821–1881",
-    "born": 1821,
     "genres": [
       "Short stories"
     ],
+    "published": "1918",
+    "publishedSort": 1918,
     "rank": 85,
     "cover": true
   },
@@ -1069,13 +1069,13 @@
     "slug": "the-works-of-edgar-allan-poe-volume-2",
     "title": "The Works of Edgar Allan Poe, Volume 2",
     "author": "Edgar Allan Poe",
-    "lifespan": "1809–1849",
-    "born": 1809,
     "genres": [
       "Short stories",
       "Horror and gothic",
       "Mystery and crime"
     ],
+    "published": null,
+    "publishedSort": null,
     "rank": 86,
     "cover": true
   },
@@ -1084,11 +1084,11 @@
     "slug": "don-quixote",
     "title": "Don Quixote",
     "author": "Miguel de Cervantes Saavedra",
-    "lifespan": "1547–1616",
-    "born": 1547,
     "genres": [
       "Novels"
     ],
+    "published": "1605",
+    "publishedSort": 1605,
     "rank": 87,
     "cover": true
   },
@@ -1097,11 +1097,11 @@
     "slug": "the-kama-sutra",
     "title": "The Kama Sutra",
     "author": "Vatsyayana",
-    "lifespan": "",
-    "born": null,
     "genres": [
       "Philosophy and ideas"
     ],
+    "published": "3rd century",
+    "publishedSort": 250,
     "rank": 88,
     "cover": true
   },
@@ -1110,11 +1110,11 @@
     "slug": "anna-karenina",
     "title": "Anna Karenina",
     "author": "Leo Tolstoy",
-    "lifespan": "1828–1910",
-    "born": 1828,
     "genres": [
       "Novels"
     ],
+    "published": "1878",
+    "publishedSort": 1878,
     "rank": 90,
     "cover": true
   },
@@ -1123,13 +1123,13 @@
     "slug": "carmilla",
     "title": "Carmilla",
     "author": "Joseph Sheridan Le Fanu",
-    "lifespan": "1814–1873",
-    "born": 1814,
     "genres": [
       "Novels",
       "Science fiction and fantasy",
       "Horror and gothic"
     ],
+    "published": "1872",
+    "publishedSort": 1872,
     "rank": 93,
     "cover": true
   },
@@ -1138,11 +1138,11 @@
     "slug": "the-divine-comedy",
     "title": "The divine comedy",
     "author": "Dante Alighieri",
-    "lifespan": "1265–1321",
-    "born": 1265,
     "genres": [
       "Poetry"
     ],
+    "published": "c. 1320",
+    "publishedSort": 1320,
     "rank": 94,
     "cover": true
   },
@@ -1151,11 +1151,11 @@
     "slug": "dubliners",
     "title": "Dubliners",
     "author": "James Joyce",
-    "lifespan": "1882–1941",
-    "born": 1882,
     "genres": [
       "Short stories"
     ],
+    "published": "1914",
+    "publishedSort": 1914,
     "rank": 97,
     "cover": true
   },
@@ -1164,12 +1164,12 @@
     "slug": "through-the-looking-glass",
     "title": "Through the Looking-Glass",
     "author": "Lewis Carroll",
-    "lifespan": "1832–1898",
-    "born": 1832,
     "genres": [
       "Novels",
       "Children's"
     ],
+    "published": "1871",
+    "publishedSort": 1871,
     "rank": 98,
     "cover": true
   },
@@ -1178,11 +1178,11 @@
     "slug": "tristram-shandy",
     "title": "Tristram Shandy",
     "author": "Laurence Sterne",
-    "lifespan": "1713–1768",
-    "born": 1713,
     "genres": [
       "Novels"
     ],
+    "published": "1759",
+    "publishedSort": 1759,
     "rank": null,
     "cover": true
   },
@@ -1191,11 +1191,11 @@
     "slug": "dickinson-poems",
     "title": "Poems",
     "author": "Emily Dickinson",
-    "lifespan": "1830–1886",
-    "born": 1830,
     "genres": [
       "Poetry"
     ],
+    "published": "1890",
+    "publishedSort": 1890,
     "rank": null,
     "cover": true
   },
@@ -1204,11 +1204,11 @@
     "slug": "the-sun-also-rises",
     "title": "The Sun Also Rises",
     "author": "Ernest Hemingway",
-    "lifespan": "1899–1961",
-    "born": 1899,
     "genres": [
       "Novels"
     ],
+    "published": "1926",
+    "publishedSort": 1926,
     "rank": null,
     "cover": true
   }

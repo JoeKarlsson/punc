@@ -44,6 +44,10 @@ test('the shelf searches by title or author, filters by genre, and sorts', async
   const wps = (await visible.evaluateAll(els => els.map(el => Number((el as HTMLElement).dataset['wps']))));
   expect(wps).toEqual([...wps].sort((a, b) => a - b));
 
+  await page.getByLabel('Sort').selectOption('oldest');
+  await expect(visible.first()).toContainText('The Odyssey');
+  await expect(visible.first().locator('.cover-author')).toHaveText('Homer, 8th century BCE');
+
   await page.getByLabel('Search').fill('zzzz not a book');
   await expect(page.locator('#shelf-empty')).toBeVisible();
 });
@@ -86,9 +90,13 @@ test('a book page has its own share metadata and share links', async ({ page }) 
   expect(await meta('og:url')).toBe('https://joekarlsson.github.io/punc/books/moby-dick/');
   expect(await meta('og:image')).toBe('https://joekarlsson.github.io/punc/og.png');
   expect(await meta('twitter:card')).toBe('summary_large_image');
-  expect(await meta('og:description')).toMatch(/^Herman Melville's Moby-Dick with all [\d,]+ words removed/);
+  expect(await meta('og:description')).toMatch(/^Herman Melville's Moby-Dick \(1851\) with all [\d,]+ words removed/);
   await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', 'https://joekarlsson.github.io/punc/books/moby-dick/');
   await expect(page.locator('.book-poster .poster-art')).toHaveCount(1);
+  await expect(page.locator('#book-byline')).toHaveText('Herman Melville, 1851');
+  const poster = page.getByRole('link', { name: 'Moby-Dick on Project Gutenberg (opens in a new tab)' });
+  await expect(poster).toHaveAttribute('href', 'https://www.gutenberg.org/ebooks/2701');
+  await expect(poster).toHaveAttribute('target', '_blank');
 
   const hn = page.locator('.share').getByRole('link', { name: 'Hacker News' });
   await expect(hn).toHaveAttribute('href', /news\.ycombinator\.com\/submitlink\?u=https%3A%2F%2Fjoekarlsson\.github\.io%2Fpunc%2Fbooks%2Fmoby-dick%2F/);

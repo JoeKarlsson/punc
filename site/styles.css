@@ -848,18 +848,53 @@ code {
     min-height: 28rem;
   }
 
-  /* Phones: a small poster beside the title, byline and stats full width */
+  /* Phones: no room beside the title, so the poster goes full width and the
+     title and byline are pasted onto its bottom edge, like the shelf covers.
+     The poster spans rows 1-3; row 1 is open art, rows 2-3 hold the labels. */
   .book-head {
+    grid-template-columns: minmax(0, 1fr);
     grid-template-rows: auto;
     grid-template-areas:
-      'title poster'
-      'byline byline'
-      'stats stats';
+      'title'
+      'byline'
+      'stats';
+  }
+
+  .book-head:has(.book-poster) {
+    grid-template-rows: minmax(14rem, 52vw) auto auto auto;
+    grid-template-areas: none;
+  }
+
+  .book-head:has(.book-poster) .book-poster {
+    grid-area: 1 / 1 / 4 / 2;
+    width: 100%;
+    height: 100%;
+    aspect-ratio: auto;
+    transform: rotate(-1deg);
+  }
+
+  .book-head:has(.book-poster) .book-title {
+    grid-area: 2 / 1 / 3 / 2;
+    z-index: 1;
+    justify-self: start;
+    margin: 0 0.75rem;
+    padding: 0.08em 0.25em 0;
+    background: var(--ink);
+    transform: rotate(-1.5deg);
+  }
+
+  .book-head:has(.book-poster) .book-byline {
+    grid-area: 3 / 1 / 4 / 2;
+    z-index: 1;
+    margin: 0.5rem 0.75rem 1rem;
+  }
+
+  .book-head:has(.book-poster) .stats {
+    grid-area: 4 / 1 / 5 / 2;
   }
 
   .book-title {
     font-size: clamp(2.2rem, 11vw, 3.5rem);
-    align-self: end;
   }
 
   .stats {

@@ -928,6 +928,31 @@ main {
   outline: none;
 }
 
+.map-here-dot {
+  fill: var(--chalk);
+  stroke: var(--pink);
+  stroke-width: 5;
+}
+
+.map-here:focus-visible {
+  outline: none;
+}
+
+.map-here:focus-visible .map-here-dot {
+  stroke: var(--paper);
+}
+
+.map-label-here {
+  font-family: var(--poster);
+  font-size: 26px;
+  text-transform: uppercase;
+  fill: var(--chalk);
+}
+
+.shelf-map-book {
+  margin-bottom: 3.5rem;
+}
+
 .map-tip {
   position: absolute;
   z-index: 3;

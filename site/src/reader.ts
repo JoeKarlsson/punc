@@ -2,7 +2,8 @@ import { analyzeBook, erasedPages, type BookAnalysis } from './analyze';
 import { createSpiralExplorer, drawScore, downloadCanvas, type SpiralExplorer } from './canvas';
 import { initPosters } from './posters';
 import { initShare } from './share';
-import { fingerprintHTML, markShares, marksThroughBook, throughBookHTML } from './patterns';
+import { fingerprintHTML, mapSVG, markShares, marksThroughBook, shelfPosition, throughBookHTML, type MapPoint } from './patterns';
+import { setUpMapTooltips } from './map-tooltips';
 
 interface CatalogBook {
   slug: string;
@@ -71,7 +72,7 @@ function titleFromFilename(name: string): string {
 
 // views
 
-function showBook(rawText: string, title: string, byline: string, fileStem: string): void {
+function showBook(rawText: string, title: string, byline: string, fileStem: string, shelfSlug?: string): void {
   const book: BookAnalysis = analyzeBook(rawText);
   if (book.marks.length === 0) {
     showStatus('No punctuation in that file. Is it plain text?');
@@ -94,6 +95,7 @@ function showBook(rawText: string, title: string, byline: string, fileStem: stri
     '<p class="fp-caption">Its punctuation fingerprint: each mark\'s share, on the same scale as every book on the shelf.</p>';
   byId('through-book').innerHTML = throughBookHTML(marksThroughBook(book.marks));
   describeCanvases(book);
+  void drawOnMap(book, title, shelfSlug);
   setUpPages(erasedPages(book.text));
 
   const drawn = new Set<string>();
@@ -150,6 +152,19 @@ function showBook(rawText: string, title: string, byline: string, fileStem: stri
     copyButton.textContent = `Copied ${book.marks.length.toLocaleString()} marks`;
     setTimeout(() => (copyButton.textContent = 'Copy the marks'), 2500);
   });
+}
+
+// The shelf map with this book picked out: a shelf book in its own spot, an
+// uploaded file wherever its punctuation puts it.
+async function drawOnMap(book: BookAnalysis, title: string, shelfSlug?: string): Promise<void> {
+  const root = document.body.dataset['root'] ?? '';
+  const res = await fetch(`${root}books.json`);
+  if (!res.ok) throw new Error(`Couldn't load the shelf for the map (${res.status})`);
+  const shelf = (await res.json()) as MapPoint[];
+  const here: MapPoint = { title, ...shelfPosition(book.marks), ...(shelfSlug ? { slug: shelfSlug } : {}) };
+  const holder = byId('book-map');
+  holder.innerHTML = mapSVG(shelf, { highlight: here, root });
+  setUpMapTooltips(byId('book-map').parentElement!, byId('book-map-tip'));
 }
 
 // Canvases are pictures to a screen reader; say what's in them.
@@ -237,7 +252,7 @@ async function loadFromShelf(slug: string, title: string, byline: string): Promi
   showStatus('Taking the words out…');
   const text = await fetchBookText(slug);
   // Let the status paint before the synchronous analysis.
-  requestAnimationFrame(() => showBook(text, title, byline, slug));
+  requestAnimationFrame(() => showBook(text, title, byline, slug, slug));
 }
 
 // Old links were read.html?b=<slug>; each book has its own page now.

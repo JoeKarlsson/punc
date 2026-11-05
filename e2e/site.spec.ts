@@ -221,6 +221,28 @@ test('the map places every book, with a tooltip and a table', async ({ page }) =
   await expect(page).toHaveURL(/books\/alice\/$/);
 });
 
+test('a book page marks the book on the shelf map', async ({ page }) => {
+  await openBook(page, 'moby-dick');
+  await page.getByRole('button', { name: 'Counts', exact: true }).click();
+  const map = page.locator('#book-map');
+  await expect(map.locator('a[data-tip]')).toHaveCount(catalog.length - 1);
+  await expect(map.locator('.map-here')).toHaveAttribute('aria-label', /^Moby-Dick: [\d.]+ pauses per stop/);
+  await expect(map.locator('a').first()).toHaveAttribute('href', /^\.\.\/\.\.\/books\//);
+});
+
+test('an uploaded file lands on the shelf map', async ({ page }) => {
+  await page.goto('read.html');
+  await page.locator('#file-input').setInputFiles({
+    name: 'shouting.txt',
+    mimeType: 'text/plain',
+    buffer: Buffer.from('What?! No! Stop! Why?! '.repeat(50)),
+  });
+  await page.getByRole('button', { name: 'Counts', exact: true }).click();
+  const here = page.locator('#book-map .map-here');
+  await expect(here).toHaveAttribute('aria-label', /^shouting: 0\.0 pauses per stop, 100\.0% \? and !$/);
+  await expect(page.locator('#book-map a[data-tip]')).toHaveCount(catalog.length);
+});
+
 test('share links are tagged for analytics', async ({ page }) => {
   await page.goto('about.html');
   await expect(page.locator('.share').getByRole('link', { name: 'Hacker News' })).toHaveClass(/plausible-event-name=Share\+Click plausible-event-network=Hacker\+News/);

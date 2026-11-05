@@ -1,7 +1,7 @@
 {
   "name": "punc",
   "version": "2.0.0",
-  "description": "Ever wonder what your favorite books look like without words?",
+  "description": "What does a book look like without words? Count and draw the punctuation in any text file.",
   "type": "module",
   "main": "dist/index.js",
   "module": "dist/index.js",
@@ -43,14 +43,17 @@
     "punctuation",
     "digital humanities",
     "text analysis",
-    "literature"
+    "literature",
+    "visualization",
+    "gutenberg",
+    "generative-art"
   ],
   "repository": {
     "type": "git",
     "url": "https://github.com/JoeKarlsson/punc.git"
   },
   "author": "Ray Farias <rayrfarias@gmail.com> (https://github.com/sgnl)",
-  "homepage": "https://github.com/JoeKarlsson/punc",
+  "homepage": "https://joekarlsson.github.io/punc/",
   "bugs": "https://github.com/JoeKarlsson/punc/issues",
   "license": "MIT",
   "engines": {

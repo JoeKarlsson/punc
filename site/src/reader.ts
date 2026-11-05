@@ -1,5 +1,5 @@
 import { analyzeBook, erasedPages, type BookAnalysis } from './analyze';
-import { drawScore, drawSpiral, downloadCanvas } from './canvas';
+import { createSpiralExplorer, drawScore, downloadCanvas, type SpiralExplorer } from './canvas';
 
 interface CatalogBook {
   slug: string;
@@ -83,6 +83,7 @@ function showBook(rawText: string, title: string, byline: string, fileStem: stri
   showStatus('');
   byId('book-title').textContent = title;
   byId('book-byline').textContent = byline;
+  byId('stat-words').textContent = book.wordCount.toLocaleString();
   byId('stat-marks').textContent = book.marks.length.toLocaleString();
   byId('stat-wps').textContent = book.wordsPerSentence ? book.wordsPerSentence.toFixed(1) : 'n/a';
   byId('stat-top').textContent = book.counts[0]?.[0] ?? '';
@@ -91,14 +92,25 @@ function showBook(rawText: string, title: string, byline: string, fileStem: stri
   setUpPages(erasedPages(book.text));
 
   const drawn = new Set<string>();
+  let spiral: SpiralExplorer | undefined;
   const draw = async (view: string) => {
     if (drawn.has(view) || (view !== 'spiral' && view !== 'score')) return;
     drawn.add(view);
     // Canvas text uses whatever font is loaded at draw time.
     await document.fonts.load('20px Fraunces');
-    if (view === 'spiral') drawSpiral(byId<HTMLCanvasElement>('spiral-canvas'), book.marks);
-    else drawScore(byId<HTMLCanvasElement>('score-canvas'), book.marks);
+    if (view === 'score') {
+      drawScore(byId<HTMLCanvasElement>('score-canvas'), book.marks);
+      return;
+    }
+    const readout = byId('spiral-readout');
+    spiral = createSpiralExplorer(byId<HTMLCanvasElement>('spiral-canvas'), book.marks, (zoom, percent) => {
+      readout.textContent =
+        zoom <= 1.01 ? '' : `${zoom.toFixed(1)}x${percent === null ? '' : `, about ${Math.round(percent)}% through the book`}`;
+    });
   };
+  byId('spiral-zoom-in').addEventListener('click', () => spiral?.zoomBy(1.6));
+  byId('spiral-zoom-out').addEventListener('click', () => spiral?.zoomBy(1 / 1.6));
+  byId('spiral-reset').addEventListener('click', () => spiral?.reset());
 
   const buttons = document.querySelectorAll<HTMLButtonElement>('[data-view]');
   buttons.forEach(button => {
@@ -111,11 +123,13 @@ function showBook(rawText: string, title: string, byline: string, fileStem: stri
       void draw(view);
     });
   });
+  void draw('score');
 
   document.querySelectorAll<HTMLButtonElement>('[data-download]').forEach(button => {
     button.addEventListener('click', () => {
       const kind = button.dataset['download']!;
-      downloadCanvas(byId<HTMLCanvasElement>(`${kind}-canvas`), `${fileStem}-${kind}.png`);
+      const canvas = kind === 'spiral' && spiral ? spiral.exportCanvas() : byId<HTMLCanvasElement>(`${kind}-canvas`);
+      downloadCanvas(canvas, `${fileStem}-${kind}.png`);
     });
   });
 }

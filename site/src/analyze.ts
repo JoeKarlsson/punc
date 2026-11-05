@@ -1,7 +1,7 @@
 // Book analysis for the site, used in the browser (reader.ts) and at build
 // time (site/build.mjs, for the shelf covers). Counting is the library's own
 // analyzeText, so the site and the CLI agree.
-import { analyzeText, wordsPerSentence } from '../../src/text';
+import { analyzeText, countWords, wordsPerSentence } from '../../src/text';
 import { defaultMapping } from '../../src/mapping';
 import type { PunctuationCount } from '../../src/types';
 
@@ -9,6 +9,7 @@ export interface BookAnalysis {
   marks: string[];
   counts: Array<[mark: string, count: number]>;
   wordsPerSentence: number;
+  wordCount: number;
   text: string;
 }
 
@@ -32,6 +33,7 @@ export function analyzeBook(rawText: string): BookAnalysis {
     marks: positions.map(p => p.char),
     counts,
     wordsPerSentence: wordsPerSentence(text),
+    wordCount: countWords(text),
     text,
   };
 }

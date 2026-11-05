@@ -19,7 +19,7 @@ export { createPDF } from './pdf';
 
 // Export analysis functions
 export { getPositions, windowedDensity } from './analysis';
-export { analyzeText, wordsPerSentence } from './text';
+export { analyzeText, countWords, wordsPerSentence } from './text';
 export { spiralLayout } from './layout';
 
 // Export SVG visualization functions

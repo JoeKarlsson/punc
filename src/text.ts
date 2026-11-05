@@ -28,10 +28,15 @@ export function analyzeText(
   return { positions, totalChars: offset, map: mapping };
 }
 
+// Runs of letters or digits, with inner apostrophes kept ("it's" is one word).
+export function countWords(text: string): number {
+  return text.match(/[A-Za-z0-9À-ɏ]+(?:['’][A-Za-z]+)*/g)?.length ?? 0;
+}
+
 // Words over sentence-ending runs (". ? !" and repeats like "?!" count once),
 // across the whole text. Returns 0 when there are no sentence endings.
 export function wordsPerSentence(text: string): number {
-  const words = text.match(/[A-Za-z0-9À-ɏ]+(?:['’][A-Za-z]+)*/g)?.length ?? 0;
+  const words = countWords(text);
   const sentences = text.match(/[.?!]+/g)?.length ?? 0;
   return sentences === 0 ? 0 : words / sentences;
 }

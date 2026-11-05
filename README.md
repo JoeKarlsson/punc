@@ -36,7 +36,10 @@ npm run test:e2e     # Playwright browser tests against the built site
 ```
 
 The site lives in `site/`: page fragments in `site/pages`, browser code in
-`site/src`, shelf books in `site/books` (listed in `site/catalog.json`). It uses
+`site/src`, gzipped shelf books in `site/books` and covers in `site/covers`
+(listed in `site/catalog.json`). `node site/scripts/fetch-books.mjs` refreshes
+the shelf from Project Gutenberg's most-read list, and
+`node site/scripts/make-images.mjs` redraws the favicons and share image. It uses
 the library's own `analyzeText` and `spiralLayout`, so it counts marks the same
 way the CLI does. Pushes to `main` deploy it through
 `.github/workflows/pages.yml`.

@@ -1,7 +1,7 @@
 export default {
   extensionsToTreatAsEsm: ['.ts'],
   transform: {
-    '^.+\\.ts$': ['@swc/jest', {
+    '^.+\\.(ts|mjs)$': ['@swc/jest', {
       module: {
         type: 'es6'
       }
@@ -14,7 +14,7 @@ export default {
     '**/?(*.)+(spec|test).ts'
   ],
   collectCoverage: false,
-  moduleFileExtensions: ['ts', 'js', 'json'],
+  moduleFileExtensions: ['ts', 'js', 'mjs', 'json'],
   testTimeout: 10000,
   injectGlobals: true
 };

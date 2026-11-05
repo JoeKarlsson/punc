@@ -1,11 +1,1215 @@
 [
-  { "slug": "alice", "title": "Alice's Adventures in Wonderland", "author": "Lewis Carroll", "year": 1865 },
-  { "slug": "pride-and-prejudice", "title": "Pride and Prejudice", "author": "Jane Austen", "year": 1813 },
-  { "slug": "moby-dick", "title": "Moby-Dick", "author": "Herman Melville", "year": 1851 },
-  { "slug": "ulysses", "title": "Ulysses", "author": "James Joyce", "year": 1922 },
-  { "slug": "the-great-gatsby", "title": "The Great Gatsby", "author": "F. Scott Fitzgerald", "year": 1925 },
-  { "slug": "the-sun-also-rises", "title": "The Sun Also Rises", "author": "Ernest Hemingway", "year": 1926 },
-  { "slug": "frankenstein", "title": "Frankenstein", "author": "Mary Shelley", "year": 1818 },
-  { "slug": "tristram-shandy", "title": "Tristram Shandy", "author": "Laurence Sterne", "year": 1759 },
-  { "slug": "dickinson-poems", "title": "Poems", "author": "Emily Dickinson", "year": 1890 }
+  {
+    "id": 1342,
+    "slug": "pride-and-prejudice",
+    "title": "Pride and Prejudice",
+    "author": "Jane Austen",
+    "lifespan": "1775–1817",
+    "born": 1775,
+    "genres": [
+      "Novels",
+      "Romance"
+    ],
+    "rank": 1,
+    "cover": true
+  },
+  {
+    "id": 84,
+    "slug": "frankenstein",
+    "title": "Frankenstein",
+    "author": "Mary Shelley",
+    "lifespan": "1797–1851",
+    "born": 1797,
+    "genres": [
+      "Novels",
+      "Science fiction and fantasy",
+      "Horror and gothic"
+    ],
+    "rank": 2,
+    "cover": true
+  },
+  {
+    "id": 2701,
+    "slug": "moby-dick",
+    "title": "Moby-Dick",
+    "author": "Herman Melville",
+    "lifespan": "1819–1891",
+    "born": 1819,
+    "genres": [
+      "Novels",
+      "Adventure"
+    ],
+    "rank": 3,
+    "cover": true
+  },
+  {
+    "id": 11,
+    "slug": "alice",
+    "title": "Alice's Adventures in Wonderland",
+    "author": "Lewis Carroll",
+    "lifespan": "1832–1898",
+    "born": 1832,
+    "genres": [
+      "Novels",
+      "Children's"
+    ],
+    "rank": 4,
+    "cover": true
+  },
+  {
+    "id": 1661,
+    "slug": "the-adventures-of-sherlock-holmes",
+    "title": "The Adventures of Sherlock Holmes",
+    "author": "Arthur Conan Doyle",
+    "lifespan": "1859–1930",
+    "born": 1859,
+    "genres": [
+      "Short stories",
+      "Mystery and crime"
+    ],
+    "rank": 5,
+    "cover": true
+  },
+  {
+    "id": 345,
+    "slug": "dracula",
+    "title": "Dracula",
+    "author": "Bram Stoker",
+    "lifespan": "1847–1912",
+    "born": 1847,
+    "genres": [
+      "Novels",
+      "Science fiction and fantasy",
+      "Horror and gothic",
+      "Mystery and crime"
+    ],
+    "rank": 6,
+    "cover": true
+  },
+  {
+    "id": 98,
+    "slug": "a-tale-of-two-cities",
+    "title": "A Tale of Two Cities",
+    "author": "Charles Dickens",
+    "lifespan": "1812–1870",
+    "born": 1812,
+    "genres": [],
+    "rank": 8,
+    "cover": true
+  },
+  {
+    "id": 1513,
+    "slug": "romeo-and-juliet",
+    "title": "Romeo and Juliet",
+    "author": "William Shakespeare",
+    "lifespan": "1564–1616",
+    "born": 1564,
+    "genres": [
+      "Plays",
+      "Romance"
+    ],
+    "rank": 10,
+    "cover": true
+  },
+  {
+    "id": 145,
+    "slug": "middlemarch",
+    "title": "Middlemarch",
+    "author": "George Eliot",
+    "lifespan": "1819–1880",
+    "born": 1819,
+    "genres": [
+      "Novels"
+    ],
+    "rank": 11,
+    "cover": true
+  },
+  {
+    "id": 174,
+    "slug": "the-picture-of-dorian-gray",
+    "title": "The Picture of Dorian Gray",
+    "author": "Oscar Wilde",
+    "lifespan": "1854–1900",
+    "born": 1854,
+    "genres": [
+      "Novels",
+      "Horror and gothic"
+    ],
+    "rank": 12,
+    "cover": true
+  },
+  {
+    "id": 43,
+    "slug": "the-strange-case-of-dr-jekyll-and-mr-hyde",
+    "title": "The strange case of Dr. Jekyll and Mr. Hyde",
+    "author": "Robert Louis Stevenson",
+    "lifespan": "1850–1894",
+    "born": 1850,
+    "genres": [
+      "Novels",
+      "Science fiction and fantasy",
+      "Horror and gothic",
+      "Mystery and crime"
+    ],
+    "rank": 13,
+    "cover": true
+  },
+  {
+    "id": 1260,
+    "slug": "jane-eyre",
+    "title": "Jane Eyre",
+    "author": "Charlotte Brontë",
+    "lifespan": "1816–1855",
+    "born": 1816,
+    "genres": [
+      "Novels",
+      "Romance"
+    ],
+    "rank": 14,
+    "cover": true
+  },
+  {
+    "id": 64317,
+    "slug": "the-great-gatsby",
+    "title": "The Great Gatsby",
+    "author": "F. Scott Fitzgerald",
+    "lifespan": "1896–1940",
+    "born": 1896,
+    "genres": [
+      "Novels"
+    ],
+    "rank": 15,
+    "cover": true
+  },
+  {
+    "id": 2554,
+    "slug": "crime-and-punishment",
+    "title": "Crime and Punishment",
+    "author": "Fyodor Dostoyevsky",
+    "lifespan": "1821–1881",
+    "born": 1821,
+    "genres": [
+      "Novels",
+      "Mystery and crime"
+    ],
+    "rank": 16,
+    "cover": true
+  },
+  {
+    "id": 1232,
+    "slug": "the-prince",
+    "title": "The Prince",
+    "author": "Niccolò Machiavelli",
+    "lifespan": "1469–1527",
+    "born": 1469,
+    "genres": [
+      "Philosophy and ideas",
+      "History and lives"
+    ],
+    "rank": 17,
+    "cover": true
+  },
+  {
+    "id": 41,
+    "slug": "the-legend-of-sleepy-hollow",
+    "title": "The Legend of Sleepy Hollow",
+    "author": "Washington Irving",
+    "lifespan": "1783–1859",
+    "born": 1783,
+    "genres": [
+      "Short stories",
+      "Children's"
+    ],
+    "rank": 18,
+    "cover": true
+  },
+  {
+    "id": 5200,
+    "slug": "metamorphosis",
+    "title": "Metamorphosis",
+    "author": "Franz Kafka",
+    "lifespan": "1883–1924",
+    "born": 1883,
+    "genres": [
+      "Novels",
+      "Horror and gothic"
+    ],
+    "rank": 19,
+    "cover": true
+  },
+  {
+    "id": 205,
+    "slug": "walden-and-on-the-duty-of-civil-disobedience",
+    "title": "Walden, and On The Duty Of Civil Disobedience",
+    "author": "Henry David Thoreau",
+    "lifespan": "1817–1862",
+    "born": 1817,
+    "genres": [
+      "Philosophy and ideas"
+    ],
+    "rank": 20,
+    "cover": true
+  },
+  {
+    "id": 1400,
+    "slug": "great-expectations",
+    "title": "Great Expectations",
+    "author": "Charles Dickens",
+    "lifespan": "1812–1870",
+    "born": 1812,
+    "genres": [
+      "Novels"
+    ],
+    "rank": 21,
+    "cover": true
+  },
+  {
+    "id": 2680,
+    "slug": "meditations",
+    "title": "Meditations",
+    "author": "Marcus Aurelius",
+    "lifespan": "121–180",
+    "born": 121,
+    "genres": [
+      "Philosophy and ideas",
+      "History and lives"
+    ],
+    "rank": 22,
+    "cover": true
+  },
+  {
+    "id": 1952,
+    "slug": "the-yellow-wallpaper",
+    "title": "The Yellow Wallpaper",
+    "author": "Charlotte Perkins Gilman",
+    "lifespan": "1860–1935",
+    "born": 1860,
+    "genres": [
+      "Short stories",
+      "Horror and gothic"
+    ],
+    "rank": 23,
+    "cover": true
+  },
+  {
+    "id": 1184,
+    "slug": "the-count-of-monte-cristo",
+    "title": "The Count of Monte Cristo",
+    "author": "Alexandre Dumas",
+    "lifespan": "1802–1870",
+    "born": 1802,
+    "genres": [
+      "Novels",
+      "Adventure"
+    ],
+    "rank": 24,
+    "cover": true
+  },
+  {
+    "id": 2641,
+    "slug": "a-room-with-a-view",
+    "title": "A Room with a View",
+    "author": "E. M. Forster",
+    "lifespan": "1879–1970",
+    "born": 1879,
+    "genres": [
+      "Novels",
+      "Romance"
+    ],
+    "rank": 25,
+    "cover": true
+  },
+  {
+    "id": 37106,
+    "slug": "little-women",
+    "title": "Little Women",
+    "author": "Louisa May Alcott",
+    "lifespan": "1832–1888",
+    "born": 1832,
+    "genres": [
+      "Novels",
+      "Children's"
+    ],
+    "rank": 26,
+    "cover": true
+  },
+  {
+    "id": 74,
+    "slug": "the-adventures-of-tom-sawyer",
+    "title": "The Adventures of Tom Sawyer",
+    "author": "Mark Twain",
+    "lifespan": "1835–1910",
+    "born": 1835,
+    "genres": [
+      "Novels",
+      "Adventure"
+    ],
+    "rank": 27,
+    "cover": true
+  },
+  {
+    "id": 2600,
+    "slug": "war-and-peace",
+    "title": "War and Peace",
+    "author": "Leo Tolstoy",
+    "lifespan": "1828–1910",
+    "born": 1828,
+    "genres": [
+      "Novels"
+    ],
+    "rank": 28,
+    "cover": true
+  },
+  {
+    "id": 1080,
+    "slug": "a-modest-proposal",
+    "title": "A Modest Proposal",
+    "author": "Jonathan Swift",
+    "lifespan": "1667–1745",
+    "born": 1667,
+    "genres": [
+      "Philosophy and ideas"
+    ],
+    "rank": 29,
+    "cover": true
+  },
+  {
+    "id": 67979,
+    "slug": "the-blue-castle",
+    "title": "The Blue Castle",
+    "author": "L. M. Montgomery",
+    "lifespan": "1874–1942",
+    "born": 1874,
+    "genres": [
+      "Novels",
+      "Romance"
+    ],
+    "rank": 30,
+    "cover": true
+  },
+  {
+    "id": 1727,
+    "slug": "the-odyssey",
+    "title": "The Odyssey",
+    "author": "Homer",
+    "lifespan": "751? BCE–651? BCE",
+    "born": -751,
+    "genres": [
+      "Poetry"
+    ],
+    "rank": 31,
+    "cover": true
+  },
+  {
+    "id": 844,
+    "slug": "the-importance-of-being-earnest",
+    "title": "The Importance of Being Earnest",
+    "author": "Oscar Wilde",
+    "lifespan": "1854–1900",
+    "born": 1854,
+    "genres": [
+      "Plays"
+    ],
+    "rank": 32,
+    "cover": true
+  },
+  {
+    "id": 768,
+    "slug": "wuthering-heights",
+    "title": "Wuthering Heights",
+    "author": "Emily Brontë",
+    "lifespan": "1818–1848",
+    "born": 1818,
+    "genres": [
+      "Novels",
+      "Horror and gothic"
+    ],
+    "rank": 33,
+    "cover": true
+  },
+  {
+    "id": 3207,
+    "slug": "leviathan",
+    "title": "Leviathan",
+    "author": "Thomas Hobbes",
+    "lifespan": "1588–1679",
+    "born": 1588,
+    "genres": [
+      "Philosophy and ideas",
+      "History and lives"
+    ],
+    "rank": 34,
+    "cover": true
+  },
+  {
+    "id": 46,
+    "slug": "a-christmas-carol",
+    "title": "A Christmas Carol",
+    "author": "Charles Dickens",
+    "lifespan": "1812–1870",
+    "born": 1812,
+    "genres": [
+      "Novels",
+      "Children's"
+    ],
+    "rank": 35,
+    "cover": true
+  },
+  {
+    "id": 16389,
+    "slug": "the-enchanted-april",
+    "title": "The Enchanted April",
+    "author": "Elizabeth Von Arnim",
+    "lifespan": "1866–1941",
+    "born": 1866,
+    "genres": [
+      "Novels"
+    ],
+    "rank": 36,
+    "cover": true
+  },
+  {
+    "id": 394,
+    "slug": "cranford",
+    "title": "Cranford",
+    "author": "Elizabeth Cleghorn Gaskell",
+    "lifespan": "1810–1865",
+    "born": 1810,
+    "genres": [
+      "Novels"
+    ],
+    "rank": 37,
+    "cover": true
+  },
+  {
+    "id": 55,
+    "slug": "the-wonderful-wizard-of-oz",
+    "title": "The Wonderful Wizard of Oz",
+    "author": "L. Frank Baum",
+    "lifespan": "1856–1919",
+    "born": 1856,
+    "genres": [
+      "Children's",
+      "Science fiction and fantasy",
+      "Adventure"
+    ],
+    "rank": 38,
+    "cover": true
+  },
+  {
+    "id": 25344,
+    "slug": "the-scarlet-letter",
+    "title": "The Scarlet Letter",
+    "author": "Nathaniel Hawthorne",
+    "lifespan": "1804–1864",
+    "born": 1804,
+    "genres": [
+      "Novels"
+    ],
+    "rank": 39,
+    "cover": true
+  },
+  {
+    "id": 76,
+    "slug": "adventures-of-huckleberry-finn",
+    "title": "Adventures of Huckleberry Finn",
+    "author": "Mark Twain",
+    "lifespan": "1835–1910",
+    "born": 1835,
+    "genres": [
+      "Novels",
+      "Adventure"
+    ],
+    "rank": 40,
+    "cover": true
+  },
+  {
+    "id": 120,
+    "slug": "treasure-island",
+    "title": "Treasure Island",
+    "author": "Robert Louis Stevenson",
+    "lifespan": "1850–1894",
+    "born": 1850,
+    "genres": [
+      "Novels",
+      "Children's",
+      "Adventure"
+    ],
+    "rank": 41,
+    "cover": true
+  },
+  {
+    "id": 6593,
+    "slug": "tom-jones",
+    "title": "Tom Jones",
+    "author": "Henry Fielding",
+    "lifespan": "1707–1754",
+    "born": 1707,
+    "genres": [
+      "Novels"
+    ],
+    "rank": 42,
+    "cover": true
+  },
+  {
+    "id": 2160,
+    "slug": "the-expedition-of-humphry-clinker",
+    "title": "The Expedition of Humphry Clinker",
+    "author": "T. Smollett",
+    "lifespan": "1721–1771",
+    "born": 1721,
+    "genres": [
+      "Novels",
+      "Philosophy and ideas"
+    ],
+    "rank": 43,
+    "cover": true
+  },
+  {
+    "id": 45,
+    "slug": "anne-of-green-gables",
+    "title": "Anne of Green Gables",
+    "author": "L. M. Montgomery",
+    "lifespan": "1874–1942",
+    "born": 1874,
+    "genres": [
+      "Novels",
+      "Children's"
+    ],
+    "rank": 44,
+    "cover": true
+  },
+  {
+    "id": 49008,
+    "slug": "the-works-of-william-shakespeare-cambridge-edition-vol-8-of-9",
+    "title": "The Works of William Shakespeare [Cambridge Edition] [Vol. 8 of 9]",
+    "author": "William Shakespeare",
+    "lifespan": "1564–1616",
+    "born": 1564,
+    "genres": [
+      "Plays"
+    ],
+    "rank": 45,
+    "cover": true
+  },
+  {
+    "id": 1259,
+    "slug": "twenty-years-after",
+    "title": "Twenty years after",
+    "author": "Alexandre Dumas",
+    "lifespan": "1802–1870",
+    "born": 1802,
+    "genres": [
+      "Novels",
+      "Adventure"
+    ],
+    "rank": 46,
+    "cover": true
+  },
+  {
+    "id": 4300,
+    "slug": "ulysses",
+    "title": "Ulysses",
+    "author": "James Joyce",
+    "lifespan": "1882–1941",
+    "born": 1882,
+    "genres": [
+      "Novels"
+    ],
+    "rank": 47,
+    "cover": true
+  },
+  {
+    "id": 6761,
+    "slug": "ferdinand-count-fathom",
+    "title": "Ferdinand Count Fathom",
+    "author": "T. Smollett",
+    "lifespan": "1721–1771",
+    "born": 1721,
+    "genres": [
+      "Novels"
+    ],
+    "rank": 48,
+    "cover": true
+  },
+  {
+    "id": 35,
+    "slug": "the-time-machine",
+    "title": "The Time Machine",
+    "author": "H. G. Wells",
+    "lifespan": "1866–1946",
+    "born": 1866,
+    "genres": [
+      "Novels",
+      "Science fiction and fantasy"
+    ],
+    "rank": 49,
+    "cover": true
+  },
+  {
+    "id": 2591,
+    "slug": "grimms-fairy-tales",
+    "title": "Grimms' Fairy Tales",
+    "author": "Jacob Grimm",
+    "lifespan": "1785–1863",
+    "born": 1785,
+    "genres": [
+      "Short stories",
+      "Children's"
+    ],
+    "rank": 50,
+    "cover": true
+  },
+  {
+    "id": 2542,
+    "slug": "a-dolls-house",
+    "title": "A Doll's House",
+    "author": "Henrik Ibsen",
+    "lifespan": "1828–1906",
+    "born": 1828,
+    "genres": [
+      "Plays"
+    ],
+    "rank": 51,
+    "cover": true
+  },
+  {
+    "id": 4085,
+    "slug": "the-adventures-of-roderick-random",
+    "title": "The Adventures of Roderick Random",
+    "author": "T. Smollett",
+    "lifespan": "1721–1771",
+    "born": 1721,
+    "genres": [
+      "Novels"
+    ],
+    "rank": 52,
+    "cover": true
+  },
+  {
+    "id": 16328,
+    "slug": "beowulf",
+    "title": "Beowulf",
+    "author": "Anonymous",
+    "lifespan": "1856–1928",
+    "born": 1856,
+    "genres": [
+      "Poetry"
+    ],
+    "rank": 53,
+    "cover": true
+  },
+  {
+    "id": 5197,
+    "slug": "my-life-volume-1",
+    "title": "My Life, Volume 1",
+    "author": "Richard Wagner",
+    "lifespan": "1813–1883",
+    "born": 1813,
+    "genres": [
+      "History and lives"
+    ],
+    "rank": 54,
+    "cover": true
+  },
+  {
+    "id": 161,
+    "slug": "sense-and-sensibility",
+    "title": "Sense and Sensibility",
+    "author": "Jane Austen",
+    "lifespan": "1775–1817",
+    "born": 1775,
+    "genres": [
+      "Novels",
+      "Romance"
+    ],
+    "rank": 55,
+    "cover": true
+  },
+  {
+    "id": 23,
+    "slug": "narrative-of-the-life-of-frederick-douglass",
+    "title": "Narrative of the Life of Frederick Douglass",
+    "author": "Frederick Douglass",
+    "lifespan": "1818–1895",
+    "born": 1818,
+    "genres": [
+      "History and lives"
+    ],
+    "rank": 56,
+    "cover": true
+  },
+  {
+    "id": 3296,
+    "slug": "the-confessions-of-st-augustine",
+    "title": "The Confessions of St. Augustine",
+    "author": "Saint Augustine",
+    "lifespan": "354–430",
+    "born": 354,
+    "genres": [
+      "Philosophy and ideas",
+      "History and lives"
+    ],
+    "rank": 57,
+    "cover": true
+  },
+  {
+    "id": 1497,
+    "slug": "the-republic",
+    "title": "The Republic",
+    "author": "Plato",
+    "lifespan": "428? BCE–348? BCE",
+    "born": -428,
+    "genres": [
+      "Philosophy and ideas"
+    ],
+    "rank": 59,
+    "cover": true
+  },
+  {
+    "id": 8492,
+    "slug": "the-king-in-yellow",
+    "title": "The King in Yellow",
+    "author": "Robert W. Chambers",
+    "lifespan": "1865–1933",
+    "born": 1865,
+    "genres": [
+      "Short stories",
+      "Science fiction and fantasy",
+      "Horror and gothic",
+      "Mystery and crime"
+    ],
+    "rank": 60,
+    "cover": true
+  },
+  {
+    "id": 158,
+    "slug": "emma",
+    "title": "Emma",
+    "author": "Jane Austen",
+    "lifespan": "1775–1817",
+    "born": 1775,
+    "genres": [
+      "Novels"
+    ],
+    "rank": 61,
+    "cover": true
+  },
+  {
+    "id": 1998,
+    "slug": "thus-spake-zarathustra",
+    "title": "Thus Spake Zarathustra",
+    "author": "Friedrich Wilhelm Nietzsche",
+    "lifespan": "1844–1900",
+    "born": 1844,
+    "genres": [
+      "Philosophy and ideas"
+    ],
+    "rank": 62,
+    "cover": true
+  },
+  {
+    "id": 7370,
+    "slug": "second-treatise-of-government",
+    "title": "Second Treatise of Government",
+    "author": "John Locke",
+    "lifespan": "1632–1704",
+    "born": 1632,
+    "genres": [
+      "Philosophy and ideas",
+      "History and lives"
+    ],
+    "rank": 63,
+    "cover": true
+  },
+  {
+    "id": 28054,
+    "slug": "the-brothers-karamazov",
+    "title": "The Brothers Karamazov",
+    "author": "Fyodor Dostoyevsky",
+    "lifespan": "1821–1881",
+    "born": 1821,
+    "genres": [
+      "Novels"
+    ],
+    "rank": 65,
+    "cover": true
+  },
+  {
+    "id": 219,
+    "slug": "heart-of-darkness",
+    "title": "Heart of Darkness",
+    "author": "Joseph Conrad",
+    "lifespan": "1857–1924",
+    "born": 1857,
+    "genres": [
+      "Novels"
+    ],
+    "rank": 66,
+    "cover": true
+  },
+  {
+    "id": 4363,
+    "slug": "beyond-good-and-evil",
+    "title": "Beyond Good and Evil",
+    "author": "Friedrich Wilhelm Nietzsche",
+    "lifespan": "1844–1900",
+    "born": 1844,
+    "genres": [
+      "Philosophy and ideas"
+    ],
+    "rank": 67,
+    "cover": true
+  },
+  {
+    "id": 408,
+    "slug": "the-souls-of-black-folk",
+    "title": "The Souls of Black Folk",
+    "author": "W. E. B. Du Bois",
+    "lifespan": "1868–1963",
+    "born": 1868,
+    "genres": [
+      "Philosophy and ideas",
+      "History and lives"
+    ],
+    "rank": 68,
+    "cover": true
+  },
+  {
+    "id": 34901,
+    "slug": "on-liberty",
+    "title": "On Liberty",
+    "author": "John Stuart Mill",
+    "lifespan": "1806–1873",
+    "born": 1806,
+    "genres": [
+      "Philosophy and ideas"
+    ],
+    "rank": 69,
+    "cover": true
+  },
+  {
+    "id": 132,
+    "slug": "the-art-of-war",
+    "title": "The Art of War",
+    "author": "Sun Tzu",
+    "lifespan": "active 6th century B.C.",
+    "born": null,
+    "genres": [
+      "History and lives"
+    ],
+    "rank": 70,
+    "cover": true
+  },
+  {
+    "id": 36,
+    "slug": "the-war-of-the-worlds",
+    "title": "The war of the worlds",
+    "author": "H. G. Wells",
+    "lifespan": "1866–1946",
+    "born": 1866,
+    "genres": [
+      "Novels",
+      "Science fiction and fantasy"
+    ],
+    "rank": 71,
+    "cover": true
+  },
+  {
+    "id": 3300,
+    "slug": "the-wealth-of-nations",
+    "title": "The Wealth of Nations",
+    "author": "Adam Smith",
+    "lifespan": "1723–1790",
+    "born": 1723,
+    "genres": [
+      "History and lives"
+    ],
+    "rank": 72,
+    "cover": true
+  },
+  {
+    "id": 1228,
+    "slug": "on-the-origin-of-species",
+    "title": "On the Origin of Species",
+    "author": "Charles Darwin",
+    "lifespan": "1809–1882",
+    "born": 1809,
+    "genres": [],
+    "rank": 73,
+    "cover": true
+  },
+  {
+    "id": 16,
+    "slug": "peter-pan",
+    "title": "Peter Pan",
+    "author": "J. M. Barrie",
+    "lifespan": "1860–1937",
+    "born": 1860,
+    "genres": [
+      "Novels",
+      "Children's",
+      "Adventure"
+    ],
+    "rank": 74,
+    "cover": true
+  },
+  {
+    "id": 20203,
+    "slug": "autobiography-of-benjamin-franklin",
+    "title": "Autobiography of Benjamin Franklin",
+    "author": "Benjamin Franklin",
+    "lifespan": "1706–1790",
+    "born": 1706,
+    "genres": [
+      "History and lives"
+    ],
+    "rank": 76,
+    "cover": true
+  },
+  {
+    "id": 2852,
+    "slug": "the-hound-of-the-baskervilles",
+    "title": "The Hound of the Baskervilles",
+    "author": "Arthur Conan Doyle",
+    "lifespan": "1859–1930",
+    "born": 1859,
+    "genres": [
+      "Novels",
+      "Mystery and crime"
+    ],
+    "rank": 77,
+    "cover": true
+  },
+  {
+    "id": 135,
+    "slug": "les-miserables",
+    "title": "Les Misérables",
+    "author": "Victor Hugo",
+    "lifespan": "1802–1885",
+    "born": 1802,
+    "genres": [
+      "Novels"
+    ],
+    "rank": 78,
+    "cover": true
+  },
+  {
+    "id": 45188,
+    "slug": "the-international-development-of-china",
+    "title": "The International Development of China",
+    "author": "Sun Yat-sen",
+    "lifespan": "1866–1925",
+    "born": 1866,
+    "genres": [
+      "Philosophy and ideas",
+      "History and lives"
+    ],
+    "rank": 79,
+    "cover": true
+  },
+  {
+    "id": 244,
+    "slug": "a-study-in-scarlet",
+    "title": "A Study in Scarlet",
+    "author": "Arthur Conan Doyle",
+    "lifespan": "1859–1930",
+    "born": 1859,
+    "genres": [
+      "Novels",
+      "Mystery and crime"
+    ],
+    "rank": 81,
+    "cover": true
+  },
+  {
+    "id": 67098,
+    "slug": "winnie-the-pooh",
+    "title": "Winnie-the-Pooh",
+    "author": "A. A. Milne",
+    "lifespan": "1882–1956",
+    "born": 1882,
+    "genres": [
+      "Novels",
+      "Children's"
+    ],
+    "rank": 83,
+    "cover": true
+  },
+  {
+    "id": 829,
+    "slug": "gullivers-travels",
+    "title": "Gulliver's Travels",
+    "author": "Jonathan Swift",
+    "lifespan": "1667–1745",
+    "born": 1667,
+    "genres": [
+      "Novels",
+      "Science fiction and fantasy",
+      "Adventure"
+    ],
+    "rank": 84,
+    "cover": true
+  },
+  {
+    "id": 36034,
+    "slug": "white-nights-and-other-stories",
+    "title": "White nights, and other stories",
+    "author": "Fyodor Dostoyevsky",
+    "lifespan": "1821–1881",
+    "born": 1821,
+    "genres": [
+      "Short stories"
+    ],
+    "rank": 85,
+    "cover": true
+  },
+  {
+    "id": 2148,
+    "slug": "the-works-of-edgar-allan-poe-volume-2",
+    "title": "The Works of Edgar Allan Poe, Volume 2",
+    "author": "Edgar Allan Poe",
+    "lifespan": "1809–1849",
+    "born": 1809,
+    "genres": [
+      "Short stories",
+      "Horror and gothic",
+      "Mystery and crime"
+    ],
+    "rank": 86,
+    "cover": true
+  },
+  {
+    "id": 996,
+    "slug": "don-quixote",
+    "title": "Don Quixote",
+    "author": "Miguel de Cervantes Saavedra",
+    "lifespan": "1547–1616",
+    "born": 1547,
+    "genres": [
+      "Novels"
+    ],
+    "rank": 87,
+    "cover": true
+  },
+  {
+    "id": 27827,
+    "slug": "the-kama-sutra",
+    "title": "The Kama Sutra",
+    "author": "Vatsyayana",
+    "lifespan": "",
+    "born": null,
+    "genres": [
+      "Philosophy and ideas"
+    ],
+    "rank": 88,
+    "cover": true
+  },
+  {
+    "id": 1399,
+    "slug": "anna-karenina",
+    "title": "Anna Karenina",
+    "author": "Leo Tolstoy",
+    "lifespan": "1828–1910",
+    "born": 1828,
+    "genres": [
+      "Novels"
+    ],
+    "rank": 90,
+    "cover": true
+  },
+  {
+    "id": 10007,
+    "slug": "carmilla",
+    "title": "Carmilla",
+    "author": "Joseph Sheridan Le Fanu",
+    "lifespan": "1814–1873",
+    "born": 1814,
+    "genres": [
+      "Novels",
+      "Science fiction and fantasy",
+      "Horror and gothic"
+    ],
+    "rank": 93,
+    "cover": true
+  },
+  {
+    "id": 8800,
+    "slug": "the-divine-comedy",
+    "title": "The divine comedy",
+    "author": "Dante Alighieri",
+    "lifespan": "1265–1321",
+    "born": 1265,
+    "genres": [
+      "Poetry"
+    ],
+    "rank": 94,
+    "cover": true
+  },
+  {
+    "id": 2814,
+    "slug": "dubliners",
+    "title": "Dubliners",
+    "author": "James Joyce",
+    "lifespan": "1882–1941",
+    "born": 1882,
+    "genres": [
+      "Short stories"
+    ],
+    "rank": 97,
+    "cover": true
+  },
+  {
+    "id": 12,
+    "slug": "through-the-looking-glass",
+    "title": "Through the Looking-Glass",
+    "author": "Lewis Carroll",
+    "lifespan": "1832–1898",
+    "born": 1832,
+    "genres": [
+      "Novels",
+      "Children's"
+    ],
+    "rank": 98,
+    "cover": true
+  },
+  {
+    "id": 1079,
+    "slug": "tristram-shandy",
+    "title": "Tristram Shandy",
+    "author": "Laurence Sterne",
+    "lifespan": "1713–1768",
+    "born": 1713,
+    "genres": [
+      "Novels"
+    ],
+    "rank": null,
+    "cover": true
+  },
+  {
+    "id": 12242,
+    "slug": "dickinson-poems",
+    "title": "Poems",
+    "author": "Emily Dickinson",
+    "lifespan": "1830–1886",
+    "born": 1830,
+    "genres": [
+      "Poetry"
+    ],
+    "rank": null,
+    "cover": true
+  },
+  {
+    "id": 67138,
+    "slug": "the-sun-also-rises",
+    "title": "The Sun Also Rises",
+    "author": "Ernest Hemingway",
+    "lifespan": "1899–1961",
+    "born": 1899,
+    "genres": [
+      "Novels"
+    ],
+    "rank": null,
+    "cover": true
+  }
 ]

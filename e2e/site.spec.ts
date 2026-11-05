@@ -1,4 +1,7 @@
 import { expect, test, type Page } from '@playwright/test';
+import { readFileSync } from 'node:fs';
+
+const catalog = JSON.parse(readFileSync('site/catalog.json', 'utf8')) as Array<{ slug: string; author: string; genres: string[] }>;
 
 // Fail any test that throws in the page.
 test.beforeEach(({ page }) => {
@@ -8,16 +11,53 @@ test.beforeEach(({ page }) => {
 });
 
 async function openBook(page: Page, slug: string) {
-  await page.goto(`read.html?b=${slug}`);
+  await page.goto(`books/${slug}/`);
   await expect(page.locator('#book')).toBeVisible();
 }
 
-test('the shelf lists every book plus a cover for your own', async ({ page }) => {
+test('the front page features the most read books, then the whole shelf', async ({ page }) => {
   await page.goto('./');
-  await expect(page.locator('.shelf .cover')).toHaveCount(10);
-  await expect(page.locator('.cover-yours a')).toHaveAttribute('href', 'read.html');
-  await page.getByRole('link', { name: /Moby-Dick/ }).click();
-  await expect(page.locator('#book-title')).toHaveText('Moby-Dick');
+  await expect(page.locator('.shelf-featured .cover')).toHaveCount(4);
+  await expect(page.locator('#shelf .cover')).toHaveCount(catalog.length);
+  await expect(page.locator('#shelf-count')).toHaveText(`Showing ${catalog.length} of ${catalog.length} books`);
+  // Covers get dithered into pink-and-black posters.
+  await expect(page.locator('.shelf-featured .poster-art')).toHaveCount(4);
+  await page.locator('.shelf-featured').getByRole('link', { name: /Pride and Prejudice/ }).click();
+  await expect(page).toHaveURL(/books\/pride-and-prejudice\/$/);
+  await expect(page.locator('#book-title')).toHaveText('Pride and Prejudice');
+});
+
+test('the shelf searches by title or author, filters by genre, and sorts', async ({ page }) => {
+  await page.goto('./');
+  const visible = page.locator('#shelf .cover:not([hidden])');
+  await page.getByLabel('Search').fill('austen');
+  const austen = catalog.filter(b => b.author === 'Jane Austen').length;
+  await expect(visible).toHaveCount(austen);
+  await expect(page).toHaveURL(/\?q=austen/);
+
+  await page.getByLabel('Search').fill('');
+  await page.getByLabel('Genre').selectOption('Poetry');
+  await expect(visible).toHaveCount(catalog.filter(b => b.genres.includes('Poetry')).length);
+
+  await page.getByLabel('Genre').selectOption('');
+  await page.getByLabel('Sort').selectOption('short-sentences');
+  const wps = (await visible.evaluateAll(els => els.map(el => Number((el as HTMLElement).dataset['wps']))));
+  expect(wps).toEqual([...wps].sort((a, b) => a - b));
+
+  await page.getByLabel('Search').fill('zzzz not a book');
+  await expect(page.locator('#shelf-empty')).toBeVisible();
+});
+
+test('shelf choices survive a reload from the URL', async ({ page }) => {
+  await page.goto('./?q=dracula');
+  await expect(page.getByLabel('Search')).toHaveValue('dracula');
+  await expect(page.locator('#shelf .cover:not([hidden])')).toHaveCount(1);
+});
+
+test('old read.html?b= links go to the book page', async ({ page }) => {
+  await page.goto('read.html?b=alice');
+  await expect(page).toHaveURL(/books\/alice\/$/);
+  await expect(page.locator('#book-title')).toHaveText("Alice's Adventures in Wonderland");
 });
 
 test('a shelf book opens on the score with its stats', async ({ page }) => {
@@ -29,14 +69,46 @@ test('a shelf book opens on the score with its stats', async ({ page }) => {
   await expect(page.locator('#view-score')).toBeVisible();
   // The score canvas has been drawn at its real size.
   await expect.poll(() => page.locator('#score-canvas').evaluate(c => (c as HTMLCanvasElement).height)).toBeGreaterThan(300);
-  // The site nav marks the shelf, not "Read your own", for a shelf book.
+  // A shelf book belongs to the shelf in the site nav, not to "Read your own".
   await expect(page.locator('.site-header [aria-current="page"]')).toHaveText('The shelf');
 });
 
-test('an unknown book says so and offers the upload', async ({ page }) => {
+test('an unknown old link says so and offers the upload', async ({ page }) => {
   await page.goto('read.html?b=not-a-book');
   await expect(page.locator('#status')).toContainText('no "not-a-book" on the shelf');
   await expect(page.locator('#upload')).toBeVisible();
+});
+
+test('a book page has its own share metadata and share links', async ({ page }) => {
+  await page.goto('books/moby-dick/');
+  const meta = (key: string) => page.locator(`meta[property="${key}"], meta[name="${key}"]`).getAttribute('content');
+  expect(await meta('og:title')).toBe('Moby-Dick, without words');
+  expect(await meta('og:url')).toBe('https://joekarlsson.github.io/punc/books/moby-dick/');
+  expect(await meta('og:image')).toBe('https://joekarlsson.github.io/punc/og.png');
+  expect(await meta('twitter:card')).toBe('summary_large_image');
+  expect(await meta('og:description')).toMatch(/^Herman Melville's Moby-Dick with all [\d,]+ words removed/);
+  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', 'https://joekarlsson.github.io/punc/books/moby-dick/');
+  await expect(page.locator('.book-poster .poster-art')).toHaveCount(1);
+
+  const hn = page.locator('.share').getByRole('link', { name: 'Hacker News' });
+  await expect(hn).toHaveAttribute('href', /news\.ycombinator\.com\/submitlink\?u=https%3A%2F%2Fjoekarlsson\.github\.io%2Fpunc%2Fbooks%2Fmoby-dick%2F/);
+  for (const network of ['Reddit', 'Bluesky', 'Threads', 'LinkedIn', 'X']) {
+    await expect(page.locator('.share').getByRole('link', { name: network, exact: true })).toBeVisible();
+  }
+});
+
+test('copy the link puts the page URL on the clipboard', async ({ page, context }) => {
+  await context.grantPermissions(['clipboard-read', 'clipboard-write']);
+  await page.goto('about.html');
+  await page.getByRole('button', { name: 'copy the link' }).click();
+  await expect(page.getByRole('button', { name: 'Copied' })).toBeVisible();
+  expect(await page.evaluate(() => navigator.clipboard.readText())).toBe('https://joekarlsson.github.io/punc/about.html');
+});
+
+test('the favicons, manifest and share image are served', async ({ request }) => {
+  for (const path of ['favicon.svg', 'favicon-32.png', 'apple-touch-icon.png', 'icon-512.png', 'site.webmanifest', 'og.png']) {
+    expect((await request.get(path)).status(), path).toBe(200);
+  }
 });
 
 test('an uploaded file is read in the browser', async ({ page }) => {
@@ -112,7 +184,7 @@ test('the about page has the artist statement and the footer links out', async (
 
 test('nothing scrolls sideways on a phone', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
-  for (const path of ['./', 'read.html?b=ulysses', 'about.html']) {
+  for (const path of ['./', 'books/ulysses/', 'about.html']) {
     await page.goto(path);
     await page.waitForLoadState('networkidle');
     const overflow = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);

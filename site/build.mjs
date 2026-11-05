@@ -9,6 +9,7 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { gunzipSync } from 'node:zlib';
+import { createHash } from 'node:crypto';
 
 const SITE = 'site';
 const OUT = 'site-dist';
@@ -146,7 +147,7 @@ async function writePage({ path, nav, title, socialTitle, description, body, scr
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Fraunces:opsz,wght@9..144,400..700&family=Hanken+Grotesk:wght@400..700&display=swap">
-<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="styles.css?v=${version}">
 </head>
 <body${data}>
 ${crayonFilter}
@@ -166,7 +167,7 @@ ${shareLinks(url, socialTitle ?? title)}
   </nav>
   <p>Punc is an art project by Joe Karlsson. Shelf books and covers from Project Gutenberg.</p>
 </footer>
-<script type="module" src="assets/${script}"></script>
+<script type="module" src="assets/${script}?v=${version}"></script>
 </body>
 </html>
 `;
@@ -177,6 +178,12 @@ ${shareLinks(url, socialTitle ?? title)}
   await mkdir(join(OUT, path, '..'), { recursive: true });
   await writeFile(join(OUT, path), rooted);
 }
+
+// GitHub Pages lets browsers cache CSS and JS for 10 minutes. A content hash
+// in the URL makes each deploy load the new files right away.
+const assetHash = createHash('sha256');
+for (const file of ['styles.css', 'assets/reader.js', 'assets/shelf.js', 'assets/page.js']) assetHash.update(await readFile(join(OUT, file)));
+const version = assetHash.digest('hex').slice(0, 10);
 
 const fragment = async name => readFile(join(SITE, 'pages', name), 'utf8');
 

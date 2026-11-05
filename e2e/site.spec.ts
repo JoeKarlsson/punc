@@ -187,6 +187,45 @@ test('copy the marks puts only the punctuation on the clipboard', async ({ page,
   expect(copied.slice(0, 40)).toMatch(/^[.,;:'"!?()\-\[\]*_]+$/);
 });
 
+test('a book page shows its fingerprint, how its marks change, and describes its canvases', async ({ page }) => {
+  await openBook(page, 'alice');
+  const fingerprint = page.locator('#book-fingerprint .fingerprint');
+  await expect(fingerprint.locator('.fp-slot')).toHaveCount(10);
+  await expect(fingerprint).toHaveAttribute('aria-label', /^Punctuation fingerprint: comma 30%, period 12%, double quote 28%/);
+  await expect(page.locator('#score-canvas')).toHaveAttribute('aria-label', /8,076 marks, mostly comma 30%, double quote 28%, period 12%/);
+  await expect(page.locator('#spiral-canvas')).toHaveAttribute('aria-label', /arrow keys to move\.$/);
+
+  await page.getByRole('button', { name: 'Counts', exact: true }).click();
+  const rows = page.locator('#through-book li');
+  await expect(rows).toHaveCount(10);
+  await expect(rows.first()).toContainText('comma');
+  await expect(rows.first().locator('rect')).toHaveCount(10);
+});
+
+test('every shelf card has a fingerprint', async ({ page }) => {
+  await page.goto('./');
+  await expect(page.locator('#shelf .cover .fingerprint')).toHaveCount(catalog.length);
+});
+
+test('the map places every book, with a tooltip and a table', async ({ page }) => {
+  await page.goto('map.html');
+  const dots = page.locator('.shelf-map a[data-tip]');
+  await expect(dots).toHaveCount(catalog.length);
+  const dot = page.locator('.shelf-map a[href="books/alice/"] .map-dot');
+  await dot.hover();
+  await expect(page.locator('#map-tip')).toBeVisible();
+  await expect(page.locator('#map-tip')).toContainText(/^Alice's Adventures in Wonderland, Lewis Carroll: [\d.]+ pauses per stop, [\d.]+% \? and !$/);
+  await page.getByText('The same books as a table').click();
+  await expect(page.locator('.map-table tbody tr')).toHaveCount(catalog.length);
+  await dot.click();
+  await expect(page).toHaveURL(/books\/alice\/$/);
+});
+
+test('share links are tagged for analytics', async ({ page }) => {
+  await page.goto('about.html');
+  await expect(page.locator('.share').getByRole('link', { name: 'Hacker News' })).toHaveClass(/plausible-event-name=Share\+Click plausible-event-network=Hacker\+News/);
+});
+
 test('the counts list every mark, most used first', async ({ page }) => {
   await openBook(page, 'alice');
   await page.getByRole('button', { name: 'Counts', exact: true }).click();
@@ -203,7 +242,7 @@ test('the about page has the artist statement and the footer links out', async (
 
 test('nothing scrolls sideways on a phone', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
-  for (const path of ['./', 'books/ulysses/', 'about.html']) {
+  for (const path of ['./', 'books/ulysses/', 'about.html', 'map.html']) {
     await page.goto(path);
     await page.waitForLoadState('networkidle');
     const overflow = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);

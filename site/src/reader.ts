@@ -2,6 +2,7 @@ import { analyzeBook, erasedPages, type BookAnalysis } from './analyze';
 import { createSpiralExplorer, drawScore, downloadCanvas, type SpiralExplorer } from './canvas';
 import { initPosters } from './posters';
 import { initShare } from './share';
+import { fingerprintHTML, markShares, marksThroughBook, throughBookHTML } from './patterns';
 
 interface CatalogBook {
   slug: string;
@@ -88,6 +89,11 @@ function showBook(rawText: string, title: string, byline: string, fileStem: stri
   byId('stat-top').textContent = book.counts[0]?.[0] ?? '';
 
   renderCounts(book);
+  byId('book-fingerprint').innerHTML =
+    fingerprintHTML(markShares(book.marks), 'fingerprint fingerprint-large') +
+    '<p class="fp-caption">Its punctuation fingerprint: each mark\'s share, on the same scale as every book on the shelf.</p>';
+  byId('through-book').innerHTML = throughBookHTML(marksThroughBook(book.marks));
+  describeCanvases(book);
   setUpPages(erasedPages(book.text));
 
   const drawn = new Set<string>();
@@ -144,6 +150,24 @@ function showBook(rawText: string, title: string, byline: string, fileStem: stri
     copyButton.textContent = `Copied ${book.marks.length.toLocaleString()} marks`;
     setTimeout(() => (copyButton.textContent = 'Copy the marks'), 2500);
   });
+}
+
+// Canvases are pictures to a screen reader; say what's in them.
+function describeCanvases(book: BookAnalysis): void {
+  const total = book.marks.length;
+  const top = book.counts
+    .slice(0, 3)
+    .map(([mark, count]) => `${MARK_NAMES[mark] ?? mark} ${Math.round((count / total) * 100)}%`)
+    .join(', ');
+  const summary = `${total.toLocaleString()} marks, mostly ${top}. Sentence endings are pink.`;
+  const score = byId<HTMLCanvasElement>('score-canvas');
+  score.setAttribute('role', 'img');
+  score.setAttribute('aria-label', `Score: every mark in reading order. ${summary}`);
+  // The spiral is focusable and keyboard driven, so keep its controls in the label.
+  byId<HTMLCanvasElement>('spiral-canvas').setAttribute(
+    'aria-label',
+    `Spiral: every mark wound from the center out. ${summary} Use plus and minus to zoom and the arrow keys to move.`
+  );
 }
 
 function renderCounts(book: BookAnalysis): void {

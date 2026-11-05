@@ -1,4 +1,4 @@
-import { fingerprintHTML, markShares, marksThroughBook, shelfPosition, throughBookHTML, TRACKED_MARKS } from '../site/src/patterns';
+import { fingerprintHTML, mapSVG, markShares, marksThroughBook, niceAxis, shelfPosition, throughBookHTML, TRACKED_MARKS } from '../site/src/patterns';
 
 const marks = (s: string) => [...s];
 
@@ -46,5 +46,30 @@ describe('punctuation markup', () => {
 
   test('markup escapes the quote marks it prints', () => {
     expect(fingerprintHTML(markShares(marks('"')))).toContain('<span class="fp-mark">&quot;</span>');
+  });
+});
+
+describe('map axes', () => {
+  test.each([
+    [6.4, 7, 1, 8],      // the shelf's pauses axis: 0, 1 ... 7
+    [13.9, 14, 2, 8],    // the shelf's loudness axis: 0, 2 ... 14
+    [88, 100, 20, 6],    // an upload that is almost all ? and !
+    [0, 0.5, 0.5, 2],    // a file with no punctuation
+  ])('niceAxis(%p) ends at %p', (dataMax, max, step, tickCount) => {
+    const axis = niceAxis(dataMax);
+    expect(axis.max).toBe(max);
+    expect(axis.ticks).toHaveLength(tickCount);
+    expect(axis.ticks[1]).toBe(step);
+  });
+
+  test('a book on its own page replaces its shelf dot with the highlight', () => {
+    const shelf = [
+      { slug: 'a', title: 'A', pausesPerStop: 1, loudness: 0.02 },
+      { slug: 'b', title: 'B', pausesPerStop: 2, loudness: 0.05 },
+    ];
+    const svg = mapSVG(shelf, { highlight: { slug: 'a', title: 'A', pausesPerStop: 1, loudness: 0.02 }, root: '../../' });
+    expect(svg.match(/class="map-dot"/g)).toHaveLength(1);
+    expect(svg).toContain('href="../../books/b/"');
+    expect(svg).toContain('class="map-here"');
   });
 });

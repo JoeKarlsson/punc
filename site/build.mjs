@@ -31,7 +31,7 @@ await build({
 // The same analysis the browser runs, bundled for Node so the numbers match.
 const analyzerPath = join(tmpdir(), `punc-site-analyze-${process.pid}.mjs`);
 await build({ entryPoints: [join(SITE, 'src/node-entry.ts')], bundle: true, platform: 'node', format: 'esm', outfile: analyzerPath });
-const { analyzeBook, fingerprintHTML, markShares, shelfPosition } = await import(pathToFileURL(analyzerPath).href);
+const { analyzeBook, fingerprintHTML, mapSVG, markShares, shelfPosition } = await import(pathToFileURL(analyzerPath).href);
 await rm(analyzerPath);
 
 const escapeHTML = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
@@ -77,7 +77,8 @@ function card(book, i) {
     </li>`;
 }
 
-await writeFile(join(OUT, 'books.json'), JSON.stringify(catalog));
+// Book pages and uploads draw themselves on the shelf map from this.
+await writeFile(join(OUT, 'books.json'), JSON.stringify(books.map(({ slug, title, author, pausesPerStop, loudness }) => ({ slug, title, author, pausesPerStop, loudness }))));
 await mkdir(join(OUT, 'books'), { recursive: true });
 for (const book of books) await cp(join(SITE, 'books', `${book.slug}.txt.gz`), join(OUT, 'books', `${book.slug}.txt.gz`));
 await cp(join(SITE, 'covers'), join(OUT, 'covers'), { recursive: true });
@@ -247,44 +248,13 @@ for (const book of books) {
   });
 }
 
-// The shelf map, drawn here so it works without JavaScript; map.ts only adds
-// the hover tooltip.
-function mapSVG(points) {
-  const W = 1000, H = 640, L = 70, R = 30, T = 30, B = 70;
-  const xs = points.map(b => b.pausesPerStop), ys = points.map(b => b.loudness * 100);
-  const niceMax = v => Math.ceil(v / 0.5) * 0.5;
-  const xMax = niceMax(Math.max(...xs) * 1.05), yMax = Math.ceil(Math.max(...ys) * 1.1);
-  const x = v => L + (v / xMax) * (W - L - R);
-  const y = v => H - B - (v / yMax) * (H - T - B);
-  const xTicks = Array.from({ length: Math.floor(xMax / 0.5) + 1 }, (_, i) => i * 0.5).filter((v, i, a) => a.length <= 9 || i % 2 === 0);
-  const yStep = yMax > 10 ? 2 : 1;
-  const yTicks = Array.from({ length: Math.floor(yMax / yStep) + 1 }, (_, i) => i * yStep);
-  const grid = [
-    ...xTicks.map(v => `<line class="map-grid" x1="${x(v)}" x2="${x(v)}" y1="${T}" y2="${H - B}"/><text class="map-tick" x="${x(v)}" y="${H - B + 26}" text-anchor="middle">${v}</text>`),
-    ...yTicks.map(v => `<line class="map-grid" x1="${L}" x2="${W - R}" y1="${y(v)}" y2="${y(v)}"/><text class="map-tick" x="${L - 12}" y="${y(v) + 6}" text-anchor="end">${v}%</text>`),
-  ].join('');
-  const axes = `<text class="map-axis" x="${(L + W - R) / 2}" y="${H - 14}" text-anchor="middle">pauses per stop</text><text class="map-axis" transform="translate(20 ${(T + H - B) / 2}) rotate(-90)" text-anchor="middle">? and ! share</text>`;
-  // Label the extremes and the featured books, the rest are hover-only.
-  const pick = new Set([
-    ...[...points].sort((a, b) => b.pausesPerStop - a.pausesPerStop).slice(0, 2),
-    ...[...points].sort((a, b) => b.loudness - a.loudness).slice(0, 2),
-    ...featured,
-  ].map(b => b.slug));
-  const dots = points.map(b => {
-    const cx = x(b.pausesPerStop), cy = y(b.loudness * 100);
-    const tip = `${b.title}, ${b.author}: ${b.pausesPerStop.toFixed(1)} pauses per stop, ${(b.loudness * 100).toFixed(1)}% ? and !`;
-    const label = pick.has(b.slug)
-      ? `<text class="map-label" x="${cx + (cx > W * 0.75 ? -14 : 14)}" y="${cy + 6}" text-anchor="${cx > W * 0.75 ? 'end' : 'start'}">${escapeHTML(b.title)}</text>`
-      : '';
-    return {
-      dot: `<a href="books/${b.slug}/" data-tip="${escapeHTML(tip)}" aria-label="${escapeHTML(tip)}"><circle class="map-hit" cx="${cx}" cy="${cy}" r="16"/><circle class="map-dot" cx="${cx}" cy="${cy}" r="7"/></a>`,
-      label,
-    };
-  });
-  // Labels go in their own layer above every dot, so later dots can't cover them.
-  return `<svg class="map-svg" viewBox="0 0 ${W} ${H}" role="group" aria-label="Map of the shelf: pauses per stop across, share of question and exclamation marks up">${grid}${axes}<g>${dots.map(d => d.dot).join('')}</g><g aria-hidden="true">${dots.map(d => d.label).join('')}</g></svg>`;
-}
-
+// Label the two books at each extreme and the featured ones; the rest are
+// hover-only, or the middle of the map turns into a pile of text.
+const mapLabels = [
+  ...[...books].sort((a, b) => b.pausesPerStop - a.pausesPerStop).slice(0, 2),
+  ...[...books].sort((a, b) => b.loudness - a.loudness).slice(0, 2),
+  ...featured,
+].map(b => b.slug);
 const mapRows = [...books]
   .sort((a, b) => a.title.localeCompare(b.title))
   .map(b => `        <tr><th scope="row"><a href="books/${b.slug}/">${escapeHTML(b.title)}</a>, ${escapeHTML(b.author)}</th><td>${b.pausesPerStop.toFixed(1)}</td><td>${(b.loudness * 100).toFixed(1)}%</td></tr>`)
@@ -295,7 +265,7 @@ await writePage({
   title: 'The map · Punc',
   socialTitle: 'Punc: a map of famous books by their punctuation',
   description: `${books.length} books placed by punctuation alone: how many pauses before each stop, and how many question and exclamation marks.`,
-  body: (await fragment('map.html')).replace('<!--MAP-->', mapSVG(books)).replace('<!--MAPTABLE-->', mapRows),
+  body: (await fragment('map.html')).replace('<!--MAP-->', mapSVG(books, { labelled: mapLabels })).replace('<!--MAPTABLE-->', mapRows),
   script: 'map.js',
 });
 

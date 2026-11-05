@@ -39,7 +39,8 @@ two parts:
   - **Pages**: the book's pages with every letter erased and the marks left in
     place.
   - **Counts**: how each mark's share changes through the book, tenth by
-    tenth, then every mark, most used first.
+    tenth, where the book sits on the shelf map, then every mark, most used
+    first. A file you open yourself lands on the map too.
 
   Each page also shows the book's **punctuation fingerprint**: ten bars for
   the ten most common marks, on one scale shared by every book.

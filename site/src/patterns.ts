@@ -101,3 +101,79 @@ export function throughBookHTML(series: number[][]): string {
   }).join('');
   return `<ol class="through-book">${rows}</ol>`;
 }
+
+// An axis from 0 that ends on a round number, with at most `maxTicks` + 1
+// ticks however wide the data runs (an all-"?!" upload reaches 80%).
+export function niceAxis(dataMax: number, maxTicks = 8): { max: number; ticks: number[] } {
+  const steps = [0.5, 1, 2, 5, 10, 20, 25, 50, 100];
+  const top = Math.max(dataMax, 0.5);
+  const step = steps.find(st => Math.ceil(top / st) <= maxTicks) ?? 100;
+  const max = Math.ceil(top / step) * step;
+  return { max, ticks: Array.from({ length: max / step + 1 }, (_, i) => i * step) };
+}
+
+export interface MapPoint {
+  slug?: string;
+  title: string;
+  author?: string;
+  pausesPerStop: number;
+  loudness: number;
+}
+
+export interface MapOptions {
+  // Shelf books to label; the rest show their title on hover only
+  labelled?: string[];
+  // A book to mark on the map: a shelf book (by slug) or an uploaded file
+  highlight?: MapPoint;
+  // Prefix for links to book pages, for pages that aren't at the site root
+  root?: string;
+}
+
+// The shelf map as an SVG string. Built into map.html at build time, and drawn
+// on book pages with that book picked out. site/src/map-tooltips.ts adds the
+// hover tooltip.
+export function mapSVG(points: MapPoint[], { labelled = [], highlight, root = '' }: MapOptions = {}): string {
+  const W = 1000;
+  const H = 640;
+  const L = 70;
+  const R = 30;
+  const T = 30;
+  const B = 70;
+  const all = highlight ? [...points, highlight] : points;
+  const xAxis = niceAxis(Math.max(...all.map(b => b.pausesPerStop)) * 1.05);
+  const yAxis = niceAxis(Math.max(...all.map(b => b.loudness * 100)) * 1.1);
+  const x = (v: number) => L + (v / xAxis.max) * (W - L - R);
+  const y = (v: number) => H - B - (v / yAxis.max) * (H - T - B);
+  const xTicks = xAxis.ticks;
+  const yTicks = yAxis.ticks;
+  const grid = [
+    ...xTicks.map(v => `<line class="map-grid" x1="${x(v)}" x2="${x(v)}" y1="${T}" y2="${H - B}"/><text class="map-tick" x="${x(v)}" y="${H - B + 26}" text-anchor="middle">${v}</text>`),
+    ...yTicks.map(v => `<line class="map-grid" x1="${L}" x2="${W - R}" y1="${y(v)}" y2="${y(v)}"/><text class="map-tick" x="${L - 12}" y="${y(v) + 6}" text-anchor="end">${v}%</text>`),
+  ].join('');
+  const axes = `<text class="map-axis" x="${(L + W - R) / 2}" y="${H - 14}" text-anchor="middle">pauses per stop</text><text class="map-axis" transform="translate(20 ${(T + H - B) / 2}) rotate(-90)" text-anchor="middle">? and ! share</text>`;
+  const tipFor = (b: MapPoint) =>
+    `${b.title}${b.author ? `, ${b.author}` : ''}: ${b.pausesPerStop.toFixed(1)} pauses per stop, ${(b.loudness * 100).toFixed(1)}% ? and !`;
+  const labelAt = (cx: number, cy: number, text: string, className = 'map-label') =>
+    `<text class="${className}" x="${cx + (cx > W * 0.75 ? -16 : 16)}" y="${cy + 6}" text-anchor="${cx > W * 0.75 ? 'end' : 'start'}">${escapeHTML(text)}</text>`;
+  const picked = new Set(labelled);
+
+  const dots: string[] = [];
+  const labels: string[] = [];
+  for (const b of points) {
+    if (highlight?.slug && b.slug === highlight.slug) continue;
+    const cx = x(b.pausesPerStop);
+    const cy = y(b.loudness * 100);
+    const tip = escapeHTML(tipFor(b));
+    dots.push(`<a href="${root}books/${b.slug}/" data-tip="${tip}" aria-label="${tip}"><circle class="map-hit" cx="${cx}" cy="${cy}" r="16"/><circle class="map-dot" cx="${cx}" cy="${cy}" r="7"/></a>`);
+    if (b.slug && picked.has(b.slug) && !highlight) labels.push(labelAt(cx, cy, b.title));
+  }
+  if (highlight) {
+    const cx = x(highlight.pausesPerStop);
+    const cy = y(highlight.loudness * 100);
+    const tip = escapeHTML(tipFor(highlight));
+    dots.push(`<g class="map-here" data-tip="${tip}" tabindex="0" aria-label="${tip}"><circle class="map-here-dot" cx="${cx}" cy="${cy}" r="12"/></g>`);
+    labels.push(labelAt(cx, cy, highlight.title, 'map-label map-label-here'));
+  }
+  // Labels go in their own layer above every dot, so later dots can't cover them.
+  return `<svg class="map-svg" viewBox="0 0 ${W} ${H}" role="group" aria-label="Map of the shelf: pauses per stop across, share of question and exclamation marks up">${grid}${axes}<g>${dots.join('')}</g><g aria-hidden="true">${labels.join('')}</g></svg>`;
+}

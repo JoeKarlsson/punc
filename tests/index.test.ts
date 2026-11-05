@@ -18,16 +18,21 @@ import {
   PDFResult,
 } from '../src/types';
 import { writeFile, unlink, stat } from 'fs/promises';
-import { existsSync } from 'fs';
+import { mkdtempSync, readFileSync, writeFileSync } from 'fs';
+import { tmpdir } from 'os';
+import { join } from 'path';
+import { gunzipSync } from 'zlib';
 
-const HEMINGWAY = '/Users/joekarlsson/Downloads/literature/ernest-hemingway/hemingway_the-sun-also-rises.txt';
-const DICKINSON = '/Users/joekarlsson/Downloads/literature/emily-dickinson/emily-dickinson_complete-poems.txt';
-
-// These tests require large local text files not bundled in the repo.
-// They run when the files are present (local dev) and skip on CI.
-const litAvailable = existsSync(HEMINGWAY) && existsSync(DICKINSON);
-const testWhenLit = litAvailable ? test : test.skip;
-const describeWhenLit = litAvailable ? describe : describe.skip;
+// Full-length books for the literature tests, unpacked from the website's
+// shelf (site/books/*.txt.gz) into a temp folder, so they run everywhere.
+const LIT_DIR = mkdtempSync(join(tmpdir(), 'punc-lit-'));
+function shelfBook(slug: string): string {
+  const path = join(LIT_DIR, `${slug}.txt`);
+  writeFileSync(path, gunzipSync(readFileSync(`site/books/${slug}.txt.gz`)));
+  return path;
+}
+const HEMINGWAY = shelfBook('the-sun-also-rises');
+const DICKINSON = shelfBook('dickinson-poems');
 
 describe('Main Exports', () => {
   describe('Default export', () => {
@@ -494,7 +499,7 @@ describe('Analysis — windowedDensity', () => {
 describe('SVG Rendering Correctness', () => {
   const LIT_FILE = HEMINGWAY;
 
-  testWhenLit('radial map has non-zero counts after getPositions', async () => {
+  test('radial map has non-zero counts after getPositions', async () => {
     const { map } = await getPositions(LIT_FILE);
     const total = Object.values(map).reduce((s, v) => s + v, 0);
     expect(total).toBeGreaterThan(0);
@@ -502,7 +507,7 @@ describe('SVG Rendering Correctness', () => {
     expect(map[',']).toBeGreaterThan(0);
   });
 
-  testWhenLit('radial SVG contains spoke lines (not "No punctuation found")', async () => {
+  test('radial SVG contains spoke lines (not "No punctuation found")', async () => {
     const result = await createRadialSVG(LIT_FILE);
     expect(result.svg).not.toContain('No punctuation found');
     expect(result.svg).toContain('<line'); // at least one spoke
@@ -542,7 +547,7 @@ describe('SVG Rendering Correctness', () => {
     }
   });
 
-  testWhenLit('waveform SVG contains a path per series', async () => {
+  test('waveform SVG contains a path per series', async () => {
     const result = await createWaveformSVG(LIT_FILE);
     // 7 series × 2 paths each (area + line) = 14
     const pathCount = (result.svg.match(/<path/g) ?? []).length;
@@ -579,14 +584,14 @@ describe('SVG Rendering Correctness', () => {
     }
   });
 
-  testWhenLit('radial SVG contains glow filter definition', async () => {
+  test('radial SVG contains glow filter definition', async () => {
     const result = await createRadialSVG(LIT_FILE);
     expect(result.svg).toContain('<filter id="glow"');
     expect(result.svg).toContain('feGaussianBlur');
     await unlink(result.pathToFile);
   }, 30000);
 
-  testWhenLit('heatmap SVG contains colour-scale legend gradient', async () => {
+  test('heatmap SVG contains colour-scale legend gradient', async () => {
     const result = await createHeatmapSVG(LIT_FILE);
     expect(result.svg).toContain('id="hm-legend"');
     await unlink(result.pathToFile);
@@ -699,7 +704,7 @@ describe('SVG Visualizations', () => {
   });
 });
 
-describeWhenLit('Literature — Hemingway vs Dickinson', () => {
+describe('Literature — Hemingway vs Dickinson', () => {
   test('Hemingway: comma-heavy prose (commas > exclamations)', async () => {
     const result = await punc(HEMINGWAY);
     expect(result.count[',']).toBeGreaterThan(result.count['!']);
@@ -847,7 +852,7 @@ describe('SVG Rendering Correctness — Score & Spiral', () => {
     }
   });
 
-  testWhenLit('createScoreSVG works on a full novel', async () => {
+  test('createScoreSVG works on a full novel', async () => {
     const result = await createScoreSVG(HEMINGWAY, {
       title: 'The Sun Also Rises',
       subtitle: 'Ernest Hemingway · 1926',
@@ -872,7 +877,7 @@ describe('SVG Rendering Correctness — Score & Spiral', () => {
     }
   });
 
-  testWhenLit('createSpiralSVG works on a full poetry collection', async () => {
+  test('createSpiralSVG works on a full poetry collection', async () => {
     const result = await createSpiralSVG(DICKINSON, {
       title: 'Complete Poems',
       subtitle: 'Emily Dickinson · 1890–1896',

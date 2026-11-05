@@ -1,33 +1,53 @@
 # Punc
 
-[![npm version](https://img.shields.io/npm/v/punc.svg)](https://www.npmjs.com/package/punc)
-[![Build Status](https://github.com/JoeKarlsson/punc/workflows/CI%2FCD%20Pipeline/badge.svg)](https://github.com/JoeKarlsson/punc/actions)
-[![Coverage Status](https://codecov.io/gh/JoeKarlsson/punc/branch/main/graph/badge.svg)](https://codecov.io/gh/JoeKarlsson/punc)
+[![Website](https://img.shields.io/badge/website-joekarlsson.github.io%2Fpunc-ff4fd8)](https://joekarlsson.github.io/punc/)
+[![Build Status](https://github.com/JoeKarlsson/punc/workflows/CI%2FCD%20Pipeline/badge.svg)](https://github.com/JoeKarlsson/punc/actions/workflows/ci.yml)
+[![Deploy](https://github.com/JoeKarlsson/punc/actions/workflows/pages.yml/badge.svg)](https://github.com/JoeKarlsson/punc/actions/workflows/pages.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-> Ever wonder what your favorite books look like without words?
+> What does a book look like without words?
 
-Punc is a modern TypeScript library for analyzing punctuation patterns in text
-files. It extracts punctuation marks, counts their frequency, calculates words
-per sentence, and can generate PDF visualizations showing only the punctuation.
+Punc takes the words out of a book and leaves the punctuation where it was.
+It's an art project by [Joe Karlsson](https://joekarlsson.com), and it comes in
+two parts:
 
-![Punctuation Visualization](https://cloud.githubusercontent.com/assets/3915598/13369726/783be3d0-dc9c-11e5-846a-5f1ec6517966.png)
+- **[The website](https://joekarlsson.github.io/punc/)**: a shelf of the books
+  people read most on Project Gutenberg, each one drawn as punctuation only, and
+  a reader that does the same for any `.txt` file you open. Nothing you open is
+  uploaded.
+- **The library and CLI**: a TypeScript package that counts the marks in a text
+  file and draws the same pictures as SVG, PNG or PDF.
 
-## Features
+[![The Punc website: a ransom note asks what a book looks like without words, next to dithered pink posters for Frankenstein, Pride and Prejudice and Moby-Dick](https://joekarlsson.github.io/punc/og.png)](https://joekarlsson.github.io/punc/)
 
-- 🔍 **Punctuation Analysis**: Extract and count punctuation marks from text files
-- 📊 **Statistical Analysis**: Calculate words-per-sentence averages
-- 📄 **PDF Generation**: Create visual PDFs showing only punctuation patterns
-- 🎯 **TypeScript Support**: Full type safety and IntelliSense support
-- 🚀 **Modern ES Modules**: Built with latest JavaScript standards
-- ✅ **Comprehensive Testing**: 100% test coverage with Jest
-- 🔧 **Developer Experience**: ESLint, Prettier, and automated CI/CD
+## The website
 
-## Website
+[joekarlsson.github.io/punc](https://joekarlsson.github.io/punc/)
 
-The [Punc website](https://joekarlsson.github.io/punc/) shows a shelf of public
-domain books as punctuation only, and opens any `.txt` file you drop in.
-Everything runs in the browser.
+- **The shelf**: 89 books, Project Gutenberg's most read this month plus a few
+  favorites. The front page features the top four, and the full shelf can be
+  searched by title or author, filtered by genre, and sorted by popularity, title,
+  author, or how heavily punctuated each book is. Each cover is the book's
+  Gutenberg cover dithered to hot pink and black.
+- **A page for each book**, like
+  [Frankenstein](https://joekarlsson.github.io/punc/books/frankenstein/), with
+  four views:
+  - **Score**: every mark in reading order.
+  - **Spiral**: the whole book wound from the center out. Zoom and drag to
+    explore it.
+  - **Pages**: the book's pages with every letter erased and the marks left in
+    place.
+  - **Counts**: every mark, most used first.
+- **[Read your own](https://joekarlsson.github.io/punc/read.html)**: open any
+  plain text file and get the same views. It's read in your browser and never
+  leaves your computer.
+- **[About](https://joekarlsson.github.io/punc/about.html)**: the artist
+  statement.
+
+Every page has share links and its own preview card. Score and Spiral can be
+downloaded as PNG.
+
+### Working on the site
 
 ```bash
 npm run site:build   # build the static site into site-dist/
@@ -35,189 +55,125 @@ npm run site:serve   # build, then serve it at http://localhost:4173
 npm run test:e2e     # Playwright browser tests against the built site
 ```
 
-The site lives in `site/`: page fragments in `site/pages`, browser code in
-`site/src`, gzipped shelf books in `site/books` and covers in `site/covers`
-(listed in `site/catalog.json`). `node site/scripts/fetch-books.mjs` refreshes
-the shelf from Project Gutenberg's most-read list, and
-`node site/scripts/make-images.mjs` redraws the favicons and share image. It uses
-the library's own `analyzeText` and `spiralLayout`, so it counts marks the same
-way the CLI does. Pushes to `main` deploy it through
-`.github/workflows/pages.yml`.
+| Path | What's in it |
+| --- | --- |
+| `site/pages/` | HTML for the shelf, reader and About pages |
+| `site/src/` | Browser code: analysis, canvas drawing, spiral zoom, dithering, shelf search |
+| `site/styles.css` | All styles |
+| `site/build.mjs` | Builds `site-dist/`, including one page per book |
+| `site/catalog.json`, `site/books/`, `site/covers/` | The shelf: book list, gzipped texts, covers |
+| `site/scripts/fetch-books.mjs` | Refreshes the shelf from Project Gutenberg |
+| `site/scripts/make-images.mjs` | Redraws the favicons and the share image |
+| `e2e/` | Playwright tests |
 
-## Installation
+To refresh the shelf, run `node site/scripts/fetch-books.mjs`. It reads
+Gutenberg's "Top 100 EBooks last 30 days" and its catalog, skips reference
+books, non-English and repeat editions, and downloads anything new. Title and
+author fixes go in the script's `TITLES` and `AUTHORS` lists, not in
+`catalog.json`. After changing the shelf or the headline, run
+`npm run site:build && node site/scripts/make-images.mjs`.
 
-```bash
-npm install punc
-```
+The site counts marks with the library's own `analyzeText`, so its numbers match
+the CLI. It also counts curly quotes and long dashes as their plain versions.
+Every push to `main` deploys it through `.github/workflows/pages.yml`.
 
-## Quick Start
+## The library and CLI
 
-```typescript
-import punc, { createPDF } from 'punc';
-
-// Analyze punctuation in a text file
-const result = await punc('path/to/your/file.txt');
-
-console.log('Punctuation counts:', result.count);
-console.log('Punctuation only:', result.body);
-console.log('Words per sentence:', result.wordsPerSentence);
-console.log('Spaced text:', result.spaced);
-
-// Generate a PDF visualization
-const pdfResult = await createPDF('path/to/your/file.txt');
-console.log('PDF created:', pdfResult.pathToFile);
-```
-
-## API Reference
-
-### `punc(filePath, options?)`
-
-Analyzes punctuation in a text file and returns detailed statistics.
-
-**Parameters:**
-
-- `filePath` (string): Path to the text file to analyze
-- `options` (PuncOptions | string, optional): Configuration options
-
-**Returns:** `Promise<PuncResult>`
-
-**Example:**
-
-```typescript
-const result = await punc('alice.txt', {
-  encoding: 'utf8',
-  mapping: {
-    ';': 0, ':': 0, "'": 0, '"': 0, ',': 0,
-    '!': 0, '?': 0, '.': 0, '(': 0, ')': 0, '-': 0
-  }
-});
-```
-
-### `createPDF(filePath, options?)`
-
-Creates a PDF visualization showing only punctuation marks.
-
-**Parameters:**
-
-- `filePath` (string): Path to the text file
-- `options` (PuncOptions | string, optional): Configuration options
-
-**Returns:** `Promise<PDFResult>`
-
-**Example:**
-
-```typescript
-const pdfResult = await createPDF('alice.txt');
-console.log('PDF saved to:', pdfResult.pathToFile);
-```
-
-## Types
-
-```typescript
-interface PunctuationCount {
-  ';': number;
-  ':': number;
-  "'": number;
-  '"': number;
-  ',': number;
-  '!': number;
-  '?': number;
-  '.': number;
-  '(': number;
-  ')': number;
-  '-': number;
-}
-
-interface PuncResult {
-  body: string;              // Punctuation marks only
-  count: PunctuationCount;   // Count of each punctuation mark
-  wordsPerSentence: number;  // Average words per sentence
-  spaced: string;           // Text with words replaced by spaces
-}
-
-interface PDFResult {
-  success: boolean;
-  pathToFile: string;
-}
-```
-
-## Development
-
-### Prerequisites
-
-- Node.js 18+
-- npm
-
-### Setup
+The version on npm (`punc@1.3.3`) is an older release that only counts marks and
+makes PDFs. Everything below, including the SVG and PNG pictures and the CLI, is
+version 2.0, which isn't published yet. To use it now, build it from source:
 
 ```bash
 git clone https://github.com/JoeKarlsson/punc.git
 cd punc
 npm install
+npm run build
 ```
 
-### Available Scripts
+### CLI
 
 ```bash
-npm run build          # Build the project (TypeScript + ESBuild)
-npm run dev           # Watch mode for development
-npm test              # Run tests with Jest
-npm run test:watch    # Run tests in watch mode
-npm run test:coverage # Run tests with coverage report
-npm run lint          # Run ESLint code quality checks
-npm run lint:fix      # Fix ESLint issues automatically
-npm run format        # Format code with Prettier
-npm run type-check    # Check TypeScript types without emitting files
-npm run markdown-lint # Check and fix markdown formatting
-npm run check         # Run all checks (type-check + lint + markdown-lint + test)
-npm run clean         # Clean build artifacts
+node dist/cli.js book.txt                  # table of every mark and its count
+node dist/cli.js book.txt --score --spiral # also write SVGs next to the file
+node dist/cli.js book.txt --all --png      # all six pictures, as PNG
 ```
 
-### Testing
+| Option | Writes |
+| --- | --- |
+| `--score` | Every mark in reading order, as a grid |
+| `--spiral` | Every mark wound into a spiral |
+| `--barcode` | A stripe for each mark across the length of the book |
+| `--heatmap` | Punctuation density through the book, as a grid |
+| `--waveform` | How often each mark appears through the book |
+| `--radial` | How often each mark appears overall |
+| `--all` | All six |
+| `--png` | PNG instead of SVG |
+
+### API
+
+```typescript
+import punc, { createPDF, createSpiralSVG, analyzeText } from 'punc';
+
+// Counts for a file
+const result = await punc('alice.txt');
+result.count;            // { ',': 2427, '.': 999, ... }
+result.body;             // the marks only, in order
+result.spaced;           // the text with each word replaced by a space
+
+// Pictures
+await createPDF('alice.txt');                           // alice.txt-visual.pdf
+await createSpiralSVG('alice.txt', { format: 'png' });  // alice.txt-spiral.png
+
+// Strings instead of files
+const { positions, totalChars, map } = analyzeText('"Wait," she said.');
+```
+
+| Function | Returns |
+| --- | --- |
+| `punc(file, options?)` | `{ count, body, spaced, wordsPerSentence }` |
+| `createPDF(file, options?)` | A PDF of the text with only the marks showing |
+| `createScoreSVG`, `createSpiralSVG`, `createBarcodeSVG`, `createHeatmapSVG`, `createWaveformSVG`, `createRadialSVG` `(file, options?)` | `{ success, pathToFile, svg }` |
+| `getPositions(file, options?)` | Every mark and its character offset |
+| `analyzeText(text, mapping?)` | The same, for a string |
+| `windowedDensity(positions, totalChars, windows?)` | Mark counts for each slice of the text |
+| `spiralLayout(count, width, height)` | Where each mark sits on the spiral |
+| `countWords(text)`, `wordsPerSentence(text)` | Word and sentence counts |
+| `defaultMapping()` | Every mark Punc tracks, each counted as 0 |
+
+The SVG functions take `width`, `height`, `background`, `title`, `subtitle`,
+`outputPath`, `format` (`'svg'` or `'png'`) and, for the density pictures,
+`windows`. Every function also takes `encoding` and a custom `mapping`.
+
+### Which marks count
+
+About a hundred, listed in `src/mapping.ts`:
+
+- Everyday punctuation: `. , ; : ? ! ' " ( ) -`
+- Brackets and symbols: `[ ] { } < > / \ | * & @ # ~ ^` and backticks
+- Typographic symbols: `§ ¶ ° © ® ™`, currency, arrows and math signs
+- Spanish, Arabic and Chinese punctuation: `¿ ¡ ؟ ، ؛ ， 。 ； ： ？ ！`
+- A few dozen decorative symbols: stars, hearts, checkmarks and box-drawing lines
+
+## Development
+
+Node.js 18 or newer.
 
 ```bash
-# Run all tests
-npm test
-
-# Run tests with coverage
-npm run test:coverage
-
-# Run tests in watch mode
-npm run test:watch
+npm run check        # type check, lint, markdown lint and unit tests
+npm run test:e2e     # browser tests for the site
+npm run build        # build the library and CLI into dist/
 ```
 
-## Punctuation Marks
+`npm run check` and the browser tests run in CI on every push.
 
-The library tracks these punctuation marks:
+## Credits
 
-- `;` - Semicolon
-- `:` - Colon
-- `'` - Single quote
-- `"` - Double quote
-- `,` - Comma
-- `!` - Exclamation mark
-- `?` - Question mark
-- `.` - Period
-- `(` - Opening parenthesis
-- `)` - Closing parenthesis
-- `-` - Hyphen/dash
-
-## Inspiration
-
-This project was inspired by [this article](https://medium.com/@neuroecology/punctuation-in-novels-8f316d542ec4#.6e7lvvwp8)
-on Medium, which was in turn inspired by [this person's work](http://www.c82.net/work/?id=347).
-
-## Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+Punc started in 2016 after Adam J. Calhoun's essay
+[Punctuation in novels](https://medium.com/@neuroecology/punctuation-in-novels-8f316d542ec4),
+which was inspired by Nicholas Rougeux's
+[Between the Words](http://www.c82.net/work/?id=347). The books and covers on
+the website come from [Project Gutenberg](https://www.gutenberg.org/).
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
-for details.
+MIT. See [LICENSE](LICENSE).

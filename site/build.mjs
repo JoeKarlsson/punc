@@ -162,7 +162,7 @@ async function writePage({ path, nav, title, socialTitle, description, body, scr
     if (navigator.webdriver || /bot|crawl|spider|scrape|headless/i.test(navigator.userAgent) || !navigator.languages || navigator.languages.length === 0) return;
     var s = document.createElement('script');
     s.defer = true;
-    s.dataset.domain = 'joekarlsson.github.io';
+    s.dataset.domain = 'joekarlsson.github.io/punc';
     s.src = 'https://plausible.joekarlsson.io/js/script.tagged-events.outbound-links.file-downloads.js';
     document.head.appendChild(s);
   })();

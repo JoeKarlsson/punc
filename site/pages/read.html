@@ -1,0 +1,61 @@
+<section id="upload" class="upload" hidden>
+  <h1 class="page-title">Read your own</h1>
+  <label class="dropzone" id="dropzone">
+    <input type="file" id="file-input" accept=".txt,.md,.text,text/plain">
+    <span class="dropzone-big">Drop a .txt file here</span>
+    <span class="dropzone-small">or click to pick one. The file is read in your browser and never leaves your computer.</span>
+  </label>
+  <p class="hint">Project Gutenberg has about 75,000 free books as plain text. Download the "Plain Text UTF-8" version of any of them and drop it in.</p>
+</section>
+
+<p id="status" class="status" role="status" aria-live="polite"></p>
+
+<article id="book" class="book" hidden>
+  <header class="book-head">
+    <h1 id="book-title" class="book-title"></h1>
+    <p id="book-byline" class="book-byline"></p>
+    <dl class="stats">
+      <div><dt>marks</dt><dd id="stat-marks"></dd></div>
+      <div><dt>words a sentence</dt><dd id="stat-wps"></dd></div>
+      <div><dt>most used mark</dt><dd id="stat-top" class="serif-mark"></dd></div>
+    </dl>
+  </header>
+
+  <nav class="views" aria-label="Ways to look at it">
+    <button type="button" data-view="pages" aria-pressed="true">Pages</button>
+    <button type="button" data-view="spiral" aria-pressed="false">Spiral</button>
+    <button type="button" data-view="score" aria-pressed="false">Score</button>
+    <button type="button" data-view="counts" aria-pressed="false">Counts</button>
+  </nav>
+
+  <section id="view-pages" class="view">
+    <p class="view-note">Every letter and number is gone. The marks stay where they were on the page.</p>
+    <div class="spread">
+      <div class="page"><pre id="page-left"></pre><span class="folio" id="folio-left"></span></div>
+      <div class="page page-right"><pre id="page-right"></pre><span class="folio" id="folio-right"></span></div>
+    </div>
+    <div class="pager">
+      <button type="button" class="button" id="page-prev">Back</button>
+      <input type="range" id="page-range" min="0" value="0" aria-label="Page">
+      <button type="button" class="button" id="page-next">Turn</button>
+    </div>
+  </section>
+
+  <section id="view-spiral" class="view" hidden>
+    <p class="view-note">The whole book, wound from the center out. Sentence endings are pink.</p>
+    <canvas id="spiral-canvas" class="art"></canvas>
+    <button type="button" class="button" data-download="spiral">Download PNG</button>
+  </section>
+
+  <section id="view-score" class="view" hidden>
+    <p class="view-note">Every mark in reading order, left to right, top to bottom. Sentence endings are pink.</p>
+    <canvas id="score-canvas" class="art"></canvas>
+    <button type="button" class="button" data-download="score">Download PNG</button>
+  </section>
+
+  <section id="view-counts" class="view" hidden>
+    <ol id="counts" class="counts"></ol>
+  </section>
+
+  <p class="another"><a href="read.html">Read your own</a> or go back to <a href="./">the shelf</a></p>
+</article>

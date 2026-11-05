@@ -1,0 +1,694 @@
+/* Punc. Concept: a photocopied punk zine about books. Black ground, one hot
+   pink, a warm chalk white for paper and tape; Anton poster type, Fraunces for
+   reading and for the marks themselves. Tokens match joekarlsson.com. */
+
+:root {
+  --ink: #000000;
+  --paper: #ededed;
+  --chalk: #ece6da;
+  --pink: #ff4fd8;
+  --muted: #a3a3a3;
+  --poster: 'Anton', Impact, 'Arial Narrow', sans-serif;
+  --book: 'Fraunces', Georgia, serif;
+  --ui: 'Hanken Grotesk', system-ui, sans-serif;
+  --gutter: clamp(16px, 4vw, 48px);
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  overflow-x: clip;
+}
+
+body {
+  margin: 0;
+  background: var(--ink);
+  color: var(--paper);
+  font-family: var(--book);
+  font-size: clamp(17px, 0.95rem + 0.4vw, 20px);
+  line-height: 1.6;
+  overflow-x: clip;
+}
+
+a {
+  color: var(--pink);
+  text-underline-offset: 0.15em;
+}
+
+a:hover {
+  color: var(--paper);
+}
+
+:focus-visible {
+  outline: 3px solid var(--pink);
+  outline-offset: 3px;
+}
+
+::selection {
+  background: var(--pink);
+  color: var(--ink);
+}
+
+.defs {
+  position: absolute;
+  width: 0;
+  height: 0;
+}
+
+.skip {
+  position: absolute;
+  left: -9999px;
+}
+
+.skip:focus {
+  left: var(--gutter);
+  top: 8px;
+  background: var(--pink);
+  color: var(--ink);
+  padding: 4px 10px;
+  z-index: 10;
+}
+
+main {
+  padding: 0 var(--gutter) 6rem;
+}
+
+/* header */
+
+.site-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem 2rem;
+  padding: 1.25rem var(--gutter) 0;
+}
+
+.wordmark {
+  font-family: var(--poster);
+  font-size: clamp(2.6rem, 6vw, 4rem);
+  line-height: 1;
+  text-transform: uppercase;
+  color: var(--pink);
+  text-decoration: none;
+  transform: rotate(-2deg);
+  display: inline-block;
+}
+
+.site-header nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 1.5rem;
+  font-family: var(--poster);
+  font-size: clamp(1.1rem, 2.4vw, 1.5rem);
+  text-transform: uppercase;
+}
+
+.site-header nav a {
+  color: var(--paper);
+  text-decoration: none;
+}
+
+.site-header nav a:hover,
+.site-header nav a[aria-current='page'] {
+  color: var(--pink);
+  text-decoration: underline;
+  text-decoration-thickness: 4px;
+}
+
+/* hero: a ransom note cut from magazines */
+
+.hero {
+  padding: clamp(2.5rem, 6vw, 4rem) 0 clamp(2.5rem, 5vw, 3.5rem);
+  max-width: 1200px;
+}
+
+.ransom {
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.18em 0.22em;
+  font-size: clamp(2.4rem, 7vw, 5.5rem);
+  line-height: 1;
+  font-weight: 400;
+}
+
+.cut {
+  display: inline-block;
+  padding: 0.06em 0.16em 0.02em;
+  font-family: var(--poster);
+  text-transform: uppercase;
+  transform: rotate(var(--r, -1deg));
+}
+
+.cut.serif {
+  font-family: var(--book);
+  font-weight: 700;
+  text-transform: none;
+  padding-bottom: 0.1em;
+}
+
+.cut:nth-child(3n) { --r: 2deg; }
+.cut:nth-child(3n + 1) { --r: -2.5deg; }
+.cut:nth-child(4n) { --r: 0.8deg; }
+
+.cut-pink { background: var(--pink); color: var(--ink); }
+.cut-chalk { background: var(--chalk); color: var(--ink); }
+.cut-paper { background: var(--paper); color: var(--ink); }
+.cut-ink { background: var(--ink); color: var(--paper); }
+
+.ringed {
+  position: relative;
+}
+
+.ring {
+  position: absolute;
+  left: -14%;
+  top: -22%;
+  width: 128%;
+  height: 150%;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.ring path {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: redraw 9s 0.6s cubic-bezier(0.45, 0.55, 0.3, 1) infinite;
+}
+
+@keyframes redraw {
+  0% { stroke-dashoffset: 1; }
+  35%, 85% { stroke-dashoffset: 0; }
+  100% { stroke-dashoffset: -1; }
+}
+
+.lede {
+  max-width: 32em;
+  margin: 1.75rem 0 0;
+  font-size: clamp(1.15rem, 1rem + 0.6vw, 1.45rem);
+}
+
+.section-title,
+.page-title {
+  font-family: var(--poster);
+  font-weight: 400;
+  text-transform: uppercase;
+  line-height: 1;
+  margin: 0 0 1.5rem;
+}
+
+.section-title {
+  font-size: clamp(2rem, 5vw, 3.25rem);
+}
+
+.page-title {
+  font-size: clamp(3rem, 10vw, 7rem);
+  margin: clamp(2rem, 6vw, 4rem) 0 2rem;
+}
+
+/* the shelf: book jackets taped to the wall */
+
+.shelf {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 230px), 1fr));
+  gap: 3.5rem clamp(1.5rem, 3vw, 2.5rem);
+}
+
+.cover {
+  transform: rotate(var(--tilt, 0deg));
+  transition: transform 0.2s ease-out;
+}
+
+.cover:hover,
+.cover:focus-within {
+  transform: rotate(0deg) scale(1.02);
+}
+
+.cover a {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  aspect-ratio: 2 / 3;
+  padding: 1.6rem 1.1rem 1.1rem;
+  color: var(--ink);
+  text-decoration: none;
+  overflow: hidden;
+}
+
+/* Masking tape across the top edge */
+.cover a::before {
+  content: '';
+  position: absolute;
+  top: -4px;
+  left: 30%;
+  width: 40%;
+  height: 26px;
+  background: var(--tape, var(--pink));
+  transform: rotate(-3deg);
+  clip-path: polygon(0 10%, 4% 0, 9% 12%, 14% 2%, 20% 10%, 100% 0, 97% 30%, 100% 55%, 96% 80%, 100% 100%, 0 92%, 3% 60%, 0 35%);
+}
+
+.cover-pink a { background: var(--pink); --tape: var(--chalk); }
+.cover-chalk a { background: var(--chalk); }
+.cover-paper a { background: var(--paper); }
+.cover-yours a { background: var(--chalk); }
+
+.cover-marks {
+  flex: 1;
+  overflow: hidden;
+  font-family: var(--book);
+  font-weight: 600;
+  font-size: 1.35rem;
+  line-height: 1.15;
+  letter-spacing: 0.06em;
+  word-break: break-all;
+}
+
+.cover-yours .cover-marks {
+  font-size: 2.6rem;
+}
+
+.cover-label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin-top: 0.75rem;
+  align-items: flex-start;
+}
+
+.cover-title {
+  background: var(--ink);
+  color: var(--paper);
+  font-family: var(--poster);
+  font-size: 1.55rem;
+  line-height: 1.05;
+  text-transform: uppercase;
+  padding: 0.2em 0.35em 0.15em;
+  transform: rotate(-1.5deg);
+}
+
+.cover-pink .cover-title { color: var(--pink); }
+.cover-yours .cover-title { background: var(--pink); color: var(--ink); }
+
+.cover-author {
+  font-family: var(--book);
+  font-weight: 600;
+  font-size: 1rem;
+  background: var(--chalk);
+  color: var(--ink);
+  padding: 0 0.4em;
+  transform: rotate(1deg);
+}
+
+.cover-meta {
+  margin: 0.9rem 0 0;
+  font-family: var(--ui);
+  font-size: 0.85rem;
+  line-height: 1.4;
+  color: var(--muted);
+}
+
+/* reader */
+
+.status {
+  min-height: 1.6em;
+  margin: 1rem 0;
+  font-weight: 700;
+  font-size: 1.4rem;
+  color: var(--pink);
+}
+
+.status:empty {
+  margin: 0;
+  min-height: 0;
+}
+
+.dropzone {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  max-width: 900px;
+  padding: clamp(2rem, 6vw, 4rem) clamp(1.25rem, 4vw, 3rem);
+  background: var(--pink);
+  color: var(--ink);
+  cursor: pointer;
+  transform: rotate(-0.8deg);
+}
+
+.dropzone input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+
+.dropzone:focus-within {
+  outline: 3px solid var(--paper);
+  outline-offset: 6px;
+}
+
+.dropzone.dragging {
+  background: var(--chalk);
+  transform: rotate(0deg);
+}
+
+.dropzone-big {
+  font-family: var(--poster);
+  font-size: clamp(2.2rem, 7vw, 5rem);
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.dropzone-small {
+  max-width: 30em;
+  font-size: 1.1rem;
+}
+
+.hint {
+  max-width: 34em;
+  margin-top: 2.5rem;
+}
+
+.book-head {
+  padding-top: clamp(2rem, 6vw, 4rem);
+}
+
+.book-title {
+  margin: 0;
+  max-width: 14ch;
+  font-family: var(--poster);
+  font-weight: 400;
+  font-size: clamp(3rem, 10vw, 7.5rem);
+  line-height: 0.95;
+  text-transform: uppercase;
+}
+
+.book-byline {
+  display: inline-block;
+  margin: 1rem 0 0;
+  padding: 0 0.4em;
+  background: var(--chalk);
+  color: var(--ink);
+  font-weight: 600;
+  font-size: 1.25rem;
+  transform: rotate(-1deg);
+}
+
+.stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem clamp(2rem, 6vw, 5rem);
+  margin: 2.5rem 0 0;
+}
+
+.stats div {
+  display: flex;
+  flex-direction: column-reverse;
+}
+
+.stats dt {
+  color: var(--muted);
+}
+
+.stats dd {
+  margin: 0;
+  font-family: var(--poster);
+  font-size: clamp(2.2rem, 5vw, 3.5rem);
+  line-height: 1;
+  color: var(--pink);
+}
+
+.stats dd.serif-mark {
+  font-family: var(--book);
+  font-weight: 700;
+}
+
+.views {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.75rem;
+  margin: 3rem 0 1.5rem;
+}
+
+.views button {
+  background: none;
+  border: 0;
+  padding: 0;
+  color: var(--paper);
+  font-family: var(--poster);
+  font-size: clamp(1.6rem, 4vw, 2.4rem);
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.views button:hover,
+.views button[aria-pressed='true'] {
+  color: var(--pink);
+  text-decoration: underline;
+  text-decoration-thickness: 5px;
+  text-underline-offset: 0.12em;
+}
+
+.view-note {
+  max-width: 34em;
+  margin: 0 0 1.75rem;
+}
+
+.spread {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  max-width: 1100px;
+}
+
+.page {
+  position: relative;
+  min-height: 34rem;
+  padding: 2.5rem clamp(1.25rem, 3vw, 2.75rem) 3rem;
+  background: var(--chalk);
+  color: var(--ink);
+}
+
+.page-right {
+  background: var(--paper);
+}
+
+.page pre {
+  margin: 0;
+  font-family: var(--book);
+  font-size: 1.05rem;
+  font-weight: 600;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.folio {
+  position: absolute;
+  bottom: 1rem;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-family: var(--ui);
+  font-size: 0.85rem;
+}
+
+.pager {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  max-width: 1100px;
+  margin-top: 1.5rem;
+}
+
+.pager input {
+  flex: 1;
+  accent-color: var(--pink);
+}
+
+.button {
+  background: var(--pink);
+  color: var(--ink);
+  border: 0;
+  border-radius: 0;
+  padding: 0.35em 0.8em 0.3em;
+  font-family: var(--poster);
+  font-size: 1.25rem;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.button:hover {
+  background: var(--chalk);
+}
+
+.art {
+  display: block;
+  width: 100%;
+  max-width: 1100px;
+  height: auto;
+  margin-bottom: 1.25rem;
+}
+
+.counts {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  max-width: 900px;
+  display: grid;
+  gap: 0.6rem;
+}
+
+.counts li {
+  display: grid;
+  grid-template-columns: 3.5rem 1fr;
+  grid-template-rows: auto auto;
+  column-gap: 1rem;
+  align-items: center;
+}
+
+.count-mark {
+  grid-row: span 2;
+  font-family: var(--book);
+  font-weight: 700;
+  font-size: 2.6rem;
+  line-height: 1;
+  text-align: center;
+  color: var(--pink);
+}
+
+.count-name {
+  font-family: var(--ui);
+  font-size: 0.95rem;
+}
+
+.count-bar {
+  height: 12px;
+  background: var(--paper);
+}
+
+.another {
+  margin-top: 4rem;
+}
+
+/* about */
+
+.about {
+  max-width: 34em;
+}
+
+.about section {
+  margin-bottom: 3.5rem;
+}
+
+.about p {
+  margin: 0 0 1.1rem;
+}
+
+code {
+  font-family: ui-monospace, Menlo, monospace;
+  font-size: 0.9em;
+  background: var(--chalk);
+  color: var(--ink);
+  padding: 0.05em 0.3em;
+}
+
+/* footer */
+
+.site-footer {
+  background: var(--pink);
+  color: var(--ink);
+  padding: 3rem var(--gutter) 2.5rem;
+}
+
+.footer-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 2.5rem;
+  font-family: var(--poster);
+  font-size: clamp(2rem, 7vw, 4.5rem);
+  line-height: 1.1;
+  text-transform: uppercase;
+}
+
+.site-footer a {
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.site-footer a:hover {
+  text-decoration: underline;
+  text-decoration-thickness: 5px;
+}
+
+.site-footer p {
+  margin: 2rem 0 0;
+  font-weight: 600;
+}
+
+.site-footer :focus-visible {
+  outline-color: var(--ink);
+}
+
+/* small screens and reduced motion */
+
+@media (max-width: 720px) {
+  .spread {
+    grid-template-columns: 1fr;
+  }
+
+  .page-right {
+    display: none;
+  }
+
+  .page {
+    min-height: 28rem;
+  }
+
+  .shelf {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 2.25rem 1rem;
+  }
+
+  .cover a {
+    padding: 1.2rem 0.7rem 0.7rem;
+  }
+
+  .cover-marks {
+    font-size: 0.95rem;
+  }
+
+  .cover-yours .cover-marks {
+    font-size: 1.6rem;
+  }
+
+  .cover-title {
+    font-size: 1.05rem;
+  }
+
+  .cover-author {
+    font-size: 0.8rem;
+  }
+
+  .cover-meta {
+    font-size: 0.75rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ring path {
+    animation: none;
+    stroke-dashoffset: 0;
+  }
+
+  .cover {
+    transition: none;
+  }
+}

@@ -25,13 +25,13 @@ test('nothing scrolls sideways at 390 or 320 pixels wide', async ({ page }) => {
   }
 });
 
-test('the shelf shows the first 20 books, then all of them on request', async ({ page }) => {
+test('the shelf shows a page of books, and the next page on a tap', async ({ page }) => {
   await page.goto('./');
   const shelf = page.locator('#shelf li:visible');
-  await expect(shelf).toHaveCount(20);
-  await page.getByRole('button', { name: `Show all ${catalog.length}` }).tap();
-  await expect(shelf).toHaveCount(catalog.length);
-  await expect(page.locator('#shelf-more')).toBeHidden();
+  await expect(shelf).toHaveCount(24);
+  await page.getByRole('navigation', { name: 'Shelf pages' }).getByRole('button', { name: 'Next' }).tap();
+  await expect(page.locator('#shelf-count')).toHaveText(`Showing 25–48 of ${catalog.length} books`);
+  await expect(shelf).toHaveCount(24);
 });
 
 test('a book page switches views by tapping, and the spiral zooms with its buttons', async ({ page }) => {

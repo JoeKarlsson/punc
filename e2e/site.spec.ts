@@ -3,7 +3,7 @@ import { expect, test, type Page } from '@playwright/test';
 import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import { dirname, join, normalize } from 'node:path';
 
-const catalog = JSON.parse(readFileSync('site/catalog.json', 'utf8')) as Array<{ slug: string; author: string; genres: string[] }>;
+const catalog = JSON.parse(readFileSync('site/catalog.json', 'utf8')) as Array<{ slug: string; title: string; author: string; genres: string[]; rank: number | null }>;
 
 // Fail any test that throws in the page or trips the Content-Security-Policy.
 test.beforeEach(({ page }) => {
@@ -26,11 +26,12 @@ async function openBook(page: Page, slug: string) {
   await expect(page.locator('#book')).toBeVisible();
 }
 
-test('the front page features the most read books, then the whole shelf', async ({ page }) => {
+test('the front page features the most read books, then the shelf a page at a time', async ({ page }) => {
   await page.goto('./');
-  await expect(page.locator('.shelf-featured .cover')).toHaveCount(4);
+  await expect(page.locator('.shelf-featured .cover:visible')).toHaveCount(4);
   await expect(page.locator('#shelf .cover')).toHaveCount(catalog.length);
-  await expect(page.locator('#shelf-count')).toHaveText(`Showing ${catalog.length} of ${catalog.length} books`);
+  await expect(page.locator('#shelf .cover:not([hidden])')).toHaveCount(24);
+  await expect(page.locator('#shelf-count')).toHaveText(`Showing 1–24 of ${catalog.length} books`);
   // Covers get dithered into pink-and-black posters.
   await expect(page.locator('.shelf-featured .poster-art')).toHaveCount(4);
   await page.locator('.shelf-featured').getByRole('link', { name: /Pride and Prejudice/ }).click();
@@ -43,12 +44,12 @@ test('the shelf searches by title or author, filters by genre, and sorts', async
   const visible = page.locator('#shelf .cover:not([hidden])');
   await page.getByLabel('Search').fill('austen');
   const austen = catalog.filter(b => b.author === 'Jane Austen').length;
-  await expect(visible).toHaveCount(austen);
+  await expect(visible).toHaveCount(Math.min(austen, 24));
   await expect(page).toHaveURL(/\?q=austen/);
 
   await page.getByLabel('Search').fill('');
   await page.getByLabel('Genre').selectOption('Poetry');
-  await expect(visible).toHaveCount(catalog.filter(b => b.genres.includes('Poetry')).length);
+  await expect(visible).toHaveCount(Math.min(catalog.filter(b => b.genres.includes('Poetry')).length, 24));
 
   await page.getByLabel('Genre').selectOption('');
   await page.getByLabel('Sort').selectOption('short-sentences');
@@ -61,6 +62,27 @@ test('the shelf searches by title or author, filters by genre, and sorts', async
 
   await page.getByLabel('Search').fill('zzzz not a book');
   await expect(page.locator('#shelf-empty')).toBeVisible();
+});
+
+test('the shelf turns pages, keeps the page in the URL, and a new search starts at page one', async ({ page }) => {
+  const byRank = [...catalog].filter(b => b.rank !== null).sort((a, b) => a.rank! - b.rank!);
+  await page.goto('./');
+  const visible = page.locator('#shelf .cover:not([hidden])');
+  const pages = page.getByRole('navigation', { name: 'Shelf pages' });
+  await pages.getByRole('button', { name: '2', exact: true }).click();
+  await expect(page).toHaveURL(/\?page=2/);
+  await expect(page.locator('#shelf-count')).toHaveText(`Showing 25–48 of ${catalog.length} books`);
+  await expect(visible.first()).toHaveAttribute('data-title', byRank[24]!.title);
+  await expect(pages.getByRole('button', { name: '2', exact: true })).toHaveAttribute('aria-current', 'page');
+  await expect(page.locator('#shelf-heading')).toBeFocused();
+  await pages.getByRole('button', { name: 'Next' }).click();
+  await expect(page).toHaveURL(/\?page=3/);
+  await page.reload();
+  await expect(page.locator('#shelf-count')).toHaveText(`Showing 49–72 of ${catalog.length} books`);
+  await page.getByLabel('Search').fill('dracula');
+  await expect(page).not.toHaveURL(/page=/);
+  await expect(visible).toHaveCount(1);
+  await expect(pages).toBeHidden();
 });
 
 test('shelf choices survive a reload from the URL', async ({ page }) => {

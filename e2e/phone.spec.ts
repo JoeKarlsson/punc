@@ -12,6 +12,8 @@ test.beforeEach(({ page }) => {
 });
 
 test('nothing scrolls sideways at 390 or 320 pixels wide', async ({ page }) => {
+  // Ten page loads, one of them the whole shelf: longer than the default on CI.
+  test.slow();
   for (const width of [390, 320]) {
     await page.setViewportSize({ width, height: 800 });
     for (const path of PAGES) {

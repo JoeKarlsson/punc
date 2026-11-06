@@ -88,7 +88,7 @@ test('a book page has its own share metadata and share links', async ({ page }) 
   const meta = (key: string) => page.locator(`meta[property="${key}"], meta[name="${key}"]`).getAttribute('content');
   expect(await meta('og:title')).toBe('Moby-Dick, without words');
   expect(await meta('og:url')).toBe('https://joekarlsson.github.io/punc/books/moby-dick/');
-  expect(await meta('og:image')).toBe('https://joekarlsson.github.io/punc/og.png');
+  expect(await meta('og:image')).toBe('https://joekarlsson.github.io/punc/share/moby-dick.png');
   expect(await meta('twitter:card')).toBe('summary_large_image');
   expect(await meta('og:description')).toMatch(/^Herman Melville's Moby-Dick \(1851\) with all [\d,]+ words removed/);
   await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', 'https://joekarlsson.github.io/punc/books/moby-dick/');
@@ -142,7 +142,10 @@ test('the spiral zooms, pans, resets and downloads', async ({ page }) => {
   await canvas.scrollIntoViewIfNeeded();
   const box = (await canvas.boundingBox())!;
   await page.mouse.move(box.x + box.width * 0.7, box.y + box.height * 0.3);
+  // A plain wheel scrolls the page; Ctrl and the wheel (or a trackpad pinch) zooms.
+  await page.keyboard.down('Control');
   for (let i = 0; i < 6; i++) await page.mouse.wheel(0, -200);
+  await page.keyboard.up('Control');
   await expect(readout).toContainText('x');
   const zoomed = await readout.textContent();
 
@@ -275,6 +278,23 @@ test('pages declare a dark color scheme, the sitemap lists them, and the 404 pag
   await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', 'noindex');
   await expect(page.locator('base')).toHaveAttribute('href', '/punc/');
   await expect(page.locator('.share')).toHaveCount(0);
+});
+
+test('a book page shares its own card and describes the book for search engines', async ({ page, request }) => {
+  await openBook(page, 'frankenstein');
+  expect((await request.get('share/frankenstein.png')).status()).toBe(200);
+  const data = JSON.parse((await page.locator('script[type="application/ld+json"]').textContent()) ?? '');
+  expect(data.about).toMatchObject({ '@type': 'Book', name: 'Frankenstein', author: { name: 'Mary Shelley' } });
+});
+
+test('a phone shows the first 20 books on the shelf, then all of them on request', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('./');
+  const shelf = page.locator('#shelf li:visible');
+  await expect(shelf).toHaveCount(20);
+  await page.getByRole('button', { name: `Show all ${catalog.length}` }).click();
+  await expect(shelf).toHaveCount(catalog.length);
+  await expect(page.locator('#shelf-more')).toBeHidden();
 });
 
 test('nothing scrolls sideways on a phone', async ({ page }) => {

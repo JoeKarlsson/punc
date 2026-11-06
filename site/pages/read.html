@@ -33,24 +33,24 @@
 
   <section id="view-score" class="view">
     <p class="view-note">Every mark in reading order, left to right, top to bottom. Sentence endings are pink.</p>
-    <canvas id="score-canvas" class="art"></canvas>
     <div class="explorer-controls">
       <button type="button" class="button" id="copy-marks">Copy the marks</button>
       <button type="button" class="button" data-download="score">Download PNG</button>
     </div>
+    <canvas id="score-canvas" class="art bleed"></canvas>
   </section>
 
   <section id="view-spiral" class="view" hidden>
-    <p class="view-note">The whole book, wound from the center out. Sentence endings are pink. Scroll or pinch to zoom, drag to move around.</p>
-    <div class="explorer">
-      <canvas id="spiral-canvas" class="art explorer-canvas" tabindex="0" aria-label="Spiral of every mark in the book. Use plus and minus to zoom and the arrow keys to move."></canvas>
-      <p class="explorer-readout" id="spiral-readout" aria-live="polite"></p>
-    </div>
+    <p class="view-note">The whole book, wound from the center out. Sentence endings are pink. Pinch, or hold Ctrl and scroll, to zoom. Drag to move around.</p>
     <div class="explorer-controls">
       <button type="button" class="button" id="spiral-zoom-in" aria-label="Zoom in">+</button>
       <button type="button" class="button" id="spiral-zoom-out" aria-label="Zoom out">-</button>
       <button type="button" class="button" id="spiral-reset">Whole book</button>
       <button type="button" class="button" data-download="spiral">Download PNG</button>
+    </div>
+    <div class="explorer bleed">
+      <canvas id="spiral-canvas" class="art explorer-canvas" tabindex="0" aria-label="Spiral of every mark in the book. Use plus and minus to zoom and the arrow keys to move."></canvas>
+      <p class="explorer-readout" id="spiral-readout" aria-live="polite"></p>
     </div>
   </section>
 
@@ -69,7 +69,7 @@
 
   <section id="view-counts" class="view" hidden>
     <h2 class="view-heading">Through the book</h2>
-    <p class="view-note">Each mark's share of the punctuation in every tenth of the book, start to finish. Each row is scaled to its own peak.</p>
+    <p class="view-note">How often each mark turns up as the book goes on, from the first page on the left to the last on the right. Each bar is a tenth of the book, and each row is scaled to its own peak.</p>
     <div id="through-book"></div>
     <h2 class="view-heading">On the map</h2>
     <p class="view-note">Where this book sits among the shelf, by its punctuation alone: pauses before each stop across, the share of question and exclamation marks up. <a href="map.html">The full map</a></p>

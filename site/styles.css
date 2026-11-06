@@ -11,7 +11,6 @@
   --surface-line: #3a3a3a;
   --poster: 'Anton', Impact, 'Arial Narrow', sans-serif;
   --book: 'Fraunces', Georgia, serif;
-  --ui: 'Hanken Grotesk', system-ui, sans-serif;
   --gutter: clamp(16px, 4vw, 48px);
   color-scheme: dark;
 }
@@ -346,7 +345,7 @@ main {
 
 .cover-meta {
   margin: 0.9rem 0 0;
-  font-family: var(--ui);
+  font-family: var(--book);
   font-size: 0.85rem;
   line-height: 1.4;
   color: var(--muted);
@@ -392,9 +391,13 @@ main {
 
 .shelf-count {
   margin: 0 0 0.5rem;
-  font-family: var(--ui);
+  font-family: var(--book);
   font-size: 0.95rem;
   color: var(--muted);
+}
+
+.shelf-more {
+  margin-top: 3rem;
 }
 
 .shelf-empty {
@@ -406,7 +409,7 @@ main {
 .share {
   max-width: 40em;
   margin: 5rem 0 0;
-  font-family: var(--ui);
+  font-family: var(--book);
   font-size: 0.95rem;
   color: var(--muted);
 }
@@ -660,7 +663,7 @@ main {
   left: 0;
   right: 0;
   text-align: center;
-  font-family: var(--ui);
+  font-family: var(--book);
   font-size: 0.85rem;
 }
 
@@ -701,13 +704,23 @@ main {
   margin-bottom: 1.25rem;
 }
 
-.explorer {
-  position: relative;
-  width: min(100%, 80vh, 1100px);
+/* Score and spiral run edge to edge, out through the page gutter */
+.bleed {
+  width: calc(100% + 2 * var(--gutter));
+  max-width: none;
+  margin-inline: calc(-1 * var(--gutter));
 }
 
+.explorer {
+  position: relative;
+}
+
+/* As tall as the screen allows on a computer; square on a phone, so there's
+   page left above and below to scroll by. */
 .explorer-canvas {
-  aspect-ratio: 1;
+  width: 100%;
+  max-width: none;
+  height: min(100vw, calc(100svh - 2rem));
   margin: 0;
   cursor: grab;
   touch-action: none;
@@ -719,12 +732,12 @@ main {
 
 .explorer-readout {
   position: absolute;
-  left: 0.75rem;
+  left: var(--gutter);
   bottom: 0.5rem;
   margin: 0;
   background: var(--ink);
   color: var(--paper);
-  font-family: var(--ui);
+  font-family: var(--book);
   font-size: 0.9rem;
   padding: 0 0.35rem;
 }
@@ -737,7 +750,7 @@ main {
   display: flex;
   flex-wrap: wrap;
   gap: 0.6rem;
-  margin-top: 1rem;
+  margin-bottom: 1.25rem;
 }
 
 .explorer-controls .button[aria-label] {
@@ -786,7 +799,7 @@ main {
 
 .fp-caption {
   margin: 0.6rem 0 0;
-  font-family: var(--ui);
+  font-family: var(--book);
   font-size: 0.85rem;
   color: var(--muted);
 }
@@ -839,7 +852,7 @@ main {
 }
 
 .tb-name {
-  font-family: var(--ui);
+  font-family: var(--book);
   font-size: 0.95rem;
   line-height: 1.35;
 }
@@ -857,6 +870,65 @@ main {
 
 .tb-bars rect:hover {
   fill: var(--pink);
+}
+
+/* The axis sits in the bars' column: the first two columns of a row are the
+   mark (3.5rem) and its name (11rem), each followed by a 1rem gap. */
+.tb-axis {
+  max-width: 900px;
+  margin-top: 0.4rem;
+  padding-left: calc(3.5rem + 11rem + 2rem);
+  font-family: var(--book);
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.tb-ticks {
+  position: relative;
+  display: block;
+  height: 1.9rem;
+  border-top: 2px solid var(--muted);
+}
+
+.tb-tick {
+  position: absolute;
+  top: 0;
+  padding-top: 0.45rem;
+  transform: translateX(-50%);
+  white-space: nowrap;
+}
+
+.tb-tick::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 2px;
+  height: 0.35rem;
+  background: var(--muted);
+}
+
+.tb-tick:first-child {
+  transform: none;
+}
+
+.tb-tick:first-child::before {
+  left: 0;
+}
+
+.tb-tick:last-child {
+  transform: translateX(-100%);
+}
+
+.tb-tick:last-child::before {
+  left: auto;
+  right: 0;
+}
+
+.tb-axis-label {
+  display: block;
+  text-align: center;
+  color: var(--paper);
 }
 
 /* The shelf map */
@@ -885,7 +957,7 @@ main {
 .map-tick,
 .map-axis,
 .map-label {
-  font-family: var(--ui);
+  font-family: var(--book);
   fill: var(--muted);
 }
 
@@ -952,7 +1024,7 @@ main {
 .map-scroll-hint {
   display: none;
   margin: 0 0 1rem;
-  font-family: var(--ui);
+  font-family: var(--book);
   font-size: 0.95rem;
   color: var(--muted);
 }
@@ -969,7 +1041,7 @@ main {
   padding: 0.35rem 0.6rem;
   background: var(--chalk);
   color: var(--ink);
-  font-family: var(--ui);
+  font-family: var(--book);
   font-size: 0.9rem;
   line-height: 1.35;
   pointer-events: none;
@@ -978,7 +1050,7 @@ main {
 .map-table {
   max-width: 900px;
   margin-top: 2.5rem;
-  font-family: var(--ui);
+  font-family: var(--book);
 }
 
 .map-table summary {
@@ -1038,7 +1110,7 @@ main {
 }
 
 .count-name {
-  font-family: var(--ui);
+  font-family: var(--book);
   font-size: 0.95rem;
 }
 
@@ -1206,6 +1278,10 @@ code {
     grid-column: 1 / -1;
   }
 
+  .tb-axis {
+    padding-left: 0;
+  }
+
   .fingerprint-large {
     font-size: 1.15rem;
     --fp-height: 56px;
@@ -1245,6 +1321,17 @@ code {
 
   .shelf-controls label {
     flex: 1 1 100%;
+  }
+
+  /* Thumb-sized share links */
+  .share {
+    line-height: 1.4;
+  }
+
+  .share a,
+  .link-button {
+    display: inline-block;
+    padding: 0.7rem 0.15rem;
   }
 }
 

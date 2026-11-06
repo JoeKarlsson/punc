@@ -1,0 +1,152 @@
+<article class="numbers-page">
+  <h1 class="page-title">The numbers</h1>
+  <p class="lede">{{books}} books, counted by their punctuation alone. Every chart here measures the marks; the year, genre, author and download rank only sort the books into groups. Point at a dot to see its book.</p>
+  <nav class="numbers-contents" aria-label="On this page">
+    <a href="#time">Over time</a>
+    <a href="#genres">Genres</a>
+    <a href="#authors">Authors</a>
+    <a href="#compare">Compare</a>
+    <a href="#twins">Twins</a>
+    <a href="#grammar">Grammar</a>
+    <a href="#popularity">Popularity</a>
+    <a href="#records">Records</a>
+    <a href="#map">The map</a>
+  </nav>
+
+  <section id="time" class="numbers-section">
+    <h2 class="section-title">Over time</h2>
+    <p class="numbers-note">Sentences got shorter and semicolons nearly vanished. Each dot is a book at the year it first came out, and the white line is the median for every 25 years. Translations count by the year of the original. The {{ancient}} books from before 1600, Homer and Plato among them, are off the left edge.</p>
+    <div class="shelf-controls numbers-controls">
+      <label>Genre
+        <select id="genre-pick">
+          <option value="">Every book</option>
+<!--GENREOPTIONS-->
+        </select>
+      </label>
+    </div>
+    <p id="genre-key" class="chart-key" role="status">The white line is the median of every book.</p>
+    <div class="chart-row">
+<!--TIMELINES-->
+    </div>
+  </section>
+
+  <section id="genres" class="numbers-section">
+    <h2 class="section-title">Genres</h2>
+    <p class="numbers-note">Each genre's average fingerprint: every mark's share of all the marks, on the same scale as the fingerprints on the shelf. A book can sit in more than one genre.</p>
+    <ul class="genre-prints">
+<!--GENREPRINTS-->
+    </ul>
+  </section>
+
+  <section id="authors" class="numbers-section">
+    <h2 class="section-title">Authors</h2>
+    <h3 class="view-heading">Can the marks name the author?</h3>
+    <p class="numbers-note">Take one book away from its author. Average the fingerprints of each author's other books, and guess whichever author's average is closest to the book. For the {{authors}} authors with at least three different works on the shelf, that guess names the right author for {{hits}} of {{guessed}} books, {{hitRate}}. Guessing at random would be right about {{chance}} of the time.</p>
+    <p class="numbers-note">Spread is how far an author's books stray from their own average fingerprint, where 100 is the gap between two books picked at random from the shelf. The lower it is, the more alike their books are.</p>
+    <div class="numbers-table-wrap">
+      <table class="numbers-table author-table">
+        <thead><tr><th scope="col">Author</th><th scope="col">Books</th><th scope="col">Named right</th><th scope="col">Spread</th><th scope="col">Their average fingerprint</th></tr></thead>
+        <tbody>
+<!--AUTHORROWS-->
+        </tbody>
+      </table>
+    </div>
+
+    <h3 class="view-heading">Over a career</h3>
+    <p class="numbers-note">Each author's books in the order they came out (pink), against the median of the shelf's books from within 15 years of each one (dashed). Every author's chart shares one scale.</p>
+    <div class="shelf-controls numbers-controls">
+      <label>Measure
+        <select id="career-pick">
+<!--METRICOPTIONS-->
+        </select>
+      </label>
+    </div>
+    <div class="career-grid">
+<!--CAREERS-->
+    </div>
+  </section>
+
+  <section id="compare" class="numbers-section">
+    <h2 class="section-title">Compare any two</h2>
+    <p class="numbers-note">Pick two books, two authors, or one of each. An author's numbers are the average of their books on the shelf.</p>
+    <div class="shelf-controls numbers-controls">
+      <label>One
+        <select id="compare-a">
+<!--COMPAREOPTIONS-A-->
+        </select>
+      </label>
+      <label>The other
+        <select id="compare-b">
+<!--COMPAREOPTIONS-B-->
+        </select>
+      </label>
+    </div>
+    <div id="compare-out" class="compare" aria-live="polite">
+<!--COMPARE-->
+    </div>
+  </section>
+
+  <section id="twins" class="numbers-section">
+    <h2 class="section-title">Punctuation twins</h2>
+    <p class="numbers-note">Every book has a closest fingerprint on the shelf, named on its own page. These pairs are each other's closest match, by different authors and centuries apart.</p>
+    <ul class="twin-list">
+<!--TWINS-->
+    </ul>
+  </section>
+
+  <section id="grammar" class="numbers-section">
+    <h2 class="section-title">The grammar of marks</h2>
+    <p class="numbers-note">Which mark comes next, whatever words sit between, averaged over every book. The apostrophe column is mostly contractions and possessives.</p>
+    <div class="numbers-table-wrap">
+<!--NEXTGRID-->
+    </div>
+    <h3 class="view-heading">Marks that touch</h3>
+    <p class="numbers-note">The most common clusters of marks with nothing between them, across the whole shelf.</p>
+    <ol class="cluster-list">
+<!--CLUSTERS-->
+    </ol>
+  </section>
+
+  <section id="popularity" class="numbers-section">
+    <h2 class="section-title">Popularity</h2>
+    <p class="numbers-note">Do the most downloaded books punctuate differently? {{popularity}}</p>
+    <figure class="chart chart-wide">
+      <figcaption><strong>Words per sentence</strong> by download rank</figcaption>
+<!--POPULARITY-->
+      <p class="map-tip" hidden></p>
+    </figure>
+    <ul class="rank-links">
+<!--RANKLINKS-->
+    </ul>
+  </section>
+
+  <section id="records" class="numbers-section">
+    <h2 class="section-title">Records</h2>
+    <p class="numbers-note">The top three books for each measure, one per author, among books of at least 2,000 words.</p>
+    <div class="records">
+<!--RECORDS-->
+    </div>
+  </section>
+
+  <section id="map" class="numbers-section map-page">
+    <h2 class="section-title">The map</h2>
+    <p class="numbers-note">Every book, placed by its punctuation alone. Across: how many pauses (commas, semicolons, colons, dashes) a writer uses before each stop. Up: how loud it is, the share of question and exclamation marks. Click or tap a dot to open its book.</p>
+    <p class="map-scroll-hint">The map is wider than your screen. Swipe it sideways to see the rest.</p>
+    <figure class="shelf-map">
+<!--MAP-->
+      <p id="map-tip" class="map-tip" role="status" hidden></p>
+    </figure>
+  </section>
+
+  <details class="map-table">
+    <summary>Every book's numbers as a table</summary>
+    <div class="numbers-table-wrap">
+      <table>
+        <thead><tr><th scope="col">Book</th><th scope="col">Year</th><!--TABLEHEAD--><th scope="col">Pauses per stop</th><th scope="col">? and ! share</th></tr></thead>
+        <tbody>
+<!--TABLE-->
+        </tbody>
+      </table>
+    </div>
+  </details>
+</article>

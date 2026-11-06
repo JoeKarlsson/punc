@@ -43,10 +43,15 @@ two parts:
     first. A file you open yourself lands on the map too.
 
   Each page also shows the book's **punctuation fingerprint**: ten bars for
-  the ten most common marks, on one scale shared by every book.
-- **[The map](https://joekarlsson.github.io/punc/map.html)**: every book on the
-  shelf placed by its punctuation alone, by pauses (`, ; : -`) per sentence
-  ending and by the share of `?` and `!`.
+  the ten most common marks, on one scale shared by every book, and names its
+  punctuation twin, the book with the closest fingerprint.
+- **[The numbers](https://joekarlsson.github.io/punc/numbers.html)**: the whole
+  shelf by its punctuation: how it changed over time (with a line per genre),
+  each genre's fingerprint, whether the marks can name an author, authors'
+  careers, a comparison of any two books or authors, punctuation twins, which
+  mark follows which, whether popularity matters, records, and the map, every
+  book placed by pauses (`, ; : -`) per sentence ending and by the share of `?`
+  and `!`.
 - **[Read your own](https://joekarlsson.github.io/punc/read.html)**: open any
   plain text file and get the same views. It's read in your browser and never
   leaves your computer.

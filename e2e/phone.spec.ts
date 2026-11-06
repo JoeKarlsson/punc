@@ -3,7 +3,7 @@ import { readFileSync } from 'node:fs';
 
 // Runs in the iphone (iPhone 13 in WebKit, Safari's engine) and pixel (Pixel 7 in Chromium) projects.
 const catalog = JSON.parse(readFileSync('site/catalog.json', 'utf8')) as Array<{ slug: string }>;
-const PAGES = ['./', 'books/ulysses/', 'read.html', 'map.html', 'about.html'];
+const PAGES = ['./', 'books/ulysses/', 'read.html', 'numbers.html', 'about.html'];
 
 test.beforeEach(({ page }) => {
   page.on('pageerror', error => {

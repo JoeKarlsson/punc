@@ -1442,3 +1442,364 @@ code {
     transition: none;
   }
 }
+
+/* The numbers page (site/src/numbers.ts draws the charts) */
+.numbers-contents {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1) var(--space-4);
+  margin: var(--space-5) 0 0;
+  font-family: var(--poster);
+  font-size: 1.15rem;
+  text-transform: uppercase;
+}
+
+.numbers-section {
+  margin-top: var(--space-8);
+  scroll-margin-top: var(--space-4);
+}
+
+.numbers-section .view-heading {
+  margin-top: var(--space-6);
+}
+
+.numbers-note {
+  max-width: 40em;
+  margin: 0 0 var(--space-4);
+}
+
+.numbers-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3) var(--space-5);
+  margin: 0 0 var(--space-3);
+}
+
+.chart-key {
+  margin: 0 0 var(--space-4);
+  font-size: 0.95rem;
+  color: var(--muted);
+}
+
+.chart-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 420px), 1fr));
+  gap: var(--space-6) var(--space-5);
+}
+
+.chart {
+  position: relative;
+  margin: 0;
+}
+
+.chart figcaption {
+  margin: 0 0 var(--space-2);
+  font-size: 0.95rem;
+}
+
+.chart figcaption strong {
+  font-family: var(--poster);
+  font-weight: 400;
+  font-size: 1.3rem;
+  text-transform: uppercase;
+}
+
+.chart-wide {
+  max-width: 1100px;
+}
+
+.chart-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.chart-grid {
+  stroke: var(--surface-line);
+  stroke-width: 1;
+}
+
+.chart-tick,
+.chart-axis {
+  font-family: var(--book);
+  font-size: 15px;
+  fill: var(--muted);
+}
+
+.chart-axis {
+  font-size: 18px;
+  fill: var(--paper);
+}
+
+.chart-dot {
+  fill: var(--pink);
+  stroke: var(--ink);
+  stroke-width: 1.5;
+}
+
+.chart-dot:hover {
+  fill: var(--chalk);
+}
+
+.chart-dot-out {
+  fill: var(--surface-line);
+}
+
+.chart-line {
+  fill: none;
+  stroke-width: 3;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+  pointer-events: none;
+}
+
+.chart-line-all,
+.chart-line-genre {
+  stroke: var(--paper);
+}
+
+.chart-line-genre {
+  display: none;
+}
+
+.chart-line-genre.on {
+  display: inline;
+}
+
+.genre-picked .chart-line-all {
+  stroke: var(--muted);
+  stroke-width: 2;
+  stroke-dasharray: 6 5;
+}
+
+.career-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr));
+  gap: var(--space-5);
+}
+
+.career-layer {
+  display: none;
+}
+
+.career-layer.on {
+  display: inline;
+}
+
+.chart-line-author {
+  stroke: var(--pink);
+}
+
+.chart-line-shelf {
+  stroke: var(--muted);
+  stroke-width: 2;
+  stroke-dasharray: 5 5;
+}
+
+.genre-prints,
+.twin-list,
+.cluster-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.genre-prints {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 220px), 1fr));
+  gap: var(--space-5);
+}
+
+.genre-name,
+.record-name,
+.compare-name {
+  margin: 0;
+  font-family: var(--poster);
+  font-weight: 400;
+  font-size: 1.3rem;
+  text-transform: uppercase;
+}
+
+.genre-count,
+.compare-detail,
+.twin-detail {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+.numbers-table-wrap {
+  overflow-x: auto;
+}
+
+.numbers-table {
+  border-collapse: collapse;
+  font-size: 0.95rem;
+}
+
+.numbers-table th,
+.numbers-table td {
+  padding: var(--space-1) var(--space-3) var(--space-1) 0;
+  text-align: left;
+  font-weight: 400;
+  font-variant-numeric: tabular-nums;
+  vertical-align: bottom;
+}
+
+.numbers-table thead th {
+  color: var(--muted);
+}
+
+.author-table .fingerprint {
+  width: 200px;
+  margin: 0;
+}
+
+.compare-pair {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-5);
+  max-width: 900px;
+}
+
+.compare-table {
+  margin-top: var(--space-4);
+  border-collapse: collapse;
+  font-variant-numeric: tabular-nums;
+}
+
+.compare-table th,
+.compare-table td {
+  padding: 0.3rem var(--space-4) 0.3rem 0;
+  text-align: left;
+  font-weight: 400;
+}
+
+.compare-table thead th {
+  color: var(--muted);
+}
+
+.twin {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-5);
+  max-width: 900px;
+  margin-bottom: var(--space-6);
+}
+
+.twin-title {
+  font-size: 1.1rem;
+}
+
+.next-grid {
+  border-collapse: separate;
+  border-spacing: 2px;
+  font-variant-numeric: tabular-nums;
+}
+
+.next-grid caption {
+  caption-side: bottom;
+  padding-top: var(--space-2);
+  text-align: left;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+.next-grid th,
+.next-grid td {
+  width: 2.6rem;
+  height: 2.2rem;
+  text-align: center;
+  font-weight: 400;
+}
+
+.next-grid th {
+  font-weight: 700;
+  font-size: 1.2rem;
+}
+
+.next-grid abbr {
+  text-decoration: none;
+}
+
+/* One pink, darker for rarer: the share of the row */
+.next-0 { background: var(--ink); color: var(--paper); }
+.next-1 { background: #3d1335; color: var(--paper); }
+.next-2 { background: #6e2160; color: var(--paper); }
+.next-3 { background: #a2308d; color: var(--paper); }
+.next-4 { background: #d23fb5; color: var(--ink); }
+.next-5 { background: var(--pink); color: var(--ink); }
+
+.cluster-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 170px), 1fr));
+  gap: var(--space-4);
+}
+
+.cluster-list li {
+  display: flex;
+  flex-direction: column;
+}
+
+.cluster-marks {
+  font-weight: 700;
+  font-size: 2.6rem;
+  line-height: 1.1;
+  color: var(--pink);
+}
+
+.cluster-count {
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+.rank-links {
+  margin: var(--space-4) 0 0;
+  padding-left: 1.2em;
+}
+
+.records {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
+  gap: var(--space-5);
+}
+
+.records ol {
+  margin: var(--space-1) 0 0;
+  padding-left: 1.2em;
+}
+
+@media (max-width: 720px) {
+  .compare-pair,
+  .twin {
+    gap: var(--space-3);
+  }
+
+  .compare-pair .fingerprint-large,
+  .twin .fingerprint {
+    font-size: 0.9rem;
+    --fp-height: 40px;
+  }
+}
+
+.numbers-controls select {
+  width: 22rem;
+  max-width: 100%;
+  min-width: 0;
+}
+
+@media (max-width: 720px) {
+  /* The charts shrink to the screen; their labels shouldn't shrink as far */
+  .chart-tick {
+    font-size: 21px;
+  }
+}
+
+.compare-table caption {
+  caption-side: bottom;
+  padding-top: var(--space-2);
+  text-align: left;
+  font-size: 0.9rem;
+  color: var(--muted);
+}

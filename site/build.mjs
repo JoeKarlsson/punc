@@ -20,7 +20,7 @@ await rm(OUT, { recursive: true, force: true });
 await mkdir(join(OUT, 'assets'), { recursive: true });
 
 await build({
-  entryPoints: [join(SITE, 'src/reader.ts'), join(SITE, 'src/shelf.ts'), join(SITE, 'src/page.ts'), join(SITE, 'src/map.ts')],
+  entryPoints: [join(SITE, 'src/reader.ts'), join(SITE, 'src/shelf.ts'), join(SITE, 'src/page.ts'), join(SITE, 'src/numbers-page.ts')],
   bundle: true,
   format: 'esm',
   target: 'es2020',
@@ -31,7 +31,7 @@ await build({
 // The same analysis the browser runs, bundled for Node so the numbers match.
 const analyzerPath = join(tmpdir(), `punc-site-analyze-${process.pid}.mjs`);
 await build({ entryPoints: [join(SITE, 'src/node-entry.ts')], bundle: true, platform: 'node', format: 'esm', outfile: analyzerPath });
-const { analyzeBook, cardHTML, fingerprintHTML, mapSVG, markShares, shelfPosition, SHELF_PAGE_SIZE } = await import(pathToFileURL(analyzerPath).href);
+const { analyzeBook, cardHTML, fingerprintHTML, mapSVG, markShares, numbers: N, shelfPosition, SHELF_PAGE_SIZE } = await import(pathToFileURL(analyzerPath).href);
 await rm(analyzerPath);
 
 // GitHub Pages can't send headers, so the policy rides in a meta tag, first in
@@ -59,10 +59,21 @@ const fmt = n => n.toLocaleString('en-US');
 
 const catalog = JSON.parse(await readFile(join(SITE, 'catalog.json'), 'utf8'));
 const books = [];
+// For the numbers page: each book's measures, the clusters of touching marks
+// across the shelf, and each book's "which mark comes next" grid.
+const shelfNumbers = [];
+const clusters = new Map();
+const nextMarkGrids = [];
 for (const meta of catalog) {
   const textPath = join(SITE, 'books', `${meta.slug}.txt.gz`);
   if (!existsSync(textPath)) throw new Error(`${textPath} is missing; run site/scripts/fetch-books.mjs`);
   const book = analyzeBook(gunzipSync(await readFile(textPath)).toString('utf8'));
+  shelfNumbers.push(N.bookNumbers(book, meta));
+  for (const [cluster, count] of N.touchingClusters(book.text)) {
+    const seen = clusters.get(cluster) ?? { count: 0, books: 0 };
+    clusters.set(cluster, { count: seen.count + count, books: seen.books + 1 });
+  }
+  nextMarkGrids.push(N.nextMarkShares(book.marks));
   // A stretch from a tenth of the way in, past the title page and contents.
   const start = Math.floor(book.marks.length * 0.1);
   books.push({
@@ -92,6 +103,8 @@ const shelfBook = ({ slug, title, author, byline, authorSort, genres, rank, publ
 await writeFile(join(OUT, 'shelf.json'), JSON.stringify(byRank.map(shelfBook)));
 
 // Book pages and uploads draw themselves on the shelf map from this.
+// The numbers page compares books and authors from this.
+await writeFile(join(OUT, 'numbers.json'), JSON.stringify(shelfNumbers.map(N.forBrowser)));
 await writeFile(join(OUT, 'books.json'), JSON.stringify(books.map(({ slug, title, author, pausesPerStop, loudness }) => ({ slug, title, author, pausesPerStop, loudness }))));
 await mkdir(join(OUT, 'books'), { recursive: true });
 for (const book of books) await cp(join(SITE, 'books', `${book.slug}.txt.gz`), join(OUT, 'books', `${book.slug}.txt.gz`));
@@ -105,7 +118,7 @@ const crayonFilter = `<svg class="defs" aria-hidden="true" focusable="false"><fi
 
 const NAV = [
   { key: 'shelf', href: './', label: 'The shelf' },
-  { key: 'map', href: 'map.html', label: 'Map' },
+  { key: 'numbers', href: 'numbers.html', label: 'Numbers' },
   { key: 'read', href: 'read.html', label: 'Read your own' },
   { key: 'about', href: 'about.html', label: 'About' },
 ];
@@ -218,7 +231,7 @@ ${notFound ? '' : shareLinks(url, socialTitle ?? title)}
 // GitHub Pages lets browsers cache CSS and JS for 10 minutes. A content hash
 // in the URL makes each deploy load the new files right away.
 const assetHash = createHash('sha256');
-for (const file of ['styles.css', 'analytics.js', 'assets/reader.js', 'assets/shelf.js', 'assets/page.js', 'assets/map.js']) assetHash.update(await readFile(join(OUT, file)));
+for (const file of ['styles.css', 'analytics.js', 'assets/reader.js', 'assets/shelf.js', 'assets/page.js', 'assets/numbers-page.js']) assetHash.update(await readFile(join(OUT, file)));
 const version = assetHash.digest('hex').slice(0, 10);
 
 const fragment = async name => readFile(join(SITE, 'pages', name), 'utf8');
@@ -250,6 +263,13 @@ await writePage({
   body: readBody.replace('<!--POSTER-->', '').replace('<section id="upload" class="upload" hidden>', '<section id="upload" class="upload">'),
   script: 'reader.js',
 });
+
+// Each book's closest fingerprint on the shelf, named under its own.
+const closest = N.twins(shelfNumbers);
+const twinLine = book => {
+  const { twin } = closest.get(book.slug);
+  return `<p class="fp-caption">Its punctuation twin, the closest fingerprint on the shelf: <a href="books/${twin.slug}/">${escapeHTML(twin.title)}</a>, ${escapeHTML(twin.author)}. <a href="numbers.html#twins">More twins</a></p>`;
+};
 
 const missingShareImages = [];
 for (const book of books) {
@@ -298,7 +318,7 @@ for (const book of books) {
       .replace('<dd id="stat-marks"></dd>', `<dd id="stat-marks">${fmt(book.marks)}</dd>`)
       .replace('<dd id="stat-wps"></dd>', `<dd id="stat-wps">${book.wps ? book.wps.toFixed(1) : 'n/a'}</dd>`)
       .replace('<dd id="stat-top" class="serif-mark"></dd>', `<dd id="stat-top" class="serif-mark">${escapeHTML(book.topMark)}</dd>`)
-      .replace('<div id="book-fingerprint" class="book-fingerprint"></div>', `<div id="book-fingerprint" class="book-fingerprint">${book.fingerprintLarge}<p class="fp-caption">Its punctuation fingerprint: each mark's share, on the same scale as every book on the shelf.</p></div>`),
+      .replace('<div id="book-fingerprint" class="book-fingerprint"></div>', `<div id="book-fingerprint" class="book-fingerprint">${book.fingerprintLarge}<p class="fp-caption">Its punctuation fingerprint: each mark's share, on the same scale as every book on the shelf.</p>${twinLine(book)}</div>`),
     script: 'reader.js',
     dataset: { slug: book.slug, title: book.title, byline: book.byline },
   });
@@ -311,19 +331,179 @@ const mapLabels = [
   ...[...books].sort((a, b) => b.loudness - a.loudness).slice(0, 2),
   ...featured,
 ].map(b => b.slug);
-const mapRows = [...books]
-  .sort((a, b) => a.title.localeCompare(b.title))
-  .map(b => `        <tr><th scope="row"><a href="books/${b.slug}/">${escapeHTML(b.title)}</a>, ${escapeHTML(b.author)}</th><td>${b.pausesPerStop.toFixed(1)}</td><td>${(b.loudness * 100).toFixed(1)}%</td></tr>`)
+
+// The numbers page. The measures and charts are in site/src/numbers.ts.
+const percentOf = (n, total) => `${Math.round((n / total) * 100)}%`;
+const timelineMetrics = ['semicolon', 'comma', 'wps', 'question', 'exclaim', 'dialogue'];
+const timelines = timelineMetrics
+  .map(key => `      <figure class="chart">
+        <figcaption><strong>${N.metric(key).label}</strong>: ${escapeHTML(N.trendSentence(shelfNumbers, key))}</figcaption>
+        ${N.timelineSVG(shelfNumbers, key, genres)}
+        <p class="map-tip" hidden></p>
+      </figure>`)
   .join('\n');
-await writePage({
-  path: 'map.html',
-  nav: 'map',
-  title: 'The map · Punc',
-  socialTitle: 'Punc: a map of famous books by their punctuation',
-  description: `${books.length} books placed by punctuation alone: how many pauses before each stop, and how many question and exclamation marks.`,
-  body: (await fragment('map.html')).replace('<!--MAP-->', mapSVG(books, { labelled: mapLabels })).replace('<!--MAPTABLE-->', mapRows),
-  script: 'map.js',
+
+const genrePrints = genres
+  .map(genre => {
+    const inGenre = shelfNumbers.filter(b => b.genres.includes(genre));
+    return `      <li><h3 class="genre-name">${escapeHTML(genre)}</h3><p class="genre-count">${inGenre.length} books</p>${fingerprintHTML(N.averageShares(inGenre.map(b => b.shares)), 'fingerprint fingerprint-large')}</li>`;
+  })
+  .join('\n');
+
+const authors = N.authorsWithWorks(shelfNumbers, 3);
+const typical = N.typicalDistance(shelfNumbers);
+const guesses = N.guessAuthors(authors);
+const hits = guesses.filter(g => g.guessed === g.book.author).length;
+const authorRows = authors
+  .map(({ author, books: list }) => {
+    const named = guesses.filter(g => g.book.author === author && g.guessed === author).length;
+    return `          <tr><th scope="row">${escapeHTML(author)}</th><td>${list.length}</td><td>${named} of ${list.length}</td><td>${Math.round(N.authorSpread(list, typical))}</td><td>${fingerprintHTML(N.averageShares(list.map(b => b.shares)))}</td></tr>`;
+  })
+  .join('\n');
+
+// Careers: authors with four or more dated books across at least eight years.
+const careerAuthors = N.authorsWithWorks(shelfNumbers, 3).filter(({ books: list }) => {
+  const years = list.filter(b => b.year !== null && b.year >= N.TIMELINE_FROM).map(b => b.year);
+  return years.length >= 4 && Math.max(...years) - Math.min(...years) >= 8;
 });
+const careerAxes = N.axesFor(careerAuthors.flatMap(a => a.books));
+const careers = careerAuthors
+  .map(({ author, books: list }) => `      <figure class="chart career">
+        <figcaption><strong>${escapeHTML(author)}</strong></figcaption>
+        ${N.careerSVG(list.filter(b => b.year !== null && b.year >= N.TIMELINE_FROM), shelfNumbers, careerAxes)}
+        <p class="map-tip" hidden></p>
+      </figure>`)
+  .join('\n');
+const metricOptions = N.METRICS.map(({ key, label }) => `          <option value="${key}">${label}</option>`).join('\n');
+
+// Compare: every author with two or more books, then every book.
+const compareAuthors = N.authorsWithWorks(shelfNumbers, 2);
+const byTitle = [...shelfNumbers].sort((a, b) => a.title.localeCompare(b.title));
+const compareOptions = picked => `          <optgroup label="Authors">
+${compareAuthors.map(({ author }) => `            <option value="author:${escapeHTML(author)}"${author === picked ? ' selected' : ''}>${escapeHTML(author)}</option>`).join('\n')}
+          </optgroup>
+          <optgroup label="Books">
+${byTitle.map(b => `            <option value="book:${b.slug}">${escapeHTML(b.title)}, ${escapeHTML(b.author)}</option>`).join('\n')}
+          </optgroup>`;
+const authorBooks = name => compareAuthors.find(a => a.author === name).books;
+const compareDefault = N.compareHTML(N.authorProfile('Jane Austen', authorBooks('Jane Austen')), N.authorProfile('Charles Dickens', authorBooks('Charles Dickens')));
+
+const twinItems = N.surprisingTwins(shelfNumbers)
+  .map(pair => `      <li class="twin">${pair
+    .map(b => `<div class="twin-book"><a class="twin-title" href="books/${b.slug}/">${escapeHTML(b.title)}</a><p class="twin-detail">${escapeHTML(b.author)}, ${escapeHTML(N.yearText(b))}</p>${fingerprintHTML(b.shares, 'fingerprint fingerprint-large')}</div>`)
+    .join('')}</li>`)
+  .join('\n');
+
+// Each mark's row averaged over the books that use that mark.
+const nextGrid = Array.from({ length: 10 }, (_, row) => {
+  const rows = nextMarkGrids.map(g => g[row]).filter(r => r.some(v => v > 0));
+  return Array.from({ length: 10 }, (_, col) => rows.reduce((s, r) => s + r[col], 0) / Math.max(rows.length, 1));
+});
+const clusterItems = [...clusters]
+  .sort((a, b) => b[1].count - a[1].count)
+  .slice(0, 12)
+  .map(([cluster, { count, books: inBooks }]) => `      <li><span class="cluster-marks">${escapeHTML(cluster)}</span><span class="cluster-count">${fmt(count)} times, in ${inBooks} books</span></li>`)
+  .join('\n');
+
+const ranked = shelfNumbers.filter(b => b.rank !== null);
+const links = N.METRICS.map(({ key, label }) => ({ key, label, rho: N.spearman(ranked.map(b => b.rank), ranked.map(b => b[key])) }));
+const strongest = [...links].sort((a, b) => Math.abs(b.rho) - Math.abs(a.rho))[0];
+const answer = Math.abs(strongest.rho) < 0.1 ? 'No.' : Math.abs(strongest.rho) < 0.3 ? 'Barely.' : 'Somewhat.';
+const popularity = `${answer} Across the ${ranked.length} ranked books, the closest link between download rank and any measure is for ${strongest.label.toLowerCase()}: a rank correlation of ${strongest.rho.toFixed(2)}, where 0 is no link and 1 or -1 a perfect one.`;
+const rankLinks = links.map(({ label, rho }) => `      <li>${label}: ${N.correlationWords(rho)} (${rho.toFixed(2)})</li>`).join('\n');
+
+const recordBooks = shelfNumbers.filter(b => b.words >= 2000);
+const recordList = [
+  ['Most semicolons', 'semicolon', -1],
+  ['Most colons', 'colon', -1],
+  ['Most commas', 'comma', -1],
+  ['Most exclamation marks', 'exclaim', -1],
+  ['Most question marks', 'question', -1],
+  ['Longest sentences', 'wps', -1],
+  ['Shortest sentences', 'wps', 1],
+  ['Most dialogue', 'dialogue', -1],
+  ['Most marks', 'marks', -1],
+  ['Fewest marks', 'marks', 1],
+];
+const records = recordList
+  .map(([heading, key, order]) => {
+    // One book per author, or the volumes of one collected works fill a list.
+    const top = [...recordBooks].sort((a, b) => order * (a[key] - b[key])).filter((b, i, all) => all.findIndex(o => o.author === b.author) === i).slice(0, 3);
+    return `      <div class="record"><h3 class="record-name">${heading}</h3><ol>${top.map(b => `<li><a href="books/${b.slug}/">${escapeHTML(b.title)}</a>, ${escapeHTML(b.author)}: ${escapeHTML(N.describeValue(key, b[key]))}</li>`).join('')}</ol></div>`;
+  })
+  .join('\n');
+
+const tableMetrics = ['semicolon', 'comma', 'colon', 'exclaim', 'question', 'wps', 'dialogue'];
+const position = new Map(books.map(b => [b.slug, b]));
+const tableRows = byTitle
+  .map(b => {
+    const p = position.get(b.slug);
+    return `          <tr><th scope="row"><a href="books/${b.slug}/">${escapeHTML(b.title)}</a>, ${escapeHTML(b.author)}</th><td>${escapeHTML(b.yearLabel ?? '')}</td>${tableMetrics.map(key => `<td>${N.formatValue(key, b[key])}</td>`).join('')}<td>${p.pausesPerStop.toFixed(1)}</td><td>${(p.loudness * 100).toFixed(1)}%</td></tr>`;
+  })
+  .join('\n');
+
+const fill = {
+  books: books.length,
+  ancient: shelfNumbers.filter(b => b.year !== null && b.year < N.TIMELINE_FROM).length,
+  authors: authors.length,
+  hits,
+  guessed: guesses.length,
+  hitRate: percentOf(hits, guesses.length),
+  chance: percentOf(1, authors.length),
+  popularity: escapeHTML(popularity),
+};
+const numbersBody = (await fragment('numbers.html'))
+  .replace(/\{\{(\w+)\}\}/g, (_, name) => {
+    if (!(name in fill)) throw new Error(`numbers.html has no value for {{${name}}}`);
+    return String(fill[name]);
+  })
+  .replace('<!--GENREOPTIONS-->', genres.map(g => `          <option>${escapeHTML(g)}</option>`).join('\n'))
+  .replace('<!--TIMELINES-->', timelines)
+  .replace('<!--GENREPRINTS-->', genrePrints)
+  .replace('<!--AUTHORROWS-->', authorRows)
+  .replace('<!--METRICOPTIONS-->', metricOptions)
+  .replace('<!--CAREERS-->', careers)
+  .replace('<!--COMPAREOPTIONS-A-->', compareOptions('Jane Austen'))
+  .replace('<!--COMPAREOPTIONS-B-->', compareOptions('Charles Dickens'))
+  .replace('<!--COMPARE-->', compareDefault)
+  .replace('<!--TWINS-->', twinItems)
+  .replace('<!--NEXTGRID-->', N.nextMarkTableHTML(nextGrid))
+  .replace('<!--CLUSTERS-->', clusterItems)
+  .replace('<!--POPULARITY-->', N.popularitySVG(shelfNumbers, 'wps'))
+  .replace('<!--RANKLINKS-->', rankLinks)
+  .replace('<!--RECORDS-->', records)
+  .replace('<!--MAP-->', mapSVG(books, { labelled: mapLabels }))
+  .replace('<!--TABLEHEAD-->', tableMetrics.map(key => `<th scope="col">${N.metric(key).label}</th>`).join(''))
+  .replace('<!--TABLE-->', tableRows);
+await writePage({
+  path: 'numbers.html',
+  nav: 'numbers',
+  title: 'The numbers · Punc',
+  socialTitle: 'Punc: the punctuation of famous books, by the numbers',
+  description: `${books.length} books by their punctuation alone: how it changed over time, by genre and author, punctuation twins, the grammar of marks, and the map.`,
+  body: numbersBody,
+  script: 'numbers-page.js',
+});
+
+// The map moved to the numbers page; old links land on it there.
+await writeFile(
+  join(OUT, 'map.html'),
+  `<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="${CSP}">
+<meta http-equiv="refresh" content="0; url=numbers.html#map">
+<meta name="robots" content="noindex">
+<link rel="canonical" href="${SITE_URL}numbers.html">
+<title>The map · Punc</title>
+</head>
+<body>
+<p>The map has moved to <a href="numbers.html#map">the numbers page</a>.</p>
+</body>
+</html>
+`
+);
 
 await writePage({
   path: 'about.html',

@@ -28,7 +28,7 @@ test('front page hero and a shelf card', async ({ page }) => {
 });
 
 test('page titles', async ({ page }) => {
-  for (const name of ['about', 'map', 'read']) {
+  for (const name of ['about', 'numbers', 'read']) {
     await open(page, `${name}.html`);
     await expect(page.locator('h1:visible')).toHaveScreenshot(`title-${name}.png`);
   }
@@ -44,6 +44,6 @@ test('a book page head and its views', async ({ page }) => {
 });
 
 test('the map', async ({ page }) => {
-  await open(page, 'map.html');
+  await open(page, 'numbers.html');
   await expect(page.locator('.shelf-map')).toHaveScreenshot('map.png');
 });

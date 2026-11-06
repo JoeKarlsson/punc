@@ -3,7 +3,7 @@ import { expect, test, type Page } from '@playwright/test';
 import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import { dirname, join, normalize } from 'node:path';
 
-const catalog = JSON.parse(readFileSync('site/catalog.json', 'utf8')) as Array<{ slug: string; title: string; author: string; genres: string[]; rank: number | null }>;
+const catalog = JSON.parse(readFileSync('site/catalog.json', 'utf8')) as Array<{ slug: string; title: string; author: string; genres: string[]; rank: number | null; published: string | null; publishedSort: number | null }>;
 
 // Fail any test that throws in the page or trips the Content-Security-Policy.
 test.beforeEach(({ page }) => {
@@ -58,8 +58,9 @@ test('the shelf searches by title or author, filters by genre, and sorts', async
   await expect.poll(() => visible.evaluateAll(els => els.map(el => (el as HTMLElement).dataset['slug']))).toEqual(shortest);
 
   await page.getByLabel('Sort').selectOption('oldest');
-  await expect(visible.first()).toContainText('The Odyssey');
-  await expect(visible.first().locator('.cover-author')).toHaveText('Homer, 8th century BCE');
+  const oldest = catalog.filter(b => b.publishedSort !== null).sort((a, b) => a.publishedSort! - b.publishedSort!)[0]!;
+  await expect(visible.first()).toContainText(oldest.title);
+  await expect(visible.first().locator('.cover-author')).toHaveText(`${oldest.author}, ${oldest.published}`);
 
   await page.getByLabel('Search').fill('zzzz not a book');
   await expect(page.locator('#shelf-empty')).toBeVisible();
@@ -245,7 +246,7 @@ test('every shelf card has a fingerprint', async ({ page }) => {
 });
 
 test('the map places every book, with a tooltip and a table', async ({ page }) => {
-  await page.goto('map.html');
+  await page.goto('numbers.html');
   const dots = page.locator('.shelf-map a[data-tip]');
   await expect(dots).toHaveCount(catalog.length);
   // Dots overlap on a full shelf, so reach Alice by keyboard rather than pointer.
@@ -253,10 +254,39 @@ test('the map places every book, with a tooltip and a table', async ({ page }) =
   await alice.focus();
   await expect(page.locator('#map-tip')).toBeVisible();
   await expect(page.locator('#map-tip')).toContainText(/^Alice's Adventures in Wonderland, Lewis Carroll: [\d.]+ pauses per stop, [\d.]+% \? and !$/);
-  await page.getByText('The same books as a table').click();
+  await page.getByText("Every book's numbers as a table").click();
   await expect(page.locator('.map-table tbody tr')).toHaveCount(catalog.length);
   await alice.press('Enter');
   await expect(page).toHaveURL(/books\/alice\/$/);
+});
+
+test('the numbers page filters by genre, switches career measures and compares any two', async ({ page }) => {
+  await page.goto('numbers.html');
+  const charts = page.locator('#time figure.chart');
+  await expect(charts).toHaveCount(6);
+  const dated = await charts.first().locator('.chart-dot').count();
+  expect(dated).toBeGreaterThan(300);
+  await page.selectOption('#genre-pick', 'Plays');
+  await expect(page.locator('#genre-key')).toContainText('plays books');
+  expect(await charts.first().locator('.chart-dot:not(.chart-dot-out)').count()).toBeLessThan(dated);
+  const shown = page.locator('.career .career-layer.on');
+  await expect(shown.first()).toHaveAttribute('data-metric', 'semicolon');
+  await page.selectOption('#career-pick', 'wps');
+  await expect(shown.first()).toHaveAttribute('data-metric', 'wps');
+  await expect(page.locator('#compare-out .compare-name').first()).toHaveText('Jane Austen');
+  await page.selectOption('#compare-b', 'book:moby-dick');
+  await expect(page.locator('#compare-out .compare-name').nth(1)).toHaveText('Moby-Dick');
+  await expect(page.locator('#compare-out .compare-detail').nth(1)).toHaveText('Herman Melville, 1851');
+});
+
+test('the old map address lands on the map on the numbers page', async ({ page }) => {
+  await page.goto('map.html');
+  await expect(page).toHaveURL(/numbers\.html#map$/);
+});
+
+test('a book page names its punctuation twin', async ({ page }) => {
+  await openBook(page, 'moby-dick');
+  await expect(page.locator('.book-fingerprint')).toContainText('Its punctuation twin');
 });
 
 test('a book page marks the book on the shelf map', async ({ page }) => {
@@ -331,7 +361,7 @@ test('every page type passes axe (WCAG 2.2 AA)', async ({ page }) => {
     const { violations } = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa']).analyze();
     expect(violations.map(v => `${v.id}: ${v.nodes.map(n => n.target.join(' ')).join(', ')}`), where).toEqual([]);
   };
-  for (const path of ['./', 'read.html', 'map.html', 'about.html', '404.html']) {
+  for (const path of ['./', 'read.html', 'numbers.html', 'about.html', '404.html']) {
     await page.goto(path);
     await page.waitForLoadState('networkidle');
     await scan(path);
@@ -355,7 +385,7 @@ test('the main pages share one header: same nav, same title size and the same sp
   for (const width of [1280, 390]) {
     await page.setViewportSize({ width, height: 900 });
     const about = await measure('about.html');
-    for (const path of ['map.html', 'read.html']) expect(await measure(path), `${path} at ${width}px`).toEqual(about);
+    for (const path of ['numbers.html', 'read.html']) expect(await measure(path), `${path} at ${width}px`).toEqual(about);
     // The front page's ransom note and a book's title are their own size, but start at the same height.
     const home = await measure('./');
     expect(home.nav).toEqual(about.nav);
@@ -383,6 +413,13 @@ test('every built page has complete metadata, and every internal link and asset 
   for (const file of pages) {
     const html = readFileSync(file, 'utf8');
     const head = html.slice(0, html.indexOf('</head>'));
+    // A moved page (map.html) only forwards to where it went, out of search.
+    const forward = head.match(/<meta http-equiv="refresh" content="0; url=([^"#]+)/)?.[1];
+    if (forward) {
+      expect(head, file).toContain('<meta name="robots" content="noindex">');
+      expect(existsSync(join(OUT, forward)), `${file} forwards to ${forward}`).toBeTruthy();
+      continue;
+    }
     const notFound = file.endsWith('404.html');
     const where = file.slice(OUT.length + 1);
     // The CSP comes straight after charset and viewport, so it covers everything else.

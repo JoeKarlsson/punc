@@ -31,7 +31,7 @@ await build({
 // The same analysis the browser runs, bundled for Node so the numbers match.
 const analyzerPath = join(tmpdir(), `punc-site-analyze-${process.pid}.mjs`);
 await build({ entryPoints: [join(SITE, 'src/node-entry.ts')], bundle: true, platform: 'node', format: 'esm', outfile: analyzerPath });
-const { analyzeBook, fingerprintHTML, mapSVG, markShares, shelfPosition } = await import(pathToFileURL(analyzerPath).href);
+const { analyzeBook, fingerprintHTML, mapSVG, markShares, shelfPosition, SHELF_PAGE_SIZE } = await import(pathToFileURL(analyzerPath).href);
 await rm(analyzerPath);
 
 // GitHub Pages can't send headers, so the policy rides in a meta tag, first in
@@ -84,11 +84,11 @@ for (const meta of catalog) {
 const byRank = [...books].sort((a, b) => (a.rank ?? Infinity) - (b.rank ?? Infinity));
 const genres = [...new Set(books.flatMap(b => b.genres))].sort();
 
-function card(book, i) {
+function card(book, i, hidden = false) {
   const poster = book.cover
     ? `<img data-poster src="covers/${book.slug}.jpg" alt="" loading="lazy" decoding="async">`
     : '';
-  return `    <li class="cover poster" style="--tilt:${TILTS[i % TILTS.length]}deg" data-title="${escapeHTML(book.title)}" data-author="${escapeHTML(book.author)}" data-author-sort="${escapeHTML(book.authorSort)}" data-genres="${escapeHTML(book.genres.join('|'))}" data-rank="${book.rank ?? 9999}" data-published="${book.publishedSort ?? 99999}" data-words="${book.words}" data-wps="${book.wps.toFixed(2)}" data-density="${book.density.toFixed(2)}">
+  return `    <li class="cover poster"${hidden ? ' hidden' : ''} style="--tilt:${TILTS[i % TILTS.length]}deg" data-title="${escapeHTML(book.title)}" data-author="${escapeHTML(book.author)}" data-author-sort="${escapeHTML(book.authorSort)}" data-genres="${escapeHTML(book.genres.join('|'))}" data-rank="${book.rank ?? 9999}" data-published="${book.publishedSort ?? 99999}" data-words="${book.words}" data-wps="${book.wps.toFixed(2)}" data-density="${book.density.toFixed(2)}">
       <a href="books/${book.slug}/">
         ${poster}
         <span class="poster-marks" aria-hidden="true">${escapeHTML(book.sample)}</span>
@@ -233,8 +233,9 @@ const fragment = async name => readFile(join(SITE, 'pages', name), 'utf8');
 
 const featured = byRank.slice(0, FEATURED_COUNT);
 const indexBody = (await fragment('index.html'))
-  .replace('<!--FEATURED-->', featured.map(card).join('\n'))
-  .replace('<!--SHELF-->', byRank.map(card).join('\n'))
+  .replace('<!--FEATURED-->', featured.map((book, i) => card(book, i)).join('\n'))
+  // Only the first page of the shelf shows until site/src/shelf.ts takes over.
+  .replace('<!--SHELF-->', byRank.map((book, i) => card(book, i, i >= SHELF_PAGE_SIZE)).join('\n'))
   .replace('<!--GENRES-->', genres.map(g => `<option>${escapeHTML(g)}</option>`).join(''));
 await writePage({
   path: 'index.html',

@@ -1,8 +1,11 @@
-// Search, genre filter and sort for the shelf. The cards are built into the
-// page at build time with their numbers in data attributes; this only hides
-// and reorders them, and keeps the choices in the URL so they can be shared.
+// Search, genre filter, sort and pages for the shelf. The cards are built into
+// the page at build time with their numbers in data attributes; this only
+// hides and reorders them, and keeps the choices in the URL so they can be
+// shared. Hidden cards cost no layout and never load their covers, so a page
+// at a time keeps a shelf of hundreds fast.
 import { initPosters } from './posters';
 import { initShare } from './share';
+import { pageLinks, SHELF_PAGE_SIZE } from './paging';
 
 interface Card {
   el: HTMLElement;
@@ -29,10 +32,6 @@ const SORTS: Record<string, (a: Card, b: Card) => number> = {
   longest: (a, b) => b.words - a.words,
 };
 
-// Phones get the first stretch of the shelf and a button for the rest, so the
-// page isn't a hundred posters long before you reach the footer.
-const PHONE_SHELF_LIMIT = 20;
-const phone = window.matchMedia('(max-width: 720px)');
 
 export const normalizeForSearch = (s: string): string =>
   s.toLowerCase().normalize('NFKD').replace(/[̀-ͯ]/g, '').replace(/[^a-z0-9 ]/g, '');
@@ -50,8 +49,9 @@ function setUpShelf(): void {
   const sort = byId<HTMLSelectElement>('shelf-sort');
   const count = byId('shelf-count');
   const empty = byId('shelf-empty');
-  const more = byId<HTMLButtonElement>('shelf-more');
-  let showWholeShelf = false;
+  const pages = byId('shelf-pages');
+  const heading = byId('shelf-heading');
+  let page = 1;
   const controls = byId<HTMLFormElement>('shelf-controls');
   controls.hidden = false;
   // The search filters as you type; Enter shouldn't reload the page.
@@ -77,36 +77,73 @@ function setUpShelf(): void {
   search.value = params.get('q') ?? '';
   if (params.get('genre')) genre.value = params.get('genre')!;
   if (params.get('sort') && SORTS[params.get('sort')!]) sort.value = params.get('sort')!;
+  page = Math.max(1, Math.floor(Number(params.get('page'))) || 1);
+
+  const pageButton = (label: string, target: number, current = false): HTMLButtonElement => {
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'shelf-page';
+    button.textContent = label;
+    button.addEventListener('click', () => {
+      page = target;
+      apply();
+      // Back to the top of the shelf, with focus there for keyboards and screen readers.
+      heading.focus();
+      heading.scrollIntoView({ block: 'start' });
+    });
+    if (current) button.setAttribute('aria-current', 'page');
+    return button;
+  };
 
   const apply = () => {
     const terms = normalizeForSearch(search.value).split(' ').filter(Boolean);
     const shown = cards
       .filter(c => terms.every(t => c.text.includes(t)) && (!genre.value || c.genres.includes(genre.value)))
       .sort(SORTS[sort.value] ?? SORTS['popular']);
-    const limit = showWholeShelf || !phone.matches ? shown.length : PHONE_SHELF_LIMIT;
-    const visible = new Set(shown.slice(0, limit));
-    cards.forEach(c => (c.el.hidden = !visible.has(c)));
-    list.append(...shown.map(c => c.el));
-    count.textContent = `Showing ${visible.size} of ${cards.length} books`;
-    more.hidden = shown.length <= limit;
-    more.textContent = `Show all ${shown.length}`;
+    const pageCount = Math.max(1, Math.ceil(shown.length / SHELF_PAGE_SIZE));
+    page = Math.min(page, pageCount);
+    const start = (page - 1) * SHELF_PAGE_SIZE;
+    const onPage = shown.slice(start, start + SHELF_PAGE_SIZE);
+    const visible = new Set(onPage);
+    // Touch only what changes: rewriting hundreds of cards forces a full relayout.
+    cards.forEach(c => {
+      if (c.el.hidden === visible.has(c)) c.el.hidden = !visible.has(c);
+    });
+    const inOrder = shown.every((c, i) => list.children[i] === c.el);
+    if (!inOrder) list.append(...shown.map(c => c.el));
+    const matching = shown.length === cards.length ? `${cards.length} books` : `${shown.length} matching books (${cards.length} on the shelf)`;
+    count.textContent = onPage.length ? `Showing ${start + 1}–${start + onPage.length} of ${matching}` : `Showing 0 of ${cards.length} books`;
     empty.hidden = shown.length > 0;
+
+    pages.hidden = pageCount === 1;
+    pages.replaceChildren();
+    if (page > 1) pages.append(pageButton('Previous', page - 1));
+    for (const n of pageLinks(page, pageCount)) {
+      if (n === null) {
+        const gap = document.createElement('span');
+        gap.className = 'shelf-page-gap';
+        gap.textContent = '…';
+        pages.append(gap);
+      } else pages.append(pageButton(String(n), n, n === page));
+    }
+    if (page < pageCount) pages.append(pageButton('Next', page + 1));
 
     const next = new URLSearchParams();
     if (search.value) next.set('q', search.value);
     if (genre.value) next.set('genre', genre.value);
     if (sort.value !== 'popular') next.set('sort', sort.value);
+    if (page > 1) next.set('page', String(page));
     const query = next.toString();
     history.replaceState(null, '', query ? `?${query}#shelf-heading` : location.pathname);
   };
-  search.addEventListener('input', apply);
-  genre.addEventListener('change', apply);
-  sort.addEventListener('change', apply);
-  phone.addEventListener('change', apply);
-  more.addEventListener('click', () => {
-    showWholeShelf = true;
+  // A new search, genre or order starts again at the first page.
+  const fromFirstPage = () => {
+    page = 1;
     apply();
-  });
+  };
+  search.addEventListener('input', fromFirstPage);
+  genre.addEventListener('change', fromFirstPage);
+  sort.addEventListener('change', fromFirstPage);
   apply();
 }
 

@@ -20,7 +20,7 @@
 </section>
 
 <section class="shelf-section" aria-labelledby="shelf-heading">
-  <h2 id="shelf-heading" class="section-title">The shelf</h2>
+  <h2 id="shelf-heading" class="section-title" tabindex="-1">The shelf</h2>
   <form id="shelf-controls" class="shelf-controls" role="search" hidden>
     <label>Search <input type="search" id="shelf-search" placeholder="Title or author" autocomplete="off"></label>
     <label>Genre <select id="shelf-genre"><option value="">Everything</option><!--GENRES--></select></label>
@@ -41,5 +41,5 @@
 <!--SHELF-->
   </ul>
   <p id="shelf-empty" class="shelf-empty" hidden>Nothing on the shelf matches that.</p>
-  <button type="button" id="shelf-more" class="button shelf-more" hidden></button>
+  <nav id="shelf-pages" class="shelf-pages" aria-label="Shelf pages" hidden></nav>
 </section>

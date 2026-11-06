@@ -3,3 +3,4 @@
 export { analyzeBook } from './analyze';
 export { fingerprintHTML, mapSVG, markShares, shelfPosition } from './patterns';
 export { SHELF_PAGE_SIZE } from './paging';
+export { cardHTML } from './card';

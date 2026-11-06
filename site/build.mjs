@@ -31,7 +31,7 @@ await build({
 // The same analysis the browser runs, bundled for Node so the numbers match.
 const analyzerPath = join(tmpdir(), `punc-site-analyze-${process.pid}.mjs`);
 await build({ entryPoints: [join(SITE, 'src/node-entry.ts')], bundle: true, platform: 'node', format: 'esm', outfile: analyzerPath });
-const { analyzeBook, fingerprintHTML, mapSVG, markShares, shelfPosition, SHELF_PAGE_SIZE } = await import(pathToFileURL(analyzerPath).href);
+const { analyzeBook, cardHTML, fingerprintHTML, mapSVG, markShares, shelfPosition, SHELF_PAGE_SIZE } = await import(pathToFileURL(analyzerPath).href);
 await rm(analyzerPath);
 
 // GitHub Pages can't send headers, so the policy rides in a meta tag, first in
@@ -58,7 +58,6 @@ const escapeHTML = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').r
 const fmt = n => n.toLocaleString('en-US');
 
 const catalog = JSON.parse(await readFile(join(SITE, 'catalog.json'), 'utf8'));
-const TILTS = [-1.6, 0.9, -0.6, 1.8, -1.1, 0.4, -1.9, 1.3, -0.3];
 const books = [];
 for (const meta of catalog) {
   const textPath = join(SITE, 'books', `${meta.slug}.txt.gz`);
@@ -75,7 +74,7 @@ for (const meta of catalog) {
     marks: book.marks.length,
     wps: book.wordsPerSentence,
     density: (book.marks.length / Math.max(book.wordCount, 1)) * 100,
-    fingerprint: fingerprintHTML(markShares(book.marks)),
+    shares: markShares(book.marks),
     fingerprintLarge: fingerprintHTML(markShares(book.marks), 'fingerprint fingerprint-large'),
     topMark: book.counts[0]?.[0] ?? '',
     ...shelfPosition(book.marks),
@@ -84,20 +83,13 @@ for (const meta of catalog) {
 const byRank = [...books].sort((a, b) => (a.rank ?? Infinity) - (b.rank ?? Infinity));
 const genres = [...new Set(books.flatMap(b => b.genres))].sort();
 
-function card(book, i, hidden = false) {
-  const poster = book.cover
-    ? `<img data-poster src="covers/${book.slug}.jpg" alt="" loading="lazy" decoding="async">`
-    : '';
-  return `    <li class="cover poster"${hidden ? ' hidden' : ''} style="--tilt:${TILTS[i % TILTS.length]}deg" data-title="${escapeHTML(book.title)}" data-author="${escapeHTML(book.author)}" data-author-sort="${escapeHTML(book.authorSort)}" data-genres="${escapeHTML(book.genres.join('|'))}" data-rank="${book.rank ?? 9999}" data-published="${book.publishedSort ?? 99999}" data-words="${book.words}" data-wps="${book.wps.toFixed(2)}" data-density="${book.density.toFixed(2)}">
-      <a href="books/${book.slug}/">
-        ${poster}
-        <span class="poster-marks" aria-hidden="true">${escapeHTML(book.sample)}</span>
-        <span class="cover-label"><span class="cover-title">${escapeHTML(book.title)}</span><span class="cover-author">${escapeHTML(book.byline)}</span></span>
-      </a>
-      <p class="cover-meta">${fmt(book.words)} words removed, ${fmt(book.marks)} marks left</p>
-      ${book.fingerprint}
-    </li>`;
-}
+
+// The whole shelf for site/src/shelf.ts, which searches, sorts and pages it
+// and draws cards past the first page. Shares are rounded: a fingerprint bar
+// can't show more.
+const shelfBook = ({ slug, title, author, byline, authorSort, genres, rank, publishedSort, words, marks, wps, density, sample, shares, cover }) =>
+  ({ slug, title, author, byline, authorSort, genres, rank, publishedSort, words, marks, wps: Number(wps.toFixed(2)), density: Number(density.toFixed(2)), sample, shares: shares.map(s => Number(s.toFixed(4))), cover });
+await writeFile(join(OUT, 'shelf.json'), JSON.stringify(byRank.map(shelfBook)));
 
 // Book pages and uploads draw themselves on the shelf map from this.
 await writeFile(join(OUT, 'books.json'), JSON.stringify(books.map(({ slug, title, author, pausesPerStop, loudness }) => ({ slug, title, author, pausesPerStop, loudness }))));
@@ -233,9 +225,9 @@ const fragment = async name => readFile(join(SITE, 'pages', name), 'utf8');
 
 const featured = byRank.slice(0, FEATURED_COUNT);
 const indexBody = (await fragment('index.html'))
-  .replace('<!--FEATURED-->', featured.map((book, i) => card(book, i)).join('\n'))
-  // Only the first page of the shelf shows until site/src/shelf.ts takes over.
-  .replace('<!--SHELF-->', byRank.map((book, i) => card(book, i, i >= SHELF_PAGE_SIZE)).join('\n'))
+  .replace('<!--FEATURED-->', featured.map((book, i) => cardHTML(shelfBook(book), i)).join('\n'))
+  // Only the first page is in the HTML; site/src/shelf.ts draws the rest from shelf.json.
+  .replace('<!--SHELF-->', byRank.slice(0, SHELF_PAGE_SIZE).map((book, i) => cardHTML(shelfBook(book), i)).join('\n'))
   .replace('<!--GENRES-->', genres.map(g => `<option>${escapeHTML(g)}</option>`).join(''));
 await writePage({
   path: 'index.html',

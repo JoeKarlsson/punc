@@ -29,8 +29,8 @@ async function openBook(page: Page, slug: string) {
 test('the front page features the most read books, then the shelf a page at a time', async ({ page }) => {
   await page.goto('./');
   await expect(page.locator('.shelf-featured .cover:visible')).toHaveCount(4);
-  await expect(page.locator('#shelf .cover')).toHaveCount(catalog.length);
-  await expect(page.locator('#shelf .cover:not([hidden])')).toHaveCount(24);
+  // Only the page in view is drawn.
+  await expect(page.locator('#shelf .cover')).toHaveCount(24);
   await expect(page.locator('#shelf-count')).toHaveText(`Showing 1–24 of ${catalog.length} books`);
   // Covers get dithered into pink-and-black posters.
   await expect(page.locator('.shelf-featured .poster-art')).toHaveCount(4);
@@ -53,8 +53,9 @@ test('the shelf searches by title or author, filters by genre, and sorts', async
 
   await page.getByLabel('Genre').selectOption('');
   await page.getByLabel('Sort').selectOption('short-sentences');
-  const wps = (await visible.evaluateAll(els => els.map(el => Number((el as HTMLElement).dataset['wps']))));
-  expect(wps).toEqual([...wps].sort((a, b) => a - b));
+  const shelf = (await (await page.request.get('shelf.json')).json()) as Array<{ slug: string; wps: number }>;
+  const shortest = [...shelf].sort((a, b) => a.wps - b.wps).slice(0, 24).map(b => b.slug);
+  await expect.poll(() => visible.evaluateAll(els => els.map(el => (el as HTMLElement).dataset['slug']))).toEqual(shortest);
 
   await page.getByLabel('Sort').selectOption('oldest');
   await expect(visible.first()).toContainText('The Odyssey');
@@ -72,7 +73,7 @@ test('the shelf turns pages, keeps the page in the URL, and a new search starts 
   await pages.getByRole('button', { name: '2', exact: true }).click();
   await expect(page).toHaveURL(/\?page=2/);
   await expect(page.locator('#shelf-count')).toHaveText(`Showing 25–48 of ${catalog.length} books`);
-  await expect(visible.first()).toHaveAttribute('data-title', byRank[24]!.title);
+  await expect(visible.first()).toHaveAttribute('data-slug', byRank[24]!.slug);
   await expect(pages.getByRole('button', { name: '2', exact: true })).toHaveAttribute('aria-current', 'page');
   await expect(page.locator('#shelf-heading')).toBeFocused();
   await pages.getByRole('button', { name: 'Next' }).click();
@@ -240,7 +241,7 @@ test('a book page shows its fingerprint, how its marks change, and describes its
 
 test('every shelf card has a fingerprint', async ({ page }) => {
   await page.goto('./');
-  await expect(page.locator('#shelf .cover .fingerprint')).toHaveCount(catalog.length);
+  await expect(page.locator('#shelf .cover .fingerprint')).toHaveCount(24);
 });
 
 test('the map places every book, with a tooltip and a table', async ({ page }) => {

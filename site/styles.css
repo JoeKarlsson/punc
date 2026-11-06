@@ -294,15 +294,6 @@ main {
   display: none;
 }
 
-/* Hundreds of cards: skip layout and paint for the ones off screen. auto
-   remembers each card's real height once it has been drawn. The clip margin
-   keeps the tilted corners and the hover scale from being cut off. */
-#shelf > .cover {
-  content-visibility: auto;
-  contain-intrinsic-size: auto 560px;
-  overflow-clip-margin: 24px;
-}
-
 .cover:hover,
 .cover:focus-within {
   transform: rotate(0deg) scale(1.02);

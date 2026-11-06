@@ -114,21 +114,27 @@ function shareLinks(url, title) {
   return `<p class="share">Share it on ${links.join(', ')}, or <button type="button" class="link-button" data-copy-link="${escapeHTML(url)}">copy the link</button>.</p>`;
 }
 
-async function writePage({ path, nav, title, socialTitle, description, body, script, depth = 0, dataset = {}, imageAlt }) {
+const sitemapURLs = [];
+
+// notFound: GitHub Pages serves 404.html at any missing path, so its links
+// resolve from the site root, and it stays out of search and the sitemap.
+async function writePage({ path, nav, title, socialTitle, description, body, script, depth = 0, dataset = {}, imageAlt, notFound = false }) {
   const url = SITE_URL + path.replace(/index\.html$/, '');
   const root = '../'.repeat(depth);
   const navHTML = NAV.map(n => `<a href="${n.href}"${n.key === nav ? ' aria-current="page"' : ''}>${n.label}</a>`).join('');
   const data = Object.entries({ ...dataset, root }).map(([k, v]) => ` data-${k}="${escapeHTML(v)}"`).join('');
   const image = `${SITE_URL}og.png`;
+  if (!notFound) sitemapURLs.push(url);
   const alt = imageAlt ?? 'A ransom note cut from pink and white paper asks: What does a book look like without words?';
   const html = `<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>${escapeHTML(title)}</title>
+${notFound ? '<base href="/punc/">\n' : ''}<title>${escapeHTML(title)}</title>
 <meta name="description" content="${escapeHTML(description)}">
-<link rel="canonical" href="${url}">
+${notFound ? '<meta name="robots" content="noindex">' : `<link rel="canonical" href="${url}">`}
+<meta name="color-scheme" content="dark">
 <meta name="theme-color" content="#000000">
 <meta name="author" content="Joe Karlsson">
 <link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png">
@@ -177,7 +183,7 @@ ${crayonFilter}
 </header>
 <main id="main">
 ${body}
-${shareLinks(url, socialTitle ?? title)}
+${notFound ? '' : shareLinks(url, socialTitle ?? title)}
 </main>
 <footer class="site-footer">
   <nav class="footer-links" aria-label="Elsewhere">
@@ -277,5 +283,25 @@ await writePage({
   body: await fragment('about.html'),
   script: 'page.js',
 });
+
+await writePage({
+  path: '404.html',
+  nav: null,
+  title: 'Not on the shelf · Punc',
+  description: 'There is no page at this address.',
+  body: `<article class="about">
+  <h1 class="page-title">Not on the shelf</h1>
+  <p>There's no page at this address. Try <a href="./">the shelf</a> or <a href="read.html">read your own</a>.</p>
+</article>`,
+  script: 'page.js',
+  notFound: true,
+});
+
+// No robots.txt: GitHub Pages only reads one at the domain root, which this
+// project site doesn't own. Submit the sitemap in Search Console instead.
+await writeFile(
+  join(OUT, 'sitemap.xml'),
+  `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${sitemapURLs.map(u => `  <url><loc>${u}</loc></url>`).join('\n')}\n</urlset>\n`
+);
 
 console.log(`Built ${books.length} books, ${featured.length} featured, into ${OUT}/`);

@@ -262,6 +262,21 @@ test('the about page has the artist statement and the footer links out', async (
   await expect(page.getByRole('link', { name: 'Source on GitHub' })).toHaveAttribute('href', 'https://github.com/JoeKarlsson/punc');
 });
 
+test('pages declare a dark color scheme, the sitemap lists them, and the 404 page links home', async ({ page, request }) => {
+  await page.goto('about.html');
+  await expect(page.locator('meta[name="color-scheme"]')).toHaveAttribute('content', 'dark');
+
+  const sitemap = await (await request.get('sitemap.xml')).text();
+  expect(sitemap).toContain('<loc>https://joekarlsson.github.io/punc/</loc>');
+  expect(sitemap).toContain('<loc>https://joekarlsson.github.io/punc/books/ulysses/</loc>');
+  expect(sitemap).not.toContain('404');
+
+  await page.goto('404.html');
+  await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', 'noindex');
+  await expect(page.locator('base')).toHaveAttribute('href', '/punc/');
+  await expect(page.locator('.share')).toHaveCount(0);
+});
+
 test('nothing scrolls sideways on a phone', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   for (const path of ['./', 'books/ulysses/', 'about.html', 'map.html']) {

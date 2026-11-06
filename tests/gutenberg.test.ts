@@ -1,8 +1,5 @@
 // @ts-expect-error: plain ESM maintenance script, no type declarations
-import { parseAuthor, parseCSV, publicationOf, stripGutenberg } from '../site/scripts/fetch-books.mjs';
-import { readFileSync } from 'node:fs';
-
-const catalog = JSON.parse(readFileSync('site/catalog.json', 'utf8')) as Array<{ id: number }>;
+import { cleanTitle, parseAuthor, parseCSV, publicationOf, stripGutenberg } from '../site/scripts/fetch-books.mjs';
 
 describe('Gutenberg catalog parsing', () => {
   test('parseCSV handles quoted commas, doubled quotes and newlines', () => {
@@ -26,11 +23,22 @@ describe('Gutenberg catalog parsing', () => {
     expect(publicationOf('84')).toEqual({ published: '1818', publishedSort: 1818 });
     expect(publicationOf('1497')).toEqual({ published: 'c. 375 BCE', publishedSort: -375 });
     expect(publicationOf('2148')).toEqual({ published: null, publishedSort: null });
-    expect(() => publicationOf('999999')).toThrow('add it to PUBLISHED');
   });
 
-  test('every book on the shelf has a publication entry', () => {
-    for (const book of catalog) expect(() => publicationOf(String(book.id))).not.toThrow();
+  test('publicationOf takes the Wikidata year only when PUBLISHED has none', () => {
+    expect(publicationOf('84', 1993)).toEqual({ published: '1818', publishedSort: 1818 });
+    expect(publicationOf('999999', 1920)).toEqual({ published: '1920', publishedSort: 1920 });
+    expect(publicationOf('999999')).toEqual({ published: null, publishedSort: null });
+  });
+
+  test.each([
+    ['A farewell to arms', 'A Farewell to Arms'],
+    ['The war of the worlds', 'The War of the Worlds'],
+    ['Faust [part 1]; or, a tragedy', 'Faust'],
+    ['Middlemarch, Complete', 'Middlemarch'],
+    ['Frankenstein; Or, The Modern Prometheus', 'Frankenstein'],
+  ])('cleanTitle(%s)', (raw, title) => {
+    expect(cleanTitle(raw)).toBe(title);
   });
 
   test('stripGutenberg keeps only the book between the markers', () => {

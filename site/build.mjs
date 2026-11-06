@@ -265,10 +265,12 @@ for (const book of books) {
     : '';
   const shareImage = `share/${book.slug}.png`;
   if (!existsSync(join(SITE, shareImage))) missingShareImages.push(book.slug);
-  // Search results cut descriptions at about 160 characters; long titles lose the last clause.
+  // Search results cut descriptions at about 160 characters; long titles lose
+  // the last clause, then the author, then the end of the title.
   const removed = `${book.author}'s ${book.title}${book.published ? ` (${book.published})` : ''} with all ${fmt(book.words)} words removed. ${fmt(book.marks)} punctuation marks are left`;
-  const withSentences = `${removed}, about ${book.wps.toFixed(1)} words to a sentence.`;
-  const description = withSentences.length <= 160 ? withSentences : `${removed}.`;
+  const titleOnly = ` with all ${fmt(book.words)} words removed.`;
+  const description = [`${removed}, about ${book.wps.toFixed(1)} words to a sentence.`, `${removed}.`, `${book.title}${titleOnly}`].find(d => d.length <= 160)
+    ?? `${book.title.slice(0, 159 - titleOnly.length).replace(/\s+\S*$/, '')}…${titleOnly}`;
   await writePage({
     path: `books/${book.slug}/index.html`,
     depth: 2,

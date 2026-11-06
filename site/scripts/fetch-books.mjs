@@ -1,17 +1,25 @@
-// Refreshes the shelf from Project Gutenberg: the "Top 100 EBooks last 30
-// days" list plus EXTRA_IDS, joined with Gutenberg's catalog CSV. Downloads
-// each plain text (header and license footer stripped, gzipped) to
-// site/books/<slug>.txt.gz and its cover to site/covers/<slug>.jpg, skipping
-// files already on disk, then writes site/catalog.json. Run by hand:
-//   node site/scripts/fetch-books.mjs
+// Refreshes the shelf from Project Gutenberg: the most-downloaded English
+// books of the last 30 days (counts from Gutenberg's RDF feed; robots.txt
+// rules out its search pages) plus EXTRA_IDS, joined with Gutenberg's catalog
+// CSV. Downloads each plain text (header and license footer stripped,
+// gzipped) to site/books/<slug>.txt.gz and its cover to
+// site/covers/<slug>.jpg, skipping files already on disk, deletes the files of
+// books that left the shelf, then writes site/catalog.json. Usually run by
+// site/scripts/update-shelf.mjs; on its own:
+//   node site/scripts/fetch-books.mjs [--top 500]
+import { spawn } from 'node:child_process';
 import { existsSync } from 'node:fs';
-import { mkdir, readFile, writeFile } from 'node:fs/promises';
+import { mkdir, readdir, readFile, rm, writeFile } from 'node:fs/promises';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
+import { createInterface } from 'node:readline';
 import { gunzipSync, gzipSync } from 'node:zlib';
 
 const UA = { 'User-Agent': 'punc-site-builder (https://github.com/JoeKarlsson/punc)' };
 const PAUSE_MS = 1500;
 const MAX_TEXT_BYTES = 3.5 * 1024 * 1024;
-// Books kept on the shelf even when they drop out of the top 100
+const DEFAULT_TOP = 500;
+// Books kept on the shelf even when they drop out of the top list
 const EXTRA_IDS = ['1079', '12242', '67138'];
 const SKIP_SHELVES = /Encyclopedias|Dictionaries|Reference|Language & Communication/;
 // Shorter titles and plain names where the catalog's don't read well
@@ -38,6 +46,15 @@ const TITLES = {
   '6593': 'Tom Jones',
   '33283': 'Calculus Made Easy',
   '49008': 'The Works of William Shakespeare, Volume 8',
+  '47715': 'The Works of William Shakespeare, Volume 7',
+  '14591': 'Faust, Part 1',
+  '1212': 'Love and Freindship',
+  '1608': 'Camille',
+  '17695': 'A History of China',
+  '19218': 'The History of England, Volume 3',
+  '31100': 'The Complete Works of Jane Austen',
+  '57333': 'Short Stories by Chekhov',
+  '38813': 'The Works of Robert G. Ingersoll',
 };
 const AUTHORS = {
   '2680': 'Marcus Aurelius',
@@ -50,7 +67,9 @@ const AUTHORS = {
 // The year each book first appeared, as it's usually cited (Gutenberg's own
 // "Issued" date is when the ebook was added). Ancient and medieval works get
 // an approximate label and a sortable year; collected-works volumes have none.
-// Checked against Wikidata, which has dates for about two thirds of these.
+// Checked by hand against Wikidata. Books not listed here take Wikidata's
+// date for the work (see wikidataYears), or show no year; add a book here to
+// fix a wrong or missing one.
 export const PUBLISHED = {
   '1342': 1813, '84': 1818, '2701': 1851, '11': 1865, '1661': 1892, '345': 1897,
   '98': 1859, '1513': 1597, '145': 1871, '174': 1890, '43': 1886, '1260': 1847,
@@ -71,10 +90,10 @@ export const PUBLISHED = {
   '2814': 1914, '12': 1871, '1079': 1759, '12242': 1890, '67138': 1926,
 };
 
-// { published: '1818', publishedSort: 1818 }, or nulls when there's no single year
-export function publicationOf(id) {
-  if (!(id in PUBLISHED)) throw new Error(`No publication year for Gutenberg #${id}; add it to PUBLISHED`);
-  const value = PUBLISHED[id];
+// { published: '1818', publishedSort: 1818 }, or nulls when there's no single
+// or known year. PUBLISHED wins over the Wikidata year.
+export function publicationOf(id, wikidataYear = null) {
+  const value = id in PUBLISHED ? PUBLISHED[id] : wikidataYear;
   if (value === null) return { published: null, publishedSort: null };
   if (Array.isArray(value)) return { published: value[0], publishedSort: value[1] };
   return { published: String(value), publishedSort: value };
@@ -86,6 +105,7 @@ const SLUGS = {
   '2701': 'moby-dick',
   '12242': 'dickinson-poems',
   '1079': 'tristram-shandy',
+  '49008': 'the-works-of-william-shakespeare-cambridge-edition-vol-8-of-9',
 };
 const GENRES = [
   ['Novels', /Category: Novels/],
@@ -150,15 +170,79 @@ export function stripGutenberg(text) {
   return t.slice(start.index + start[0].length, end.index).replace(/\[Illustration[^\]]*\]\n*/g, '').trim() + '\n';
 }
 
-const slugify = s => s.toLowerCase().normalize('NFKD').replace(/[̀-ͯ]/g, '').replace(/'/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+// Gutenberg's newer entries are in sentence case ("A farewell to arms").
+const SMALL_WORDS = new Set(['a', 'an', 'and', 'as', 'at', 'but', 'by', 'for', 'from', 'in', 'into', 'nor', 'of', 'on', 'or', 'the', 'to', 'with']);
+export function titleCase(title) {
+  return title
+    .split(' ')
+    .map((word, i) => (i > 0 && SMALL_WORDS.has(word) ? word : word.charAt(0).toUpperCase() + word.slice(1)))
+    .join(' ');
+}
+
+// Catalog title -> shelf title: first part only, no editions in brackets.
+export function cleanTitle(raw) {
+  return titleCase(raw.split(/[;:\n]| — /)[0].replace(/\s*\[[^\]]*\]/g, '').replace(/,?\s*Complete$/, '').trim());
+}
+
+// Gutenberg ids by 30-day downloads, most first, from the RDF feed: one
+// <pgterms:ebook rdf:about="ebooks/N"> per book with a <pgterms:downloads>.
+async function rankedByDownloads() {
+  const archive = join(tmpdir(), 'punc-rdf-files.tar.bz2');
+  await writeFile(archive, await get('https://www.gutenberg.org/cache/epub/feeds/rdf-files.tar.bz2'));
+  const tar = spawn('tar', ['-xjOf', archive]);
+  const exited = new Promise((resolve, reject) => tar.on('close', code => (code === 0 ? resolve() : reject(new Error(`tar exited with ${code}`)))));
+  const downloads = new Map();
+  let id = null;
+  for await (const line of createInterface({ input: tar.stdout })) {
+    const ebook = line.match(/<pgterms:ebook rdf:about="ebooks\/(\d+)"/);
+    if (ebook) id = ebook[1];
+    const count = line.match(/<pgterms:downloads[^>]*>(\d+)</);
+    if (count && id) downloads.set(id, Number(count[1]));
+  }
+  await exited;
+  await rm(archive);
+  return [...downloads].sort((a, b) => b[1] - a[1]).map(([bookId]) => bookId);
+}
+
+// Year each work first appeared, by Gutenberg id. Only the work's date, via
+// "edition of" or a work item itself: an edition's own date is often the
+// ebook's.
+async function wikidataYears(ids) {
+  const query = `SELECT ?g (MIN(YEAR(?viaWork)) AS ?a) (MIN(YEAR(?own)) AS ?b) WHERE {
+    VALUES ?g { ${ids.map(id => `"${id}"`).join(' ')} }
+    ?item wdt:P2034 ?g .
+    OPTIONAL { ?item wdt:P629 ?work . ?work wdt:P577 ?viaWork }
+    OPTIONAL { FILTER NOT EXISTS { ?item wdt:P629 ?w } ?item wdt:P31/wdt:P279* wd:Q7725634 ; wdt:P577 ?own }
+  } GROUP BY ?g`;
+  const json = JSON.parse((await get(`https://query.wikidata.org/sparql?format=json&query=${encodeURIComponent(query)}`)).toString('utf8'));
+  const years = new Map();
+  for (const row of json.results.bindings) {
+    const year = row.a ?? row.b;
+    if (year) years.set(row.g.value, Number(year.value));
+  }
+  return years;
+}
+
+// Removes files in dir whose slug isn't on the shelf any more.
+async function pruneOrphans(dir, extension, slugs) {
+  for (const file of await readdir(dir)) {
+    if (file.endsWith(extension) && !slugs.has(file.slice(0, -extension.length))) {
+      await rm(join(dir, file));
+      console.log(`removed ${join(dir, file)}`);
+    }
+  }
+}
+
+const slugify = s => s.toLowerCase().replace(/æ/g, 'ae').replace(/œ/g, 'oe').normalize('NFKD').replace(/[̀-ͯ]/g, '').replace(/'/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 
 async function main() {
+  const topArg = process.argv.indexOf('--top');
+  const top = topArg === -1 ? DEFAULT_TOP : Number(process.argv[topArg + 1]);
+  if (!Number.isInteger(top) || top < 1) throw new Error(`--top needs a whole number, got ${process.argv[topArg + 1]}`);
   await mkdir('site/books', { recursive: true });
   await mkdir('site/covers', { recursive: true });
-  const top = (await get('https://www.gutenberg.org/browse/scores/top')).toString('utf8');
-  const section = top.slice(top.indexOf('id="books-last30"'), top.indexOf('id="authors-last30"'));
-  const ranked = [...section.matchAll(/href="\/ebooks\/(\d+)"/g)].map(m => m[1]);
-  if (ranked.length < 50) throw new Error(`Top list looks wrong: ${ranked.length} books`);
+  const ranked = await rankedByDownloads();
+  if (ranked.length < 10000) throw new Error(`Download counts look wrong: ${ranked.length} books`);
 
   const csv = parseCSV(gunzipSync(await get('https://www.gutenberg.org/cache/epub/feeds/pg_catalog.csv.gz')).toString('utf8'));
   const header = csv[0];
@@ -167,13 +251,24 @@ async function main() {
 
   const catalog = [];
   const seenTitles = new Set();
-  for (const id of [...ranked, ...EXTRA_IDS.filter(id => !ranked.includes(id))]) {
+  // Rank among the books that qualify for the shelf, so the top N is N books.
+  const rankOf = new Map();
+  function* candidates() {
+    for (const id of ranked) {
+      if (rankOf.size >= top) break;
+      yield id;
+    }
+    yield* EXTRA_IDS.filter(id => !rankOf.has(id));
+  }
+  for (const id of candidates()) {
     const row = byId.get(id);
     if (!row) { console.warn(`skip ${id}: not in catalog`); continue; }
     const [type, language, rawTitle, authors, shelves] = ['Type', 'Language', 'Title', 'Authors', 'Bookshelves'].map(c => row[col(c)] ?? '');
     if (type !== 'Text' || language !== 'en' || SKIP_SHELVES.test(shelves)) { console.warn(`skip ${id}: ${type} ${language} ${rawTitle.slice(0, 30)}`); continue; }
-    const title = TITLES[id] ?? rawTitle.split(/[;:\n]| — /)[0].replace(/,?\s*Complete$/, '').trim();
+    const title = TITLES[id] ?? cleanTitle(rawTitle);
     if (seenTitles.has(title)) { console.warn(`skip ${id}: duplicate edition of ${title}`); continue; }
+    seenTitles.add(title);
+    if (rankOf.size < top) rankOf.set(id, rankOf.size + 1);
     const author = AUTHORS[id] ?? parseAuthor(authors);
     const slug = SLUGS[id] ?? slugify(title);
 
@@ -203,19 +298,28 @@ async function main() {
       }
       await sleep(PAUSE_MS);
     }
-    seenTitles.add(title);
     catalog.push({
       id: Number(id),
       slug,
       title,
       author,
       genres: GENRES.filter(([, re]) => re.test(shelves)).map(([g]) => g),
-      ...publicationOf(id),
-      rank: ranked.includes(id) ? ranked.indexOf(id) + 1 : null,
+      published: null,
+      publishedSort: null,
+      rank: rankOf.get(id) ?? null,
       cover,
     });
     console.log(`${catalog.length}. ${title} (${author})`);
   }
+  const years = await wikidataYears(catalog.filter(b => !(String(b.id) in PUBLISHED)).map(b => String(b.id)));
+  for (const book of catalog) Object.assign(book, publicationOf(String(book.id), years.get(String(book.id)) ?? null));
+  const undated = catalog.filter(b => b.published === null && !(String(b.id) in PUBLISHED));
+  if (undated.length) console.warn(`${undated.length} books have no year (add them to PUBLISHED): ${undated.map(b => `${b.id} ${b.title}`).join('; ')}`);
+
+  const slugs = new Set(catalog.map(b => b.slug));
+  await pruneOrphans('site/books', '.txt.gz', slugs);
+  await pruneOrphans('site/covers', '.jpg', slugs);
+  await pruneOrphans('site/share', '.png', slugs);
   await writeFile('site/catalog.json', JSON.stringify(catalog, null, 2) + '\n');
   console.log(`Wrote ${catalog.length} books to site/catalog.json`);
 }

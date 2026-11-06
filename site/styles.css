@@ -12,7 +12,7 @@
   --poster: 'Anton', Impact, 'Arial Narrow', sans-serif;
   --book: 'Fraunces', Georgia, serif;
   --gutter: clamp(16px, 4vw, 48px);
-  color-scheme: dark;
+  color-scheme: only dark;
 }
 
 * {

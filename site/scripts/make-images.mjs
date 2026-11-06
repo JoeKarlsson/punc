@@ -27,7 +27,6 @@ const posters = SHARE_BOOKS.map(
 await writeFile(
   join(DIST, '_share.html'),
   `<!doctype html><html><head><meta charset="utf-8">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Fraunces:opsz,wght@9..144,400..700&display=swap">
 <link rel="stylesheet" href="styles.css">
 <style>
   body { margin: 0; width: 1200px; height: 630px; overflow: hidden; position: relative; }
@@ -68,7 +67,6 @@ const bookCardPage = card => {
     .replace(' loading="lazy"', '')
     .replace(/href="[^"]*"/, '');
   const html = `<!doctype html><html><head><meta charset="utf-8">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Fraunces:opsz,wght@9..144,400..700&display=swap">
 <link rel="stylesheet" href="styles.css">
 <style>
   body { margin: 0; width: 1200px; height: 630px; overflow: hidden; position: relative; }
@@ -92,7 +90,7 @@ const bookCardPage = card => {
   return { slug, html };
 };
 
-const TYPES = { '.html': 'text/html', '.css': 'text/css', '.js': 'text/javascript', '.jpg': 'image/jpeg' };
+const TYPES = { '.html': 'text/html', '.css': 'text/css', '.js': 'text/javascript', '.jpg': 'image/jpeg', '.woff2': 'font/woff2' };
 const server = createServer(async (req, res) => {
   try {
     const path = normalize(decodeURIComponent(new URL(req.url, 'http://x').pathname)).replace(/^\/+/, '');

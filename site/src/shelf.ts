@@ -52,7 +52,10 @@ function setUpShelf(): void {
   const empty = byId('shelf-empty');
   const more = byId<HTMLButtonElement>('shelf-more');
   let showWholeShelf = false;
-  byId('shelf-controls').hidden = false;
+  const controls = byId<HTMLFormElement>('shelf-controls');
+  controls.hidden = false;
+  // The search filters as you type; Enter shouldn't reload the page.
+  controls.addEventListener('submit', e => e.preventDefault());
 
   const cards: Card[] = [...list.querySelectorAll<HTMLElement>('li[data-title]')].map(el => {
     const d = el.dataset;

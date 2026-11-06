@@ -60,10 +60,10 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Install Chromium
-        run: npx playwright install --with-deps chromium
+      - name: Install Chromium and WebKit
+        run: npx playwright install --with-deps chromium webkit
 
-      - name: Run browser tests
+      - name: Run browser tests (desktop Chromium, iPhone WebKit)
         run: npm run test:e2e
 
       - name: Upload Playwright report on failure
@@ -73,6 +73,57 @@ jobs:
           name: playwright-report
           path: test-results/
           retention-days: 7
+
+  visual:
+    name: Site screenshot comparisons
+    runs-on: ubuntu-latest
+    # The same image npm run test:visual:update makes the baselines in
+    container:
+      image: mcr.microsoft.com/playwright:v1.64.1-noble
+      options: --ipc=host
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Compare screenshots
+        run: npx playwright test --project=visual-desktop --project=visual-phone
+        env:
+          HOME: /root
+
+      - name: Upload diffs on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: visual-diffs
+          path: test-results/
+          retention-days: 7
+
+  lighthouse:
+    name: Lighthouse (mobile)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 'latest'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build the site
+        run: npm run site:build
+
+      - name: Run Lighthouse CI
+        run: npx --yes @lhci/cli@0.15.1 autorun
 
   security:
     name: Security Audit

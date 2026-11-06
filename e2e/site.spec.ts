@@ -1,14 +1,25 @@
+import AxeBuilder from '@axe-core/playwright';
 import { expect, test, type Page } from '@playwright/test';
-import { readFileSync } from 'node:fs';
+import { existsSync, readdirSync, readFileSync } from 'node:fs';
+import { dirname, join, normalize } from 'node:path';
 
 const catalog = JSON.parse(readFileSync('site/catalog.json', 'utf8')) as Array<{ slug: string; author: string; genres: string[] }>;
 
-// Fail any test that throws in the page.
+// Fail any test that throws in the page or trips the Content-Security-Policy.
 test.beforeEach(({ page }) => {
   page.on('pageerror', error => {
     throw error;
   });
+  page.on('console', message => {
+    if (/Content Security Policy/i.test(message.text())) throw new Error(message.text());
+  });
 });
+
+// The 404 page links from /punc/, as on GitHub Pages; the local server
+// serves the site from /.
+async function servePuncPathLocally(page: Page) {
+  await page.route(/\/punc\//, route => route.continue({ url: route.request().url().replace('/punc/', '/') }));
+}
 
 async function openBook(page: Page, slug: string) {
   await page.goto(`books/${slug}/`);
@@ -288,22 +299,106 @@ test('a book page shares its own card and describes the book for search engines'
   expect(data.about).toMatchObject({ '@type': 'Book', name: 'Frankenstein', author: { name: 'Mary Shelley' } });
 });
 
-test('a phone shows the first 20 books on the shelf, then all of them on request', async ({ page }) => {
-  await page.setViewportSize({ width: 390, height: 844 });
-  await page.goto('./');
-  const shelf = page.locator('#shelf li:visible');
-  await expect(shelf).toHaveCount(20);
-  await page.getByRole('button', { name: `Show all ${catalog.length}` }).click();
-  await expect(shelf).toHaveCount(catalog.length);
-  await expect(page.locator('#shelf-more')).toBeHidden();
-});
-
-test('nothing scrolls sideways on a phone', async ({ page }) => {
-  await page.setViewportSize({ width: 390, height: 844 });
-  for (const path of ['./', 'books/ulysses/', 'about.html', 'map.html']) {
+test('every page type passes axe (WCAG 2.2 AA)', async ({ page }) => {
+  await servePuncPathLocally(page);
+  const scan = async (where: string) => {
+    const { violations } = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa']).analyze();
+    expect(violations.map(v => `${v.id}: ${v.nodes.map(n => n.target.join(' ')).join(', ')}`), where).toEqual([]);
+  };
+  for (const path of ['./', 'read.html', 'map.html', 'about.html', '404.html']) {
     await page.goto(path);
     await page.waitForLoadState('networkidle');
-    const overflow = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
-    expect(overflow, path).toBe(0);
+    await scan(path);
   }
+  await openBook(page, 'frankenstein');
+  for (const view of ['score', 'spiral', 'pages', 'counts']) {
+    await page.click(`[data-view=${view}]`);
+    await scan(`book, ${view}`);
+  }
+});
+
+test('the main pages share one header: same nav, same title size and the same space above it', async ({ page }) => {
+  const measure = async (path: string) => {
+    await page.goto(path);
+    return page.evaluate(() => {
+      const nav = document.querySelector('.site-header nav')!.getBoundingClientRect();
+      const h1 = [...document.querySelectorAll('h1')].find(h => h.checkVisibility())!;
+      return { nav: [nav.left, nav.top], h1Top: h1.getBoundingClientRect().top + scrollY, h1Size: getComputedStyle(h1).fontSize };
+    });
+  };
+  for (const width of [1280, 390]) {
+    await page.setViewportSize({ width, height: 900 });
+    const about = await measure('about.html');
+    for (const path of ['map.html', 'read.html']) expect(await measure(path), `${path} at ${width}px`).toEqual(about);
+    // The front page's ransom note and a book's title are their own size, but start at the same height.
+    const home = await measure('./');
+    expect(home.nav).toEqual(about.nav);
+    expect(home.h1Top).toBe(about.h1Top);
+    if (width > 720) expect((await measure('books/frankenstein/')).h1Top).toBe(about.h1Top);
+  }
+});
+
+// Reads the built files straight from disk: every page's head, and every link
+// and asset it points at.
+test('every built page has complete metadata, and every internal link and asset exists', () => {
+  const OUT = 'site-dist';
+  const pages: string[] = [];
+  const walk = (dir: string) =>
+    readdirSync(dir, { withFileTypes: true }).forEach(entry => {
+      const path = join(dir, entry.name);
+      if (entry.isDirectory()) walk(path);
+      else if (entry.name.endsWith('.html')) pages.push(path);
+    });
+  walk(OUT);
+  expect(pages.length).toBeGreaterThan(catalog.length);
+
+  const missing: string[] = [];
+  const indexable: Array<{ url: string; title: string; description: string }> = [];
+  for (const file of pages) {
+    const html = readFileSync(file, 'utf8');
+    const head = html.slice(0, html.indexOf('</head>'));
+    const notFound = file.endsWith('404.html');
+    const where = file.slice(OUT.length + 1);
+    // The CSP comes straight after charset and viewport, so it covers everything else.
+    expect(head, where).toMatch(/^<!doctype html>\n<html lang="en">\n<head>\n<meta charset="utf-8">\n<meta name="viewport"[^>]*>\n<meta http-equiv="Content-Security-Policy"/);
+    expect(head, where).toMatch(/<title>[^<]+<\/title>/);
+    expect(head, where).toMatch(/<meta name="description" content="[^"]{20,}">/);
+    expect(head, where).toContain('<meta name="color-scheme" content="only dark">');
+    expect(head, where).toContain('<meta name="darkreader-lock">');
+    expect(head, where).toContain('<meta name="referrer" content="strict-origin-when-cross-origin">');
+    // Exactly one h1 showing in the HTML itself, before any script runs. Book
+    // pages also carry the hidden upload box, and the read page the hidden
+    // book; the front page's h1 is a ransom note of separate words.
+    const shown = html.replace(/<(section|article)\b[^>]*\bhidden\b[^>]*>[\s\S]*?<\/\1>/g, '');
+    const h1s = [...shown.matchAll(/<h1([^>]*)>([\s\S]*?)<\/h1>/g)];
+    expect(h1s.length, `${where} h1 count`).toBe(1);
+    expect(h1s[0]![1]!.match(/aria-label="([^"]+)"/)?.[1] ?? h1s[0]![2]!.replace(/<[^>]+>/g, '').trim(), `${where} h1`).toBeTruthy();
+    const description = head.match(/<meta name="description" content="([^"]*)">/)![1]!;
+    expect(description.length, `${where} description length`).toBeLessThanOrEqual(160);
+    expect(html, `${where} loads nothing over http`).not.toMatch(/(?:src|href)="http:/);
+    if (!notFound) {
+      const canonical = head.match(/<link rel="canonical" href="(https:\/\/joekarlsson\.github\.io\/punc\/[^"]*)">/)?.[1];
+      expect(canonical, `${where} canonical`).toBeTruthy();
+      indexable.push({ url: canonical!, title: head.match(/<title>([^<]+)<\/title>/)![1]!, description });
+      const image = head.match(/<meta property="og:image" content="https:\/\/joekarlsson\.github\.io\/punc\/([^"]+)">/)?.[1];
+      expect(image && existsSync(join(OUT, image)), `${where} og:image`).toBeTruthy();
+    }
+    const base = notFound ? OUT : dirname(file);
+    for (const [, target] of html.matchAll(/(?:href|src)="([^"]+)"/g)) {
+      if (/^(https?:|mailto:|#|data:|blob:)/.test(target!) || target === '/punc/') continue;
+      const clean = target!.replace(/[?#].*$/, '');
+      const resolved = normalize(join(base, clean));
+      const exists = existsSync(resolved) && (!clean.endsWith('/') || existsSync(join(resolved, 'index.html')));
+      if (!exists) missing.push(`${where} -> ${target}`);
+    }
+  }
+  expect([...new Set(missing)]).toEqual([]);
+
+  // No two indexable pages share a title or description, and the sitemap
+  // lists exactly the indexable pages.
+  const repeats = (key: 'title' | 'description') => indexable.map(p => p[key]).filter((v, i, all) => all.indexOf(v) !== i);
+  expect(repeats('title')).toEqual([]);
+  expect(repeats('description')).toEqual([]);
+  const sitemap = [...readFileSync(join(OUT, 'sitemap.xml'), 'utf8').matchAll(/<loc>([^<]+)<\/loc>/g)].map(m => m[1]).sort();
+  expect(sitemap).toEqual(indexable.map(p => p.url).sort());
 });

@@ -248,11 +248,11 @@ async function fetchBookText(slug: string): Promise<string> {
   return new Response(stream).text();
 }
 
+// The page already has the book's title and stats from the build, so there's
+// no loading message: one above them would push the page down and back.
 async function loadFromShelf(slug: string, title: string, byline: string): Promise<void> {
-  showStatus('Taking the words out…');
   const text = await fetchBookText(slug);
-  // Let the status paint before the synchronous analysis.
-  requestAnimationFrame(() => showBook(text, title, byline, slug, slug));
+  showBook(text, title, byline, slug, slug);
 }
 
 // Old links were read.html?b=<slug>; each book has its own page now.

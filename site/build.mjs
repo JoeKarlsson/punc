@@ -141,7 +141,8 @@ async function writePage({ path, nav, title, socialTitle, description, body, scr
 ${notFound ? '<base href="/punc/">\n' : ''}<title>${escapeHTML(title)}</title>
 <meta name="description" content="${escapeHTML(description)}">
 ${notFound ? '<meta name="robots" content="noindex">' : `<link rel="canonical" href="${url}">`}
-<meta name="color-scheme" content="dark">
+<meta name="color-scheme" content="only dark">
+<meta name="darkreader-lock">
 <meta name="theme-color" content="#000000">
 <meta name="author" content="Joe Karlsson">
 <link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png">

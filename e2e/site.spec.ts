@@ -267,7 +267,8 @@ test('the about page has the artist statement and the footer links out', async (
 
 test('pages declare a dark color scheme, the sitemap lists them, and the 404 page links home', async ({ page, request }) => {
   await page.goto('about.html');
-  await expect(page.locator('meta[name="color-scheme"]')).toHaveAttribute('content', 'dark');
+  await expect(page.locator('meta[name="color-scheme"]')).toHaveAttribute('content', 'only dark');
+  await expect(page.locator('meta[name="darkreader-lock"]')).toHaveCount(1);
 
   const sitemap = await (await request.get('sitemap.xml')).text();
   expect(sitemap).toContain('<loc>https://joekarlsson.github.io/punc/</loc>');

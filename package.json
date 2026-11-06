@@ -36,7 +36,9 @@
     "prepublishOnly": "npm run clean && npm run build",
     "site:build": "node site/build.mjs",
     "site:serve": "npm run site:build && python3 -m http.server 4173 -d site-dist",
-    "test:e2e": "playwright test"
+    "test:e2e": "playwright test --project=chromium --project=iphone --project=pixel",
+    "test:visual": "docker run --rm --ipc=host -v \"$PWD\":/work -v /work/node_modules -w /work mcr.microsoft.com/playwright:v1.64.1-noble bash -c 'npm ci --no-audit --no-fund && npx playwright test --project=visual-desktop --project=visual-phone'",
+    "test:visual:update": "docker run --rm --ipc=host -v \"$PWD\":/work -v /work/node_modules -w /work mcr.microsoft.com/playwright:v1.64.1-noble bash -c 'npm ci --no-audit --no-fund && npx playwright test --project=visual-desktop --project=visual-phone --update-snapshots'"
   },
   "keywords": [
     "punc",
@@ -65,6 +67,7 @@
     "through2": "^5.0.0"
   },
   "devDependencies": {
+    "@axe-core/playwright": "4.11.0",
     "@eslint/js": "^9.0.0",
     "@playwright/test": "^1.64.1",
     "@swc/jest": "^0.2.36",

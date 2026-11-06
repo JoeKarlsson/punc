@@ -3,9 +3,15 @@
 import { spiralLayout, type SpiralLayout } from '../../src/layout';
 import { panView, zoomViewAt, type Screen, type View, type ViewBounds } from './view';
 
-const INK = '#000000';
-const PAPER = '#ededed';
-const PINK = '#ff4fd8';
+// Colors come from the tokens in styles.css, so the canvases can't drift from the page.
+function token(name: string): string {
+  const value = getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+  if (!value) throw new Error(`styles.css is missing ${name}`);
+  return value;
+}
+const INK = token('--ink');
+const PAPER = token('--paper');
+const PINK = token('--pink');
 const ENDS_SENTENCE = new Set(['.', '?', '!']);
 // Safari refuses canvases over about 16.7M pixels.
 const MAX_CANVAS_PIXELS = 16_000_000;

@@ -34,6 +34,24 @@ await build({ entryPoints: [join(SITE, 'src/node-entry.ts')], bundle: true, plat
 const { analyzeBook, fingerprintHTML, mapSVG, markShares, shelfPosition } = await import(pathToFileURL(analyzerPath).href);
 await rm(analyzerPath);
 
+// GitHub Pages can't send headers, so the policy rides in a meta tag, first in
+// <head> so it covers everything after it. A meta CSP can't set
+// frame-ancestors, so it gives no clickjacking protection. Style attributes
+// (card tilts, chart positions) need 'unsafe-inline' for styles; scripts get
+// none. No upgrade-insecure-requests: Pages is https-only and the site has no
+// http:// assets (a test checks), and WebKit would apply it to localhost.
+const PLAUSIBLE = 'https://plausible.joekarlsson.io';
+const CSP = [
+  "default-src 'self'",
+  `script-src 'self' ${PLAUSIBLE}`,
+  `connect-src 'self' ${PLAUSIBLE}`,
+  "style-src 'self' 'unsafe-inline'",
+  "img-src 'self' data: blob:",
+  "font-src 'self'",
+  "object-src 'none'",
+  "base-uri 'self'",
+  "form-action 'self'",
+].join('; ');
 const AUTHOR = { '@type': 'Person', name: 'Joe Karlsson', url: 'https://joekarlsson.com' };
 const WEBSITE = { '@type': 'WebSite', name: 'Punc', url: SITE_URL };
 const escapeHTML = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
@@ -58,6 +76,8 @@ for (const meta of catalog) {
     wps: book.wordsPerSentence,
     density: (book.marks.length / Math.max(book.wordCount, 1)) * 100,
     fingerprint: fingerprintHTML(markShares(book.marks)),
+    fingerprintLarge: fingerprintHTML(markShares(book.marks), 'fingerprint fingerprint-large'),
+    topMark: book.counts[0]?.[0] ?? '',
     ...shelfPosition(book.marks),
   });
 }
@@ -126,7 +146,7 @@ async function writePage({ path, nav, title, socialTitle, description, body, scr
   const url = SITE_URL + path.replace(/index\.html$/, '');
   const root = '../'.repeat(depth);
   const navHTML = NAV.map(n => `<a href="${n.href}"${n.key === nav ? ' aria-current="page"' : ''}>${n.label}</a>`).join('');
-  const data = Object.entries({ ...dataset, root }).map(([k, v]) => ` data-${k}="${escapeHTML(v)}"`).join('');
+  const data = Object.entries({ ...dataset, root, ...(notFound ? { 'not-found': 'true' } : {}) }).map(([k, v]) => ` data-${k}="${escapeHTML(v)}"`).join('');
   const imageURL = SITE_URL + image;
   const jsonLD = structuredData
     ? `<script type="application/ld+json">${JSON.stringify({ '@context': 'https://schema.org', ...structuredData }).replace(/</g, '\\u003c')}</script>\n`
@@ -138,6 +158,8 @@ async function writePage({ path, nav, title, socialTitle, description, body, scr
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="${CSP}">
+<meta name="referrer" content="strict-origin-when-cross-origin">
 ${notFound ? '<base href="/punc/">\n' : ''}<title>${escapeHTML(title)}</title>
 <meta name="description" content="${escapeHTML(description)}">
 ${notFound ? '<meta name="robots" content="noindex">' : `<link rel="canonical" href="${url}">`}
@@ -166,21 +188,10 @@ ${notFound ? '<meta name="robots" content="noindex">' : `<link rel="canonical" h
 <meta name="twitter:image:alt" content="${escapeHTML(alt)}">
 <meta name="twitter:site" content="@joekarlsson1">
 <meta name="twitter:creator" content="@joekarlsson1">
-${jsonLD}<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Fraunces:opsz,wght@9..144,400..700&display=swap">
+${jsonLD}<link rel="preload" href="fonts/anton-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/fraunces-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="styles.css?v=${version}">
-<script>
-  // Plausible (self-hosted, as on joekarlsson.com), skipped for bots and headless browsers
-  (function () {
-    if (navigator.webdriver || /bot|crawl|spider|scrape|headless/i.test(navigator.userAgent) || !navigator.languages || navigator.languages.length === 0) return;
-    var s = document.createElement('script');
-    s.defer = true;
-    s.dataset.domain = 'joekarlsson.github.io/punc';
-    s.src = 'https://plausible.joekarlsson.io/js/script.tagged-events.outbound-links.file-downloads.js';
-    document.head.appendChild(s);
-  })();
-</script>
+<script defer src="analytics.js?v=${version}"></script>
 </head>
 <body${data}>
 ${crayonFilter}
@@ -215,7 +226,7 @@ ${notFound ? '' : shareLinks(url, socialTitle ?? title)}
 // GitHub Pages lets browsers cache CSS and JS for 10 minutes. A content hash
 // in the URL makes each deploy load the new files right away.
 const assetHash = createHash('sha256');
-for (const file of ['styles.css', 'assets/reader.js', 'assets/shelf.js', 'assets/page.js', 'assets/map.js']) assetHash.update(await readFile(join(OUT, file)));
+for (const file of ['styles.css', 'analytics.js', 'assets/reader.js', 'assets/shelf.js', 'assets/page.js', 'assets/map.js']) assetHash.update(await readFile(join(OUT, file)));
 const version = assetHash.digest('hex').slice(0, 10);
 
 const fragment = async name => readFile(join(SITE, 'pages', name), 'utf8');
@@ -242,7 +253,8 @@ await writePage({
   nav: 'read',
   title: 'Read your own · Punc',
   description: 'Open any plain text file and see it as punctuation only. It never leaves your browser.',
-  body: readBody.replace('<!--POSTER-->', ''),
+  // The upload box shows without waiting for the script, h1 and all.
+  body: readBody.replace('<!--POSTER-->', '').replace('<section id="upload" class="upload" hidden>', '<section id="upload" class="upload">'),
   script: 'reader.js',
 });
 
@@ -253,7 +265,10 @@ for (const book of books) {
     : '';
   const shareImage = `share/${book.slug}.png`;
   if (!existsSync(join(SITE, shareImage))) missingShareImages.push(book.slug);
-  const description = `${book.author}'s ${book.title}${book.published ? ` (${book.published})` : ''} with all ${fmt(book.words)} words removed. ${fmt(book.marks)} punctuation marks are left, about ${book.wps.toFixed(1)} words to a sentence.`;
+  // Search results cut descriptions at about 160 characters; long titles lose the last clause.
+  const removed = `${book.author}'s ${book.title}${book.published ? ` (${book.published})` : ''} with all ${fmt(book.words)} words removed. ${fmt(book.marks)} punctuation marks are left`;
+  const withSentences = `${removed}, about ${book.wps.toFixed(1)} words to a sentence.`;
+  const description = withSentences.length <= 160 ? withSentences : `${removed}.`;
   await writePage({
     path: `books/${book.slug}/index.html`,
     depth: 2,
@@ -277,7 +292,18 @@ for (const book of books) {
         sameAs: `https://www.gutenberg.org/ebooks/${book.id}`,
       },
     },
-    body: readBody.replace('<!--POSTER-->', poster),
+    // The head is written in at build time, so search engines get a real h1
+    // and nothing below it jumps when the script fills in the rest.
+    body: readBody
+      .replace('<!--POSTER-->', poster)
+      .replace('<article id="book" class="book" hidden>', '<article id="book" class="book">')
+      .replace('<h1 id="book-title" class="book-title"></h1>', `<h1 id="book-title" class="book-title">${escapeHTML(book.title)}</h1>`)
+      .replace('<p id="book-byline" class="book-byline"></p>', `<p id="book-byline" class="book-byline">${escapeHTML(book.byline)}</p>`)
+      .replace('<dd id="stat-words"></dd>', `<dd id="stat-words">${fmt(book.words)}</dd>`)
+      .replace('<dd id="stat-marks"></dd>', `<dd id="stat-marks">${fmt(book.marks)}</dd>`)
+      .replace('<dd id="stat-wps"></dd>', `<dd id="stat-wps">${book.wps ? book.wps.toFixed(1) : 'n/a'}</dd>`)
+      .replace('<dd id="stat-top" class="serif-mark"></dd>', `<dd id="stat-top" class="serif-mark">${escapeHTML(book.topMark)}</dd>`)
+      .replace('<div id="book-fingerprint" class="book-fingerprint"></div>', `<div id="book-fingerprint" class="book-fingerprint">${book.fingerprintLarge}<p class="fp-caption">Its punctuation fingerprint: each mark's share, on the same scale as every book on the shelf.</p></div>`),
     script: 'reader.js',
     dataset: { slug: book.slug, title: book.title, byline: book.byline },
   });

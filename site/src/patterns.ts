@@ -177,7 +177,7 @@ export function mapSVG(points: MapPoint[], { labelled = [], highlight, root = ''
     const cx = x(highlight.pausesPerStop);
     const cy = y(highlight.loudness * 100);
     const tip = escapeHTML(tipFor(highlight));
-    dots.push(`<g class="map-here" data-tip="${tip}" tabindex="0" aria-label="${tip}"><circle class="map-here-dot" cx="${cx}" cy="${cy}" r="12"/></g>`);
+    dots.push(`<g class="map-here" data-tip="${tip}" tabindex="0" role="img" aria-label="${tip}"><circle class="map-here-dot" cx="${cx}" cy="${cy}" r="12"/></g>`);
     labels.push(labelAt(cx, cy, highlight.title, 'map-label map-label-here'));
   }
   // Labels go in their own layer above every dot, so later dots can't cover them.

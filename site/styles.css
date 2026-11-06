@@ -949,6 +949,14 @@ main {
   fill: var(--chalk);
 }
 
+.map-scroll-hint {
+  display: none;
+  margin: 0 0 1rem;
+  font-family: var(--ui);
+  font-size: 0.95rem;
+  color: var(--muted);
+}
+
 .shelf-map-book {
   margin-bottom: 3.5rem;
 }
@@ -1183,6 +1191,10 @@ code {
 
   .map-svg {
     min-width: 640px;
+  }
+
+  .map-scroll-hint {
+    display: block;
   }
 
   .through-book li {

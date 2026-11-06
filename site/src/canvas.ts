@@ -1,7 +1,7 @@
 // Canvas renderers for the reader. Canvas, not SVG, because a novel has tens
 // of thousands of marks. Spiral geometry is the library's spiralLayout.
 import { spiralLayout, type SpiralLayout } from '../../src/layout';
-import { panView, zoomViewAt, type View, type ViewBounds } from './view';
+import { panView, zoomViewAt, type Screen, type View, type ViewBounds } from './view';
 
 const INK = '#000000';
 const PAPER = '#ededed';
@@ -69,8 +69,9 @@ export interface SpiralExplorer {
   exportCanvas(): HTMLCanvasElement;
 }
 
-// The spiral as a map: wheel or pinch to zoom around the pointer, drag to pan,
-// + / - / arrow keys when focused. Redraws vectors at each zoom, so marks stay
+// The spiral as a map: pinch (or Ctrl and the wheel) to zoom around the
+// pointer, drag to pan, + / - / arrow keys when focused. A plain wheel scrolls
+// the page, so a canvas as tall as the screen doesn't trap it. Redraws vectors at each zoom, so marks stay
 // sharp; the view is clamped so the spiral can't be dragged off screen.
 export function createSpiralExplorer(
   canvas: HTMLCanvasElement,
@@ -85,7 +86,7 @@ export function createSpiralExplorer(
   let view = wholeBook;
   let frame = 0;
 
-  const cssSize = () => canvas.clientWidth || SPIRAL_SIZE;
+  const screen = (): Screen => ({ width: canvas.clientWidth || SPIRAL_SIZE, height: canvas.clientHeight || SPIRAL_SIZE });
   const dpr = () => Math.min(window.devicePixelRatio || 1, 2);
 
   // How far through the book the mark nearest the view's center is
@@ -107,13 +108,15 @@ export function createSpiralExplorer(
 
   const render = () => {
     frame = 0;
-    const size = Math.round(cssSize() * dpr());
-    if (canvas.width !== size || canvas.height !== size) {
-      canvas.width = size;
-      canvas.height = size;
+    const { width: cssWidth, height: cssHeight } = screen();
+    const width = Math.round(cssWidth * dpr());
+    const height = Math.round(cssHeight * dpr());
+    if (canvas.width !== width || canvas.height !== height) {
+      canvas.width = width;
+      canvas.height = height;
     }
-    const scale = (size / SPIRAL_SIZE) * view.zoom;
-    paintSpiral(ctx, marks, layout, scale, size / 2 - view.centerX * scale, size / 2 - view.centerY * scale, size, size);
+    const scale = (Math.min(width, height) / SPIRAL_SIZE) * view.zoom;
+    paintSpiral(ctx, marks, layout, scale, width / 2 - view.centerX * scale, height / 2 - view.centerY * scale, width, height);
     onChange(view.zoom, percentAtCenter());
   };
   const schedule = () => {
@@ -121,11 +124,11 @@ export function createSpiralExplorer(
   };
 
   const zoomAt = (factor: number, cssX: number, cssY: number) => {
-    view = zoomViewAt(view, factor, cssX, cssY, cssSize(), bounds);
+    view = zoomViewAt(view, factor, cssX, cssY, screen(), bounds);
     schedule();
   };
   const panBy = (dxCss: number, dyCss: number) => {
-    view = panView(view, dxCss, dyCss, cssSize(), bounds);
+    view = panView(view, dxCss, dyCss, screen(), bounds);
     schedule();
   };
   const local = (e: { clientX: number; clientY: number }) => {
@@ -136,6 +139,8 @@ export function createSpiralExplorer(
   canvas.addEventListener(
     'wheel',
     e => {
+      // Trackpad pinches arrive as wheel events with ctrlKey set.
+      if (!e.ctrlKey && !e.metaKey) return;
       e.preventDefault();
       const { x, y } = local(e);
       zoomAt(Math.exp(-e.deltaY * (e.ctrlKey ? 0.01 : 0.002)), x, y);
@@ -176,12 +181,12 @@ export function createSpiralExplorer(
     zoomAt(e.shiftKey ? 0.5 : 2, x, y);
   });
   canvas.addEventListener('keydown', e => {
-    const step = cssSize() * 0.15;
-    const mid = cssSize() / 2;
+    const { width, height } = screen();
+    const step = Math.min(width, height) * 0.15;
     const actions: Record<string, () => void> = {
-      '+': () => zoomAt(1.5, mid, mid),
-      '=': () => zoomAt(1.5, mid, mid),
-      '-': () => zoomAt(1 / 1.5, mid, mid),
+      '+': () => zoomAt(1.5, width / 2, height / 2),
+      '=': () => zoomAt(1.5, width / 2, height / 2),
+      '-': () => zoomAt(1 / 1.5, width / 2, height / 2),
       '0': () => explorer.reset(),
       ArrowLeft: () => panBy(step, 0),
       ArrowRight: () => panBy(-step, 0),
@@ -197,7 +202,7 @@ export function createSpiralExplorer(
   new ResizeObserver(schedule).observe(canvas);
 
   const explorer: SpiralExplorer = {
-    zoomBy: factor => zoomAt(factor, cssSize() / 2, cssSize() / 2),
+    zoomBy: factor => zoomAt(factor, screen().width / 2, screen().height / 2),
     reset: () => {
       view = wholeBook;
       schedule();
@@ -216,9 +221,11 @@ export function createSpiralExplorer(
   return explorer;
 }
 
+// Laid out at least 1100 units wide, and at the canvas's own width when that's
+// wider, so a big screen gets more columns rather than bigger marks.
 export function drawScore(canvas: HTMLCanvasElement, marks: string[]): void {
-  const width = 1100;
-  const pad = 24;
+  const width = Math.max(1100, Math.round(canvas.clientWidth));
+  const pad = 48;
   const cell = Math.min(30, Math.max(7, Math.sqrt(((width - pad * 2) * 7000) / Math.max(marks.length, 1))));
   const cols = Math.floor((width - pad * 2) / cell);
   const height = Math.ceil(marks.length / cols) * cell + pad * 2;

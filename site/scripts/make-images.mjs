@@ -1,14 +1,16 @@
 // Renders the favicons (from site/static/favicon.svg, with resvg) and the
-// share images (a page in the site's own styles, screenshotted with
-// Playwright) into site/static/. Run by hand after `npm run site:build`:
+// share images (pages in the site's own styles, screenshotted with
+// Playwright): og.png and github-social.png into site/static/, and one card
+// per book into site/share/. Run by hand after `npm run site:build`:
 //   node site/scripts/make-images.mjs
 import { Resvg } from '@resvg/resvg-js';
 import { chromium } from '@playwright/test';
 import { createServer } from 'node:http';
-import { readFile, rm, writeFile } from 'node:fs/promises';
+import { mkdir, readFile, rm, writeFile } from 'node:fs/promises';
 import { extname, join, normalize } from 'node:path';
 
 const STATIC = 'site/static';
+const SHARE = 'site/share';
 const DIST = 'site-dist';
 const SHARE_BOOKS = ['frankenstein', 'pride-and-prejudice', 'moby-dick'];
 
@@ -50,6 +52,46 @@ ${ransom}
 </body></html>`
 );
 
+// One card per book: its shelf poster, built into the front page by
+// site/build.mjs, taped on the left, with the title and the fingerprint big.
+const shelfHTML = await readFile(join(DIST, 'index.html'), 'utf8');
+const shelfCards = [...shelfHTML.match(/<ul class="shelf" id="shelf">([\s\S]*?)<\/ul>/)[1].matchAll(/<li class="cover poster"[\s\S]*?<\/li>/g)].map(m => m[0]);
+const bookCardPage = card => {
+  const slug = card.match(/href="books\/([^/]+)\//)[1];
+  const title = card.match(/<span class="cover-title">([\s\S]*?)<\/span>/)[1];
+  const byline = card.match(/<span class="cover-author">([\s\S]*?)<\/span>/)[1];
+  const fingerprint = card.match(/<p class="fingerprint[\s\S]*?<\/p>/)[0].replace('class="fingerprint', 'class="fingerprint fingerprint-large');
+  const poster = card
+    .replace(/<p class="cover-meta">[\s\S]*?<\/p>/, '')
+    .replace(/<p class="fingerprint[\s\S]*?<\/p>/, '')
+    .replace(/<span class="cover-label">[\s\S]*?<\/span><\/span>/, '')
+    .replace(' loading="lazy"', '')
+    .replace(/href="[^"]*"/, '');
+  const html = `<!doctype html><html><head><meta charset="utf-8">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Fraunces:opsz,wght@9..144,400..700&display=swap">
+<link rel="stylesheet" href="styles.css">
+<style>
+  body { margin: 0; width: 1200px; height: 630px; overflow: hidden; position: relative; }
+  .shelf { position: absolute; left: 70px; top: 58px; width: 330px; display: block; }
+  .cover { --tilt: -2.5deg !important; }
+  .side { position: absolute; left: 470px; top: 58px; right: 60px; bottom: 50px; display: flex; flex-direction: column; }
+  .book-title { max-width: none; font-size: 110px; line-height: 0.95; }
+  .book-byline { align-self: flex-start; font-size: 28px; margin-top: 18px; }
+  .fingerprint-large { margin: auto 0 0; width: 470px; --fp-height: 90px; font-size: 30px; }
+  .wordmark { position: absolute; right: 60px; bottom: 44px; font-size: 64px; }
+</style></head><body>
+<ul class="shelf">${poster}</ul>
+<div class="side">
+  <h1 class="book-title">${title}</h1>
+  <p class="book-byline">${byline}</p>
+  ${fingerprint}
+</div>
+<span class="wordmark">Punc</span>
+<script type="module" src="assets/page.js"></script>
+</body></html>`;
+  return { slug, html };
+};
+
 const TYPES = { '.html': 'text/html', '.css': 'text/css', '.js': 'text/javascript', '.jpg': 'image/jpeg' };
 const server = createServer(async (req, res) => {
   try {
@@ -66,6 +108,25 @@ const browser = await chromium.launch();
 try {
   // og.png: the page preview for social cards. github-social.png: the repo's
   // social preview, uploaded by hand in the repo's settings.
+  await mkdir(SHARE, { recursive: true });
+  const page = await browser.newPage({ viewport: { width: 1200, height: 630 } });
+  for (const card of shelfCards) {
+    const { slug, html } = bookCardPage(card);
+    await writeFile(join(DIST, '_share-book.html'), html);
+    await page.goto(`http://localhost:${port}/_share-book.html`, { waitUntil: 'networkidle' });
+    await page.waitForFunction(() => !document.querySelector('img[data-poster]') || document.querySelector('.poster-art'));
+    await page.evaluate(() => document.fonts.ready);
+    // Long titles shrink until they leave room for the byline and the fingerprint.
+    await page.evaluate(() => {
+      const title = document.querySelector('.book-title');
+      let size = 110;
+      while (title.getBoundingClientRect().height > 300 && size > 40) title.style.fontSize = `${(size -= 4)}px`;
+    });
+    await page.screenshot({ path: join(SHARE, `${slug}.png`) });
+  }
+  await page.close();
+  await rm(join(DIST, '_share-book.html'));
+
   for (const [file, width, height, bodyClass] of [['og.png', 1200, 630, ''], ['github-social.png', 1280, 640, 'github']]) {
     const page = await browser.newPage({ viewport: { width, height } });
     await page.goto(`http://localhost:${port}/_share.html`, { waitUntil: 'networkidle' });
@@ -80,4 +141,4 @@ try {
   server.close();
   await rm(join(DIST, '_share.html'));
 }
-console.log(`Wrote favicons, og.png and github-social.png to ${STATIC}/`);
+console.log(`Wrote favicons, og.png and github-social.png to ${STATIC}/, and ${shelfCards.length} book cards to ${SHARE}/`);

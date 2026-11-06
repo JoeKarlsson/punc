@@ -99,7 +99,13 @@ export function throughBookHTML(series: number[][]): string {
       .join('');
     return `<li><span class="tb-mark" aria-hidden="true">${escapeHTML(mark)}</span><span class="tb-name">${escapeHTML(name)}<br><span class="tb-peak">peaks at ${percent(peak)}</span></span><svg class="tb-bars" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" role="img" aria-label="${escapeHTML(`${name} through the book, by tenth: ${values.map(percent).join(', ')}`)}">${bars}</svg></li>`;
   }).join('');
-  return `<ol class="through-book">${rows}</ol>`;
+  // A shared axis under the last row, lined up with the bars, so it reads as
+  // a timeline of the book from start to finish.
+  const ticks = ['Start', '25%', '50%', '75%', 'End']
+    .map((label, i) => `<span class="tb-tick" style="left:${i * 25}%">${label}</span>`)
+    .join('');
+  const axis = `<div class="tb-axis" aria-hidden="true"><span class="tb-ticks">${ticks}</span><span class="tb-axis-label">How far through the book</span></div>`;
+  return `<ol class="through-book">${rows}</ol>${axis}`;
 }
 
 // An axis from 0 that ends on a round number, with at most `maxTicks` + 1

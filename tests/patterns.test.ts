@@ -42,6 +42,8 @@ describe('punctuation markup', () => {
     const html = throughBookHTML(marksThroughBook(marks(',.,.,.,.,.')));
     expect(html.match(/<li>/g)).toHaveLength(2);
     expect(html).toContain('peaks at 100%');
+    expect(html).toContain('How far through the book');
+    expect(html.match(/class="tb-tick"/g)).toHaveLength(5);
   });
 
   test('markup escapes the quote marks it prints', () => {

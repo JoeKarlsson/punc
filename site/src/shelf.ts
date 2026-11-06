@@ -29,6 +29,11 @@ const SORTS: Record<string, (a: Card, b: Card) => number> = {
   longest: (a, b) => b.words - a.words,
 };
 
+// Phones get the first stretch of the shelf and a button for the rest, so the
+// page isn't a hundred posters long before you reach the footer.
+const PHONE_SHELF_LIMIT = 20;
+const phone = window.matchMedia('(max-width: 720px)');
+
 export const normalizeForSearch = (s: string): string =>
   s.toLowerCase().normalize('NFKD').replace(/[̀-ͯ]/g, '').replace(/[^a-z0-9 ]/g, '');
 
@@ -45,6 +50,8 @@ function setUpShelf(): void {
   const sort = byId<HTMLSelectElement>('shelf-sort');
   const count = byId('shelf-count');
   const empty = byId('shelf-empty');
+  const more = byId<HTMLButtonElement>('shelf-more');
+  let showWholeShelf = false;
   byId('shelf-controls').hidden = false;
 
   const cards: Card[] = [...list.querySelectorAll<HTMLElement>('li[data-title]')].map(el => {
@@ -73,10 +80,13 @@ function setUpShelf(): void {
     const shown = cards
       .filter(c => terms.every(t => c.text.includes(t)) && (!genre.value || c.genres.includes(genre.value)))
       .sort(SORTS[sort.value] ?? SORTS['popular']);
-    const shownSet = new Set(shown);
-    cards.forEach(c => (c.el.hidden = !shownSet.has(c)));
+    const limit = showWholeShelf || !phone.matches ? shown.length : PHONE_SHELF_LIMIT;
+    const visible = new Set(shown.slice(0, limit));
+    cards.forEach(c => (c.el.hidden = !visible.has(c)));
     list.append(...shown.map(c => c.el));
-    count.textContent = `Showing ${shown.length} of ${cards.length} books`;
+    count.textContent = `Showing ${visible.size} of ${cards.length} books`;
+    more.hidden = shown.length <= limit;
+    more.textContent = `Show all ${shown.length}`;
     empty.hidden = shown.length > 0;
 
     const next = new URLSearchParams();
@@ -89,6 +99,11 @@ function setUpShelf(): void {
   search.addEventListener('input', apply);
   genre.addEventListener('change', apply);
   sort.addEventListener('change', apply);
+  phone.addEventListener('change', apply);
+  more.addEventListener('click', () => {
+    showWholeShelf = true;
+    apply();
+  });
   apply();
 }
 

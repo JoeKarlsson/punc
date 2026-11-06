@@ -34,6 +34,8 @@ await build({ entryPoints: [join(SITE, 'src/node-entry.ts')], bundle: true, plat
 const { analyzeBook, fingerprintHTML, mapSVG, markShares, shelfPosition } = await import(pathToFileURL(analyzerPath).href);
 await rm(analyzerPath);
 
+const AUTHOR = { '@type': 'Person', name: 'Joe Karlsson', url: 'https://joekarlsson.com' };
+const WEBSITE = { '@type': 'WebSite', name: 'Punc', url: SITE_URL };
 const escapeHTML = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 const fmt = n => n.toLocaleString('en-US');
 
@@ -83,6 +85,8 @@ await mkdir(join(OUT, 'books'), { recursive: true });
 for (const book of books) await cp(join(SITE, 'books', `${book.slug}.txt.gz`), join(OUT, 'books', `${book.slug}.txt.gz`));
 await cp(join(SITE, 'covers'), join(OUT, 'covers'), { recursive: true });
 await cp(join(SITE, 'static'), OUT, { recursive: true });
+// Per-book share cards, rendered by site/scripts/make-images.mjs
+await cp(join(SITE, 'share'), join(OUT, 'share'), { recursive: true });
 await cp(join(SITE, 'styles.css'), join(OUT, 'styles.css'));
 
 const crayonFilter = `<svg class="defs" aria-hidden="true" focusable="false"><filter id="crayon" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency="1.2" numOctaves="2" seed="3" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="2.5" result="d"/><feTurbulence type="fractalNoise" baseFrequency="2.2" seed="8" result="g"/><feColorMatrix in="g" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -1.6 1.5" result="holes"/><feComposite in="d" in2="holes" operator="in"/></filter></svg>`;
@@ -118,12 +122,15 @@ const sitemapURLs = [];
 
 // notFound: GitHub Pages serves 404.html at any missing path, so its links
 // resolve from the site root, and it stays out of search and the sitemap.
-async function writePage({ path, nav, title, socialTitle, description, body, script, depth = 0, dataset = {}, imageAlt, notFound = false }) {
+async function writePage({ path, nav, title, socialTitle, description, body, script, depth = 0, dataset = {}, image = 'og.png', imageAlt, structuredData, notFound = false }) {
   const url = SITE_URL + path.replace(/index\.html$/, '');
   const root = '../'.repeat(depth);
   const navHTML = NAV.map(n => `<a href="${n.href}"${n.key === nav ? ' aria-current="page"' : ''}>${n.label}</a>`).join('');
   const data = Object.entries({ ...dataset, root }).map(([k, v]) => ` data-${k}="${escapeHTML(v)}"`).join('');
-  const image = `${SITE_URL}og.png`;
+  const imageURL = SITE_URL + image;
+  const jsonLD = structuredData
+    ? `<script type="application/ld+json">${JSON.stringify({ '@context': 'https://schema.org', ...structuredData }).replace(/</g, '\\u003c')}</script>\n`
+    : '';
   if (!notFound) sitemapURLs.push(url);
   const alt = imageAlt ?? 'A ransom note cut from pink and white paper asks: What does a book look like without words?';
   const html = `<!doctype html>
@@ -147,20 +154,20 @@ ${notFound ? '<meta name="robots" content="noindex">' : `<link rel="canonical" h
 <meta property="og:url" content="${url}">
 <meta property="og:title" content="${escapeHTML(socialTitle ?? title)}">
 <meta property="og:description" content="${escapeHTML(description)}">
-<meta property="og:image" content="${image}">
+<meta property="og:image" content="${imageURL}">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="${escapeHTML(alt)}">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="${escapeHTML(socialTitle ?? title)}">
 <meta name="twitter:description" content="${escapeHTML(description)}">
-<meta name="twitter:image" content="${image}">
+<meta name="twitter:image" content="${imageURL}">
 <meta name="twitter:image:alt" content="${escapeHTML(alt)}">
 <meta name="twitter:site" content="@joekarlsson1">
 <meta name="twitter:creator" content="@joekarlsson1">
-<link rel="preconnect" href="https://fonts.googleapis.com">
+${jsonLD}<link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Fraunces:opsz,wght@9..144,400..700&family=Hanken+Grotesk:wght@400..700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Fraunces:opsz,wght@9..144,400..700&display=swap">
 <link rel="stylesheet" href="styles.css?v=${version}">
 <script>
   // Plausible (self-hosted, as on joekarlsson.com), skipped for bots and headless browsers
@@ -225,6 +232,7 @@ await writePage({
   description: `${books.length} famous books with every word taken out and only the punctuation left. Browse the shelf or open your own .txt file.`,
   body: indexBody,
   script: 'shelf.js',
+  structuredData: { ...WEBSITE, description: 'Famous books with every word taken out and only the punctuation left.', author: AUTHOR },
 });
 
 const readBody = await fragment('read.html');
@@ -237,17 +245,37 @@ await writePage({
   script: 'reader.js',
 });
 
+const missingShareImages = [];
 for (const book of books) {
   const poster = book.cover
     ? `    <a class="book-poster poster" href="https://www.gutenberg.org/ebooks/${book.id}" target="_blank" rel="noopener noreferrer" aria-label="${escapeHTML(book.title)} on Project Gutenberg (opens in a new tab)"><img data-poster src="covers/${book.slug}.jpg" alt=""></a>`
     : '';
+  const shareImage = `share/${book.slug}.png`;
+  if (!existsSync(join(SITE, shareImage))) missingShareImages.push(book.slug);
+  const description = `${book.author}'s ${book.title}${book.published ? ` (${book.published})` : ''} with all ${fmt(book.words)} words removed. ${fmt(book.marks)} punctuation marks are left, about ${book.wps.toFixed(1)} words to a sentence.`;
   await writePage({
     path: `books/${book.slug}/index.html`,
     depth: 2,
     nav: 'shelf',
     title: `${book.title} without words · Punc`,
     socialTitle: `${book.title}, without words`,
-    description: `${book.author}'s ${book.title}${book.published ? ` (${book.published})` : ''} with all ${fmt(book.words)} words removed. ${fmt(book.marks)} punctuation marks are left, about ${book.wps.toFixed(1)} words to a sentence.`,
+    description,
+    image: existsSync(join(SITE, shareImage)) ? shareImage : 'og.png',
+    imageAlt: `${book.title} as a pink and black punk poster, with the share of each punctuation mark in the book`,
+    structuredData: {
+      '@type': 'WebPage',
+      name: `${book.title}, without words`,
+      url: `${SITE_URL}books/${book.slug}/`,
+      description,
+      isPartOf: WEBSITE,
+      about: {
+        '@type': 'Book',
+        name: book.title,
+        author: { '@type': 'Person', name: book.author },
+        ...(book.published ? { datePublished: String(book.published) } : {}),
+        sameAs: `https://www.gutenberg.org/ebooks/${book.id}`,
+      },
+    },
     body: readBody.replace('<!--POSTER-->', poster),
     script: 'reader.js',
     dataset: { slug: book.slug, title: book.title, byline: book.byline },
@@ -304,4 +332,7 @@ await writeFile(
   `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${sitemapURLs.map(u => `  <url><loc>${u}</loc></url>`).join('\n')}\n</urlset>\n`
 );
 
+if (missingShareImages.length) {
+  console.warn(`No share card for ${missingShareImages.join(', ')}; those pages share og.png. Run node site/scripts/make-images.mjs after this build.`);
+}
 console.log(`Built ${books.length} books, ${featured.length} featured, into ${OUT}/`);

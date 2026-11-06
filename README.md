@@ -71,19 +71,23 @@ npm run test:e2e     # Playwright browser tests against the built site
 | `site/styles.css` | All styles |
 | `site/build.mjs` | Builds `site-dist/`, including one page per book |
 | `site/catalog.json`, `site/books/`, `site/covers/` | The shelf: book list, gzipped texts, covers |
+| `site/scripts/update-shelf.mjs` | The bulk importer: refresh, build, share cards, check, commit, push |
 | `site/scripts/fetch-books.mjs` | Refreshes the shelf from Project Gutenberg |
 | `site/scripts/make-images.mjs` | Redraws the favicons and the share image |
 | `e2e/` | Playwright tests |
 
 The shelf is refreshed by hand, not on a schedule: each refresh commits its new
-books to git for good, and the shelf is about 23 MB already. To refresh it, run
-`node site/scripts/fetch-books.mjs`. It reads
-Gutenberg's "Top 100 EBooks last 30 days" and its catalog, skips reference
-books, non-English and repeat editions, and downloads anything new. Title and
-author fixes go in the script's `TITLES` and `AUTHORS` lists, and first
-publication years in `PUBLISHED`, not in `catalog.json`. The script stops if a
-new book has no publication year. After changing the shelf or the headline, run
-`npm run site:build && node site/scripts/make-images.mjs`.
+books to git for good. To refresh it, run `npm run shelf:update` (or
+`npm run shelf:update -- --top 200` for a different size). It ranks Gutenberg's
+English books by the last 30 days of downloads (from its RDF feed), skips
+reference books and repeat editions, downloads the top 500 and their covers,
+removes the files of books that dropped off, renders a share card per book,
+runs `npm run check`, then commits the shelf and pushes, which deploys the site.
+`site/scripts/fetch-books.mjs` does the Gutenberg part on its own. Title and
+author fixes go in that script's `TITLES` and `AUTHORS` lists, and first
+publication years in `PUBLISHED`, not in `catalog.json`. Books not in
+`PUBLISHED` take Wikidata's year for the work, or show none; the script lists
+the undated ones.
 
 The site counts marks with the library's own `analyzeText`, so its numbers match
 the CLI. Both count curly quotes, long dashes and ellipses as their plain

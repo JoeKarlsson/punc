@@ -225,13 +225,14 @@ test('the map places every book, with a tooltip and a table', async ({ page }) =
   await page.goto('map.html');
   const dots = page.locator('.shelf-map a[data-tip]');
   await expect(dots).toHaveCount(catalog.length);
-  const dot = page.locator('.shelf-map a[href="books/alice/"] .map-dot');
-  await dot.hover();
+  // Dots overlap on a full shelf, so reach Alice by keyboard rather than pointer.
+  const alice = page.locator('.shelf-map a[href="books/alice/"]');
+  await alice.focus();
   await expect(page.locator('#map-tip')).toBeVisible();
   await expect(page.locator('#map-tip')).toContainText(/^Alice's Adventures in Wonderland, Lewis Carroll: [\d.]+ pauses per stop, [\d.]+% \? and !$/);
   await page.getByText('The same books as a table').click();
   await expect(page.locator('.map-table tbody tr')).toHaveCount(catalog.length);
-  await dot.click();
+  await alice.press('Enter');
   await expect(page).toHaveURL(/books\/alice\/$/);
 });
 

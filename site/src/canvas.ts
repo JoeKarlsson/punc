@@ -9,9 +9,13 @@ function token(name: string): string {
   if (!value) throw new Error(`styles.css is missing ${name}`);
   return value;
 }
-const INK = token('--ink');
-const PAPER = token('--paper');
-const PINK = token('--pink');
+// Read on first draw, not on import: Safari can run this module before
+// styles.css has applied, and the tokens would be empty.
+let palette: { ink: string; paper: string; pink: string } | undefined;
+function colors(): { ink: string; paper: string; pink: string } {
+  palette ??= { ink: token('--ink'), paper: token('--paper'), pink: token('--pink') };
+  return palette;
+}
 const ENDS_SENTENCE = new Set(['.', '?', '!']);
 // Safari refuses canvases over about 16.7M pixels.
 const MAX_CANVAS_PIXELS = 16_000_000;
@@ -24,7 +28,7 @@ function prepare(canvas: HTMLCanvasElement, w: number, h: number): CanvasRenderi
   const ctx = canvas.getContext('2d');
   if (!ctx) throw new Error('This browser could not open a 2D canvas');
   ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-  ctx.fillStyle = INK;
+  ctx.fillStyle = colors().ink;
   ctx.fillRect(0, 0, w, h);
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
@@ -47,12 +51,13 @@ function paintSpiral(
   height: number
 ): void {
   ctx.setTransform(1, 0, 0, 1, 0, 0);
-  ctx.fillStyle = INK;
+  ctx.fillStyle = colors().ink;
   ctx.fillRect(0, 0, width, height);
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
   ctx.font = `${layout.fontSize.toFixed(2)}px Fraunces, Georgia, serif`;
   const margin = layout.fontSize * scale;
+  const { paper, pink } = colors();
   marks.forEach((mark, i) => {
     const { x, y, angleDeg } = layout.points[i]!;
     const px = x * scale + offsetX;
@@ -63,7 +68,7 @@ function paintSpiral(
     const cos = Math.cos(a) * scale;
     const sin = Math.sin(a) * scale;
     ctx.setTransform(cos, sin, -sin, cos, px, py);
-    ctx.fillStyle = ENDS_SENTENCE.has(mark) ? PINK : PAPER;
+    ctx.fillStyle = ENDS_SENTENCE.has(mark) ? pink : paper;
     ctx.fillText(mark, 0, 0);
   });
 }
@@ -237,8 +242,9 @@ export function drawScore(canvas: HTMLCanvasElement, marks: string[]): void {
   const height = Math.ceil(marks.length / cols) * cell + pad * 2;
   const ctx = prepare(canvas, width, height);
   ctx.font = `${Math.floor(cell * 0.8)}px Fraunces, Georgia, serif`;
+  const { paper, pink } = colors();
   marks.forEach((mark, i) => {
-    ctx.fillStyle = ENDS_SENTENCE.has(mark) ? PINK : PAPER;
+    ctx.fillStyle = ENDS_SENTENCE.has(mark) ? pink : paper;
     ctx.fillText(mark, pad + ((i % cols) + 0.5) * cell, pad + (Math.floor(i / cols) + 0.5) * cell);
   });
 }

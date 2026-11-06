@@ -301,6 +301,8 @@ test('a book page shares its own card and describes the book for search engines'
 });
 
 test('every page type passes axe (WCAG 2.2 AA)', async ({ page }) => {
+  // The shelf is hundreds of cards; axe needs longer than the default on CI.
+  test.slow();
   await servePuncPathLocally(page);
   const scan = async (where: string) => {
     const { violations } = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa']).analyze();

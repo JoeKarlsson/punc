@@ -133,19 +133,17 @@
     <p class="numbers-note">Every book, placed by its punctuation alone. Across: how many pauses (commas, semicolons, colons, dashes) a writer uses before each stop. Up: how loud it is, the share of question and exclamation marks. Click or tap a dot to open its book.</p>
     <p class="map-scroll-hint">The map is wider than your screen. Swipe it sideways to see the rest.</p>
     <figure class="shelf-map">
-<!--MAP-->
+      <div id="numbers-map" class="map-holder" data-labelled="<!--MAPLABELS-->"></div>
       <p id="map-tip" class="map-tip" role="status" hidden></p>
     </figure>
   </section>
 
-  <details class="map-table">
+  <details id="numbers-table" class="map-table">
     <summary>Every book's numbers as a table</summary>
     <div class="numbers-table-wrap">
       <table>
         <thead><tr><th scope="col">Book</th><th scope="col">Year</th><!--TABLEHEAD--><th scope="col">Pauses per stop</th><th scope="col">? and ! share</th></tr></thead>
-        <tbody>
-<!--TABLE-->
-        </tbody>
+        <tbody></tbody>
       </table>
     </div>
   </details>

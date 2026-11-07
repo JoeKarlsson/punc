@@ -269,10 +269,11 @@ test('the numbers page filters by genre, switches career measures and compares a
   await page.selectOption('#genre-pick', 'Plays');
   await expect(page.locator('#genre-key')).toContainText('plays books');
   expect(await charts.first().locator('.chart-dot:not(.chart-dot-out)').count()).toBeLessThan(dated);
-  const shown = page.locator('.career .career-layer.on');
-  await expect(shown.first()).toHaveAttribute('data-metric', 'semicolon');
+  const career = page.locator('.career svg').first();
+  await expect(career).toHaveAttribute('aria-label', /semicolons against the shelf/);
   await page.selectOption('#career-pick', 'wps');
-  await expect(shown.first()).toHaveAttribute('data-metric', 'wps');
+  await expect(career).toHaveAttribute('aria-label', /words per sentence against the shelf/);
+  await expect(page.locator('.career').first().locator('.chart-dot').first()).toHaveAttribute('data-tip', /words per sentence$/);
   await expect(page.locator('#compare-out .compare-name').first()).toHaveText('Jane Austen');
   await page.selectOption('#compare-b', 'book:moby-dick');
   await expect(page.locator('#compare-out .compare-name').nth(1)).toHaveText('Moby-Dick');

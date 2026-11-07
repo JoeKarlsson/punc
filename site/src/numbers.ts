@@ -525,3 +525,65 @@ export const forBrowser = (b: BookNumbers): BookNumbers => ({
   ...(Object.fromEntries(METRICS.map(({ key }) => [key, Number(b[key].toFixed(4))])) as Record<MetricKey, number>),
   shares: b.shares.map(s => Number(s.toFixed(5))),
 });
+
+// "Mark Twain, Jules Verne and Plato"
+const listWords = (items: string[]) => (items.length < 2 ? items.join('') : `${items.slice(0, -1).join(', ')} and ${items.at(-1)}`);
+const ordinal = (n: number) => `${n}${n % 100 >= 11 && n % 100 <= 13 ? 'th' : (['th', 'st', 'nd', 'rd'][n % 10] ?? 'th')}`;
+const byYear = (books: BookNumbers[]) => [...books].sort((a, b) => (a.year ?? Infinity) - (b.year ?? Infinity) || a.title.localeCompare(b.title));
+
+// Who an author's missed books were taken for, most often first:
+// "Mark Twain (5) and Jules Verne".
+function takenFor(author: string, guesses: Guess[]): string {
+  const counts = new Map<string, number>();
+  for (const { guessed } of guesses) if (guessed !== author) counts.set(guessed, (counts.get(guessed) ?? 0) + 1);
+  return listWords([...counts].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0])).map(([name, n]) => (n > 1 ? `${name} (${n})` : name)));
+}
+
+// One author on the numbers page: a square per book in order of year, pink
+// where the marks named the author, who the rest were taken for, and the
+// author's average fingerprint. `guesses` are this author's books only.
+export function authorEntryHTML(author: string, books: BookNumbers[], guesses: Guess[], spread: number): string {
+  const guessFor = new Map(guesses.map(g => [g.book, g.guessed]));
+  const named = guesses.filter(g => g.guessed === author).length;
+  const squares = byYear(books)
+    .map(b => {
+      const guessed = guessFor.get(b);
+      if (guessed === undefined) throw new Error(`No guess for ${b.slug}`);
+      const label = `${b.title} (${yearText(b)}): ${guessed === author ? 'named right' : `taken for ${guessed}`}`;
+      return `<a class="named${guessed === author ? ' named-right' : ''}" href="books/${b.slug}/" title="${escapeHTML(label)}" aria-label="${escapeHTML(label)}"></a>`;
+    })
+    .join('');
+  const missed = takenFor(author, guesses);
+  return `<li class="author-entry" data-author="${escapeHTML(author)}"><h4 class="author-name">${escapeHTML(author)}</h4><p class="author-detail">${books.length} books, spread ${Math.round(spread)}</p><p class="named-row"><span class="named-squares">${squares}</span><span>${named} of ${books.length} named</span></p>${missed ? `<p class="author-detail">The others were taken for ${escapeHTML(missed)}.</p>` : ''}${fingerprintHTML(averageShares(books.map(b => b.shares)), 'fingerprint fingerprint-medium')}</li>`;
+}
+
+// A book page's author on the shelf: the book against the author's average,
+// whether the marks name its author, and the author's books. For authors
+// with two or more works; `guess` is there when they have three.
+export function bookAuthorHTML(book: BookNumbers, authorBooks: BookNumbers[], guess: Guess | undefined): string {
+  const { author } = book;
+  const center = averageShares(authorBooks.map(b => b.shares));
+  const closer = authorBooks.filter(b => fingerprintDistance(b.shares, center) < fingerprintDistance(book.shares, center)).length;
+  const verdict = guess === undefined ? '' : ` Held out and guessed from its marks alone, the shelf ${guess.guessed === author ? `names ${author} as its author` : `takes it for ${guess.guessed}`}.`;
+  const note = `${authorBooks.length} books by ${author} are on the shelf. Its fingerprint is the ${ordinal(closer + 1)} closest of the ${authorBooks.length} to their average.${verdict}`;
+  const rows = TABLE_METRICS.map(key => `<tr><th scope="row">${metric(key).label}</th><td>${formatValue(key, book[key])}</td><td>${formatValue(key, mean(authorBooks.map(b => b[key])))}</td></tr>`).join('');
+  const shelfBooks = byYear(authorBooks)
+    .map(b => {
+      const title = b === book ? `<span class="author-book-this" aria-current="page">${escapeHTML(b.title)}</span>` : `<a href="books/${b.slug}/">${escapeHTML(b.title)}</a>`;
+      return `<li>${title}<span class="author-book-year">${escapeHTML(yearText(b))}</span>${fingerprintHTML(b.shares)}</li>`;
+    })
+    .join('');
+  return `<section class="book-author" aria-labelledby="book-author-heading">
+    <h2 id="book-author-heading" class="view-heading">${escapeHTML(author)} on the shelf</h2>
+    <div class="book-author-body">
+      <div>
+        <p class="view-note">${escapeHTML(note)}</p>
+        <h3 class="author-name">${escapeHTML(author)}'s average fingerprint</h3>
+        ${fingerprintHTML(center, 'fingerprint fingerprint-large')}
+        <p class="view-note"><a href="numbers.html?author=${encodeURIComponent(author)}#authors">${escapeHTML(author)} on the numbers page</a></p>
+      </div>
+      <table class="compare-table"><thead><tr><td></td><th scope="col">This book</th><th scope="col">${escapeHTML(author)}'s average</th></tr></thead><tbody>${rows}</tbody></table>
+    </div>
+    <ul class="author-books">${shelfBooks}</ul>
+  </section>`;
+}

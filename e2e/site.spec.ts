@@ -290,6 +290,28 @@ test('a book page names its punctuation twin', async ({ page }) => {
   await expect(page.locator('.book-fingerprint')).toContainText('Its punctuation twin');
 });
 
+test('a book page shows its author on the shelf, linked to the author on the numbers page', async ({ page }) => {
+  await openBook(page, 'the-murder-of-roger-ackroyd');
+  const author = page.locator('.book-author');
+  await expect(author.locator('h2')).toHaveText('Agatha Christie on the shelf');
+  await expect(author.locator('[aria-current="page"]')).toHaveText('The Murder of Roger Ackroyd');
+  await author.getByRole('link', { name: 'Agatha Christie on the numbers page' }).click();
+  await expect(page.locator('#author-search')).toHaveValue('Agatha Christie');
+  await expect(page.locator('.author-entry:visible')).toHaveCount(1);
+  await expect(page.locator('.career:visible')).toHaveCount(1);
+});
+
+test('the numbers page finds authors, and points to the books of one with too few to chart', async ({ page }) => {
+  await page.goto('numbers.html');
+  await page.fill('#author-search', 'dick');
+  await expect(page.locator('.author-entry:visible')).toHaveText([/Charles Dickens/]);
+  await page.fill('#author-search', 'kafka');
+  await expect(page.locator('#author-found')).toContainText('Metamorphosis');
+  await page.fill('#author-search', '');
+  await expect(page.locator('#author-found')).toBeHidden();
+  await expect(page.locator('.author-entry:visible')).not.toHaveCount(1);
+});
+
 test('a book page marks the book on the shelf map', async ({ page }) => {
   await openBook(page, 'moby-dick');
   await page.getByRole('button', { name: 'Counts', exact: true }).click();

@@ -1,15 +1,15 @@
-// Pages for the shelf, kept apart from shelf.ts so it can be tested without a page.
+// Pages and search for the shelf, kept apart from shelf.ts so they can be
+// tested without a page.
 
 // Fills 2, 3, 4 or 6 columns evenly.
 export const SHELF_PAGE_SIZE = 24;
 
-// Page numbers to offer: the first, the last, and the current one with its
-// neighbours, with null where a run is skipped. pageLinks(7, 21) gives
-// [1, null, 6, 7, 8, null, 21].
-export function pageLinks(current: number, total: number): Array<number | null> {
-  const wanted = [...new Set([1, current - 1, current, current + 1, total])]
-    .filter(n => n >= 1 && n <= total)
-    .sort((a, b) => a - b);
+// Page numbers to offer: the first, the last, and the current one with
+// `around` neighbours on each side, with null where a run is skipped.
+// pageLinks(7, 21) gives [1, null, 6, 7, 8, null, 21].
+export function pageLinks(current: number, total: number, around = 1): Array<number | null> {
+  const near = Array.from({ length: around * 2 + 1 }, (_, i) => current - around + i);
+  const wanted = [...new Set([1, ...near, total])].filter(n => n >= 1 && n <= total).sort((a, b) => a - b);
   const links: Array<number | null> = [];
   wanted.forEach((n, i) => {
     const previous = wanted[i - 1];
@@ -19,3 +19,7 @@ export function pageLinks(current: number, total: number): Array<number | null> 
   });
   return links;
 }
+
+// Lower case, without accents or punctuation, so "Bronte" finds "Brontë".
+export const normalizeForSearch = (s: string): string =>
+  s.toLowerCase().normalize('NFKD').replace(/[̀-ͯ]/g, '').replace(/[^a-z0-9 ]/g, '');

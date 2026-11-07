@@ -260,7 +260,7 @@ await writePage({
   title: 'Read your own · Punc',
   description: 'Open any plain text file and see it as punctuation only. It never leaves your browser.',
   // The upload box shows without waiting for the script, h1 and all.
-  body: readBody.replace('<!--POSTER-->', '').replace('<section id="upload" class="upload" hidden>', '<section id="upload" class="upload">'),
+  body: readBody.replace('<!--POSTER-->', '').replace('<!--AUTHOR-->', '').replace('<section id="upload" class="upload" hidden>', '<section id="upload" class="upload">'),
   script: 'reader.js',
 });
 
@@ -269,6 +269,20 @@ const closest = N.twins(shelfNumbers);
 const twinLine = book => {
   const { twin } = closest.get(book.slug);
   return `<p class="fp-caption fp-twin">Its punctuation twin, the closest fingerprint on the shelf: <a href="books/${twin.slug}/">${escapeHTML(twin.title)}</a>, ${escapeHTML(twin.author)}. <a href="numbers.html#twins">More twins</a></p>`;
+};
+
+// Can the marks name the author: each book of the authors with three or more
+// works, held out and guessed. Shown on the numbers page and book pages.
+const authors = N.authorsWithWorks(shelfNumbers, 3);
+const guesses = N.guessAuthors(authors);
+// Authors with two or more works get a section on each of their book pages.
+const authorShelf = new Map(N.authorsWithWorks(shelfNumbers, 2).map(({ author, books: list }) => [author, list]));
+const numbersBySlug = new Map(shelfNumbers.map(b => [b.slug, b]));
+const authorSection = book => {
+  const list = authorShelf.get(book.author);
+  if (!list) return '';
+  const numbers = numbersBySlug.get(book.slug);
+  return N.bookAuthorHTML(numbers, list, guesses.find(g => g.book === numbers));
 };
 
 const missingShareImages = [];
@@ -311,6 +325,7 @@ for (const book of books) {
     // and nothing below it jumps when the script fills in the rest.
     body: readBody
       .replace('<!--POSTER-->', poster)
+      .replace('<!--AUTHOR-->', authorSection(book))
       .replace('<article id="book" class="book" hidden>', '<article id="book" class="book">')
       .replace('<h1 id="book-title" class="book-title"></h1>', `<h1 id="book-title" class="book-title">${escapeHTML(book.title)}</h1>`)
       .replace('<p id="book-byline" class="book-byline"></p>', `<p id="book-byline" class="book-byline">${escapeHTML(book.byline)}</p>`)
@@ -350,15 +365,10 @@ const genrePrints = genres
   })
   .join('\n');
 
-const authors = N.authorsWithWorks(shelfNumbers, 3);
 const typical = N.typicalDistance(shelfNumbers);
-const guesses = N.guessAuthors(authors);
 const hits = guesses.filter(g => g.guessed === g.book.author).length;
-const authorRows = authors
-  .map(({ author, books: list }) => {
-    const named = guesses.filter(g => g.book.author === author && g.guessed === author).length;
-    return `          <tr><th scope="row">${escapeHTML(author)}</th><td>${list.length}</td><td>${named} of ${list.length}</td><td>${Math.round(N.authorSpread(list, typical))}</td><td>${fingerprintHTML(N.averageShares(list.map(b => b.shares)))}</td></tr>`;
-  })
+const authorEntries = authors
+  .map(({ author, books: list }) => `      ${N.authorEntryHTML(author, list, guesses.filter(g => g.book.author === author), N.authorSpread(list, typical))}`)
   .join('\n');
 
 // Careers: a frame per author; the browser draws the charts.
@@ -444,7 +454,7 @@ const numbersBody = (await fragment('numbers.html'))
   .replace('<!--GENREOPTIONS-->', genres.map(g => `          <option>${escapeHTML(g)}</option>`).join('\n'))
   .replace('<!--TIMELINES-->', timelines)
   .replace('<!--GENREPRINTS-->', genrePrints)
-  .replace('<!--AUTHORROWS-->', authorRows)
+  .replace('<!--AUTHORS-->', authorEntries)
   .replace('<!--METRICOPTIONS-->', metricOptions)
   .replace('<!--CAREERS-->', careers)
   .replace('<!--COMPAREOPTIONS-A-->', compareOptions('Jane Austen'))

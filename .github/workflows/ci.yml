@@ -133,6 +133,7 @@ jobs:
         with:
           name: lighthouse-reports
           path: .lighthouseci/
+          include-hidden-files: true
 
   security:
     name: Security Audit

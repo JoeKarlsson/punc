@@ -22,9 +22,9 @@ two parts:
 
 ## Recording (November 2026)
 
-[![Punc's site: the shelf of books shown as punctuation, then Alice's Adventures in Wonderland with 26,777 words removed and 8,076 marks left, and the book's punctuation laid out in reading order](.github/readme/2026-11-recording.webp)](.github/readme/2026-11-recording.mp4)
+![Punc's site: the shelf of books shown as punctuation, then Alice's Adventures in Wonderland with 26,777 words removed and 8,076 marks left, and the book's punctuation laid out in reading order](.github/readme/2026-11-recording.gif)
 
-What Punc looked like in November 2026, recorded for [its page on joekarlsson.com](https://www.joekarlsson.com/work/punc/). Click the picture to play the video.
+What Punc looked like in November 2026, recorded for [its page on joekarlsson.com](https://www.joekarlsson.com/work/punc/). The full-quality video is [2026-11-recording.mp4](.github/readme/2026-11-recording.mp4).
 
 ## The website
 

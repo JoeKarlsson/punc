@@ -40,30 +40,25 @@
 
   <section id="authors" class="numbers-section">
     <h2 class="section-title">Authors</h2>
-    <form class="shelf-controls numbers-controls" role="search" id="author-find">
-      <label>Find an author <input type="search" id="author-search" placeholder="Agatha Christie" autocomplete="off"></label>
-    </form>
-    <p id="author-found" class="chart-key" role="status" hidden></p>
     <h3 class="view-heading">Can the marks name the author?</h3>
     <div class="numbers-notes">
       <p class="numbers-note">Take one book away from its author. Average the fingerprints of each author's other books, and guess whichever author's average is closest to the book. For the {{authors}} authors with at least three different works on the shelf, that guess names the right author for {{hits}} of {{guessed}} books, {{hitRate}}. Guessing at random would be right about {{chance}} of the time.</p>
-      <p class="numbers-note">Each square is one of an author's books, oldest first: pink where the guess named the author. Point at one for its title. Spread is how far an author's books stray from their own average fingerprint, where 100 is the gap between two books picked at random from the shelf. The lower it is, the more alike their books are.</p>
+      <p class="numbers-note">Each square is one of an author's books, oldest first: pink where the guess named the author. Spread is how far an author's books stray from their own average fingerprint, where 100 is the gap between two books picked at random from the shelf. The lower it is, the more alike their books are.</p>
     </div>
-    <ul class="author-grid">
-<!--AUTHORS-->
-    </ul>
-
-    <h3 class="view-heading">Over a career</h3>
-    <p class="numbers-note">Each author's books in the order they came out (pink), against the median of the shelf's books from within 15 years of each one (dashed). Every author's chart shares one scale.</p>
-    <div class="shelf-controls numbers-controls">
-      <label>Measure
-        <select id="career-pick">
-<!--METRICOPTIONS-->
-        </select>
-      </label>
-    </div>
-    <div class="career-grid">
-<!--CAREERS-->
+    <div class="author-explorer">
+      <div class="author-browse">
+        <form class="shelf-controls numbers-controls" role="search" id="author-find">
+          <label>Find an author <input type="search" id="author-search" placeholder="Name" autocomplete="off"></label>
+        </form>
+        <p class="chart-key">{{authors}} authors, most books first. The list scrolls.</p>
+        <p id="author-found" class="chart-key" role="status" hidden></p>
+        <ul class="author-list" aria-label="Authors with three or more works, most books first">
+<!--AUTHORPICKS-->
+        </ul>
+      </div>
+      <div id="author-detail">
+<!--AUTHORDETAIL-->
+      </div>
     </div>
   </section>
 
@@ -139,12 +134,16 @@
 
   <section id="map" class="numbers-section map-page">
     <h2 class="section-title">The map</h2>
-    <p class="numbers-note">Every book, placed by its punctuation alone. Across: how many pauses (commas, semicolons, colons, dashes) a writer uses before each stop. Up: how loud it is, the share of question and exclamation marks. Click or tap a dot to open its book.</p>
-    <p class="map-scroll-hint">The map is wider than your screen. Swipe it sideways to see the rest.</p>
-    <figure class="shelf-map">
-      <div id="numbers-map" class="map-holder" data-labelled="<!--MAPLABELS-->"></div>
-      <p id="map-tip" class="map-tip" role="status" hidden></p>
-    </figure>
+    <div class="numbers-split numbers-split-wide map-split">
+      <div class="map-notes">
+        <p class="numbers-note">Every book, placed by its punctuation alone. Across: how many pauses (commas, semicolons, colons, dashes) a writer uses before each stop. Up: how loud it is, the share of question and exclamation marks. Click or tap a dot to open its book.</p>
+        <p class="map-scroll-hint">The map is wider than your screen. Swipe it sideways to see the rest.</p>
+      </div>
+      <figure class="shelf-map">
+        <div id="numbers-map" class="map-holder" data-labelled="<!--MAPLABELS-->"></div>
+        <p id="map-tip" class="map-tip" role="status" hidden></p>
+      </figure>
+    </div>
   </section>
 
   <details id="numbers-table" class="map-table">

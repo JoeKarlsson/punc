@@ -5,6 +5,7 @@
 // every book.
 import { setUpMapTooltips } from './map-tooltips';
 import {
+  authorDetailHTML,
   authorProfile,
   bookProfile,
   careerSVGs,
@@ -38,8 +39,13 @@ const out = need<HTMLElement>('#compare-out');
 const table = need<HTMLDetailsElement>('#numbers-table');
 const authorSearch = need<HTMLInputElement>('#author-search');
 const authorFound = need<HTMLElement>('#author-found');
+const authorDetail = need<HTMLElement>('#author-detail');
+const career = need<HTMLElement>('#author-career');
+const careerNone = need<HTMLElement>('#career-none');
+const picks = [...document.querySelectorAll<HTMLButtonElement>('.author-pick')];
 // numbers.json, once it has loaded
 let loadedShelf: BookNumbers[] | null = null;
+let pickedAuthor = '';
 
 // Genre: that genre's books stay pink, on top, and its median line shows;
 // every book's median turns into a dashed reference line.
@@ -67,19 +73,36 @@ function profileFor(value: string, shelf: BookNumbers[]): Profile {
   return bookProfile(book);
 }
 
-function drawCareers(shelf: BookNumbers[]): void {
-  const charts = careerSVGs(shelf, careerPick.value as MetricKey);
-  document.querySelectorAll<HTMLElement>('figure.career').forEach(figure => {
-    const svg = charts.get(figure.dataset['author'] ?? '');
-    if (!svg) throw new Error(`No career chart for ${figure.dataset['author']}`);
-    need('.career-chart', figure).innerHTML = svg;
-    tooltips(figure);
-  });
+// The picked author's career chart, or a note when they haven't one.
+function drawCareer(shelf: BookNumbers[]): void {
+  const svg = careerSVGs(shelf, careerPick.value as MetricKey).get(pickedAuthor);
+  const chart = need<HTMLElement>('.career-chart', career);
+  chart.innerHTML = svg ?? '';
+  chart.hidden = svg === undefined;
+  careerNone.hidden = svg !== undefined;
+  need<HTMLElement>('.numbers-controls', career).hidden = svg === undefined;
+  if (svg) tooltips(career);
+}
+
+// Show one author in full. The build wrote in the first; the rest are drawn
+// from numbers.json and the guesses carried by their list row.
+function pickAuthor(button: HTMLButtonElement, shelf: BookNumbers[] | null): void {
+  pickedAuthor = button.dataset['author'] ?? '';
+  for (const other of picks) other.setAttribute('aria-pressed', String(other === button));
+  if (!shelf) return;
+  const guessed = new Map([...button.querySelectorAll<HTMLElement>('[data-slug]')].map(s => [s.dataset['slug'] ?? '', s.dataset['guessed'] ?? '']));
+  const books = shelf.filter(b => b.author === pickedAuthor);
+  authorDetail.innerHTML = authorDetailHTML(pickedAuthor, books, guessed, Number(button.dataset['spread']));
+  // The same career chart, picker and all, moves into the new author.
+  need('.author-detail-side', authorDetail).append(career);
+  drawCareer(shelf);
 }
 
 function drawBooks(shelf: BookNumbers[]): void {
   loadedShelf = shelf;
   findAuthor(shelf);
+  const picked = picks.find(p => p.dataset['author'] === pickedAuthor);
+  if (picked && picked !== picks[0]) pickAuthor(picked, shelf);
   document.querySelectorAll<SVGGElement>('#time .chart-dots, #popularity .chart-dots').forEach(group => {
     const key = group.dataset['metric'] as MetricKey;
     const max = Number(group.dataset['max']);
@@ -99,8 +122,8 @@ function drawBooks(shelf: BookNumbers[]): void {
     pick.addEventListener('change', () => (out.innerHTML = compareHTML(profileFor(pickA.value, shelf), profileFor(pickB.value, shelf))));
   }
 
-  drawCareers(shelf);
-  careerPick.addEventListener('change', () => drawCareers(shelf));
+  drawCareer(shelf);
+  careerPick.addEventListener('change', () => drawCareer(shelf));
   // The table is 490 rows; it's drawn the first time it's opened.
   table.addEventListener('toggle', () => {
     const body = need<HTMLElement>('tbody', table);
@@ -108,22 +131,30 @@ function drawBooks(shelf: BookNumbers[]): void {
   });
 }
 
-// Find an author: shows only the matching authors in both author views. A
-// name with too few books for those still finds its books on the shelf.
+// The picked author goes in the address, so a link can open on them.
+function rememberAuthor(): void {
+  const params = new URLSearchParams(location.search);
+  if (pickedAuthor === picks[0]?.dataset['author']) params.delete('author');
+  else params.set('author', pickedAuthor);
+  const query = params.toString();
+  history.replaceState(null, '', `${query ? `?${query}` : location.pathname}${location.hash}`);
+}
+
+// Find an author: the list keeps only the matching names, and the first of
+// them is shown in full when the one showing is filtered out. A name with too
+// few books for the list still finds its books on the shelf.
 function findAuthor(shelf: BookNumbers[] | null): void {
   const terms = normalizeForSearch(authorSearch.value).split(' ').filter(Boolean);
   const matches = (name: string) => terms.every(t => normalizeForSearch(name).includes(t));
-  const entries = [...document.querySelectorAll<HTMLElement>('#authors [data-author]')];
-  for (const el of entries) el.hidden = !matches(el.dataset['author'] ?? '');
-  const shown = new Set(entries.filter(el => !el.hidden).map(el => el.dataset['author']));
-  const params = new URLSearchParams(location.search);
-  if (terms.length) params.set('author', authorSearch.value);
-  else params.delete('author');
-  const query = params.toString();
-  history.replaceState(null, '', `${query ? `?${query}` : location.pathname}${location.hash}`);
+  for (const pick of picks) pick.parentElement!.hidden = !matches(pick.dataset['author'] ?? '');
+  const shown = picks.filter(p => !p.parentElement!.hidden);
+  if (shown.length && !shown.some(p => p.dataset['author'] === pickedAuthor)) {
+    pickAuthor(shown[0]!, shelf);
+    rememberAuthor();
+  }
 
   // Until numbers.json loads there's no shelf to look further in.
-  authorFound.hidden = terms.length === 0 || shown.size > 0 || shelf === null;
+  authorFound.hidden = terms.length === 0 || shown.length > 0 || shelf === null;
   if (authorFound.hidden || shelf === null) return;
   const books = shelf.filter(b => matches(b.author));
   if (!books.length) {
@@ -131,16 +162,28 @@ function findAuthor(shelf: BookNumbers[] | null): void {
     return;
   }
   const list = books.map(b => `<a href="books/${b.slug}/">${escapeText(b.title)}</a> by ${escapeText(b.author)}`).join(', ');
-  authorFound.innerHTML = `Too few books to chart: these views need three or more by one author. On the shelf: ${list}.`;
+  authorFound.innerHTML = `Too few books to guess from: the list needs three or more works by one author. On the shelf: ${list}.`;
 }
 
 const escapeText = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 
 genrePick.addEventListener('change', showGenre);
-authorSearch.value = new URLSearchParams(location.search).get('author') ?? '';
+for (const pick of picks)
+  pick.addEventListener('click', () => {
+    pickAuthor(pick, loadedShelf);
+    rememberAuthor();
+  });
 authorSearch.addEventListener('input', () => findAuthor(loadedShelf));
 need('#author-find').addEventListener('submit', e => e.preventDefault());
-findAuthor(null);
+// A link can name an author on the list, or anyone else to search for.
+const linkedAuthor = new URLSearchParams(location.search).get('author') ?? '';
+const linkedPick = picks.find(p => p.dataset['author'] === linkedAuthor);
+if (linkedPick) pickAuthor(linkedPick, null);
+else {
+  pickAuthor(picks[0]!, null);
+  authorSearch.value = linkedAuthor;
+  findAuthor(null);
+}
 
 fetch('numbers.json')
   .then(response => {

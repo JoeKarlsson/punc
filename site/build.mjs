@@ -367,19 +367,29 @@ const genrePrints = genres
 
 const typical = N.typicalDistance(shelfNumbers);
 const hits = guesses.filter(g => g.guessed === g.book.author).length;
-const authorEntries = authors
-  .map(({ author, books: list }) => `      ${N.authorEntryHTML(author, list, guesses.filter(g => g.book.author === author), N.authorSpread(list, typical))}`)
+// The author list, and the first author shown in full until another is
+// picked; the browser draws the rest, and every career chart.
+const guessedBySlug = new Map(guesses.map(g => [g.book.slug, g.guessed]));
+const authorPicks = authors
+  .map(({ author, books: list }) => `          ${N.authorPickHTML(author, list, guessedBySlug, N.authorSpread(list, typical))}`)
   .join('\n');
-
-// Careers: a frame per author; the browser draws the charts.
-const careers = N.careerAuthors(shelfNumbers)
-  .map(({ author }) => `      <figure class="chart career" data-author="${escapeHTML(author)}">
-        <figcaption><strong>${escapeHTML(author)}</strong></figcaption>
-        <div class="career-chart"></div>
-        <p class="map-tip" hidden></p>
-      </figure>`)
-  .join('\n');
-const metricOptions = N.METRICS.map(({ key, label }) => `          <option value="${key}">${label}</option>`).join('\n');
+// The career chart sits under the author's fingerprint; the browser moves it
+// into each author it shows.
+const careerFigure = `<figure id="author-career" class="chart career">
+            <figcaption><strong>Over a career</strong>: their books in the order they came out (pink), against the median of the shelf's books from within 15 years of each one (dashed). Every author's chart shares one scale.</figcaption>
+            <div class="shelf-controls numbers-controls">
+              <label>Measure
+                <select id="career-pick">
+${N.METRICS.map(({ key, label }) => `                  <option value="${key}">${label}</option>`).join('\n')}
+                </select>
+              </label>
+            </div>
+            <div class="career-chart"></div>
+            <p id="career-none" class="chart-key" hidden>Too few dated books for a career: it takes four from 1600 on, at least eight years apart.</p>
+            <p class="map-tip" hidden></p>
+          </figure>`;
+const firstAuthor = authors[0];
+const firstAuthorDetail = N.authorDetailHTML(firstAuthor.author, firstAuthor.books, guessedBySlug, Math.round(N.authorSpread(firstAuthor.books, typical)), careerFigure);
 
 // Compare: every author with two or more books, then every book. The books
 // are added in the browser, from numbers.json.
@@ -454,9 +464,8 @@ const numbersBody = (await fragment('numbers.html'))
   .replace('<!--GENREOPTIONS-->', genres.map(g => `          <option>${escapeHTML(g)}</option>`).join('\n'))
   .replace('<!--TIMELINES-->', timelines)
   .replace('<!--GENREPRINTS-->', genrePrints)
-  .replace('<!--AUTHORS-->', authorEntries)
-  .replace('<!--METRICOPTIONS-->', metricOptions)
-  .replace('<!--CAREERS-->', careers)
+  .replace('<!--AUTHORPICKS-->', authorPicks)
+  .replace('<!--AUTHORDETAIL-->', firstAuthorDetail)
   .replace('<!--COMPAREOPTIONS-A-->', compareOptions('Jane Austen'))
   .replace('<!--COMPAREOPTIONS-B-->', compareOptions('Charles Dickens'))
   .replace('<!--COMPARE-->', compareDefault)

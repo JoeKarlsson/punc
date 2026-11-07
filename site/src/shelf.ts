@@ -8,8 +8,7 @@ import { initPosters } from './posters';
 import { initShare } from './share';
 import { normalizeForSearch, pageLinks, SHELF_PAGE_SIZE } from './paging';
 
-// On a wide screen the page buttons fill the width under the shelf, so more
-// of them fit.
+// On a wide screen the pager shows every page number.
 const wideScreen = window.matchMedia('(min-width: 900px)');
 
 interface Card {
@@ -94,6 +93,18 @@ async function setUpShelf(): Promise<void> {
     return button;
   };
 
+  // As many page numbers to a row as fit at 3.25rem or more, with the rows
+  // as even as they can be: 41 pages in two rows of 21 and 20, not 36 and 5.
+  const balancePageRows = () => {
+    const numbers = pages.querySelector<HTMLElement>('.shelf-page-numbers');
+    if (!numbers || pages.hidden) return;
+    const count = numbers.children.length;
+    const minCell = 3.25 * parseFloat(getComputedStyle(document.documentElement).fontSize) + 6;
+    const fit = Math.max(1, Math.floor((numbers.clientWidth + 6) / minCell));
+    numbers.style.setProperty('--per-row', String(Math.ceil(count / Math.ceil(count / fit))));
+  };
+  new ResizeObserver(balancePageRows).observe(pages);
+
   const apply = () => {
     const terms = normalizeForSearch(search.value).split(' ').filter(Boolean);
     const shown = cards
@@ -109,18 +120,25 @@ async function setUpShelf(): Promise<void> {
     count.textContent = onPage.length ? `Showing ${start + 1}–${start + onPage.length} of ${matching}` : `Showing 0 of ${cards.length} books`;
     empty.hidden = shown.length > 0;
 
+    // Previous and Next always hold their place at the ends, so the numbers
+    // between them don't shift; a wide screen has room for every number.
     pages.hidden = pageCount === 1;
-    pages.replaceChildren();
-    if (page > 1) pages.append(pageButton('Previous', page - 1));
-    for (const n of pageLinks(page, pageCount, wideScreen.matches ? 4 : 1)) {
+    const numbers = document.createElement('div');
+    numbers.className = 'shelf-page-numbers';
+    for (const n of pageLinks(page, pageCount, wideScreen.matches ? pageCount : 2)) {
       if (n === null) {
         const gap = document.createElement('span');
         gap.className = 'shelf-page-gap';
         gap.textContent = '…';
-        pages.append(gap);
-      } else pages.append(pageButton(String(n), n, n === page));
+        numbers.append(gap);
+      } else numbers.append(pageButton(String(n), n, n === page));
     }
-    if (page < pageCount) pages.append(pageButton('Next', page + 1));
+    const previous = pageButton('Previous', page - 1);
+    const following = pageButton('Next', page + 1);
+    previous.disabled = page === 1;
+    following.disabled = page === pageCount;
+    pages.replaceChildren(previous, numbers, following);
+    balancePageRows();
 
     const next = new URLSearchParams();
     if (search.value) next.set('q', search.value);

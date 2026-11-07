@@ -30,8 +30,8 @@ test('the front page features the most read books, then the shelf a page at a ti
   await page.goto('./');
   await expect(page.locator('.shelf-featured .cover:visible')).toHaveCount(4);
   // Only the page in view is drawn.
-  await expect(page.locator('#shelf .cover')).toHaveCount(24);
-  await expect(page.locator('#shelf-count')).toHaveText(`Showing 1–24 of ${catalog.length} books`);
+  await expect(page.locator('#shelf .cover')).toHaveCount(72);
+  await expect(page.locator('#shelf-count')).toHaveText(`Showing 1–72 of ${catalog.length} books`);
   // Covers get dithered into pink-and-black posters.
   await expect(page.locator('.shelf-featured .poster-art')).toHaveCount(4);
   await page.locator('.shelf-featured').getByRole('link', { name: /Pride and Prejudice/ }).click();
@@ -49,12 +49,12 @@ test('the shelf searches by title or author, filters by genre, and sorts', async
 
   await page.getByLabel('Search').fill('');
   await page.getByLabel('Genre').selectOption('Poetry');
-  await expect(visible).toHaveCount(Math.min(catalog.filter(b => b.genres.includes('Poetry')).length, 24));
+  await expect(visible).toHaveCount(Math.min(catalog.filter(b => b.genres.includes('Poetry')).length, 72));
 
   await page.getByLabel('Genre').selectOption('');
   await page.getByLabel('Sort').selectOption('short-sentences');
   const shelf = (await (await page.request.get('shelf.json')).json()) as Array<{ slug: string; wps: number }>;
-  const shortest = [...shelf].sort((a, b) => a.wps - b.wps).slice(0, 24).map(b => b.slug);
+  const shortest = [...shelf].sort((a, b) => a.wps - b.wps).slice(0, 72).map(b => b.slug);
   await expect.poll(() => visible.evaluateAll(els => els.map(el => (el as HTMLElement).dataset['slug']))).toEqual(shortest);
 
   await page.getByLabel('Sort').selectOption('oldest');
@@ -73,16 +73,16 @@ test('the shelf turns pages, keeps the page in the URL, and a new search starts 
   const pages = page.getByRole('navigation', { name: 'Shelf pages' });
   await pages.getByRole('button', { name: '2', exact: true }).click();
   await expect(page).toHaveURL(/\?page=2/);
-  await expect(page.locator('#shelf-count')).toHaveText(`Showing 25–48 of ${catalog.length} books`);
-  await expect(visible.first()).toHaveAttribute('data-slug', byRank[24]!.slug);
+  await expect(page.locator('#shelf-count')).toHaveText(`Showing 73–144 of ${catalog.length} books`);
+  await expect(visible.first()).toHaveAttribute('data-slug', byRank[72]!.slug);
   await expect(pages.getByRole('button', { name: '2', exact: true })).toHaveAttribute('aria-current', 'page');
   await expect(page.locator('#shelf-heading')).toBeFocused();
   await pages.getByRole('button', { name: 'Next' }).click();
   await expect(page).toHaveURL(/\?page=3/);
   await page.reload();
-  await expect(page.locator('#shelf-count')).toHaveText(`Showing 49–72 of ${catalog.length} books`);
+  await expect(page.locator('#shelf-count')).toHaveText(`Showing 145–216 of ${catalog.length} books`);
   // A computer screen offers every page, from Previous to Next.
-  const pageCount = Math.ceil(catalog.length / 24);
+  const pageCount = Math.ceil(catalog.length / 72);
   await expect(pages.getByRole('button')).toHaveCount(pageCount + 2);
   await expect(pages.getByRole('button', { name: String(pageCount), exact: true })).toBeVisible();
   await page.getByLabel('Search').fill('dracula');
@@ -246,7 +246,7 @@ test('a book page shows its fingerprint, how its marks change, and describes its
 
 test('every shelf card has a fingerprint', async ({ page }) => {
   await page.goto('./');
-  await expect(page.locator('#shelf .cover .fingerprint')).toHaveCount(24);
+  await expect(page.locator('#shelf .cover .fingerprint')).toHaveCount(72);
 });
 
 test('the map places every book, with a tooltip and a table', async ({ page }) => {

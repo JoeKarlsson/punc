@@ -81,6 +81,10 @@ test('the shelf turns pages, keeps the page in the URL, and a new search starts 
   await expect(page).toHaveURL(/\?page=3/);
   await page.reload();
   await expect(page.locator('#shelf-count')).toHaveText(`Showing 49–72 of ${catalog.length} books`);
+  // A computer screen offers every page, from Previous to Next.
+  const pageCount = Math.ceil(catalog.length / 24);
+  await expect(pages.getByRole('button')).toHaveCount(pageCount + 2);
+  await expect(pages.getByRole('button', { name: String(pageCount), exact: true })).toBeVisible();
   await page.getByLabel('Search').fill('dracula');
   await expect(page).not.toHaveURL(/page=/);
   await expect(visible).toHaveCount(1);
@@ -269,11 +273,11 @@ test('the numbers page filters by genre, switches career measures and compares a
   await page.selectOption('#genre-pick', 'Plays');
   await expect(page.locator('#genre-key')).toContainText('plays books');
   expect(await charts.first().locator('.chart-dot:not(.chart-dot-out)').count()).toBeLessThan(dated);
-  const career = page.locator('.career svg').first();
+  const career = page.locator('#author-career svg');
   await expect(career).toHaveAttribute('aria-label', /semicolons against the shelf/);
   await page.selectOption('#career-pick', 'wps');
   await expect(career).toHaveAttribute('aria-label', /words per sentence against the shelf/);
-  await expect(page.locator('.career').first().locator('.chart-dot').first()).toHaveAttribute('data-tip', /words per sentence$/);
+  await expect(page.locator('#author-career .chart-dot').first()).toHaveAttribute('data-tip', /words per sentence$/);
   await expect(page.locator('#compare-out .compare-name').first()).toHaveText('Jane Austen');
   await page.selectOption('#compare-b', 'book:moby-dick');
   await expect(page.locator('#compare-out .compare-name').nth(1)).toHaveText('Moby-Dick');
@@ -291,25 +295,31 @@ test('a book page names its punctuation twin', async ({ page }) => {
 });
 
 test('a book page shows its author on the shelf, linked to the author on the numbers page', async ({ page }) => {
-  await openBook(page, 'the-murder-of-roger-ackroyd');
+  await openBook(page, 'a-christmas-carol');
   const author = page.locator('.book-author');
-  await expect(author.locator('h2')).toHaveText('Agatha Christie on the shelf');
-  await expect(author.locator('[aria-current="page"]')).toHaveText('The Murder of Roger Ackroyd');
-  await author.getByRole('link', { name: 'Agatha Christie on the numbers page' }).click();
-  await expect(page.locator('#author-search')).toHaveValue('Agatha Christie');
-  await expect(page.locator('.author-entry:visible')).toHaveCount(1);
-  await expect(page.locator('.career:visible')).toHaveCount(1);
+  await expect(author.locator('h2')).toHaveText('Charles Dickens on the shelf');
+  await expect(author.locator('[aria-current="page"]')).toHaveText('A Christmas Carol');
+  await author.getByRole('link', { name: 'Charles Dickens on the numbers page' }).click();
+  await expect(page.locator('.author-detail-name')).toHaveText('Charles Dickens');
+  await expect(page.locator('.author-pick[aria-pressed="true"]')).toHaveAttribute('data-author', 'Charles Dickens');
+  await expect(page.locator('#author-career svg')).toHaveAttribute('aria-label', /^Charles Dickens's books/);
 });
 
-test('the numbers page finds authors, and points to the books of one with too few to chart', async ({ page }) => {
+test('the numbers page picks an author from the list or a search, and points to the books of one with too few', async ({ page }) => {
   await page.goto('numbers.html');
-  await page.fill('#author-search', 'dick');
-  await expect(page.locator('.author-entry:visible')).toHaveText([/Charles Dickens/]);
+  const picks = page.locator('.author-pick:visible');
+  expect(await picks.count()).toBeGreaterThan(20);
+  await page.locator('.author-pick[data-author="Jane Austen"]').click();
+  await expect(page.locator('.author-detail-name')).toHaveText('Jane Austen');
+  await expect(page.locator('.author-detail-books li')).toHaveCount(await page.locator('.author-pick[data-author="Jane Austen"] .named').count());
+  await expect(page).toHaveURL(/author=Jane\+Austen/);
+  await page.fill('#author-search', 'dickens');
+  await expect(picks).toHaveCount(1);
+  await expect(page.locator('.author-detail-name')).toHaveText('Charles Dickens');
   await page.fill('#author-search', 'kafka');
   await expect(page.locator('#author-found')).toContainText('Metamorphosis');
   await page.fill('#author-search', '');
   await expect(page.locator('#author-found')).toBeHidden();
-  await expect(page.locator('.author-entry:visible')).not.toHaveCount(1);
 });
 
 test('a book page marks the book on the shelf map', async ({ page }) => {

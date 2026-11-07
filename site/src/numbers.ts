@@ -531,30 +531,60 @@ const listWords = (items: string[]) => (items.length < 2 ? items.join('') : `${i
 const ordinal = (n: number) => `${n}${n % 100 >= 11 && n % 100 <= 13 ? 'th' : (['th', 'st', 'nd', 'rd'][n % 10] ?? 'th')}`;
 const byYear = (books: BookNumbers[]) => [...books].sort((a, b) => (a.year ?? Infinity) - (b.year ?? Infinity) || a.title.localeCompare(b.title));
 
+// Who the marks guessed for each of an author's books, by slug.
+export type GuessedBySlug = Map<string, string>;
+
+const guessedFor = (b: BookNumbers, guessed: GuessedBySlug) => {
+  const name = guessed.get(b.slug);
+  if (name === undefined) throw new Error(`No guess for ${b.slug}`);
+  return name;
+};
+
 // Who an author's missed books were taken for, most often first:
 // "Mark Twain (5) and Jules Verne".
-function takenFor(author: string, guesses: Guess[]): string {
+function takenFor(author: string, books: BookNumbers[], guessed: GuessedBySlug): string {
   const counts = new Map<string, number>();
-  for (const { guessed } of guesses) if (guessed !== author) counts.set(guessed, (counts.get(guessed) ?? 0) + 1);
+  for (const b of books) {
+    const name = guessedFor(b, guessed);
+    if (name !== author) counts.set(name, (counts.get(name) ?? 0) + 1);
+  }
   return listWords([...counts].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0])).map(([name, n]) => (n > 1 ? `${name} (${n})` : name)));
 }
 
-// One author on the numbers page: a square per book in order of year, pink
-// where the marks named the author, who the rest were taken for, and the
-// author's average fingerprint. `guesses` are this author's books only.
-export function authorEntryHTML(author: string, books: BookNumbers[], guesses: Guess[], spread: number): string {
-  const guessFor = new Map(guesses.map(g => [g.book, g.guessed]));
-  const named = guesses.filter(g => g.guessed === author).length;
-  const squares = byYear(books)
+const square = (named: boolean) => `<span class="named${named ? ' named-right' : ''}"></span>`;
+
+// One author in the numbers page's list: their name, a square per book in
+// order of year, pink where the marks named the author, and the count. The
+// squares carry each book's guess, so the browser can show the author
+// without working the guesses out again.
+export function authorPickHTML(author: string, books: BookNumbers[], guessed: GuessedBySlug, spread: number): string {
+  const dated = byYear(books);
+  const named = dated.filter(b => guessedFor(b, guessed) === author).length;
+  const squares = dated.map(b => `<span class="named${guessedFor(b, guessed) === author ? ' named-right' : ''}" data-slug="${escapeHTML(b.slug)}" data-guessed="${escapeHTML(guessedFor(b, guessed))}"></span>`).join('');
+  return `<li><button type="button" class="author-pick" data-author="${escapeHTML(author)}" data-spread="${Math.round(spread)}" aria-pressed="false"><span class="author-pick-name">${escapeHTML(author)}</span><span class="named-squares" aria-hidden="true">${squares}</span><span class="author-pick-count">${named} of ${books.length}</span></button></li>`;
+}
+
+// The picked author in full: how often the marks named them, who the misses
+// were taken for, their average fingerprint, and every book with its guess.
+// Their career chart goes in under the fingerprint: `career` is its markup,
+// or empty where the page moves the chart in itself.
+export function authorDetailHTML(author: string, books: BookNumbers[], guessed: GuessedBySlug, spread: number, career = ''): string {
+  const dated = byYear(books);
+  const named = dated.filter(b => guessedFor(b, guessed) === author).length;
+  const missed = takenFor(author, books, guessed);
+  const summary = `The marks named ${author} for ${named} of ${books.length} books.${missed ? ` The ${books.length - named === 1 ? 'other was' : 'others were'} taken for ${missed}.` : ''} Spread ${spread}.`;
+  const rows = dated
     .map(b => {
-      const guessed = guessFor.get(b);
-      if (guessed === undefined) throw new Error(`No guess for ${b.slug}`);
-      const label = `${b.title} (${yearText(b)}): ${guessed === author ? 'named right' : `taken for ${guessed}`}`;
-      return `<a class="named${guessed === author ? ' named-right' : ''}" href="books/${b.slug}/" title="${escapeHTML(label)}" aria-label="${escapeHTML(label)}"></a>`;
+      const name = guessedFor(b, guessed);
+      return `<li>${square(name === author)}<a href="books/${b.slug}/">${escapeHTML(b.title)}</a> <span class="author-book-year">${escapeHTML(yearText(b))}${name === author ? '' : `, taken for ${escapeHTML(name)}`}</span></li>`;
     })
     .join('');
-  const missed = takenFor(author, guesses);
-  return `<li class="author-entry" data-author="${escapeHTML(author)}"><h4 class="author-name">${escapeHTML(author)}</h4><p class="author-detail">${books.length} books, spread ${Math.round(spread)}</p><p class="named-row"><span class="named-squares">${squares}</span><span>${named} of ${books.length} named</span></p>${missed ? `<p class="author-detail">The others were taken for ${escapeHTML(missed)}.</p>` : ''}${fingerprintHTML(averageShares(books.map(b => b.shares)), 'fingerprint fingerprint-medium')}</li>`;
+  return `<h4 class="author-detail-name">${escapeHTML(author)}</h4>
+        <p class="author-summary">${escapeHTML(summary)}</p>
+        <div class="author-detail-body">
+          <div class="author-detail-side"><p class="author-detail-label">Their average fingerprint</p>${fingerprintHTML(averageShares(books.map(b => b.shares)), 'fingerprint fingerprint-large')}${career}</div>
+          <ol class="author-detail-books">${rows}</ol>
+        </div>`;
 }
 
 // A book page's author on the shelf: the book against the author's average,

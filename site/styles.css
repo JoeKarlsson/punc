@@ -450,10 +450,12 @@ main {
   color: var(--muted);
 }
 
+/* Previous and Next at the ends, the page numbers filling the width between
+   them in rows of equal length (shelf.ts sets --per-row). On a phone the
+   numbers get the whole width and Previous and Next go underneath. */
 .shelf-pages {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
   gap: var(--space-2);
   margin-top: var(--space-7);
 }
@@ -462,11 +464,26 @@ main {
   display: none;
 }
 
-/* The buttons share the whole width of the shelf between them */
+.shelf-page-numbers {
+  display: grid;
+  grid-template-columns: repeat(var(--per-row, 7), minmax(0, 1fr));
+  gap: 6px;
+}
+
+@media (max-width: 899px) {
+  .shelf-pages {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .shelf-page-numbers {
+    grid-column: 1 / -1;
+    grid-row: 1;
+  }
+}
+
 .shelf-page {
-  flex: 1 1 auto;
-  min-width: 2.75rem;
-  min-height: 3.5rem;
+  min-width: 0;
+  min-height: 3.25rem;
   padding: 0.35em 0.7em 0.3em;
   background: none;
   color: var(--paper);
@@ -478,7 +495,11 @@ main {
   cursor: pointer;
 }
 
-.shelf-page:hover {
+.shelf-page-numbers .shelf-page {
+  padding-inline: 0.2em;
+}
+
+.shelf-page:hover:not(:disabled) {
   background: var(--chalk);
   border-color: var(--chalk);
   color: var(--ink);
@@ -489,8 +510,15 @@ main {
   color: var(--ink);
 }
 
+.shelf-page:disabled {
+  border-color: var(--surface-line);
+  color: var(--muted);
+  cursor: default;
+}
+
 .shelf-page-gap {
-  padding-inline: var(--space-1);
+  display: grid;
+  place-items: center;
   color: var(--muted);
 }
 
@@ -1571,12 +1599,6 @@ code {
   stroke-dasharray: 6 5;
 }
 
-.career-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr));
-  gap: var(--space-5);
-}
-
 .chart-line-author {
   stroke: var(--pink);
 }
@@ -1647,30 +1669,164 @@ code {
   .numbers-split-wide {
     grid-template-columns: minmax(0, 2fr) minmax(16rem, 1fr);
   }
+
+  /* The map's notes come first to read, but sit to its right */
+  .map-split .map-notes {
+    grid-column: 2;
+    grid-row: 1;
+  }
 }
 
-.author-grid {
+.map-split .shelf-map {
+  max-width: none;
+}
+
+/* Authors: a list to pick from on the left, the picked author on the right */
+.author-explorer {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(min(100%, 290px), 1fr));
-  gap: var(--space-7) var(--space-6);
-  margin: var(--space-5) 0 0;
+  grid-template-columns: minmax(17rem, 1fr) minmax(0, 2.2fr);
+  gap: var(--space-6) var(--space-7);
+  align-items: start;
+  margin-top: var(--space-5);
+}
+
+@media (max-width: 900px) {
+  .author-explorer {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.author-browse .shelf-controls {
+  margin-bottom: var(--space-3);
+}
+
+.author-browse .shelf-controls label,
+.author-browse .shelf-controls input {
+  width: 100%;
+}
+
+/* The list scrolls in place, so sixty-odd authors don't push the page down */
+.author-list {
+  max-height: 38rem;
+  margin: 0;
+  padding: 0;
+  overflow-y: auto;
+  list-style: none;
+  scrollbar-color: var(--pink) var(--ink);
+}
+
+@media (max-width: 900px) {
+  .author-list {
+    max-height: 20rem;
+  }
+}
+
+.author-pick {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-areas:
+    'name count'
+    'squares squares';
+  gap: 0.3rem var(--space-2);
+  width: 100%;
+  padding: var(--space-1) var(--space-2);
+  background: none;
+  color: var(--paper);
+  border: 0;
+  border-radius: 0;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.author-pick:hover .author-pick-name {
+  color: var(--pink);
+}
+
+.author-pick[aria-pressed='true'] {
+  background: var(--pink);
+  color: var(--ink);
+}
+
+.author-pick[aria-pressed='true'] .author-pick-name,
+.author-pick[aria-pressed='true'] .author-pick-count {
+  color: var(--ink);
+}
+
+.author-pick-name {
+  grid-area: name;
+  font-weight: 700;
+}
+
+.author-pick-count {
+  grid-area: count;
+  font-size: 0.9rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--muted);
+}
+
+.author-pick[aria-pressed='true'] .named {
+  border-color: var(--ink);
+}
+
+.author-pick[aria-pressed='true'] .named-right {
+  background: var(--ink);
+}
+
+.author-detail-name {
+  margin: 0;
+  font-family: var(--poster);
+  font-weight: 400;
+  font-size: clamp(2rem, 1.4rem + 2vw, 3.2rem);
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.author-summary {
+  max-width: 40em;
+  margin: var(--space-2) 0 var(--space-5);
+}
+
+.author-detail-body {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+  gap: var(--space-5) var(--space-6);
+  align-items: start;
+}
+
+.author-detail-label {
+  margin: 0 0 var(--space-1);
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+.author-detail-books {
+  margin: 0;
   padding: 0;
   list-style: none;
+  font-size: 0.95rem;
 }
 
-/* The fingerprints line up along the bottom of each row */
-.author-entry {
+.author-detail-books li {
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0 var(--space-1);
+  padding: 0.2rem 0;
 }
 
-.author-entry[hidden] {
-  display: none;
+.author-detail-books .named {
+  width: 12px;
+  height: 12px;
+  align-self: center;
 }
 
-.author-entry .fingerprint {
-  margin-top: auto;
-  padding-top: var(--space-3);
+#author-career {
+  margin-top: var(--space-5);
+}
+
+#author-career .numbers-controls {
+  margin-top: var(--space-2);
 }
 
 .author-name {
@@ -1682,32 +1838,19 @@ code {
   text-transform: uppercase;
 }
 
-.author-detail {
-  margin: var(--space-1) 0 0;
-  font-size: 0.9rem;
-  color: var(--muted);
-}
-
-.named-row {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: var(--space-1) var(--space-3);
-  margin: var(--space-2) 0 0;
-  font-size: 0.95rem;
-}
-
 /* A book each: pink where the marks named its author */
 .named-squares {
+  grid-area: squares;
   display: flex;
   flex-wrap: wrap;
-  gap: 6px;
+  gap: 3px;
 }
 
 .named {
   display: block;
-  width: 20px;
-  height: 20px;
+  flex: none;
+  width: 10px;
+  height: 10px;
   border: 2px solid var(--pink);
 }
 
@@ -1715,21 +1858,10 @@ code {
   background: var(--pink);
 }
 
-.named:hover,
-.named:focus-visible {
-  background: var(--chalk);
-  border-color: var(--chalk);
-}
-
-.fingerprint-medium {
-  font-size: 1.1rem;
-  gap: 4px;
-  --fp-height: 52px;
-}
-
+/* Compare: the two fingerprints stacked, the numbers beside them */
 .compare {
   display: grid;
-  grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   gap: var(--space-5) var(--space-7);
   align-items: start;
 }
@@ -1750,7 +1882,6 @@ code {
 
 .compare-pair {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: var(--space-5);
 }
 

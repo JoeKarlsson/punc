@@ -6,7 +6,11 @@
 import { cardHTML, type ShelfBook } from './card';
 import { initPosters } from './posters';
 import { initShare } from './share';
-import { pageLinks, SHELF_PAGE_SIZE } from './paging';
+import { normalizeForSearch, pageLinks, SHELF_PAGE_SIZE } from './paging';
+
+// On a wide screen the page buttons fill the width under the shelf, so more
+// of them fit.
+const wideScreen = window.matchMedia('(min-width: 900px)');
 
 interface Card {
   book: ShelfBook;
@@ -30,8 +34,6 @@ const SORTS: Record<string, (a: Card, b: Card) => number> = {
   longest: (a, b) => b.book.words - a.book.words,
 };
 
-export const normalizeForSearch = (s: string): string =>
-  s.toLowerCase().normalize('NFKD').replace(/[̀-ͯ]/g, '').replace(/[^a-z0-9 ]/g, '');
 
 function byId<T extends HTMLElement>(id: string): T {
   const el = document.getElementById(id);
@@ -110,7 +112,7 @@ async function setUpShelf(): Promise<void> {
     pages.hidden = pageCount === 1;
     pages.replaceChildren();
     if (page > 1) pages.append(pageButton('Previous', page - 1));
-    for (const n of pageLinks(page, pageCount)) {
+    for (const n of pageLinks(page, pageCount, wideScreen.matches ? 4 : 1)) {
       if (n === null) {
         const gap = document.createElement('span');
         gap.className = 'shelf-page-gap';
@@ -134,6 +136,7 @@ async function setUpShelf(): Promise<void> {
     apply();
   };
   search.addEventListener('input', fromFirstPage);
+  wideScreen.addEventListener('change', apply);
   genre.addEventListener('change', fromFirstPage);
   sort.addEventListener('change', fromFirstPage);
   // The search filters as you type; Enter shouldn't reload the page.

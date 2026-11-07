@@ -454,7 +454,7 @@ main {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: var(--space-1);
+  gap: var(--space-2);
   margin-top: var(--space-7);
 }
 
@@ -462,16 +462,18 @@ main {
   display: none;
 }
 
+/* The buttons share the whole width of the shelf between them */
 .shelf-page {
+  flex: 1 1 auto;
   min-width: 2.75rem;
-  min-height: 2.75rem;
+  min-height: 3.5rem;
   padding: 0.35em 0.7em 0.3em;
   background: none;
   color: var(--paper);
   border: 2px solid var(--pink);
   border-radius: 0;
   font-family: var(--poster);
-  font-size: 1.25rem;
+  font-size: clamp(1.25rem, 1rem + 0.6vw, 1.7rem);
   text-transform: uppercase;
   cursor: pointer;
 }
@@ -1504,10 +1506,6 @@ code {
   text-transform: uppercase;
 }
 
-.chart-wide {
-  max-width: 1100px;
-}
-
 .chart-svg {
   display: block;
   width: 100%;
@@ -1625,34 +1623,135 @@ code {
   overflow-x: auto;
 }
 
-.numbers-table {
-  border-collapse: collapse;
-  font-size: 0.95rem;
+/* Two notes side by side when there's room for both */
+.numbers-notes {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 26em), 1fr));
+  column-gap: var(--space-7);
 }
 
-.numbers-table th,
-.numbers-table td {
-  padding: var(--space-1) var(--space-3) var(--space-1) 0;
-  text-align: left;
+/* Two parts of a section side by side when there's room for both */
+.numbers-split {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 460px), 1fr));
+  gap: var(--space-6) var(--space-7);
+  align-items: start;
+}
+
+.numbers-split > div > .view-heading:first-child {
+  margin-top: 0;
+}
+
+/* A chart with its notes in a narrower column beside it */
+@media (min-width: 900px) {
+  .numbers-split-wide {
+    grid-template-columns: minmax(0, 2fr) minmax(16rem, 1fr);
+  }
+}
+
+.author-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 290px), 1fr));
+  gap: var(--space-7) var(--space-6);
+  margin: var(--space-5) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* The fingerprints line up along the bottom of each row */
+.author-entry {
+  display: flex;
+  flex-direction: column;
+}
+
+.author-entry[hidden] {
+  display: none;
+}
+
+.author-entry .fingerprint {
+  margin-top: auto;
+  padding-top: var(--space-3);
+}
+
+.author-name {
+  margin: 0;
+  font-family: var(--poster);
   font-weight: 400;
-  font-variant-numeric: tabular-nums;
-  vertical-align: bottom;
+  font-size: 1.5rem;
+  line-height: 1.05;
+  text-transform: uppercase;
 }
 
-.numbers-table thead th {
+.author-detail {
+  margin: var(--space-1) 0 0;
+  font-size: 0.9rem;
   color: var(--muted);
 }
 
-.author-table .fingerprint {
-  width: 200px;
-  margin: 0;
+.named-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-1) var(--space-3);
+  margin: var(--space-2) 0 0;
+  font-size: 0.95rem;
+}
+
+/* A book each: pink where the marks named its author */
+.named-squares {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.named {
+  display: block;
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--pink);
+}
+
+.named-right {
+  background: var(--pink);
+}
+
+.named:hover,
+.named:focus-visible {
+  background: var(--chalk);
+  border-color: var(--chalk);
+}
+
+.fingerprint-medium {
+  font-size: 1.1rem;
+  gap: 4px;
+  --fp-height: 52px;
+}
+
+.compare {
+  display: grid;
+  grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+  gap: var(--space-5) var(--space-7);
+  align-items: start;
+}
+
+.compare .compare-table {
+  margin-top: 0;
+}
+
+.compare-table th[scope='row'] {
+  white-space: nowrap;
+}
+
+@media (max-width: 1000px) {
+  .compare {
+    grid-template-columns: minmax(0, 1fr);
+  }
 }
 
 .compare-pair {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: var(--space-5);
-  max-width: 900px;
 }
 
 .compare-table {
@@ -1672,12 +1771,67 @@ code {
   color: var(--muted);
 }
 
+/* Pairs sit further apart than the two books in a pair */
+.twin-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 560px), 1fr));
+  gap: var(--space-7) var(--space-9);
+}
+
 .twin {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: var(--space-5);
-  max-width: 900px;
-  margin-bottom: var(--space-6);
+  gap: var(--space-4);
+}
+
+/* A book page's author on the shelf (bookAuthorHTML in site/src/numbers.ts) */
+.book-author {
+  margin: var(--space-7) 0;
+}
+
+.book-author-body {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr));
+  gap: var(--space-5) var(--space-7);
+  align-items: start;
+}
+
+.book-author .compare-table {
+  margin-top: 0;
+}
+
+.book-author .author-name {
+  margin-top: var(--space-5);
+}
+
+.author-books {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: var(--space-5) var(--space-4);
+  margin: var(--space-6) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* Titles run to different lengths; the fingerprints line up at the bottom */
+.author-books li {
+  display: flex;
+  flex-direction: column;
+}
+
+.author-books .fingerprint {
+  margin-top: auto;
+  padding-top: var(--space-2);
+}
+
+.author-book-this {
+  font-weight: 700;
+  color: var(--pink);
+}
+
+.author-book-year {
+  font-size: 0.85rem;
+  color: var(--muted);
 }
 
 .twin-title {

@@ -16,6 +16,7 @@ import {
   type MetricKey,
   type Profile,
 } from './numbers';
+import { normalizeForSearch } from './paging';
 import { mapSVG } from './patterns';
 import { initShare } from './share';
 
@@ -35,6 +36,10 @@ const pickA = need<HTMLSelectElement>('#compare-a');
 const pickB = need<HTMLSelectElement>('#compare-b');
 const out = need<HTMLElement>('#compare-out');
 const table = need<HTMLDetailsElement>('#numbers-table');
+const authorSearch = need<HTMLInputElement>('#author-search');
+const authorFound = need<HTMLElement>('#author-found');
+// numbers.json, once it has loaded
+let loadedShelf: BookNumbers[] | null = null;
 
 // Genre: that genre's books stay pink, on top, and its median line shows;
 // every book's median turns into a dashed reference line.
@@ -73,6 +78,8 @@ function drawCareers(shelf: BookNumbers[]): void {
 }
 
 function drawBooks(shelf: BookNumbers[]): void {
+  loadedShelf = shelf;
+  findAuthor(shelf);
   document.querySelectorAll<SVGGElement>('#time .chart-dots, #popularity .chart-dots').forEach(group => {
     const key = group.dataset['metric'] as MetricKey;
     const max = Number(group.dataset['max']);
@@ -101,7 +108,39 @@ function drawBooks(shelf: BookNumbers[]): void {
   });
 }
 
+// Find an author: shows only the matching authors in both author views. A
+// name with too few books for those still finds its books on the shelf.
+function findAuthor(shelf: BookNumbers[] | null): void {
+  const terms = normalizeForSearch(authorSearch.value).split(' ').filter(Boolean);
+  const matches = (name: string) => terms.every(t => normalizeForSearch(name).includes(t));
+  const entries = [...document.querySelectorAll<HTMLElement>('#authors [data-author]')];
+  for (const el of entries) el.hidden = !matches(el.dataset['author'] ?? '');
+  const shown = new Set(entries.filter(el => !el.hidden).map(el => el.dataset['author']));
+  const params = new URLSearchParams(location.search);
+  if (terms.length) params.set('author', authorSearch.value);
+  else params.delete('author');
+  const query = params.toString();
+  history.replaceState(null, '', `${query ? `?${query}` : location.pathname}${location.hash}`);
+
+  // Until numbers.json loads there's no shelf to look further in.
+  authorFound.hidden = terms.length === 0 || shown.size > 0 || shelf === null;
+  if (authorFound.hidden || shelf === null) return;
+  const books = shelf.filter(b => matches(b.author));
+  if (!books.length) {
+    authorFound.textContent = `No author on the shelf matches "${authorSearch.value}".`;
+    return;
+  }
+  const list = books.map(b => `<a href="books/${b.slug}/">${escapeText(b.title)}</a> by ${escapeText(b.author)}`).join(', ');
+  authorFound.innerHTML = `Too few books to chart: these views need three or more by one author. On the shelf: ${list}.`;
+}
+
+const escapeText = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+
 genrePick.addEventListener('change', showGenre);
+authorSearch.value = new URLSearchParams(location.search).get('author') ?? '';
+authorSearch.addEventListener('input', () => findAuthor(loadedShelf));
+need('#author-find').addEventListener('submit', e => e.preventDefault());
+findAuthor(null);
 
 fetch('numbers.json')
   .then(response => {

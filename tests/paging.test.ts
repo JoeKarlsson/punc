@@ -11,4 +11,9 @@ describe('pageLinks', () => {
   ])('page %i of %i', (current, total, links) => {
     expect(pageLinks(current, total)).toEqual(links);
   });
+
+  test('a wider window around the current page', () => {
+    expect(pageLinks(10, 21, 3)).toEqual([1, null, 7, 8, 9, 10, 11, 12, 13, null, 21]);
+    expect(pageLinks(2, 21, 3)).toEqual([1, 2, 3, 4, 5, null, 21]);
+  });
 });

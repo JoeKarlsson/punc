@@ -6481,8 +6481,8 @@
       "Horror and gothic",
       "Mystery and crime"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1904",
+    "publishedSort": 1904,
     "rank": 503,
     "cover": true
   },
@@ -6496,8 +6496,8 @@
       "Horror and gothic",
       "Mystery and crime"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1893",
+    "publishedSort": 1893,
     "rank": 504,
     "cover": true
   },
@@ -6510,8 +6510,8 @@
       "Novels",
       "Romance"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1852",
+    "publishedSort": 1852,
     "rank": 505,
     "cover": true
   },
@@ -6521,8 +6521,8 @@
     "title": "The Ten Books on Architecture",
     "author": "Vitruvius Pollio",
     "genres": [],
-    "published": null,
-    "publishedSort": null,
+    "published": "c. 25 BCE",
+    "publishedSort": -25,
     "rank": 506,
     "cover": true
   },
@@ -6546,8 +6546,8 @@
     "title": "The Interpretation of Dreams",
     "author": "Sigmund Freud",
     "genres": [],
-    "published": null,
-    "publishedSort": null,
+    "published": "1899",
+    "publishedSort": 1899,
     "rank": 508,
     "cover": true
   },
@@ -6559,8 +6559,8 @@
     "genres": [
       "Philosophy and ideas"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1908",
+    "publishedSort": 1908,
     "rank": 509,
     "cover": true
   },
@@ -6572,8 +6572,8 @@
     "genres": [
       "History and lives"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1922",
+    "publishedSort": 1922,
     "rank": 510,
     "cover": true
   },
@@ -6585,8 +6585,8 @@
     "genres": [
       "Children's"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1914",
+    "publishedSort": 1914,
     "rank": 511,
     "cover": true
   },
@@ -6598,8 +6598,8 @@
     "genres": [
       "Philosophy and ideas"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1907",
+    "publishedSort": 1907,
     "rank": 512,
     "cover": true
   },
@@ -6638,8 +6638,8 @@
     "genres": [
       "Short stories"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1906",
+    "publishedSort": 1906,
     "rank": 515,
     "cover": true
   },
@@ -6653,8 +6653,8 @@
       "Science fiction and fantasy",
       "Adventure"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1913",
+    "publishedSort": 1913,
     "rank": 516,
     "cover": true
   },
@@ -6666,8 +6666,8 @@
     "genres": [
       "History and lives"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1894",
+    "publishedSort": 1894,
     "rank": 517,
     "cover": true
   },
@@ -6680,8 +6680,8 @@
       "Novels",
       "Romance"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1898",
+    "publishedSort": 1898,
     "rank": 518,
     "cover": true
   },
@@ -6694,8 +6694,8 @@
       "Novels",
       "Mystery and crime"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1901",
+    "publishedSort": 1901,
     "rank": 519,
     "cover": true
   },
@@ -6707,8 +6707,8 @@
     "genres": [
       "History and lives"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1907",
+    "publishedSort": 1907,
     "rank": 520,
     "cover": true
   },
@@ -6721,8 +6721,8 @@
       "Novels",
       "Romance"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1919",
+    "publishedSort": 1919,
     "rank": 521,
     "cover": true
   },
@@ -6734,8 +6734,8 @@
     "genres": [
       "Philosophy and ideas"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1912",
+    "publishedSort": 1912,
     "rank": 522,
     "cover": true
   },
@@ -6747,8 +6747,8 @@
     "genres": [
       "Short stories"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "c. 1353",
+    "publishedSort": 1353,
     "rank": 523,
     "cover": true
   },
@@ -6760,8 +6760,8 @@
     "genres": [
       "History and lives"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1919",
+    "publishedSort": 1919,
     "rank": 524,
     "cover": true
   },
@@ -6771,8 +6771,8 @@
     "title": "Chess Fundamentals",
     "author": "José Raúl Capablanca",
     "genres": [],
-    "published": null,
-    "publishedSort": null,
+    "published": "1921",
+    "publishedSort": 1921,
     "rank": 525,
     "cover": true
   },
@@ -6784,8 +6784,8 @@
     "genres": [
       "Novels"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1854",
+    "publishedSort": 1854,
     "rank": 526,
     "cover": true
   },
@@ -6798,8 +6798,8 @@
       "Short stories",
       "Science fiction and fantasy"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1839",
+    "publishedSort": 1839,
     "rank": 527,
     "cover": true
   },
@@ -6826,8 +6826,8 @@
       "Philosophy and ideas",
       "History and lives"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "c. 426",
+    "publishedSort": 426,
     "rank": 529,
     "cover": true
   },
@@ -6852,8 +6852,8 @@
     "genres": [
       "Novels"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1532–1564",
+    "publishedSort": 1532,
     "rank": 531,
     "cover": true
   },
@@ -6906,8 +6906,8 @@
       "Science fiction and fantasy",
       "Romance"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1895",
+    "publishedSort": 1895,
     "rank": 535,
     "cover": true
   },
@@ -6920,8 +6920,8 @@
       "Novels",
       "Romance"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1914",
+    "publishedSort": 1914,
     "rank": 536,
     "cover": true
   },
@@ -6935,8 +6935,8 @@
       "Adventure",
       "Romance"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1915",
+    "publishedSort": 1915,
     "rank": 537,
     "cover": true
   },
@@ -6976,8 +6976,8 @@
     "genres": [
       "History and lives"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1900",
+    "publishedSort": 1900,
     "rank": 541,
     "cover": true
   },
@@ -6990,8 +6990,8 @@
       "Novels",
       "Romance"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1914",
+    "publishedSort": 1914,
     "rank": 542,
     "cover": true
   },
@@ -7004,8 +7004,8 @@
       "Novels",
       "Mystery and crime"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1926",
+    "publishedSort": 1926,
     "rank": 543,
     "cover": true
   },
@@ -7018,8 +7018,8 @@
       "Philosophy and ideas",
       "History and lives"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1795",
+    "publishedSort": 1795,
     "rank": 544,
     "cover": true
   },
@@ -7031,8 +7031,8 @@
     "genres": [
       "Children's"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1873",
+    "publishedSort": 1873,
     "rank": 545,
     "cover": true
   },
@@ -7045,8 +7045,8 @@
       "Novels",
       "Mystery and crime"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1920",
+    "publishedSort": 1920,
     "rank": 546,
     "cover": true
   },
@@ -7073,8 +7073,8 @@
       "Novels",
       "Romance"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1886",
+    "publishedSort": 1886,
     "rank": 548,
     "cover": true
   },
@@ -7087,8 +7087,8 @@
       "Novels",
       "Romance"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1890",
+    "publishedSort": 1890,
     "rank": 549,
     "cover": true
   },
@@ -7101,8 +7101,8 @@
       "Poetry",
       "Philosophy and ideas"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "c. 200 BCE",
+    "publishedSort": -200,
     "rank": 550,
     "cover": true
   },
@@ -7114,8 +7114,8 @@
     "genres": [
       "Philosophy and ideas"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1843",
+    "publishedSort": 1843,
     "rank": 551,
     "cover": true
   },
@@ -7127,8 +7127,8 @@
     "genres": [
       "Philosophy and ideas"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1851",
+    "publishedSort": 1851,
     "rank": 552,
     "cover": true
   },
@@ -7140,8 +7140,8 @@
     "genres": [
       "History and lives"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1887",
+    "publishedSort": 1887,
     "rank": 553,
     "cover": true
   },
@@ -7153,8 +7153,8 @@
     "genres": [
       "History and lives"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1906",
+    "publishedSort": 1906,
     "rank": 554,
     "cover": true
   },
@@ -7167,8 +7167,8 @@
       "Novels",
       "Romance"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1911",
+    "publishedSort": 1911,
     "rank": 555,
     "cover": true
   },
@@ -7195,8 +7195,8 @@
     "genres": [
       "History and lives"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1913",
+    "publishedSort": 1913,
     "rank": 557,
     "cover": true
   },
@@ -7221,8 +7221,8 @@
     "genres": [
       "Philosophy and ideas"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "written 1888",
+    "publishedSort": 1888,
     "rank": 559,
     "cover": true
   },
@@ -7249,8 +7249,8 @@
       "Novels",
       "Romance"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1891",
+    "publishedSort": 1891,
     "rank": 561,
     "cover": true
   },
@@ -7264,8 +7264,8 @@
       "Science fiction and fantasy",
       "Mystery and crime"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1960",
+    "publishedSort": 1960,
     "rank": 562,
     "cover": true
   },
@@ -7292,8 +7292,8 @@
     "genres": [
       "History and lives"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "c. 121",
+    "publishedSort": 121,
     "rank": 564,
     "cover": true
   },
@@ -7307,8 +7307,8 @@
       "Adventure",
       "Romance"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1886",
+    "publishedSort": 1886,
     "rank": 565,
     "cover": true
   },
@@ -7320,8 +7320,8 @@
     "genres": [
       "Mystery and crime"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1922",
+    "publishedSort": 1922,
     "rank": 566,
     "cover": true
   },
@@ -7346,8 +7346,8 @@
     "genres": [
       "History and lives"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1895",
+    "publishedSort": 1895,
     "rank": 568,
     "cover": true
   },
@@ -7361,8 +7361,8 @@
       "Science fiction and fantasy",
       "Mystery and crime"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1959",
+    "publishedSort": 1959,
     "rank": 569,
     "cover": true
   },
@@ -7372,8 +7372,8 @@
     "title": "Myths and Legends of Ancient Greece and Rome",
     "author": "E. M. Berens",
     "genres": [],
-    "published": null,
-    "publishedSort": null,
+    "published": "1880",
+    "publishedSort": 1880,
     "rank": 570,
     "cover": true
   },
@@ -7386,8 +7386,8 @@
       "Novels",
       "Science fiction and fantasy"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1865",
+    "publishedSort": 1865,
     "rank": 571,
     "cover": true
   },
@@ -7399,8 +7399,8 @@
     "genres": [
       "Philosophy and ideas"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1908",
+    "publishedSort": 1908,
     "rank": 572,
     "cover": true
   },
@@ -7413,8 +7413,8 @@
       "Novels",
       "Romance"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1901",
+    "publishedSort": 1901,
     "rank": 574,
     "cover": true
   },
@@ -7426,8 +7426,8 @@
     "genres": [
       "History and lives"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1909",
+    "publishedSort": 1909,
     "rank": 575,
     "cover": true
   },
@@ -7462,8 +7462,8 @@
     "title": "The Economic Aspect of Geology",
     "author": "C. K. Leith",
     "genres": [],
-    "published": null,
-    "publishedSort": null,
+    "published": "1921",
+    "publishedSort": 1921,
     "rank": 578,
     "cover": true
   },
@@ -7475,8 +7475,8 @@
     "genres": [
       "Romance"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1884",
+    "publishedSort": 1884,
     "rank": 579,
     "cover": true
   },
@@ -7488,8 +7488,8 @@
     "genres": [
       "Philosophy and ideas"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1869",
+    "publishedSort": 1869,
     "rank": 580,
     "cover": true
   },
@@ -7501,8 +7501,8 @@
     "genres": [
       "History and lives"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1890",
+    "publishedSort": 1890,
     "rank": 581,
     "cover": true
   },
@@ -7514,8 +7514,8 @@
     "genres": [
       "Romance"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1851",
+    "publishedSort": 1851,
     "rank": 582,
     "cover": true
   },
@@ -7529,8 +7529,8 @@
       "Mystery and crime",
       "Adventure"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1919",
+    "publishedSort": 1919,
     "rank": 583,
     "cover": true
   },
@@ -7543,8 +7543,8 @@
       "Poetry",
       "Philosophy and ideas"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "c. 3rd century BCE",
+    "publishedSort": -250,
     "rank": 584,
     "cover": true
   },
@@ -7571,8 +7571,8 @@
       "Philosophy and ideas",
       "History and lives"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1894",
+    "publishedSort": 1894,
     "rank": 586,
     "cover": true
   },
@@ -7598,8 +7598,8 @@
       "Novels",
       "Romance"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1912",
+    "publishedSort": 1912,
     "rank": 588,
     "cover": true
   },
@@ -7611,8 +7611,8 @@
     "genres": [
       "History and lives"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "c. 27 BCE",
+    "publishedSort": -27,
     "rank": 589,
     "cover": true
   },
@@ -7625,8 +7625,8 @@
       "Philosophy and ideas",
       "History and lives"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1920",
+    "publishedSort": 1920,
     "rank": 590,
     "cover": true
   },
@@ -7638,8 +7638,8 @@
     "genres": [
       "Philosophy and ideas"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "c. 399 BCE",
+    "publishedSort": -399,
     "rank": 591,
     "cover": true
   },
@@ -7654,8 +7654,8 @@
       "Science fiction and fantasy",
       "Adventure"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1893",
+    "publishedSort": 1893,
     "rank": 592,
     "cover": true
   },
@@ -7667,8 +7667,8 @@
     "genres": [
       "Novels"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1913",
+    "publishedSort": 1913,
     "rank": 593,
     "cover": true
   },
@@ -7680,8 +7680,8 @@
     "genres": [
       "History and lives"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1884",
+    "publishedSort": 1884,
     "rank": 594,
     "cover": true
   },
@@ -7709,8 +7709,8 @@
       "Science fiction and fantasy",
       "Adventure"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1918",
+    "publishedSort": 1918,
     "rank": 596,
     "cover": true
   },
@@ -7723,8 +7723,8 @@
       "Novels",
       "Romance"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1918",
+    "publishedSort": 1918,
     "rank": 597,
     "cover": true
   },
@@ -7764,8 +7764,8 @@
     "genres": [
       "Novels"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1615",
+    "publishedSort": 1615,
     "rank": 600,
     "cover": true
   },
@@ -7777,8 +7777,8 @@
     "genres": [
       "Philosophy and ideas"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "c. 1420",
+    "publishedSort": 1420,
     "rank": 601,
     "cover": true
   },
@@ -7788,8 +7788,8 @@
     "title": "A Treatise Upon the Law of Copyright in the United Kingdom and the Dominions of the Crown,",
     "author": "Evan James MacGillivray",
     "genres": [],
-    "published": null,
-    "publishedSort": null,
+    "published": "1902",
+    "publishedSort": 1902,
     "rank": 602,
     "cover": true
   },
@@ -7816,8 +7816,8 @@
     "genres": [
       "History and lives"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1791",
+    "publishedSort": 1791,
     "rank": 604,
     "cover": true
   },
@@ -7840,8 +7840,8 @@
     "title": "The Ancient Irish Epic Tale Táin Bó Cúalnge",
     "author": "Joseph Dunn",
     "genres": [],
-    "published": null,
-    "publishedSort": null,
+    "published": "8th century",
+    "publishedSort": 750,
     "rank": 606,
     "cover": true
   },
@@ -7867,8 +7867,8 @@
       "Philosophy and ideas",
       "History and lives"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1914",
+    "publishedSort": 1914,
     "rank": 608,
     "cover": true
   },
@@ -7882,8 +7882,8 @@
       "Adventure",
       "Romance"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1909",
+    "publishedSort": 1909,
     "rank": 609,
     "cover": true
   },
@@ -7895,8 +7895,8 @@
     "genres": [
       "Plays"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1904",
+    "publishedSort": 1904,
     "rank": 610,
     "cover": true
   },
@@ -7906,8 +7906,8 @@
     "title": "The Horsewoman",
     "author": "Alice M. Hayes",
     "genres": [],
-    "published": null,
-    "publishedSort": null,
+    "published": "1893",
+    "publishedSort": 1893,
     "rank": 611,
     "cover": true
   },
@@ -7917,8 +7917,8 @@
     "title": "Color Images from Mars Rovers",
     "author": "Bob Webster",
     "genres": [],
-    "published": null,
-    "publishedSort": null,
+    "published": "2004",
+    "publishedSort": 2004,
     "rank": 612,
     "cover": true
   },
@@ -7945,8 +7945,8 @@
       "Novels",
       "Mystery and crime"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1988",
+    "publishedSort": 1988,
     "rank": 614,
     "cover": true
   },
@@ -7956,8 +7956,8 @@
     "title": "The Book of Household Management",
     "author": "Mrs. Beeton",
     "genres": [],
-    "published": null,
-    "publishedSort": null,
+    "published": "1861",
+    "publishedSort": 1861,
     "rank": 615,
     "cover": true
   },
@@ -7967,8 +7967,8 @@
     "title": "An Introduction to Entomology",
     "author": "William Kirby",
     "genres": [],
-    "published": null,
-    "publishedSort": null,
+    "published": "1826",
+    "publishedSort": 1826,
     "rank": 616,
     "cover": true
   },
@@ -7980,8 +7980,8 @@
     "genres": [
       "Short stories"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1922",
+    "publishedSort": 1922,
     "rank": 617,
     "cover": true
   },
@@ -8007,8 +8007,8 @@
       "Philosophy and ideas",
       "History and lives"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1923",
+    "publishedSort": 1923,
     "rank": 619,
     "cover": true
   },
@@ -8020,8 +8020,8 @@
     "genres": [
       "Philosophy and ideas"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1818",
+    "publishedSort": 1818,
     "rank": 620,
     "cover": true
   },
@@ -8031,8 +8031,8 @@
     "title": "The History of Human Marriage",
     "author": "Edward Westermarck",
     "genres": [],
-    "published": null,
-    "publishedSort": null,
+    "published": "1891",
+    "publishedSort": 1891,
     "rank": 621,
     "cover": true
   },
@@ -8045,8 +8045,8 @@
       "Science fiction and fantasy",
       "Mystery and crime"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1960",
+    "publishedSort": 1960,
     "rank": 622,
     "cover": true
   },
@@ -8059,8 +8059,8 @@
       "Plays",
       "Philosophy and ideas"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1880",
+    "publishedSort": 1880,
     "rank": 623,
     "cover": true
   },
@@ -8074,8 +8074,8 @@
       "Adventure",
       "Romance"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1875",
+    "publishedSort": 1875,
     "rank": 624,
     "cover": true
   },
@@ -8090,8 +8090,8 @@
       "Science fiction and fantasy",
       "Adventure"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1927",
+    "publishedSort": 1927,
     "rank": 625,
     "cover": true
   },
@@ -8104,8 +8104,8 @@
       "Novels",
       "Mystery and crime"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "2000",
+    "publishedSort": 2000,
     "rank": 626,
     "cover": true
   },
@@ -8133,8 +8133,8 @@
       "Science fiction and fantasy",
       "Adventure"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1916",
+    "publishedSort": 1916,
     "rank": 628,
     "cover": true
   },
@@ -8147,8 +8147,8 @@
       "Novels",
       "Romance"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1898",
+    "publishedSort": 1898,
     "rank": 629,
     "cover": true
   },
@@ -8158,8 +8158,8 @@
     "title": "Science in the Kitchen",
     "author": "E. E. Kellogg",
     "genres": [],
-    "published": null,
-    "publishedSort": null,
+    "published": "1892",
+    "publishedSort": 1892,
     "rank": 630,
     "cover": true
   },
@@ -8171,8 +8171,8 @@
     "genres": [
       "Plays"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1623",
+    "publishedSort": 1623,
     "rank": 631,
     "cover": true
   },
@@ -8184,8 +8184,8 @@
     "genres": [
       "Children's"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1890",
+    "publishedSort": 1890,
     "rank": 632,
     "cover": true
   },
@@ -8197,8 +8197,8 @@
     "genres": [
       "Philosophy and ideas"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1665",
+    "publishedSort": 1665,
     "rank": 633,
     "cover": true
   },
@@ -8224,8 +8224,8 @@
       "Philosophy and ideas",
       "History and lives"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1817",
+    "publishedSort": 1817,
     "rank": 635,
     "cover": true
   },
@@ -8237,8 +8237,8 @@
     "genres": [
       "Romance"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1872",
+    "publishedSort": 1872,
     "rank": 636,
     "cover": true
   },
@@ -8251,8 +8251,8 @@
       "Novels",
       "Romance"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1897",
+    "publishedSort": 1897,
     "rank": 637,
     "cover": true
   },
@@ -8265,8 +8265,8 @@
       "Science fiction and fantasy",
       "Adventure"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1936",
+    "publishedSort": 1936,
     "rank": 638,
     "cover": true
   },
@@ -8302,8 +8302,8 @@
     "title": "The Practice and Science of Drawing",
     "author": "Harold Speed",
     "genres": [],
-    "published": null,
-    "publishedSort": null,
+    "published": "1913",
+    "publishedSort": 1913,
     "rank": 641,
     "cover": true
   },
@@ -8315,8 +8315,8 @@
     "genres": [
       "Romance"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1863",
+    "publishedSort": 1863,
     "rank": 642,
     "cover": true
   },
@@ -8328,8 +8328,8 @@
     "genres": [
       "History and lives"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1550",
+    "publishedSort": 1550,
     "rank": 643,
     "cover": true
   },
@@ -8342,8 +8342,8 @@
       "Novels",
       "Mystery and crime"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1838",
+    "publishedSort": 1838,
     "rank": 644,
     "cover": true
   },
@@ -8353,8 +8353,8 @@
     "title": "Amusements in Mathematics",
     "author": "Henry Ernest Dudeney",
     "genres": [],
-    "published": null,
-    "publishedSort": null,
+    "published": "1917",
+    "publishedSort": 1917,
     "rank": 645,
     "cover": true
   },
@@ -8366,8 +8366,8 @@
     "genres": [
       "Philosophy and ideas"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1790",
+    "publishedSort": 1790,
     "rank": 647,
     "cover": true
   },
@@ -8379,8 +8379,8 @@
     "genres": [
       "Romance"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1843",
+    "publishedSort": 1843,
     "rank": 648,
     "cover": true
   },
@@ -8392,8 +8392,8 @@
     "genres": [
       "History and lives"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1890",
+    "publishedSort": 1890,
     "rank": 649,
     "cover": true
   },
@@ -8405,8 +8405,8 @@
     "genres": [
       "Philosophy and ideas"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1948",
+    "publishedSort": 1948,
     "rank": 650,
     "cover": true
   },
@@ -8416,8 +8416,8 @@
     "title": "A Treatise on Domestic Economy",
     "author": "Catharine Esther Beecher",
     "genres": [],
-    "published": null,
-    "publishedSort": null,
+    "published": "1841",
+    "publishedSort": 1841,
     "rank": 651,
     "cover": true
   },
@@ -8429,8 +8429,8 @@
     "genres": [
       "Plays"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1916",
+    "publishedSort": 1916,
     "rank": 652,
     "cover": true
   },
@@ -8444,8 +8444,8 @@
       "Children's",
       "Science fiction and fantasy"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1859",
+    "publishedSort": 1859,
     "rank": 653,
     "cover": true
   },
@@ -8457,8 +8457,8 @@
     "genres": [
       "History and lives"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1841",
+    "publishedSort": 1841,
     "rank": 654,
     "cover": true
   },
@@ -8473,8 +8473,8 @@
       "Mystery and crime",
       "Adventure"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1919",
+    "publishedSort": 1919,
     "rank": 655,
     "cover": true
   },
@@ -8486,8 +8486,8 @@
     "genres": [
       "History and lives"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1791",
+    "publishedSort": 1791,
     "rank": 656,
     "cover": true
   },
@@ -8514,8 +8514,8 @@
       "Philosophy and ideas",
       "History and lives"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1911",
+    "publishedSort": 1911,
     "rank": 658,
     "cover": true
   },
@@ -8540,8 +8540,8 @@
     "genres": [
       "Philosophy and ideas"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1882",
+    "publishedSort": 1882,
     "rank": 660,
     "cover": true
   },
@@ -8553,8 +8553,8 @@
     "genres": [
       "Children's"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1910",
+    "publishedSort": 1910,
     "rank": 661,
     "cover": true
   },
@@ -8580,8 +8580,8 @@
       "Science fiction and fantasy",
       "Adventure"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1956",
+    "publishedSort": 1956,
     "rank": 663,
     "cover": true
   },
@@ -8595,8 +8595,8 @@
       "Science fiction and fantasy",
       "Adventure"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1925",
+    "publishedSort": 1925,
     "rank": 664,
     "cover": true
   },
@@ -8608,8 +8608,8 @@
     "genres": [
       "History and lives"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1907",
+    "publishedSort": 1907,
     "rank": 665,
     "cover": true
   },
@@ -8619,8 +8619,8 @@
     "title": "The Younger Edda",
     "author": "Snorri Sturluson",
     "genres": [],
-    "published": null,
-    "publishedSort": null,
+    "published": "c. 1220",
+    "publishedSort": 1220,
     "rank": 666,
     "cover": true
   },
@@ -8645,8 +8645,8 @@
     "genres": [
       "History and lives"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1880",
+    "publishedSort": 1880,
     "rank": 669,
     "cover": true
   },
@@ -8658,8 +8658,8 @@
     "genres": [
       "History and lives"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "731",
+    "publishedSort": 731,
     "rank": 670,
     "cover": true
   },
@@ -8671,8 +8671,8 @@
     "genres": [
       "History and lives"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "written 1630–1651",
+    "publishedSort": 1630,
     "rank": 671,
     "cover": true
   },
@@ -8684,8 +8684,8 @@
     "genres": [
       "Children's"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1919",
+    "publishedSort": 1919,
     "rank": 672,
     "cover": true
   },
@@ -8698,8 +8698,8 @@
       "Philosophy and ideas",
       "History and lives"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1896",
+    "publishedSort": 1896,
     "rank": 673,
     "cover": true
   },
@@ -8712,8 +8712,8 @@
       "Science fiction and fantasy",
       "Adventure"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1936",
+    "publishedSort": 1936,
     "rank": 674,
     "cover": true
   },
@@ -8754,8 +8754,8 @@
       "Science fiction and fantasy",
       "Adventure"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1877",
+    "publishedSort": 1877,
     "rank": 677,
     "cover": true
   },
@@ -8767,8 +8767,8 @@
     "genres": [
       "History and lives"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1865",
+    "publishedSort": 1865,
     "rank": 678,
     "cover": true
   },
@@ -8794,8 +8794,8 @@
       "Novels",
       "Mystery and crime"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1898",
+    "publishedSort": 1898,
     "rank": 680,
     "cover": true
   },
@@ -8807,8 +8807,8 @@
     "genres": [
       "History and lives"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "c. 1530",
+    "publishedSort": 1530,
     "rank": 681,
     "cover": true
   },
@@ -8822,8 +8822,8 @@
       "Romance",
       "Philosophy and ideas"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "c. 1385",
+    "publishedSort": 1385,
     "rank": 682,
     "cover": true
   },
@@ -8836,8 +8836,8 @@
       "Poetry",
       "Philosophy and ideas"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1912",
+    "publishedSort": 1912,
     "rank": 683,
     "cover": true
   },
@@ -8849,8 +8849,8 @@
     "genres": [
       "Plays"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "5th century BCE",
+    "publishedSort": -440,
     "rank": 684,
     "cover": true
   },
@@ -8875,8 +8875,8 @@
     "genres": [
       "Short stories"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1842",
+    "publishedSort": 1842,
     "rank": 686,
     "cover": true
   },
@@ -8890,8 +8890,8 @@
       "Mystery and crime",
       "Adventure"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1919",
+    "publishedSort": 1919,
     "rank": 687,
     "cover": true
   },
@@ -8930,8 +8930,8 @@
     "genres": [
       "Adventure"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1907",
+    "publishedSort": 1907,
     "rank": 690,
     "cover": true
   },
@@ -8943,8 +8943,8 @@
     "genres": [
       "Children's"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1922",
+    "publishedSort": 1922,
     "rank": 691,
     "cover": true
   },
@@ -8956,8 +8956,8 @@
     "genres": [
       "History and lives"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1563",
+    "publishedSort": 1563,
     "rank": 692,
     "cover": true
   },
@@ -8971,8 +8971,8 @@
       "Science fiction and fantasy",
       "Mystery and crime"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1957",
+    "publishedSort": 1957,
     "rank": 693,
     "cover": true
   },
@@ -8999,8 +8999,8 @@
       "Science fiction and fantasy",
       "Adventure"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1924",
+    "publishedSort": 1924,
     "rank": 695,
     "cover": true
   },
@@ -9026,8 +9026,8 @@
       "Philosophy and ideas",
       "History and lives"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1531",
+    "publishedSort": 1531,
     "rank": 697,
     "cover": true
   },
@@ -9040,8 +9040,8 @@
       "Philosophy and ideas",
       "History and lives"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1914",
+    "publishedSort": 1914,
     "rank": 698,
     "cover": true
   },
@@ -9054,8 +9054,8 @@
       "Novels",
       "History and lives"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1929",
+    "publishedSort": 1929,
     "rank": 700,
     "cover": true
   },
@@ -9068,8 +9068,8 @@
       "Novels",
       "Philosophy and ideas"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "c. 6th century",
+    "publishedSort": 550,
     "rank": 701,
     "cover": true
   },
@@ -9079,8 +9079,8 @@
     "title": "The Thousand and One Nights, Vol. I.",
     "author": "Edward William Lane",
     "genres": [],
-    "published": null,
-    "publishedSort": null,
+    "published": "9th century",
+    "publishedSort": 850,
     "rank": 702,
     "cover": true
   },
@@ -9094,8 +9094,8 @@
       "Mystery and crime",
       "Adventure"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1948",
+    "publishedSort": 1948,
     "rank": 703,
     "cover": true
   },
@@ -9107,8 +9107,8 @@
     "genres": [
       "Philosophy and ideas"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1922",
+    "publishedSort": 1922,
     "rank": 704,
     "cover": true
   },
@@ -9132,8 +9132,8 @@
     "title": "The Chemical History of a Candle",
     "author": "Michael Faraday",
     "genres": [],
-    "published": null,
-    "publishedSort": null,
+    "published": "1861",
+    "publishedSort": 1861,
     "rank": 706,
     "cover": true
   },
@@ -9143,8 +9143,8 @@
     "title": "Opticks",
     "author": "Isaac Newton",
     "genres": [],
-    "published": null,
-    "publishedSort": null,
+    "published": "1704",
+    "publishedSort": 1704,
     "rank": 707,
     "cover": true
   },
@@ -9156,8 +9156,8 @@
     "genres": [
       "Philosophy and ideas"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1915",
+    "publishedSort": 1915,
     "rank": 708,
     "cover": true
   },
@@ -9169,8 +9169,8 @@
     "genres": [
       "Philosophy and ideas"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1758",
+    "publishedSort": 1758,
     "rank": 709,
     "cover": true
   },
@@ -9184,8 +9184,8 @@
       "Science fiction and fantasy",
       "Adventure"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1930",
+    "publishedSort": 1930,
     "rank": 710,
     "cover": true
   },
@@ -9199,8 +9199,8 @@
       "Science fiction and fantasy",
       "Adventure"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1929",
+    "publishedSort": 1929,
     "rank": 711,
     "cover": true
   },
@@ -9212,8 +9212,8 @@
     "genres": [
       "Philosophy and ideas"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "45 BCE",
+    "publishedSort": -45,
     "rank": 712,
     "cover": true
   },
@@ -9227,8 +9227,8 @@
       "Adventure",
       "Romance"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1919",
+    "publishedSort": 1919,
     "rank": 713,
     "cover": true
   },
@@ -9241,8 +9241,8 @@
       "Novels",
       "Romance"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1914",
+    "publishedSort": 1914,
     "rank": 714,
     "cover": true
   },
@@ -9254,8 +9254,8 @@
     "genres": [
       "History and lives"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1874",
+    "publishedSort": 1874,
     "rank": 715,
     "cover": true
   },
@@ -9283,8 +9283,8 @@
       "Science fiction and fantasy",
       "Adventure"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1934",
+    "publishedSort": 1934,
     "rank": 717,
     "cover": true
   },
@@ -9310,8 +9310,8 @@
       "Children's",
       "Adventure"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1889",
+    "publishedSort": 1889,
     "rank": 719,
     "cover": true
   },
@@ -9321,8 +9321,8 @@
     "title": "Fossil Plants, Vol. 2",
     "author": "A. C. Seward",
     "genres": [],
-    "published": null,
-    "publishedSort": null,
+    "published": "1910",
+    "publishedSort": 1910,
     "rank": 720,
     "cover": true
   },
@@ -9349,8 +9349,8 @@
       "Science fiction and fantasy",
       "Adventure"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1954",
+    "publishedSort": 1954,
     "rank": 722,
     "cover": true
   },
@@ -9363,8 +9363,8 @@
       "Philosophy and ideas",
       "History and lives"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1907",
+    "publishedSort": 1907,
     "rank": 723,
     "cover": true
   },
@@ -9376,8 +9376,8 @@
     "genres": [
       "History and lives"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1894",
+    "publishedSort": 1894,
     "rank": 724,
     "cover": true
   },
@@ -9391,8 +9391,8 @@
       "Science fiction and fantasy",
       "Mystery and crime"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1899",
+    "publishedSort": 1899,
     "rank": 725,
     "cover": true
   },
@@ -9407,8 +9407,8 @@
       "Mystery and crime",
       "Adventure"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1915",
+    "publishedSort": 1915,
     "rank": 726,
     "cover": true
   },
@@ -9421,8 +9421,8 @@
       "Short stories",
       "Science fiction and fantasy"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1928",
+    "publishedSort": 1928,
     "rank": 727,
     "cover": true
   },
@@ -9434,8 +9434,8 @@
     "genres": [
       "Philosophy and ideas"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1620",
+    "publishedSort": 1620,
     "rank": 728,
     "cover": true
   },
@@ -9448,8 +9448,8 @@
       "Novels",
       "Romance"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1871",
+    "publishedSort": 1871,
     "rank": 729,
     "cover": true
   },
@@ -9459,8 +9459,8 @@
     "title": "The Theory of the Leisure Class",
     "author": "Thorstein Veblen",
     "genres": [],
-    "published": null,
-    "publishedSort": null,
+    "published": "1899",
+    "publishedSort": 1899,
     "rank": 730,
     "cover": true
   },
@@ -9474,8 +9474,8 @@
       "Science fiction and fantasy",
       "Adventure"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1931",
+    "publishedSort": 1931,
     "rank": 731,
     "cover": true
   },
@@ -9489,8 +9489,8 @@
       "Mystery and crime",
       "Adventure"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1928",
+    "publishedSort": 1928,
     "rank": 732,
     "cover": true
   },
@@ -9517,8 +9517,8 @@
       "Novels",
       "Mystery and crime"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1929",
+    "publishedSort": 1929,
     "rank": 734,
     "cover": true
   },
@@ -9530,8 +9530,8 @@
     "genres": [
       "History and lives"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1798",
+    "publishedSort": 1798,
     "rank": 735,
     "cover": true
   },
@@ -9557,8 +9557,8 @@
       "Children's",
       "Adventure"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1891",
+    "publishedSort": 1891,
     "rank": 737,
     "cover": true
   },
@@ -9571,8 +9571,8 @@
       "Science fiction and fantasy",
       "Adventure"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1960",
+    "publishedSort": 1960,
     "rank": 738,
     "cover": true
   },
@@ -9582,8 +9582,8 @@
     "title": "Argonauts of the Western Pacific",
     "author": "Bronislaw Malinowski",
     "genres": [],
-    "published": null,
-    "publishedSort": null,
+    "published": "1922",
+    "publishedSort": 1922,
     "rank": 739,
     "cover": true
   },
@@ -9626,8 +9626,8 @@
       "Adventure",
       "Romance"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1813",
+    "publishedSort": 1813,
     "rank": 742,
     "cover": true
   },
@@ -9640,8 +9640,8 @@
       "Philosophy and ideas",
       "History and lives"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1782",
+    "publishedSort": 1782,
     "rank": 743,
     "cover": true
   },
@@ -9655,8 +9655,8 @@
       "Mystery and crime",
       "Adventure"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1916",
+    "publishedSort": 1916,
     "rank": 744,
     "cover": true
   },
@@ -9669,8 +9669,8 @@
       "Short stories",
       "Mystery and crime"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1932",
+    "publishedSort": 1932,
     "rank": 745,
     "cover": true
   },
@@ -9680,8 +9680,8 @@
     "title": "The Manual of the Botany of the Northern United States",
     "author": "Asa Gray",
     "genres": [],
-    "published": null,
-    "publishedSort": null,
+    "published": "1848",
+    "publishedSort": 1848,
     "rank": 746,
     "cover": true
   },
@@ -9695,8 +9695,8 @@
       "Mystery and crime",
       "Adventure"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1926",
+    "publishedSort": 1926,
     "rank": 747,
     "cover": true
   },
@@ -9709,8 +9709,8 @@
       "Philosophy and ideas",
       "History and lives"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "c. 100",
+    "publishedSort": 100,
     "rank": 748,
     "cover": true
   },
@@ -9723,8 +9723,8 @@
       "Short stories",
       "Mystery and crime"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1937",
+    "publishedSort": 1937,
     "rank": 749,
     "cover": true
   },
@@ -9737,8 +9737,8 @@
       "Short stories",
       "Mystery and crime"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1923",
+    "publishedSort": 1923,
     "rank": 750,
     "cover": true
   },
@@ -9752,8 +9752,8 @@
       "Science fiction and fantasy",
       "Adventure"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1923",
+    "publishedSort": 1923,
     "rank": 751,
     "cover": true
   },
@@ -9767,8 +9767,8 @@
       "Science fiction and fantasy",
       "Adventure"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1963",
+    "publishedSort": 1963,
     "rank": 752,
     "cover": true
   },
@@ -9781,8 +9781,8 @@
       "Novels",
       "Mystery and crime"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1924",
+    "publishedSort": 1924,
     "rank": 753,
     "cover": true
   },
@@ -9808,8 +9808,8 @@
       "Philosophy and ideas",
       "History and lives"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1536",
+    "publishedSort": 1536,
     "rank": 755,
     "cover": true
   },
@@ -9836,8 +9836,8 @@
       "Science fiction and fantasy",
       "Adventure"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1935",
+    "publishedSort": 1935,
     "rank": 757,
     "cover": true
   },
@@ -9849,8 +9849,8 @@
     "genres": [
       "History and lives"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "written 1825–1832",
+    "publishedSort": 1825,
     "rank": 758,
     "cover": true
   },
@@ -9891,8 +9891,8 @@
       "Novels",
       "Mystery and crime"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1921",
+    "publishedSort": 1921,
     "rank": 761,
     "cover": true
   },
@@ -9918,8 +9918,8 @@
     "genres": [
       "History and lives"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1912",
+    "publishedSort": 1912,
     "rank": 763,
     "cover": true
   },
@@ -9932,8 +9932,8 @@
       "Short stories",
       "Science fiction and fantasy"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1949",
+    "publishedSort": 1949,
     "rank": 764,
     "cover": true
   },
@@ -9960,8 +9960,8 @@
       "Mystery and crime",
       "Adventure"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1909",
+    "publishedSort": 1909,
     "rank": 766,
     "cover": true
   },
@@ -9975,8 +9975,8 @@
       "Mystery and crime",
       "Adventure"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1929",
+    "publishedSort": 1929,
     "rank": 767,
     "cover": true
   },
@@ -10014,8 +10014,8 @@
     "genres": [
       "History and lives"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1911",
+    "publishedSort": 1911,
     "rank": 770,
     "cover": true
   },
@@ -10027,8 +10027,8 @@
     "genres": [
       "History and lives"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1954",
+    "publishedSort": 1954,
     "rank": 771,
     "cover": true
   },
@@ -10040,8 +10040,8 @@
     "genres": [
       "Philosophy and ideas"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1692",
+    "publishedSort": 1692,
     "rank": 772,
     "cover": true
   },
@@ -10054,8 +10054,8 @@
       "Philosophy and ideas",
       "History and lives"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1896",
+    "publishedSort": 1896,
     "rank": 773,
     "cover": true
   },
@@ -10067,8 +10067,8 @@
     "genres": [
       "History and lives"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1915",
+    "publishedSort": 1915,
     "rank": 774,
     "cover": true
   },
@@ -10081,8 +10081,8 @@
       "Novels",
       "Mystery and crime"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1924",
+    "publishedSort": 1924,
     "rank": 775,
     "cover": true
   },
@@ -10095,8 +10095,8 @@
       "Novels",
       "Mystery and crime"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1928",
+    "publishedSort": 1928,
     "rank": 776,
     "cover": true
   },
@@ -10109,8 +10109,8 @@
       "Short stories",
       "Mystery and crime"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1929",
+    "publishedSort": 1929,
     "rank": 777,
     "cover": true
   },
@@ -10123,8 +10123,8 @@
       "Short stories",
       "Science fiction and fantasy"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1937",
+    "publishedSort": 1937,
     "rank": 778,
     "cover": true
   },
@@ -10136,8 +10136,8 @@
     "genres": [
       "History and lives"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1903",
+    "publishedSort": 1903,
     "rank": 779,
     "cover": true
   },
@@ -10150,8 +10150,8 @@
       "Novels",
       "Children's"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1911",
+    "publishedSort": 1911,
     "rank": 780,
     "cover": true
   },
@@ -10164,8 +10164,8 @@
       "Short stories",
       "Science fiction and fantasy"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1937",
+    "publishedSort": 1937,
     "rank": 781,
     "cover": true
   },
@@ -10178,8 +10178,8 @@
       "Plays",
       "Science fiction and fantasy"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1917",
+    "publishedSort": 1917,
     "rank": 782,
     "cover": true
   },
@@ -10193,8 +10193,8 @@
       "Philosophy and ideas",
       "History and lives"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1892",
+    "publishedSort": 1892,
     "rank": 783,
     "cover": true
   },
@@ -10208,8 +10208,8 @@
       "Science fiction and fantasy",
       "Adventure"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1959",
+    "publishedSort": 1959,
     "rank": 784,
     "cover": true
   },
@@ -10222,8 +10222,8 @@
       "Novels",
       "Mystery and crime"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1860",
+    "publishedSort": 1860,
     "rank": 785,
     "cover": true
   },
@@ -10248,8 +10248,8 @@
     "genres": [
       "Novels"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1860",
+    "publishedSort": 1860,
     "rank": 787,
     "cover": true
   },
@@ -10262,8 +10262,8 @@
       "Short stories",
       "Mystery and crime"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1919",
+    "publishedSort": 1919,
     "rank": 788,
     "cover": true
   },
@@ -10277,8 +10277,8 @@
       "Science fiction and fantasy",
       "Adventure"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1929",
+    "publishedSort": 1929,
     "rank": 789,
     "cover": true
   },
@@ -10290,8 +10290,8 @@
     "genres": [
       "Philosophy and ideas"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1625",
+    "publishedSort": 1625,
     "rank": 790,
     "cover": true
   },
@@ -10317,8 +10317,8 @@
     "genres": [
       "History and lives"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "c. 400",
+    "publishedSort": 400,
     "rank": 792,
     "cover": true
   },
@@ -10331,8 +10331,8 @@
       "Novels",
       "Mystery and crime"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1911",
+    "publishedSort": 1911,
     "rank": 793,
     "cover": true
   },
@@ -10346,8 +10346,8 @@
       "Science fiction and fantasy",
       "Adventure"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1931",
+    "publishedSort": 1931,
     "rank": 794,
     "cover": true
   },
@@ -10360,8 +10360,8 @@
       "Novels",
       "Mystery and crime"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1922",
+    "publishedSort": 1922,
     "rank": 795,
     "cover": true
   },
@@ -10373,8 +10373,8 @@
     "genres": [
       "History and lives"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "written c. 1590",
+    "publishedSort": 1590,
     "rank": 796,
     "cover": true
   },
@@ -10386,8 +10386,8 @@
     "genres": [
       "Philosophy and ideas"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1861",
+    "publishedSort": 1861,
     "rank": 797,
     "cover": true
   },
@@ -10399,8 +10399,8 @@
     "genres": [
       "History and lives"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1883",
+    "publishedSort": 1883,
     "rank": 798,
     "cover": true
   },
@@ -10414,8 +10414,8 @@
       "Mystery and crime",
       "Romance"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1873",
+    "publishedSort": 1873,
     "rank": 799,
     "cover": true
   },
@@ -10429,8 +10429,8 @@
       "Mystery and crime",
       "Adventure"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1948",
+    "publishedSort": 1948,
     "rank": 800,
     "cover": true
   },
@@ -10443,8 +10443,8 @@
       "Short stories",
       "Children's"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1908",
+    "publishedSort": 1908,
     "rank": 801,
     "cover": true
   },
@@ -10457,8 +10457,8 @@
       "Novels",
       "Mystery and crime"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1926",
+    "publishedSort": 1926,
     "rank": 802,
     "cover": true
   },
@@ -10470,8 +10470,8 @@
     "genres": [
       "Philosophy and ideas"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1866",
+    "publishedSort": 1866,
     "rank": 803,
     "cover": true
   },
@@ -10498,8 +10498,8 @@
       "Novels",
       "Mystery and crime"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1929",
+    "publishedSort": 1929,
     "rank": 805,
     "cover": true
   },
@@ -10513,8 +10513,8 @@
       "Science fiction and fantasy",
       "Adventure"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1930",
+    "publishedSort": 1930,
     "rank": 806,
     "cover": true
   },
@@ -10527,8 +10527,8 @@
       "Novels",
       "Science fiction and fantasy"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1903",
+    "publishedSort": 1903,
     "rank": 807,
     "cover": true
   },
@@ -10556,8 +10556,8 @@
       "Novels",
       "Mystery and crime"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1927",
+    "publishedSort": 1927,
     "rank": 809,
     "cover": true
   },
@@ -10569,8 +10569,8 @@
     "genres": [
       "Philosophy and ideas"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1899",
+    "publishedSort": 1899,
     "rank": 810,
     "cover": true
   },
@@ -10585,8 +10585,8 @@
       "Mystery and crime",
       "Adventure"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1905",
+    "publishedSort": 1905,
     "rank": 811,
     "cover": true
   },
@@ -10599,8 +10599,8 @@
       "Novels",
       "Mystery and crime"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1925",
+    "publishedSort": 1925,
     "rank": 812,
     "cover": true
   },
@@ -10616,8 +10616,8 @@
       "Romance",
       "Philosophy and ideas"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1886",
+    "publishedSort": 1886,
     "rank": 813,
     "cover": true
   },
@@ -10630,8 +10630,8 @@
       "Short stories",
       "Mystery and crime"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1929",
+    "publishedSort": 1929,
     "rank": 814,
     "cover": true
   },
@@ -10643,8 +10643,8 @@
     "genres": [
       "History and lives"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1906",
+    "publishedSort": 1906,
     "rank": 815,
     "cover": true
   },
@@ -10657,8 +10657,8 @@
       "Novels",
       "Mystery and crime"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1920",
+    "publishedSort": 1920,
     "rank": 816,
     "cover": true
   },
@@ -10672,8 +10672,8 @@
       "Science fiction and fantasy",
       "Adventure"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1931",
+    "publishedSort": 1931,
     "rank": 817,
     "cover": true
   },
@@ -10687,8 +10687,8 @@
       "Children's",
       "Mystery and crime"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1921",
+    "publishedSort": 1921,
     "rank": 818,
     "cover": true
   },
@@ -10702,8 +10702,8 @@
       "Mystery and crime",
       "Romance"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1931",
+    "publishedSort": 1931,
     "rank": 819,
     "cover": true
   },
@@ -10716,8 +10716,8 @@
       "Poetry",
       "Children's"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1885",
+    "publishedSort": 1885,
     "rank": 820,
     "cover": true
   },
@@ -10729,8 +10729,8 @@
     "genres": [
       "Poetry"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1820",
+    "publishedSort": 1820,
     "rank": 821,
     "cover": true
   },
@@ -10742,8 +10742,8 @@
     "genres": [
       "Plays"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "431 BCE",
+    "publishedSort": -431,
     "rank": 822,
     "cover": true
   },
@@ -10757,8 +10757,8 @@
       "Adventure",
       "History and lives"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "written 1804–06",
+    "publishedSort": 1804,
     "rank": 823,
     "cover": true
   },
@@ -10771,8 +10771,8 @@
       "Short stories",
       "Mystery and crime"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1925",
+    "publishedSort": 1925,
     "rank": 824,
     "cover": true
   },
@@ -10785,8 +10785,8 @@
       "Plays",
       "History and lives"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1528",
+    "publishedSort": 1528,
     "rank": 825,
     "cover": true
   },
@@ -10800,8 +10800,8 @@
       "Science fiction and fantasy",
       "Romance"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1905",
+    "publishedSort": 1905,
     "rank": 826,
     "cover": true
   },
@@ -10815,8 +10815,8 @@
       "Mystery and crime",
       "Adventure"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1929",
+    "publishedSort": 1929,
     "rank": 827,
     "cover": true
   },
@@ -10829,8 +10829,8 @@
       "Novels",
       "Mystery and crime"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1917",
+    "publishedSort": 1917,
     "rank": 828,
     "cover": true
   },
@@ -10844,8 +10844,8 @@
       "Science fiction and fantasy",
       "Adventure"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1934",
+    "publishedSort": 1934,
     "rank": 829,
     "cover": true
   },
@@ -10858,8 +10858,8 @@
       "Novels",
       "Mystery and crime"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1924",
+    "publishedSort": 1924,
     "rank": 830,
     "cover": true
   },
@@ -10872,8 +10872,8 @@
       "Novels",
       "Science fiction and fantasy"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1905",
+    "publishedSort": 1905,
     "rank": 831,
     "cover": true
   },
@@ -10900,8 +10900,8 @@
       "Mystery and crime",
       "Adventure"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1948",
+    "publishedSort": 1948,
     "rank": 833,
     "cover": true
   },
@@ -10911,8 +10911,8 @@
     "title": "Palmistry for All",
     "author": "Cheiro",
     "genres": [],
-    "published": null,
-    "publishedSort": null,
+    "published": "1916",
+    "publishedSort": 1916,
     "rank": 834,
     "cover": true
   },
@@ -10925,8 +10925,8 @@
       "Novels",
       "Mystery and crime"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1926",
+    "publishedSort": 1926,
     "rank": 835,
     "cover": true
   },
@@ -10938,8 +10938,8 @@
     "genres": [
       "Poetry"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1916",
+    "publishedSort": 1916,
     "rank": 836,
     "cover": true
   },
@@ -10980,8 +10980,8 @@
       "Novels",
       "Adventure"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1912",
+    "publishedSort": 1912,
     "rank": 839,
     "cover": true
   },
@@ -10994,8 +10994,8 @@
       "Novels",
       "Mystery and crime"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1929",
+    "publishedSort": 1929,
     "rank": 840,
     "cover": true
   },
@@ -11005,8 +11005,8 @@
     "title": "The Psychology of Singing",
     "author": "David C. Taylor",
     "genres": [],
-    "published": null,
-    "publishedSort": null,
+    "published": "1908",
+    "publishedSort": 1908,
     "rank": 841,
     "cover": true
   },
@@ -11018,8 +11018,8 @@
     "genres": [
       "Novels"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "c. 60",
+    "publishedSort": 60,
     "rank": 842,
     "cover": true
   },
@@ -11031,8 +11031,8 @@
     "genres": [
       "History and lives"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1896",
+    "publishedSort": 1896,
     "rank": 843,
     "cover": true
   },
@@ -11045,8 +11045,8 @@
       "Short stories",
       "Science fiction and fantasy"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1949",
+    "publishedSort": 1949,
     "rank": 844,
     "cover": true
   },
@@ -11059,8 +11059,8 @@
       "Novels",
       "Mystery and crime"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1891",
+    "publishedSort": 1891,
     "rank": 845,
     "cover": true
   },
@@ -11074,8 +11074,8 @@
       "Philosophy and ideas",
       "History and lives"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1895",
+    "publishedSort": 1895,
     "rank": 846,
     "cover": true
   },
@@ -11089,8 +11089,8 @@
       "Science fiction and fantasy",
       "Mystery and crime"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1963",
+    "publishedSort": 1963,
     "rank": 847,
     "cover": true
   },
@@ -11102,8 +11102,8 @@
     "genres": [
       "History and lives"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "c. 1525",
+    "publishedSort": 1525,
     "rank": 848,
     "cover": true
   },
@@ -11116,8 +11116,8 @@
       "Short stories",
       "Mystery and crime"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1928",
+    "publishedSort": 1928,
     "rank": 849,
     "cover": true
   },
@@ -11127,8 +11127,8 @@
     "title": "A General Introduction to Psychoanalysis",
     "author": "Sigmund Freud",
     "genres": [],
-    "published": null,
-    "publishedSort": null,
+    "published": "1917",
+    "publishedSort": 1917,
     "rank": 850,
     "cover": true
   },
@@ -11138,8 +11138,8 @@
     "title": "The Fairy Mythology",
     "author": "Thomas Keightley",
     "genres": [],
-    "published": null,
-    "publishedSort": null,
+    "published": "1828",
+    "publishedSort": 1828,
     "rank": 851,
     "cover": true
   },
@@ -11151,8 +11151,8 @@
     "genres": [
       "Short stories"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1914",
+    "publishedSort": 1914,
     "rank": 852,
     "cover": true
   },
@@ -11165,8 +11165,8 @@
       "Poetry",
       "Romance"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1912",
+    "publishedSort": 1912,
     "rank": 853,
     "cover": true
   },
@@ -11178,8 +11178,8 @@
     "genres": [
       "Romance"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1747",
+    "publishedSort": 1747,
     "rank": 854,
     "cover": true
   },
@@ -11207,8 +11207,8 @@
       "Science fiction and fantasy",
       "Adventure"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1934",
+    "publishedSort": 1934,
     "rank": 856,
     "cover": true
   },
@@ -11221,8 +11221,8 @@
       "Short stories",
       "Mystery and crime"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1929",
+    "publishedSort": 1929,
     "rank": 857,
     "cover": true
   },
@@ -11234,8 +11234,8 @@
     "genres": [
       "Plays"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1600",
+    "publishedSort": 1600,
     "rank": 858,
     "cover": true
   },
@@ -11248,8 +11248,8 @@
       "Short stories",
       "Mystery and crime"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1904",
+    "publishedSort": 1904,
     "rank": 859,
     "cover": true
   },
@@ -11263,8 +11263,8 @@
       "Mystery and crime",
       "Adventure"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1927",
+    "publishedSort": 1927,
     "rank": 860,
     "cover": true
   },
@@ -11276,8 +11276,8 @@
     "genres": [
       "History and lives"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "c. 100",
+    "publishedSort": 100,
     "rank": 861,
     "cover": true
   },
@@ -11289,8 +11289,8 @@
     "genres": [
       "Poetry"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1857",
+    "publishedSort": 1857,
     "rank": 862,
     "cover": true
   },
@@ -11302,8 +11302,8 @@
     "genres": [
       "Poetry"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "2nd century",
+    "publishedSort": 120,
     "rank": 863,
     "cover": true
   },
@@ -11318,8 +11318,8 @@
       "Adventure",
       "Romance"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1813",
+    "publishedSort": 1813,
     "rank": 864,
     "cover": true
   },
@@ -11332,8 +11332,8 @@
       "Novels",
       "Mystery and crime"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1920",
+    "publishedSort": 1920,
     "rank": 865,
     "cover": true
   },
@@ -11346,8 +11346,8 @@
       "Philosophy and ideas",
       "History and lives"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1899",
+    "publishedSort": 1899,
     "rank": 866,
     "cover": true
   },
@@ -11359,8 +11359,8 @@
     "genres": [
       "History and lives"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "77",
+    "publishedSort": 77,
     "rank": 867,
     "cover": true
   },
@@ -11374,8 +11374,8 @@
       "Mystery and crime",
       "Adventure"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1948",
+    "publishedSort": 1948,
     "rank": 868,
     "cover": true
   },
@@ -11388,8 +11388,8 @@
       "Novels",
       "Romance"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1884",
+    "publishedSort": 1884,
     "rank": 870,
     "cover": true
   },
@@ -11403,8 +11403,8 @@
       "Mystery and crime",
       "Adventure"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1929",
+    "publishedSort": 1929,
     "rank": 871,
     "cover": true
   },
@@ -11417,8 +11417,8 @@
       "Novels",
       "Mystery and crime"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1914",
+    "publishedSort": 1914,
     "rank": 872,
     "cover": true
   },
@@ -11428,8 +11428,8 @@
     "title": "Philippine Folk Tales",
     "author": "Mabel Cook Cole",
     "genres": [],
-    "published": null,
-    "publishedSort": null,
+    "published": "1916",
+    "publishedSort": 1916,
     "rank": 873,
     "cover": true
   },
@@ -11443,8 +11443,8 @@
       "Science fiction and fantasy",
       "Adventure"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1935",
+    "publishedSort": 1935,
     "rank": 874,
     "cover": true
   },
@@ -11457,8 +11457,8 @@
       "Science fiction and fantasy",
       "Adventure"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1931",
+    "publishedSort": 1931,
     "rank": 876,
     "cover": true
   },
@@ -11472,8 +11472,8 @@
       "Science fiction and fantasy",
       "Adventure"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1813",
+    "publishedSort": 1813,
     "rank": 877,
     "cover": true
   },
@@ -11486,8 +11486,8 @@
       "Novels",
       "Mystery and crime"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1926",
+    "publishedSort": 1926,
     "rank": 878,
     "cover": true
   },
@@ -11500,8 +11500,8 @@
       "Novels",
       "Science fiction and fantasy"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1925",
+    "publishedSort": 1925,
     "rank": 879,
     "cover": true
   },
@@ -11513,8 +11513,8 @@
     "genres": [
       "History and lives"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "98",
+    "publishedSort": 98,
     "rank": 880,
     "cover": true
   },
@@ -11527,8 +11527,8 @@
       "Short stories",
       "Children's"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1905",
+    "publishedSort": 1905,
     "rank": 881,
     "cover": true
   },
@@ -11541,8 +11541,8 @@
       "Novels",
       "Romance"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1835",
+    "publishedSort": 1835,
     "rank": 882,
     "cover": true
   },
@@ -11554,8 +11554,8 @@
     "genres": [
       "Philosophy and ideas"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "c. 385 BCE",
+    "publishedSort": -385,
     "rank": 883,
     "cover": true
   },
@@ -11568,8 +11568,8 @@
       "Philosophy and ideas",
       "History and lives"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "68–52 BCE",
+    "publishedSort": -60,
     "rank": 884,
     "cover": true
   },
@@ -11582,8 +11582,8 @@
       "Novels",
       "Science fiction and fantasy"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1741",
+    "publishedSort": 1741,
     "rank": 885,
     "cover": true
   },
@@ -11623,8 +11623,8 @@
     "genres": [
       "Philosophy and ideas"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "c. 369 BCE",
+    "publishedSort": -369,
     "rank": 890,
     "cover": true
   },
@@ -11637,8 +11637,8 @@
       "Short stories",
       "Mystery and crime"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1927",
+    "publishedSort": 1927,
     "rank": 891,
     "cover": true
   },
@@ -11650,8 +11650,8 @@
     "genres": [
       "History and lives"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1724",
+    "publishedSort": 1724,
     "rank": 892,
     "cover": true
   },
@@ -11665,8 +11665,8 @@
       "Adventure",
       "Romance"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1912",
+    "publishedSort": 1912,
     "rank": 893,
     "cover": true
   },
@@ -11679,8 +11679,8 @@
       "Short stories",
       "Mystery and crime"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1920",
+    "publishedSort": 1920,
     "rank": 894,
     "cover": true
   },
@@ -11690,8 +11690,8 @@
     "title": "The Crowd",
     "author": "Gustave Le Bon",
     "genres": [],
-    "published": null,
-    "publishedSort": null,
+    "published": "1895",
+    "publishedSort": 1895,
     "rank": 896,
     "cover": true
   },
@@ -11704,8 +11704,8 @@
       "Poetry",
       "Romance"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1795",
+    "publishedSort": 1795,
     "rank": 897,
     "cover": true
   },
@@ -11718,8 +11718,8 @@
       "Novels",
       "Mystery and crime"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1924",
+    "publishedSort": 1924,
     "rank": 898,
     "cover": true
   },
@@ -11731,8 +11731,8 @@
     "genres": [
       "Philosophy and ideas"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1859",
+    "publishedSort": 1859,
     "rank": 899,
     "cover": true
   },
@@ -11744,8 +11744,8 @@
     "genres": [
       "Novels"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1861",
+    "publishedSort": 1861,
     "rank": 900,
     "cover": true
   },
@@ -11757,8 +11757,8 @@
     "genres": [
       "History and lives"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1890",
+    "publishedSort": 1890,
     "rank": 901,
     "cover": true
   },
@@ -11770,8 +11770,8 @@
     "genres": [
       "History and lives"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1894",
+    "publishedSort": 1894,
     "rank": 902,
     "cover": true
   },
@@ -11783,8 +11783,8 @@
     "genres": [
       "History and lives"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "written 1497–1499",
+    "publishedSort": 1499,
     "rank": 903,
     "cover": true
   },
@@ -11796,8 +11796,8 @@
     "genres": [
       "Poetry"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1908",
+    "publishedSort": 1908,
     "rank": 904,
     "cover": true
   },
@@ -11810,8 +11810,8 @@
       "Novels",
       "Science fiction and fantasy"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1925",
+    "publishedSort": 1925,
     "rank": 905,
     "cover": true
   },
@@ -11824,8 +11824,8 @@
       "Science fiction and fantasy",
       "Adventure"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "12th–13th century",
+    "publishedSort": 1200,
     "rank": 906,
     "cover": true
   },
@@ -11838,8 +11838,8 @@
       "Philosophy and ideas",
       "History and lives"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1605",
+    "publishedSort": 1605,
     "rank": 907,
     "cover": true
   },
@@ -11851,8 +11851,8 @@
     "genres": [
       "History and lives"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1882",
+    "publishedSort": 1882,
     "rank": 908,
     "cover": true
   },
@@ -11865,8 +11865,8 @@
       "Novels",
       "Science fiction and fantasy"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1903",
+    "publishedSort": 1903,
     "rank": 909,
     "cover": true
   },
@@ -11879,8 +11879,8 @@
       "Short stories",
       "Science fiction and fantasy"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1943",
+    "publishedSort": 1943,
     "rank": 910,
     "cover": true
   },
@@ -11892,8 +11892,8 @@
     "genres": [
       "Poetry"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1901",
+    "publishedSort": 1901,
     "rank": 911,
     "cover": true
   },
@@ -11906,8 +11906,8 @@
       "Novels",
       "Romance"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1913",
+    "publishedSort": 1913,
     "rank": 912,
     "cover": true
   },
@@ -11919,8 +11919,8 @@
     "genres": [
       "History and lives"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1915",
+    "publishedSort": 1915,
     "rank": 913,
     "cover": true
   },
@@ -11946,8 +11946,8 @@
       "Novels",
       "Mystery and crime"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1923",
+    "publishedSort": 1923,
     "rank": 915,
     "cover": true
   },
@@ -11959,8 +11959,8 @@
     "genres": [
       "Novels"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1919",
+    "publishedSort": 1919,
     "rank": 916,
     "cover": true
   },
@@ -11974,8 +11974,8 @@
       "Science fiction and fantasy",
       "Adventure"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1898",
+    "publishedSort": 1898,
     "rank": 917,
     "cover": true
   },
@@ -11988,8 +11988,8 @@
       "Plays",
       "Science fiction and fantasy"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1856",
+    "publishedSort": 1856,
     "rank": 918,
     "cover": true
   },
@@ -12001,8 +12001,8 @@
     "genres": [
       "History and lives"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "c. 1230",
+    "publishedSort": 1230,
     "rank": 919,
     "cover": true
   },
@@ -12014,8 +12014,8 @@
     "genres": [
       "History and lives"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1556",
+    "publishedSort": 1556,
     "rank": 920,
     "cover": true
   },
@@ -12028,8 +12028,8 @@
       "Novels",
       "Mystery and crime"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1865",
+    "publishedSort": 1865,
     "rank": 921,
     "cover": true
   },
@@ -12041,8 +12041,8 @@
     "genres": [
       "Poetry"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1835",
+    "publishedSort": 1835,
     "rank": 922,
     "cover": true
   },
@@ -12054,8 +12054,8 @@
     "genres": [
       "History and lives"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1776",
+    "publishedSort": 1776,
     "rank": 923,
     "cover": true
   },
@@ -12068,8 +12068,8 @@
       "Novels",
       "Mystery and crime"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1900",
+    "publishedSort": 1900,
     "rank": 924,
     "cover": true
   },
@@ -12082,8 +12082,8 @@
       "Short stories",
       "Science fiction and fantasy"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1883",
+    "publishedSort": 1883,
     "rank": 925,
     "cover": true
   },
@@ -12109,8 +12109,8 @@
       "Novels",
       "Romance"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1919",
+    "publishedSort": 1919,
     "rank": 927,
     "cover": true
   },
@@ -12120,8 +12120,8 @@
     "title": "Vegetable Teratology",
     "author": "Maxwell T. Masters",
     "genres": [],
-    "published": null,
-    "publishedSort": null,
+    "published": "1869",
+    "publishedSort": 1869,
     "rank": 928,
     "cover": true
   },
@@ -12133,8 +12133,8 @@
     "genres": [
       "History and lives"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1829",
+    "publishedSort": 1829,
     "rank": 929,
     "cover": true
   },
@@ -12161,8 +12161,8 @@
       "Adventure",
       "Romance"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1881",
+    "publishedSort": 1881,
     "rank": 931,
     "cover": true
   },
@@ -12187,8 +12187,8 @@
     "genres": [
       "History and lives"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "c. 50 BCE",
+    "publishedSort": -50,
     "rank": 933,
     "cover": true
   },
@@ -12200,8 +12200,8 @@
     "genres": [
       "Novels"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1920",
+    "publishedSort": 1920,
     "rank": 934,
     "cover": true
   },
@@ -12215,8 +12215,8 @@
       "Mystery and crime",
       "Adventure"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1927",
+    "publishedSort": 1927,
     "rank": 935,
     "cover": true
   },
@@ -12243,8 +12243,8 @@
       "Mystery and crime",
       "Adventure"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1929",
+    "publishedSort": 1929,
     "rank": 937,
     "cover": true
   },
@@ -12257,8 +12257,8 @@
       "Novels",
       "Science fiction and fantasy"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1854",
+    "publishedSort": 1854,
     "rank": 938,
     "cover": true
   },
@@ -12271,8 +12271,8 @@
       "Short stories",
       "Mystery and crime"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1926",
+    "publishedSort": 1926,
     "rank": 939,
     "cover": true
   },
@@ -12284,8 +12284,8 @@
     "genres": [
       "History and lives"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1883",
+    "publishedSort": 1883,
     "rank": 940,
     "cover": true
   },
@@ -12299,8 +12299,8 @@
       "Science fiction and fantasy",
       "Romance"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1811",
+    "publishedSort": 1811,
     "rank": 941,
     "cover": true
   },
@@ -12313,8 +12313,8 @@
       "Novels",
       "Mystery and crime"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1918",
+    "publishedSort": 1918,
     "rank": 942,
     "cover": true
   },
@@ -12327,8 +12327,8 @@
       "Novels",
       "Mystery and crime"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1929",
+    "publishedSort": 1929,
     "rank": 943,
     "cover": true
   },
@@ -12355,8 +12355,8 @@
       "Novels",
       "Science fiction and fantasy"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1896",
+    "publishedSort": 1896,
     "rank": 945,
     "cover": true
   },
@@ -12370,8 +12370,8 @@
       "Science fiction and fantasy",
       "Mystery and crime"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1937",
+    "publishedSort": 1937,
     "rank": 946,
     "cover": true
   },
@@ -12384,8 +12384,8 @@
       "Novels",
       "Mystery and crime"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1924",
+    "publishedSort": 1924,
     "rank": 948,
     "cover": true
   },
@@ -12397,8 +12397,8 @@
     "genres": [
       "Philosophy and ideas"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1851",
+    "publishedSort": 1851,
     "rank": 949,
     "cover": true
   },
@@ -12411,8 +12411,8 @@
       "Short stories",
       "Children's"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "6th century BCE",
+    "publishedSort": -550,
     "rank": 950,
     "cover": true
   },
@@ -12425,8 +12425,8 @@
       "Philosophy and ideas",
       "History and lives"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1829",
+    "publishedSort": 1829,
     "rank": 951,
     "cover": true
   },
@@ -12436,8 +12436,8 @@
     "title": "Mechanical Drawing Self-Taught",
     "author": "Joshua Rose",
     "genres": [],
-    "published": null,
-    "publishedSort": null,
+    "published": "1883",
+    "publishedSort": 1883,
     "rank": 952,
     "cover": true
   },
@@ -12449,8 +12449,8 @@
     "genres": [
       "Philosophy and ideas"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1779",
+    "publishedSort": 1779,
     "rank": 953,
     "cover": true
   },
@@ -12475,8 +12475,8 @@
     "genres": [
       "Poetry"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1890",
+    "publishedSort": 1890,
     "rank": 955,
     "cover": true
   },
@@ -12488,8 +12488,8 @@
     "genres": [
       "Plays"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "c. 160 BCE",
+    "publishedSort": -160,
     "rank": 956,
     "cover": true
   },
@@ -12501,8 +12501,8 @@
     "genres": [
       "History and lives"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1921",
+    "publishedSort": 1921,
     "rank": 957,
     "cover": true
   },
@@ -12514,8 +12514,8 @@
     "genres": [
       "Poetry"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1854",
+    "publishedSort": 1854,
     "rank": 958,
     "cover": true
   },
@@ -12529,8 +12529,8 @@
       "Mystery and crime",
       "Romance"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1916",
+    "publishedSort": 1916,
     "rank": 959,
     "cover": true
   },
@@ -12540,8 +12540,8 @@
     "title": "The Epic of Gilgamish",
     "author": "Stephen Langdon",
     "genres": [],
-    "published": null,
-    "publishedSort": null,
+    "published": "c. 1800 BCE",
+    "publishedSort": -1800,
     "rank": 960,
     "cover": true
   },
@@ -12555,8 +12555,8 @@
       "Mystery and crime",
       "Romance"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1889",
+    "publishedSort": 1889,
     "rank": 961,
     "cover": true
   },
@@ -12568,8 +12568,8 @@
     "genres": [
       "History and lives"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1871",
+    "publishedSort": 1871,
     "rank": 962,
     "cover": true
   },
@@ -12592,8 +12592,8 @@
     "genres": [
       "Philosophy and ideas"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1922",
+    "publishedSort": 1922,
     "rank": 964,
     "cover": true
   },
@@ -12607,8 +12607,8 @@
       "Mystery and crime",
       "Romance"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1908",
+    "publishedSort": 1908,
     "rank": 965,
     "cover": true
   },
@@ -12618,8 +12618,8 @@
     "title": "The Voyage of the Beagle",
     "author": "Charles Darwin",
     "genres": [],
-    "published": null,
-    "publishedSort": null,
+    "published": "1839",
+    "publishedSort": 1839,
     "rank": 966,
     "cover": true
   },
@@ -12633,8 +12633,8 @@
       "Mystery and crime",
       "Romance"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1907",
+    "publishedSort": 1907,
     "rank": 967,
     "cover": true
   },
@@ -12659,8 +12659,8 @@
     "genres": [
       "Plays"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1897",
+    "publishedSort": 1897,
     "rank": 969,
     "cover": true
   },
@@ -12700,8 +12700,8 @@
     "title": "Concrete Construction",
     "author": "Halbert Powers Gillette",
     "genres": [],
-    "published": null,
-    "publishedSort": null,
+    "published": "1908",
+    "publishedSort": 1908,
     "rank": 972,
     "cover": true
   },
@@ -12713,8 +12713,8 @@
     "genres": [
       "History and lives"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1869",
+    "publishedSort": 1869,
     "rank": 973,
     "cover": true
   },
@@ -12726,8 +12726,8 @@
     "genres": [
       "Philosophy and ideas"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1900",
+    "publishedSort": 1900,
     "rank": 974,
     "cover": true
   },
@@ -12739,8 +12739,8 @@
     "genres": [
       "Plays"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1892",
+    "publishedSort": 1892,
     "rank": 975,
     "cover": true
   },
@@ -12753,8 +12753,8 @@
       "Short stories",
       "Mystery and crime"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1929",
+    "publishedSort": 1929,
     "rank": 976,
     "cover": true
   },
@@ -12767,8 +12767,8 @@
       "Novels",
       "Romance"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1912",
+    "publishedSort": 1912,
     "rank": 977,
     "cover": true
   },
@@ -12781,8 +12781,8 @@
       "Philosophy and ideas",
       "History and lives"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1905",
+    "publishedSort": 1905,
     "rank": 978,
     "cover": true
   },
@@ -12808,8 +12808,8 @@
     "genres": [
       "History and lives"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1894",
+    "publishedSort": 1894,
     "rank": 980,
     "cover": true
   },
@@ -12833,8 +12833,8 @@
     "title": "Camp Cookery. How to Live in Camp",
     "author": "Maria Parloa",
     "genres": [],
-    "published": null,
-    "publishedSort": null,
+    "published": "1878",
+    "publishedSort": 1878,
     "rank": 982,
     "cover": true
   },
@@ -12847,8 +12847,8 @@
       "Short stories",
       "Mystery and crime"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1929",
+    "publishedSort": 1929,
     "rank": 983,
     "cover": true
   },
@@ -12861,8 +12861,8 @@
       "Philosophy and ideas",
       "History and lives"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1755",
+    "publishedSort": 1755,
     "rank": 984,
     "cover": true
   },
@@ -12875,8 +12875,8 @@
       "Plays",
       "History and lives"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1904",
+    "publishedSort": 1904,
     "rank": 985,
     "cover": true
   },
@@ -12888,8 +12888,8 @@
     "genres": [
       "Philosophy and ideas"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1783",
+    "publishedSort": 1783,
     "rank": 986,
     "cover": true
   },
@@ -12901,8 +12901,8 @@
     "genres": [
       "History and lives"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1867",
+    "publishedSort": 1867,
     "rank": 987,
     "cover": true
   },
@@ -12914,8 +12914,8 @@
     "genres": [
       "Plays"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1623",
+    "publishedSort": 1623,
     "rank": 988,
     "cover": true
   },
@@ -12967,8 +12967,8 @@
     "genres": [
       "Novels"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1928",
+    "publishedSort": 1928,
     "rank": 992,
     "cover": true
   },
@@ -12993,8 +12993,8 @@
     "genres": [
       "Poetry"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "c. 1320",
+    "publishedSort": 1320,
     "rank": 994,
     "cover": true
   },
@@ -13020,8 +13020,8 @@
       "Novels",
       "Romance"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1922",
+    "publishedSort": 1922,
     "rank": 996,
     "cover": true
   },
@@ -13031,8 +13031,8 @@
     "title": "The Ladies' Book of Etiquette, and Manual of Politeness",
     "author": "Florence Hartley",
     "genres": [],
-    "published": null,
-    "publishedSort": null,
+    "published": "1860",
+    "publishedSort": 1860,
     "rank": 997,
     "cover": true
   },
@@ -13042,8 +13042,8 @@
     "title": "Notes on Nursing",
     "author": "Florence Nightingale",
     "genres": [],
-    "published": null,
-    "publishedSort": null,
+    "published": "1859",
+    "publishedSort": 1859,
     "rank": 998,
     "cover": true
   },
@@ -13057,8 +13057,8 @@
       "Adventure",
       "Romance"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1918",
+    "publishedSort": 1918,
     "rank": 999,
     "cover": true
   },
@@ -13071,8 +13071,8 @@
       "Novels",
       "Romance"
     ],
-    "published": null,
-    "publishedSort": null,
+    "published": "1921",
+    "publishedSort": 1921,
     "rank": 1000,
     "cover": true
   }

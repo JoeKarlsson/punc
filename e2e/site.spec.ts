@@ -305,6 +305,16 @@ test('a book page shows its author on the shelf, linked to the author on the num
   await expect(page.locator('#author-career svg')).toHaveAttribute('aria-label', /^Charles Dickens's books/);
 });
 
+test('a book whose author has no other book on the shelf still shows its author against the shelf', async ({ page }) => {
+  await openBook(page, 'frankenstein');
+  const author = page.locator('.book-author');
+  await expect(author.locator('h2')).toHaveText('Mary Shelley on the shelf');
+  await expect(author).toContainText("It's the only book by Mary Shelley on the shelf.");
+  await expect(author).toContainText("Mary Shelley's punctuation is closest to");
+  await expect(author.locator('thead th')).toHaveText(['This book', "Every book's median"]);
+  await expect(author.locator('.author-books')).toHaveCount(0);
+});
+
 test('the numbers page picks an author from the list or a search, and points to the books of one with too few', async ({ page }) => {
   await page.goto('numbers.html');
   const picks = page.locator('.author-pick:visible');

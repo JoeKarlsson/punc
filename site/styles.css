@@ -52,6 +52,10 @@
   --poster: 'Anton', Impact, 'Arial Narrow', sans-serif;
   --book: 'Fraunces', Georgia, serif;
   --gutter: clamp(16px, 4vw, 48px);
+  /* Header, page and footer stay in a centered column this wide, so a big
+     screen gets margins rather than lines that run from edge to edge. */
+  --page-max: 1440px;
+  --page-inset: max(var(--gutter), calc((100% - var(--page-max)) / 2));
   /* Spacing scale for layout: margins, padding and gaps between things.
      Small paddings inside stickers and labels stay in em. */
   --space-1: 0.5rem;
@@ -126,7 +130,7 @@ a:hover {
 }
 
 main {
-  padding: 0 var(--gutter) 6rem;
+  padding: 0 var(--page-inset) 6rem;
 }
 
 /* header */
@@ -137,7 +141,7 @@ main {
   align-items: baseline;
   justify-content: space-between;
   gap: var(--space-1) var(--space-5);
-  padding: 1.25rem var(--gutter) 0;
+  padding: 1.25rem var(--page-inset) 0;
 }
 
 .wordmark {
@@ -277,12 +281,13 @@ main {
   margin: 0;
   padding: 0;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(min(100%, 210px), 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 190px), 1fr));
   gap: 3.5rem clamp(1.5rem, 3vw, 2.5rem);
 }
 
 .shelf-featured {
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+  /* Book-sized however wide the screen: the columns stop growing at 300px */
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 300px));
 }
 
 .cover {
@@ -467,7 +472,7 @@ main {
 .shelf-page-numbers {
   display: grid;
   grid-template-columns: repeat(var(--per-row, 7), minmax(0, 1fr));
-  gap: 6px;
+  gap: 4px;
 }
 
 @media (max-width: 899px) {
@@ -483,14 +488,14 @@ main {
 
 .shelf-page {
   min-width: 0;
-  min-height: 3.25rem;
-  padding: 0.35em 0.7em 0.3em;
+  min-height: 2.5rem;
+  padding: 0.3em 0.6em 0.25em;
   background: none;
   color: var(--paper);
   border: 2px solid var(--pink);
   border-radius: 0;
   font-family: var(--poster);
-  font-size: clamp(1.25rem, 1rem + 0.6vw, 1.7rem);
+  font-size: 1.15rem;
   text-transform: uppercase;
   cursor: pointer;
 }
@@ -1272,7 +1277,7 @@ code {
 .site-footer {
   background: var(--pink);
   color: var(--ink);
-  padding: 3rem var(--gutter) 2.5rem;
+  padding: 3rem var(--page-inset) 2.5rem;
 }
 
 .footer-links {

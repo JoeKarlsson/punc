@@ -6,9 +6,9 @@
 import { cardHTML, type ShelfBook } from './card';
 import { initPosters } from './posters';
 import { initShare } from './share';
-import { normalizeForSearch, pageLinks, SHELF_PAGE_SIZE } from './paging';
+import { normalizeForSearch, pageLinks, SHELF_PAGE_SIZE, SHELF_PAGE_SIZE_PHONE } from './paging';
 
-// On a wide screen the pager shows every page number.
+// A wide screen gets a bigger page of books, and the pager shows every page number.
 const wideScreen = window.matchMedia('(min-width: 900px)');
 
 interface Card {
@@ -93,13 +93,13 @@ async function setUpShelf(): Promise<void> {
     return button;
   };
 
-  // As many page numbers to a row as fit at 3.25rem or more, with the rows
+  // As many page numbers to a row as fit at 2.5rem or more, with the rows
   // as even as they can be: 41 pages in two rows of 21 and 20, not 36 and 5.
   const balancePageRows = () => {
     const numbers = pages.querySelector<HTMLElement>('.shelf-page-numbers');
     if (!numbers || pages.hidden) return;
     const count = numbers.children.length;
-    const minCell = 3.25 * parseFloat(getComputedStyle(document.documentElement).fontSize) + 6;
+    const minCell = 2.5 * parseFloat(getComputedStyle(document.documentElement).fontSize) + 6;
     const fit = Math.max(1, Math.floor((numbers.clientWidth + 6) / minCell));
     numbers.style.setProperty('--per-row', String(Math.ceil(count / Math.ceil(count / fit))));
   };
@@ -110,10 +110,11 @@ async function setUpShelf(): Promise<void> {
     const shown = cards
       .filter(c => terms.every(t => c.text.includes(t)) && (!genre.value || c.book.genres.includes(genre.value)))
       .sort(SORTS[sort.value] ?? SORTS['popular']);
-    const pageCount = Math.max(1, Math.ceil(shown.length / SHELF_PAGE_SIZE));
+    const pageSize = wideScreen.matches ? SHELF_PAGE_SIZE : SHELF_PAGE_SIZE_PHONE;
+    const pageCount = Math.max(1, Math.ceil(shown.length / pageSize));
     page = Math.min(page, pageCount);
-    const start = (page - 1) * SHELF_PAGE_SIZE;
-    const onPage = shown.slice(start, start + SHELF_PAGE_SIZE).map((c, i) => draw(c, start + i));
+    const start = (page - 1) * pageSize;
+    const onPage = shown.slice(start, start + pageSize).map((c, i) => draw(c, start + i));
     // The first page as built needs no redraw.
     if (onPage.length !== list.children.length || onPage.some((el, i) => list.children[i] !== el)) list.replaceChildren(...onPage);
     const matching = shown.length === cards.length ? `${cards.length} books` : `${shown.length} matching books (${cards.length} on the shelf)`;
@@ -125,7 +126,7 @@ async function setUpShelf(): Promise<void> {
     pages.hidden = pageCount === 1;
     const numbers = document.createElement('div');
     numbers.className = 'shelf-page-numbers';
-    for (const n of pageLinks(page, pageCount, wideScreen.matches ? pageCount : 2)) {
+    for (const n of pageLinks(page, pageCount, wideScreen.matches ? pageCount : 4)) {
       if (n === null) {
         const gap = document.createElement('span');
         gap.className = 'shelf-page-gap';

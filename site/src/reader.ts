@@ -90,9 +90,13 @@ function showBook(rawText: string, title: string, byline: string, fileStem: stri
   byId('stat-top').textContent = book.counts[0]?.[0] ?? '';
 
   renderCounts(book);
-  byId('book-fingerprint').innerHTML =
+  // A shelf book's twin is written in at build time; keep it through the redraw.
+  const fingerprint = byId('book-fingerprint');
+  const twin = fingerprint.querySelector('.fp-twin');
+  fingerprint.innerHTML =
     fingerprintHTML(markShares(book.marks), 'fingerprint fingerprint-large') +
     '<p class="fp-caption">Its punctuation fingerprint: each mark\'s share, on the same scale as every book on the shelf.</p>';
+  if (twin) fingerprint.append(twin);
   byId('through-book').innerHTML = throughBookHTML(marksThroughBook(book.marks));
   describeCanvases(book);
   void drawOnMap(book, title, shelfSlug);

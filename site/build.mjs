@@ -268,7 +268,7 @@ await writePage({
 const closest = N.twins(shelfNumbers);
 const twinLine = book => {
   const { twin } = closest.get(book.slug);
-  return `<p class="fp-caption">Its punctuation twin, the closest fingerprint on the shelf: <a href="books/${twin.slug}/">${escapeHTML(twin.title)}</a>, ${escapeHTML(twin.author)}. <a href="numbers.html#twins">More twins</a></p>`;
+  return `<p class="fp-caption fp-twin">Its punctuation twin, the closest fingerprint on the shelf: <a href="books/${twin.slug}/">${escapeHTML(twin.title)}</a>, ${escapeHTML(twin.author)}. <a href="numbers.html#twins">More twins</a></p>`;
 };
 
 const missingShareImages = [];

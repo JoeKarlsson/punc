@@ -430,7 +430,7 @@ export function popularitySVG(books: BookNumbers[], key: MetricKey): string {
   const tickY = (v: number) => valueY(POPULARITY, key, axis.max)(key === 'dialogue' ? v / 100 : v);
   const grid = [
     ...axis.ticks.map(v => `<line class="chart-grid" x1="${L}" x2="${W - R}" y1="${r1(tickY(v))}" y2="${r1(tickY(v))}"/><text class="chart-tick" x="${L - 10}" y="${r1(tickY(v) + 5)}" text-anchor="end">${tickText(key, v)}</text>`),
-    ...[1, 100, 200, 300, 400, 500].filter(r => r <= ranked.length).map(r => `<text class="chart-tick" x="${r1(x(r))}" y="${H - 22}" text-anchor="middle">${r}</text>`),
+    ...(ranked.length > 500 ? [1, 200, 400, 600, 800, 1000] : [1, 100, 200, 300, 400, 500]).filter(r => r <= ranked.length).map(r => `<text class="chart-tick" x="${r1(x(r))}" y="${H - 22}" text-anchor="middle">${r}</text>`),
   ].join('');
   const label = `<text class="chart-axis" x="${(L + W - R) / 2}" y="${H - 2}" text-anchor="middle">download rank, most read on the left</text>`;
   return `<svg class="chart-svg" viewBox="0 0 ${W} ${H}" role="img" aria-label="${escapeHTML(`Download rank against ${metric(key).unit}`)}">${grid}${label}<g class="chart-dots" data-metric="${key}" data-max="${axis.max}"></g></svg>`;

@@ -6443,6 +6443,3791 @@
     "cover": true
   },
   {
+    "id": 3268,
+    "slug": "the-mysteries-of-udolpho",
+    "title": "The Mysteries of Udolpho",
+    "author": "Ann Ward Radcliffe",
+    "genres": [
+      "Novels",
+      "Horror and gothic",
+      "Mystery and crime",
+      "Romance"
+    ],
+    "published": "1794",
+    "publishedSort": 1794,
+    "rank": 501,
+    "cover": true
+  },
+  {
+    "id": 45631,
+    "slug": "twelve-years-a-slave",
+    "title": "Twelve Years a Slave",
+    "author": "Solomon Northup",
+    "genres": [
+      "History and lives"
+    ],
+    "published": "1853",
+    "publishedSort": 1853,
+    "rank": 502,
+    "cover": true
+  },
+  {
+    "id": 53419,
+    "slug": "twenty-five-ghost-stories",
+    "title": "Twenty-Five Ghost Stories",
+    "author": "W. Bob Holland",
+    "genres": [
+      "Short stories",
+      "Horror and gothic",
+      "Mystery and crime"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 503,
+    "cover": true
+  },
+  {
+    "id": 23172,
+    "slug": "the-damned-thing",
+    "title": "The Damned Thing",
+    "author": "Ambrose Bierce",
+    "genres": [
+      "Short stories",
+      "Horror and gothic",
+      "Mystery and crime"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 504,
+    "cover": true
+  },
+  {
+    "id": 22187,
+    "slug": "chamberss-edinburgh-journal-no-452",
+    "title": "Chambers's Edinburgh Journal, No. 452",
+    "author": "Various",
+    "genres": [
+      "Novels",
+      "Romance"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 505,
+    "cover": true
+  },
+  {
+    "id": 20239,
+    "slug": "the-ten-books-on-architecture",
+    "title": "The Ten Books on Architecture",
+    "author": "Vitruvius Pollio",
+    "genres": [],
+    "published": null,
+    "publishedSort": null,
+    "rank": 506,
+    "cover": true
+  },
+  {
+    "id": 42389,
+    "slug": "the-pirate",
+    "title": "The Pirate",
+    "author": "Walter Scott",
+    "genres": [
+      "Adventure",
+      "Romance"
+    ],
+    "published": "1822",
+    "publishedSort": 1822,
+    "rank": 507,
+    "cover": true
+  },
+  {
+    "id": 66048,
+    "slug": "the-interpretation-of-dreams",
+    "title": "The Interpretation of Dreams",
+    "author": "Sigmund Freud",
+    "genres": [],
+    "published": null,
+    "publishedSort": null,
+    "rank": 508,
+    "cover": true
+  },
+  {
+    "id": 14209,
+    "slug": "the-kybalion",
+    "title": "The Kybalion",
+    "author": "Three Initiates",
+    "genres": [
+      "Philosophy and ideas"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 509,
+    "cover": true
+  },
+  {
+    "id": 7213,
+    "slug": "my-life-and-work",
+    "title": "My Life and Work",
+    "author": "Henry Ford",
+    "genres": [
+      "History and lives"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 510,
+    "cover": true
+  },
+  {
+    "id": 22298,
+    "slug": "practical-mechanics-for-boys",
+    "title": "Practical Mechanics for Boys",
+    "author": "James Slough Zerbe",
+    "genres": [
+      "Children's"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 511,
+    "cover": true
+  },
+  {
+    "id": 5116,
+    "slug": "pragmatism",
+    "title": "Pragmatism",
+    "author": "William James",
+    "genres": [
+      "Philosophy and ideas"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 512,
+    "cover": true
+  },
+  {
+    "id": 31469,
+    "slug": "the-shunned-house",
+    "title": "The Shunned House",
+    "author": "H. P. Lovecraft",
+    "genres": [
+      "Short stories",
+      "Science fiction and fantasy",
+      "Horror and gothic",
+      "Mystery and crime"
+    ],
+    "published": "1937",
+    "publishedSort": 1937,
+    "rank": 513,
+    "cover": true
+  },
+  {
+    "id": 59844,
+    "slug": "the-science-of-getting-rich",
+    "title": "The Science of Getting Rich",
+    "author": "W. D. Wattles",
+    "genres": [],
+    "published": "1910",
+    "publishedSort": 1910,
+    "rank": 514,
+    "cover": true
+  },
+  {
+    "id": 2776,
+    "slug": "the-four-million",
+    "title": "The Four Million",
+    "author": "O. Henry",
+    "genres": [
+      "Short stories"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 515,
+    "cover": true
+  },
+  {
+    "id": 64,
+    "slug": "the-gods-of-mars",
+    "title": "The Gods of Mars",
+    "author": "Edgar Rice Burroughs",
+    "genres": [
+      "Novels",
+      "Science fiction and fantasy",
+      "Adventure"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 516,
+    "cover": true
+  },
+  {
+    "id": 43671,
+    "slug": "a-history-of-epidemics-in-britain-volume-2-of-2",
+    "title": "A History of Epidemics in Britain, Volume 2 (of 2)",
+    "author": "Charles Creighton",
+    "genres": [
+      "History and lives"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 517,
+    "cover": true
+  },
+  {
+    "id": 31257,
+    "slug": "daintys-cruel-rivals",
+    "title": "Dainty's Cruel Rivals",
+    "author": "Alex. McVeigh Miller",
+    "genres": [
+      "Novels",
+      "Romance"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 518,
+    "cover": true
+  },
+  {
+    "id": 27475,
+    "slug": "that-girl-montana",
+    "title": "That Girl Montana",
+    "author": "Marah Ellis Ryan",
+    "genres": [
+      "Novels",
+      "Mystery and crime"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 519,
+    "cover": true
+  },
+  {
+    "id": 57336,
+    "slug": "ancient-britain-and-the-invasions-of-julius-caesar",
+    "title": "Ancient Britain and the Invasions of Julius Caesar",
+    "author": "T. Rice Holmes",
+    "genres": [
+      "History and lives"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 520,
+    "cover": true
+  },
+  {
+    "id": 20628,
+    "slug": "torchy-and-vee",
+    "title": "Torchy and Vee",
+    "author": "Sewell Ford",
+    "genres": [
+      "Novels",
+      "Romance"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 521,
+    "cover": true
+  },
+  {
+    "id": 41360,
+    "slug": "the-elementary-forms-of-the-religious-life",
+    "title": "The Elementary Forms of the Religious Life",
+    "author": "Émile Durkheim",
+    "genres": [
+      "Philosophy and ideas"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 522,
+    "cover": true
+  },
+  {
+    "id": 23700,
+    "slug": "the-decameron-of-giovanni-boccaccio",
+    "title": "The Decameron of Giovanni Boccaccio",
+    "author": "Giovanni Boccaccio",
+    "genres": [
+      "Short stories"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 523,
+    "cover": true
+  },
+  {
+    "id": 40533,
+    "slug": "the-life-of-john-marshall-volume-4",
+    "title": "The Life of John Marshall, Volume 4",
+    "author": "Albert J. Beveridge",
+    "genres": [
+      "History and lives"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 524,
+    "cover": true
+  },
+  {
+    "id": 33870,
+    "slug": "chess-fundamentals",
+    "title": "Chess Fundamentals",
+    "author": "José Raúl Capablanca",
+    "genres": [],
+    "published": null,
+    "publishedSort": null,
+    "rank": 525,
+    "cover": true
+  },
+  {
+    "id": 4276,
+    "slug": "north-and-south",
+    "title": "North and South",
+    "author": "Elizabeth Cleghorn Gaskell",
+    "genres": [
+      "Novels"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 526,
+    "cover": true
+  },
+  {
+    "id": 932,
+    "slug": "the-fall-of-the-house-of-usher",
+    "title": "The Fall of the House of Usher",
+    "author": "Edgar Allan Poe",
+    "genres": [
+      "Short stories",
+      "Science fiction and fantasy"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 527,
+    "cover": true
+  },
+  {
+    "id": 146,
+    "slug": "a-little-princess",
+    "title": "A Little Princess",
+    "author": "Frances Hodgson Burnett",
+    "genres": [
+      "Novels",
+      "Children's"
+    ],
+    "published": "1905",
+    "publishedSort": 1905,
+    "rank": 528,
+    "cover": true
+  },
+  {
+    "id": 45304,
+    "slug": "the-city-of-god-volume-i",
+    "title": "The City of God, Volume I",
+    "author": "of Hippo Augustine",
+    "genres": [
+      "Philosophy and ideas",
+      "History and lives"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 529,
+    "cover": true
+  },
+  {
+    "id": 2610,
+    "slug": "notre-dame-de-paris",
+    "title": "Notre-Dame De Paris",
+    "author": "Victor Hugo",
+    "genres": [
+      "Novels"
+    ],
+    "published": "1831",
+    "publishedSort": 1831,
+    "rank": 530,
+    "cover": true
+  },
+  {
+    "id": 1200,
+    "slug": "gargantua-and-pantagruel",
+    "title": "Gargantua and Pantagruel",
+    "author": "François Rabelais",
+    "genres": [
+      "Novels"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 531,
+    "cover": true
+  },
+  {
+    "id": 7849,
+    "slug": "the-trial",
+    "title": "The Trial",
+    "author": "Franz Kafka",
+    "genres": [
+      "Novels",
+      "Horror and gothic"
+    ],
+    "published": "1925",
+    "publishedSort": 1925,
+    "rank": 532,
+    "cover": true
+  },
+  {
+    "id": 60976,
+    "slug": "rip-van-winkle",
+    "title": "Rip Van Winkle",
+    "author": "Washington Irving",
+    "genres": [
+      "Short stories",
+      "Science fiction and fantasy"
+    ],
+    "published": "1818",
+    "publishedSort": 1818,
+    "rank": 533,
+    "cover": true
+  },
+  {
+    "id": 3176,
+    "slug": "the-innocents-abroad",
+    "title": "The Innocents Abroad",
+    "author": "Mark Twain",
+    "genres": [],
+    "published": "1869",
+    "publishedSort": 1869,
+    "rank": 534,
+    "cover": true
+  },
+  {
+    "id": 26563,
+    "slug": "the-crack-of-doom",
+    "title": "The Crack of Doom",
+    "author": "Robert Cromie",
+    "genres": [
+      "Novels",
+      "Science fiction and fantasy",
+      "Romance"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 535,
+    "cover": true
+  },
+  {
+    "id": 38311,
+    "slug": "what-will-people-say-a-novel",
+    "title": "What Will People Say? A Novel",
+    "author": "Rupert Hughes",
+    "genres": [
+      "Novels",
+      "Romance"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 536,
+    "cover": true
+  },
+  {
+    "id": 36223,
+    "slug": "the-boy-with-wings",
+    "title": "The Boy with Wings",
+    "author": "Berta Ruck",
+    "genres": [
+      "Novels",
+      "Adventure",
+      "Romance"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 537,
+    "cover": true
+  },
+  {
+    "id": 20121,
+    "slug": "lone-star-planet",
+    "title": "Lone Star Planet",
+    "author": "H. Beam Piper",
+    "genres": [
+      "Science fiction and fantasy",
+      "Mystery and crime"
+    ],
+    "published": "1957",
+    "publishedSort": 1957,
+    "rank": 538,
+    "cover": true
+  },
+  {
+    "id": 68,
+    "slug": "the-warlord-of-mars",
+    "title": "The Warlord of Mars",
+    "author": "Edgar Rice Burroughs",
+    "genres": [
+      "Science fiction and fantasy",
+      "Adventure"
+    ],
+    "published": "1918",
+    "publishedSort": 1918,
+    "rank": 539,
+    "cover": true
+  },
+  {
+    "id": 45634,
+    "slug": "myths-of-the-cherokee",
+    "title": "Myths of the Cherokee",
+    "author": "James Mooney",
+    "genres": [
+      "History and lives"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 541,
+    "cover": true
+  },
+  {
+    "id": 33823,
+    "slug": "the-gay-adventure",
+    "title": "The Gay Adventure",
+    "author": "Richard Bird",
+    "genres": [
+      "Novels",
+      "Romance"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 542,
+    "cover": true
+  },
+  {
+    "id": 75643,
+    "slug": "the-black-abbot",
+    "title": "The Black Abbot",
+    "author": "Edgar Wallace",
+    "genres": [
+      "Novels",
+      "Mystery and crime"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 543,
+    "cover": true
+  },
+  {
+    "id": 50922,
+    "slug": "perpetual-peace",
+    "title": "Perpetual Peace",
+    "author": "Immanuel Kant",
+    "genres": [
+      "Philosophy and ideas",
+      "History and lives"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 544,
+    "cover": true
+  },
+  {
+    "id": 22373,
+    "slug": "russian-fairy-tales",
+    "title": "Russian Fairy Tales",
+    "author": "William Ralston Shedden Ralston",
+    "genres": [
+      "Children's"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 545,
+    "cover": true
+  },
+  {
+    "id": 20546,
+    "slug": "the-hand-in-the-dark",
+    "title": "The Hand in the Dark",
+    "author": "Arthur J. Rees",
+    "genres": [
+      "Novels",
+      "Mystery and crime"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 546,
+    "cover": true
+  },
+  {
+    "id": 159,
+    "slug": "the-island-of-doctor-moreau",
+    "title": "The Island of Doctor Moreau",
+    "author": "H. G. Wells",
+    "genres": [
+      "Novels",
+      "Science fiction and fantasy"
+    ],
+    "published": "1895",
+    "publishedSort": 1895,
+    "rank": 547,
+    "cover": true
+  },
+  {
+    "id": 35548,
+    "slug": "doctor-cupid",
+    "title": "Doctor Cupid",
+    "author": "Rhoda Broughton",
+    "genres": [
+      "Novels",
+      "Romance"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 548,
+    "cover": true
+  },
+  {
+    "id": 36725,
+    "slug": "on-the-cross",
+    "title": "On the Cross",
+    "author": "Wilhelmine von Hillern",
+    "genres": [
+      "Novels",
+      "Romance"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 549,
+    "cover": true
+  },
+  {
+    "id": 2388,
+    "slug": "the-song-celestial",
+    "title": "The Song Celestial",
+    "author": "Edwin Arnold",
+    "genres": [
+      "Poetry",
+      "Philosophy and ideas"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 550,
+    "cover": true
+  },
+  {
+    "id": 27942,
+    "slug": "a-system-of-logic-ratiocinative-and-inductive",
+    "title": "A System of Logic, Ratiocinative and Inductive",
+    "author": "John Stuart Mill",
+    "genres": [
+      "Philosophy and ideas"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 551,
+    "cover": true
+  },
+  {
+    "id": 10741,
+    "slug": "the-essays-of-arthur-schopenhauer",
+    "title": "The Essays of Arthur Schopenhauer",
+    "author": "Arthur Schopenhauer",
+    "genres": [
+      "Philosophy and ideas"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 552,
+    "cover": true
+  },
+  {
+    "id": 68348,
+    "slug": "england-under-the-angevin-kings-volumes-i-and-ii",
+    "title": "England Under the Angevin Kings, Volumes I and II",
+    "author": "Kate Norgate",
+    "genres": [
+      "History and lives"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 553,
+    "cover": true
+  },
+  {
+    "id": 42884,
+    "slug": "the-philippine-islands-1493-1898-volume-33-1519-1522",
+    "title": "The Philippine Islands, 1493-1898, Volume 33, 1519-1522",
+    "author": "Emma Helen Blair",
+    "genres": [
+      "History and lives"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 554,
+    "cover": true
+  },
+  {
+    "id": 38177,
+    "slug": "the-passionate-elopement",
+    "title": "The Passionate Elopement",
+    "author": "Compton Mackenzie",
+    "genres": [
+      "Novels",
+      "Romance"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 555,
+    "cover": true
+  },
+  {
+    "id": 50133,
+    "slug": "the-dunwich-horror",
+    "title": "The Dunwich Horror",
+    "author": "H. P. Lovecraft",
+    "genres": [
+      "Short stories",
+      "Science fiction and fantasy",
+      "Mystery and crime"
+    ],
+    "published": "1929",
+    "publishedSort": 1929,
+    "rank": 556,
+    "cover": true
+  },
+  {
+    "id": 40058,
+    "slug": "the-life-of-florence-nightingale-vol-2-of-2",
+    "title": "The Life of Florence Nightingale, Vol. 2 of 2",
+    "author": "Edward Tyas Cook",
+    "genres": [
+      "History and lives"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 557,
+    "cover": true
+  },
+  {
+    "id": 621,
+    "slug": "the-varieties-of-religious-experience",
+    "title": "The Varieties of Religious Experience",
+    "author": "William James",
+    "genres": [
+      "Philosophy and ideas"
+    ],
+    "published": "1902",
+    "publishedSort": 1902,
+    "rank": 558,
+    "cover": true
+  },
+  {
+    "id": 19322,
+    "slug": "the-antichrist",
+    "title": "The Antichrist",
+    "author": "Friedrich Wilhelm Nietzsche",
+    "genres": [
+      "Philosophy and ideas"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 559,
+    "cover": true
+  },
+  {
+    "id": 375,
+    "slug": "an-occurrence-at-owl-creek-bridge",
+    "title": "An Occurrence at Owl Creek Bridge",
+    "author": "Ambrose Bierce",
+    "genres": [
+      "Short stories",
+      "Horror and gothic"
+    ],
+    "published": "1890",
+    "publishedSort": 1890,
+    "rank": 560,
+    "cover": true
+  },
+  {
+    "id": 76553,
+    "slug": "three-millions",
+    "title": "Three Millions!",
+    "author": "Oliver Optic",
+    "genres": [
+      "Novels",
+      "Romance"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 561,
+    "cover": true
+  },
+  {
+    "id": 24149,
+    "slug": "the-ambulance-made-two-trips",
+    "title": "The Ambulance Made Two Trips",
+    "author": "Murray Leinster",
+    "genres": [
+      "Short stories",
+      "Science fiction and fantasy",
+      "Mystery and crime"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 562,
+    "cover": true
+  },
+  {
+    "id": 3011,
+    "slug": "the-lady-of-the-lake",
+    "title": "The Lady of the Lake",
+    "author": "Walter Scott",
+    "genres": [
+      "Poetry",
+      "Adventure",
+      "Romance"
+    ],
+    "published": "1810",
+    "publishedSort": 1810,
+    "rank": 563,
+    "cover": true
+  },
+  {
+    "id": 6400,
+    "slug": "the-lives-of-the-twelve-caesars",
+    "title": "The Lives of the Twelve Caesars",
+    "author": "Suetonius",
+    "genres": [
+      "History and lives"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 564,
+    "cover": true
+  },
+  {
+    "id": 23184,
+    "slug": "monte-cristos-daughter",
+    "title": "Monte-Cristo's Daughter",
+    "author": "Edmund Flagg",
+    "genres": [
+      "Novels",
+      "Adventure",
+      "Romance"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 565,
+    "cover": true
+  },
+  {
+    "id": 76728,
+    "slug": "helen-vardons-confession",
+    "title": "Helen Vardon's Confession",
+    "author": "R. Austin Freeman",
+    "genres": [
+      "Mystery and crime"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 566,
+    "cover": true
+  },
+  {
+    "id": 2853,
+    "slug": "quo-vadis",
+    "title": "Quo Vadis",
+    "author": "Henryk Sienkiewicz",
+    "genres": [
+      "Novels"
+    ],
+    "published": "1896",
+    "publishedSort": 1896,
+    "rank": 567,
+    "cover": true
+  },
+  {
+    "id": 27279,
+    "slug": "southern-literature-from-1579-1895",
+    "title": "Southern Literature From 1579-1895",
+    "author": "Louise Manly",
+    "genres": [
+      "History and lives"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 568,
+    "cover": true
+  },
+  {
+    "id": 23599,
+    "slug": "the-big-fix",
+    "title": "The Big Fix",
+    "author": "George O. Smith",
+    "genres": [
+      "Novels",
+      "Science fiction and fantasy",
+      "Mystery and crime"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 569,
+    "cover": true
+  },
+  {
+    "id": 22381,
+    "slug": "myths-and-legends-of-ancient-greece-and-rome",
+    "title": "Myths and Legends of Ancient Greece and Rome",
+    "author": "E. M. Berens",
+    "genres": [],
+    "published": null,
+    "publishedSort": null,
+    "rank": 570,
+    "cover": true
+  },
+  {
+    "id": 83,
+    "slug": "from-the-earth-to-the-moon",
+    "title": "From the Earth to the Moon",
+    "author": "Jules Verne",
+    "genres": [
+      "Novels",
+      "Science fiction and fantasy"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 571,
+    "cover": true
+  },
+  {
+    "id": 2274,
+    "slug": "how-to-live-on-24-hours-a-day",
+    "title": "How to Live on 24 Hours a Day",
+    "author": "Arnold Bennett",
+    "genres": [
+      "Philosophy and ideas"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 572,
+    "cover": true
+  },
+  {
+    "id": 53416,
+    "slug": "only-a-girls-love",
+    "title": "Only a Girl's Love",
+    "author": "Charles Garvice",
+    "genres": [
+      "Novels",
+      "Romance"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 574,
+    "cover": true
+  },
+  {
+    "id": 37734,
+    "slug": "some-jewish-witnesses-for-christ",
+    "title": "Some Jewish Witnesses For Christ",
+    "author": "Aaron Bernstein",
+    "genres": [
+      "History and lives"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 575,
+    "cover": true
+  },
+  {
+    "id": 6737,
+    "slug": "the-social-cancer",
+    "title": "The Social Cancer",
+    "author": "José Rizal",
+    "genres": [],
+    "published": "1887",
+    "publishedSort": 1887,
+    "rank": 576,
+    "cover": true
+  },
+  {
+    "id": 30340,
+    "slug": "the-passionate-friends",
+    "title": "The Passionate Friends",
+    "author": "H. G. Wells",
+    "genres": [
+      "Novels",
+      "Romance"
+    ],
+    "published": "1913",
+    "publishedSort": 1913,
+    "rank": 577,
+    "cover": true
+  },
+  {
+    "id": 27842,
+    "slug": "the-economic-aspect-of-geology",
+    "title": "The Economic Aspect of Geology",
+    "author": "C. K. Leith",
+    "genres": [],
+    "published": null,
+    "publishedSort": null,
+    "rank": 578,
+    "cover": true
+  },
+  {
+    "id": 19146,
+    "slug": "the-entailed-hat",
+    "title": "The Entailed Hat",
+    "author": "George Alfred Townsend",
+    "genres": [
+      "Romance"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 579,
+    "cover": true
+  },
+  {
+    "id": 27083,
+    "slug": "the-subjection-of-women",
+    "title": "The Subjection of Women",
+    "author": "John Stuart Mill",
+    "genres": [
+      "Philosophy and ideas"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 580,
+    "cover": true
+  },
+  {
+    "id": 51143,
+    "slug": "the-waterloo-roll-call",
+    "title": "The Waterloo Roll Call",
+    "author": "Charles Dalton",
+    "genres": [
+      "History and lives"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 581,
+    "cover": true
+  },
+  {
+    "id": 42681,
+    "slug": "the-hero-of-the-people",
+    "title": "The Hero of the People",
+    "author": "Alexandre Dumas",
+    "genres": [
+      "Romance"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 582,
+    "cover": true
+  },
+  {
+    "id": 28780,
+    "slug": "peter-the-brazen",
+    "title": "Peter the Brazen",
+    "author": "George F. Worts",
+    "genres": [
+      "Novels",
+      "Mystery and crime",
+      "Adventure"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 583,
+    "cover": true
+  },
+  {
+    "id": 2017,
+    "slug": "dhammapada-a-collection-of-verses",
+    "title": "Dhammapada, a Collection of Verses",
+    "author": "F. Max Müller",
+    "genres": [
+      "Poetry",
+      "Philosophy and ideas"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 584,
+    "cover": true
+  },
+  {
+    "id": 46276,
+    "slug": "the-treasure-of-pearls",
+    "title": "The Treasure of Pearls",
+    "author": "Gustave Aimard",
+    "genres": [
+      "Adventure",
+      "Romance"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 585,
+    "cover": true
+  },
+  {
+    "id": 18787,
+    "slug": "life-of-st-francis-of-assisi",
+    "title": "Life of St. Francis of Assisi",
+    "author": "Paul Sabatier",
+    "genres": [
+      "Philosophy and ideas",
+      "History and lives"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 586,
+    "cover": true
+  },
+  {
+    "id": 71,
+    "slug": "on-the-duty-of-civil-disobedience",
+    "title": "On the Duty of Civil Disobedience",
+    "author": "Henry David Thoreau",
+    "genres": [
+      "Philosophy and ideas"
+    ],
+    "published": "1849",
+    "publishedSort": 1849,
+    "rank": 587,
+    "cover": true
+  },
+  {
+    "id": 19742,
+    "slug": "the-heather-moon",
+    "title": "The Heather-Moon",
+    "author": "C. N. Williamson",
+    "genres": [
+      "Novels",
+      "Romance"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 588,
+    "cover": true
+  },
+  {
+    "id": 19725,
+    "slug": "the-history-of-rome-books-01-to-08",
+    "title": "The History of Rome, Books 01 to 08",
+    "author": "Livy",
+    "genres": [
+      "History and lives"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 589,
+    "cover": true
+  },
+  {
+    "id": 15210,
+    "slug": "darkwater",
+    "title": "Darkwater",
+    "author": "W. E. B. Du Bois",
+    "genres": [
+      "Philosophy and ideas",
+      "History and lives"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 590,
+    "cover": true
+  },
+  {
+    "id": 1642,
+    "slug": "euthyphro",
+    "title": "Euthyphro",
+    "author": "Plato",
+    "genres": [
+      "Philosophy and ideas"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 591,
+    "cover": true
+  },
+  {
+    "id": 57426,
+    "slug": "baron-trumps-marvellous-underground-journey",
+    "title": "Baron Trump's Marvellous Underground Journey",
+    "author": "Ingersoll Lockwood",
+    "genres": [
+      "Novels",
+      "Children's",
+      "Science fiction and fantasy",
+      "Adventure"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 592,
+    "cover": true
+  },
+  {
+    "id": 7178,
+    "slug": "swanns-way",
+    "title": "Swann's Way",
+    "author": "Marcel Proust",
+    "genres": [
+      "Novels"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 593,
+    "cover": true
+  },
+  {
+    "id": 36965,
+    "slug": "harriet-martineau",
+    "title": "Harriet Martineau",
+    "author": "Florence Fenwick Miller",
+    "genres": [
+      "History and lives"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 594,
+    "cover": true
+  },
+  {
+    "id": 131,
+    "slug": "the-pilgrims-progress-from-this-world-to-that-which-is-to-come",
+    "title": "The Pilgrim's Progress from This World to That Which Is to Come",
+    "author": "John Bunyan",
+    "genres": [
+      "Novels",
+      "Philosophy and ideas"
+    ],
+    "published": "1678",
+    "publishedSort": 1678,
+    "rank": 595,
+    "cover": true
+  },
+  {
+    "id": 551,
+    "slug": "the-land-that-time-forgot",
+    "title": "The Land That Time Forgot",
+    "author": "Edgar Rice Burroughs",
+    "genres": [
+      "Novels",
+      "Science fiction and fantasy",
+      "Adventure"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 596,
+    "cover": true
+  },
+  {
+    "id": 51428,
+    "slug": "that-which-hath-wings",
+    "title": "That Which Hath Wings",
+    "author": "Richard Dehan",
+    "genres": [
+      "Novels",
+      "Romance"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 597,
+    "cover": true
+  },
+  {
+    "id": 1153,
+    "slug": "the-chessmen-of-mars",
+    "title": "The Chessmen of Mars",
+    "author": "Edgar Rice Burroughs",
+    "genres": [
+      "Novels",
+      "Science fiction and fantasy",
+      "Adventure"
+    ],
+    "published": "1922",
+    "publishedSort": 1922,
+    "rank": 598,
+    "cover": true
+  },
+  {
+    "id": 541,
+    "slug": "the-age-of-innocence",
+    "title": "The Age of Innocence",
+    "author": "Edith Wharton",
+    "genres": [
+      "Novels"
+    ],
+    "published": "1920",
+    "publishedSort": 1920,
+    "rank": 599,
+    "cover": true
+  },
+  {
+    "id": 5946,
+    "slug": "the-history-of-don-quixote-volume-2",
+    "title": "The History of Don Quixote, Volume 2",
+    "author": "Miguel de Cervantes Saavedra",
+    "genres": [
+      "Novels"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 600,
+    "cover": true
+  },
+  {
+    "id": 1653,
+    "slug": "the-imitation-of-christ",
+    "title": "The Imitation of Christ",
+    "author": "à Kempis Thomas",
+    "genres": [
+      "Philosophy and ideas"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 601,
+    "cover": true
+  },
+  {
+    "id": 43945,
+    "slug": "a-treatise-upon-the-law-of-copyright-in-the-united-kingdom-and-the-dominions-of-the-crown",
+    "title": "A Treatise Upon the Law of Copyright in the United Kingdom and the Dominions of the Crown,",
+    "author": "Evan James MacGillivray",
+    "genres": [],
+    "published": null,
+    "publishedSort": null,
+    "rank": 602,
+    "cover": true
+  },
+  {
+    "id": 23731,
+    "slug": "a-martian-odyssey",
+    "title": "A Martian Odyssey",
+    "author": "Stanley G. Weinbaum",
+    "genres": [
+      "Short stories",
+      "Science fiction and fantasy",
+      "Adventure"
+    ],
+    "published": "1934",
+    "publishedSort": 1934,
+    "rank": 603,
+    "cover": true
+  },
+  {
+    "id": 1564,
+    "slug": "boswells-life-of-johnson",
+    "title": "Boswell's Life of Johnson",
+    "author": "James Boswell",
+    "genres": [
+      "History and lives"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 604,
+    "cover": true
+  },
+  {
+    "id": 3189,
+    "slug": "sketches-new-and-old",
+    "title": "Sketches New and Old",
+    "author": "Mark Twain",
+    "genres": [
+      "Short stories"
+    ],
+    "published": "1875",
+    "publishedSort": 1875,
+    "rank": 605,
+    "cover": true
+  },
+  {
+    "id": 16464,
+    "slug": "the-ancient-irish-epic-tale-tain-bo-cualnge",
+    "title": "The Ancient Irish Epic Tale Táin Bó Cúalnge",
+    "author": "Joseph Dunn",
+    "genres": [],
+    "published": null,
+    "publishedSort": null,
+    "rank": 606,
+    "cover": true
+  },
+  {
+    "id": 5427,
+    "slug": "emile",
+    "title": "Emile",
+    "author": "Jean-Jacques Rousseau",
+    "genres": [
+      "Philosophy and ideas"
+    ],
+    "published": "1762",
+    "publishedSort": 1762,
+    "rank": 607,
+    "cover": true
+  },
+  {
+    "id": 43098,
+    "slug": "selected-works-of-voltairine-de-cleyre",
+    "title": "Selected Works of Voltairine De Cleyre",
+    "author": "Voltairine De Cleyre",
+    "genres": [
+      "Philosophy and ideas",
+      "History and lives"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 608,
+    "cover": true
+  },
+  {
+    "id": 19412,
+    "slug": "set-in-silver",
+    "title": "Set in Silver",
+    "author": "C. N. Williamson",
+    "genres": [
+      "Novels",
+      "Adventure",
+      "Romance"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 609,
+    "cover": true
+  },
+  {
+    "id": 994,
+    "slug": "riders-to-the-sea",
+    "title": "Riders to the Sea",
+    "author": "J. M. Synge",
+    "genres": [
+      "Plays"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 610,
+    "cover": true
+  },
+  {
+    "id": 26318,
+    "slug": "the-horsewoman",
+    "title": "The Horsewoman",
+    "author": "Alice M. Hayes",
+    "genres": [],
+    "published": null,
+    "publishedSort": null,
+    "rank": 611,
+    "cover": true
+  },
+  {
+    "id": 12082,
+    "slug": "color-images-from-mars-rovers",
+    "title": "Color Images from Mars Rovers",
+    "author": "Bob Webster",
+    "genres": [],
+    "published": null,
+    "publishedSort": null,
+    "rank": 612,
+    "cover": true
+  },
+  {
+    "id": 5199,
+    "slug": "south",
+    "title": "South",
+    "author": "Ernest Henry Shackleton",
+    "genres": [
+      "Adventure",
+      "History and lives"
+    ],
+    "published": "1919",
+    "publishedSort": 1919,
+    "rank": 613,
+    "cover": true
+  },
+  {
+    "id": 34323,
+    "slug": "the-samurai-strategy",
+    "title": "The Samurai Strategy",
+    "author": "Thomas Hoover",
+    "genres": [
+      "Novels",
+      "Mystery and crime"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 614,
+    "cover": true
+  },
+  {
+    "id": 10136,
+    "slug": "the-book-of-household-management",
+    "title": "The Book of Household Management",
+    "author": "Mrs. Beeton",
+    "genres": [],
+    "published": null,
+    "publishedSort": null,
+    "rank": 615,
+    "cover": true
+  },
+  {
+    "id": 43578,
+    "slug": "an-introduction-to-entomology",
+    "title": "An Introduction to Entomology",
+    "author": "William Kirby",
+    "genres": [],
+    "published": null,
+    "publishedSort": null,
+    "rank": 616,
+    "cover": true
+  },
+  {
+    "id": 1429,
+    "slug": "the-garden-party-and-other-stories",
+    "title": "The Garden Party, and Other Stories",
+    "author": "Katherine Mansfield",
+    "genres": [
+      "Short stories"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 617,
+    "cover": true
+  },
+  {
+    "id": 1279,
+    "slug": "poems-and-songs-of-robert-burns",
+    "title": "Poems and Songs of Robert Burns",
+    "author": "Robert Burns",
+    "genres": [
+      "Poetry"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 618,
+    "cover": true
+  },
+  {
+    "id": 67792,
+    "slug": "a-history-of-magic-and-experimental-science-volume-1-of-2",
+    "title": "A History of Magic and Experimental Science, Volume 1 (of 2)",
+    "author": "Lynn Thorndike",
+    "genres": [
+      "Philosophy and ideas",
+      "History and lives"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 619,
+    "cover": true
+  },
+  {
+    "id": 38427,
+    "slug": "the-world-as-will-and-idea-vol-1-of-3",
+    "title": "The World as Will and Idea (Vol. 1 of 3)",
+    "author": "Arthur Schopenhauer",
+    "genres": [
+      "Philosophy and ideas"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 620,
+    "cover": true
+  },
+  {
+    "id": 59386,
+    "slug": "the-history-of-human-marriage",
+    "title": "The History of Human Marriage",
+    "author": "Edward Westermarck",
+    "genres": [],
+    "published": null,
+    "publishedSort": null,
+    "rank": 621,
+    "cover": true
+  },
+  {
+    "id": 30434,
+    "slug": "occasion-for-disaster",
+    "title": "Occasion ... for Disaster",
+    "author": "Randall Garrett",
+    "genres": [
+      "Science fiction and fantasy",
+      "Mystery and crime"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 622,
+    "cover": true
+  },
+  {
+    "id": 8578,
+    "slug": "the-grand-inquisitor",
+    "title": "The Grand Inquisitor",
+    "author": "Fyodor Dostoyevsky",
+    "genres": [
+      "Plays",
+      "Philosophy and ideas"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 623,
+    "cover": true
+  },
+  {
+    "id": 55179,
+    "slug": "one-of-the-six-hundred",
+    "title": "One of the Six Hundred",
+    "author": "James Grant",
+    "genres": [
+      "Novels",
+      "Adventure",
+      "Romance"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 624,
+    "cover": true
+  },
+  {
+    "id": 76411,
+    "slug": "the-last-dragon",
+    "title": "The Last Dragon",
+    "author": "Dan Totheroh",
+    "genres": [
+      "Novels",
+      "Children's",
+      "Science fiction and fantasy",
+      "Adventure"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 625,
+    "cover": true
+  },
+  {
+    "id": 34318,
+    "slug": "life-blood",
+    "title": "Life Blood",
+    "author": "Thomas Hoover",
+    "genres": [
+      "Novels",
+      "Mystery and crime"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 626,
+    "cover": true
+  },
+  {
+    "id": 1680,
+    "slug": "at-the-sign-of-the-cat-and-racket",
+    "title": "At the Sign of the Cat and Racket",
+    "author": "Honoré de Balzac",
+    "genres": [
+      "Novels",
+      "Romance"
+    ],
+    "published": "1829",
+    "publishedSort": 1829,
+    "rank": 627,
+    "cover": true
+  },
+  {
+    "id": 149,
+    "slug": "the-lost-continent",
+    "title": "The Lost Continent",
+    "author": "Edgar Rice Burroughs",
+    "genres": [
+      "Novels",
+      "Science fiction and fantasy",
+      "Adventure"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 628,
+    "cover": true
+  },
+  {
+    "id": 48296,
+    "slug": "linnet",
+    "title": "Linnet",
+    "author": "Grant Allen",
+    "genres": [
+      "Novels",
+      "Romance"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 629,
+    "cover": true
+  },
+  {
+    "id": 12238,
+    "slug": "science-in-the-kitchen",
+    "title": "Science in the Kitchen",
+    "author": "E. E. Kellogg",
+    "genres": [],
+    "published": null,
+    "publishedSort": null,
+    "rank": 630,
+    "cover": true
+  },
+  {
+    "id": 23042,
+    "slug": "the-tempest",
+    "title": "The Tempest",
+    "author": "William Shakespeare",
+    "genres": [
+      "Plays"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 631,
+    "cover": true
+  },
+  {
+    "id": 7439,
+    "slug": "english-fairy-tales",
+    "title": "English Fairy Tales",
+    "author": "Joseph Jacobs",
+    "genres": [
+      "Children's"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 632,
+    "cover": true
+  },
+  {
+    "id": 9105,
+    "slug": "reflections",
+    "title": "Reflections",
+    "author": "François duc de La Rochefoucauld",
+    "genres": [
+      "Philosophy and ideas"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 633,
+    "cover": true
+  },
+  {
+    "id": 65903,
+    "slug": "psychology-of-the-unconscious",
+    "title": "Psychology of the Unconscious",
+    "author": "C. G. Jung",
+    "genres": [
+      "Philosophy and ideas"
+    ],
+    "published": "1952",
+    "publishedSort": 1952,
+    "rank": 634,
+    "cover": true
+  },
+  {
+    "id": 6081,
+    "slug": "biographia-literaria",
+    "title": "Biographia Literaria",
+    "author": "Samuel Taylor Coleridge",
+    "genres": [
+      "Philosophy and ideas",
+      "History and lives"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 635,
+    "cover": true
+  },
+  {
+    "id": 53874,
+    "slug": "under-the-red-dragon",
+    "title": "Under the Red Dragon",
+    "author": "James Grant",
+    "genres": [
+      "Romance"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 636,
+    "cover": true
+  },
+  {
+    "id": 30849,
+    "slug": "the-works-of-robert-louis-stevenson-swanston-edition-vol-20",
+    "title": "The Works of Robert Louis Stevenson - Swanston Edition, Vol. 20",
+    "author": "Robert Louis Stevenson",
+    "genres": [
+      "Novels",
+      "Romance"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 637,
+    "cover": true
+  },
+  {
+    "id": 32759,
+    "slug": "red-nails",
+    "title": "Red Nails",
+    "author": "Robert E. Howard",
+    "genres": [
+      "Science fiction and fantasy",
+      "Adventure"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 638,
+    "cover": true
+  },
+  {
+    "id": 3178,
+    "slug": "the-gilded-age",
+    "title": "The Gilded Age",
+    "author": "Mark Twain",
+    "genres": [
+      "Novels"
+    ],
+    "published": "1873",
+    "publishedSort": 1873,
+    "rank": 639,
+    "cover": true
+  },
+  {
+    "id": 8117,
+    "slug": "the-possessed",
+    "title": "The Possessed",
+    "author": "Fyodor Dostoyevsky",
+    "genres": [
+      "Novels"
+    ],
+    "published": "1871",
+    "publishedSort": 1871,
+    "rank": 640,
+    "cover": true
+  },
+  {
+    "id": 14264,
+    "slug": "the-practice-and-science-of-drawing",
+    "title": "The Practice and Science of Drawing",
+    "author": "Harold Speed",
+    "genres": [],
+    "published": null,
+    "publishedSort": null,
+    "rank": 641,
+    "cover": true
+  },
+  {
+    "id": 53154,
+    "slug": "cameron-of-lochiel",
+    "title": "Cameron of Lochiel",
+    "author": "Philippe Aubert de Gaspé",
+    "genres": [
+      "Romance"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 642,
+    "cover": true
+  },
+  {
+    "id": 25326,
+    "slug": "lives-of-the-most-eminent-painters-sculptors-and-architects-vol-01-of-10",
+    "title": "Lives of the Most Eminent Painters Sculptors and Architects, Vol. 01 (of 10)",
+    "author": "Giorgio Vasari",
+    "genres": [
+      "History and lives"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 643,
+    "cover": true
+  },
+  {
+    "id": 47530,
+    "slug": "oliver-twist-vol-2-of-3",
+    "title": "Oliver Twist, Vol. 2 (of 3)",
+    "author": "Charles Dickens",
+    "genres": [
+      "Novels",
+      "Mystery and crime"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 644,
+    "cover": true
+  },
+  {
+    "id": 16713,
+    "slug": "amusements-in-mathematics",
+    "title": "Amusements in Mathematics",
+    "author": "Henry Ernest Dudeney",
+    "genres": [],
+    "published": null,
+    "publishedSort": null,
+    "rank": 645,
+    "cover": true
+  },
+  {
+    "id": 48433,
+    "slug": "kants-critique-of-judgement",
+    "title": "Kant's Critique of Judgement",
+    "author": "Immanuel Kant",
+    "genres": [
+      "Philosophy and ideas"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 647,
+    "cover": true
+  },
+  {
+    "id": 49987,
+    "slug": "forest-days",
+    "title": "Forest Days",
+    "author": "G. P. R. James",
+    "genres": [
+      "Romance"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 648,
+    "cover": true
+  },
+  {
+    "id": 13529,
+    "slug": "the-influence-of-sea-power-upon-history-1660-1783",
+    "title": "The Influence of Sea Power Upon History, 1660-1783",
+    "author": "A. T. Mahan",
+    "genres": [
+      "History and lives"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 649,
+    "cover": true
+  },
+  {
+    "id": 25141,
+    "slug": "the-pursuit-of-god",
+    "title": "The Pursuit of God",
+    "author": "A. W. Tozer",
+    "genres": [
+      "Philosophy and ideas"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 650,
+    "cover": true
+  },
+  {
+    "id": 21829,
+    "slug": "a-treatise-on-domestic-economy",
+    "title": "A Treatise on Domestic Economy",
+    "author": "Catharine Esther Beecher",
+    "genres": [],
+    "published": null,
+    "publishedSort": null,
+    "rank": 651,
+    "cover": true
+  },
+  {
+    "id": 7986,
+    "slug": "plays-by-anton-chekhov-second-series",
+    "title": "Plays by Anton Chekhov, Second Series",
+    "author": "Anton Pavlovich Chekhov",
+    "genres": [
+      "Plays"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 652,
+    "cover": true
+  },
+  {
+    "id": 76391,
+    "slug": "fairy-dreams",
+    "title": "Fairy Dreams",
+    "author": "Jane G. Austin",
+    "genres": [
+      "Short stories",
+      "Children's",
+      "Science fiction and fantasy"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 653,
+    "cover": true
+  },
+  {
+    "id": 24518,
+    "slug": "memoirs-of-extraordinary-popular-delusions-and-the-madness-of-crowds",
+    "title": "Memoirs of Extraordinary Popular Delusions and the Madness of Crowds",
+    "author": "Charles Mackay",
+    "genres": [
+      "History and lives"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 654,
+    "cover": true
+  },
+  {
+    "id": 38983,
+    "slug": "the-camp-fire-girls-solve-a-mystery",
+    "title": "The Camp Fire Girls Solve a Mystery",
+    "author": "Hildegard G. Frey",
+    "genres": [
+      "Novels",
+      "Children's",
+      "Mystery and crime",
+      "Adventure"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 655,
+    "cover": true
+  },
+  {
+    "id": 148,
+    "slug": "the-autobiography-of-benjamin-franklin",
+    "title": "The Autobiography of Benjamin Franklin",
+    "author": "Benjamin Franklin",
+    "genres": [
+      "History and lives"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 656,
+    "cover": true
+  },
+  {
+    "id": 512,
+    "slug": "mosses-from-an-old-manse",
+    "title": "Mosses from an Old Manse",
+    "author": "Nathaniel Hawthorne",
+    "genres": [
+      "Horror and gothic",
+      "Philosophy and ideas"
+    ],
+    "published": "1835",
+    "publishedSort": 1835,
+    "rank": 657,
+    "cover": true
+  },
+  {
+    "id": 64488,
+    "slug": "roman-stoicism",
+    "title": "Roman Stoicism",
+    "author": "Edward Vernon Arnold",
+    "genres": [
+      "Philosophy and ideas",
+      "History and lives"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 658,
+    "cover": true
+  },
+  {
+    "id": 4093,
+    "slug": "hedda-gabler",
+    "title": "Hedda Gabler",
+    "author": "Henrik Ibsen",
+    "genres": [
+      "Plays"
+    ],
+    "published": "1890",
+    "publishedSort": 1890,
+    "rank": 659,
+    "cover": true
+  },
+  {
+    "id": 52881,
+    "slug": "the-joyful-wisdom-la-gaya-scienza",
+    "title": "The Joyful Wisdom (\"La Gaya Scienza\")",
+    "author": "Friedrich Wilhelm Nietzsche",
+    "genres": [
+      "Philosophy and ideas"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 660,
+    "cover": true
+  },
+  {
+    "id": 25502,
+    "slug": "hero-myths-legends-of-the-british-race",
+    "title": "Hero-Myths & Legends of the British Race",
+    "author": "M. I. Ebbutt",
+    "genres": [
+      "Children's"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 661,
+    "cover": true
+  },
+  {
+    "id": 1754,
+    "slug": "the-sea-gull",
+    "title": "The Sea-gull",
+    "author": "Anton Pavlovich Chekhov",
+    "genres": [
+      "Plays"
+    ],
+    "published": "1896",
+    "publishedSort": 1896,
+    "rank": 662,
+    "cover": true
+  },
+  {
+    "id": 16921,
+    "slug": "plague-ship",
+    "title": "Plague Ship",
+    "author": "Andre Norton",
+    "genres": [
+      "Science fiction and fantasy",
+      "Adventure"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 663,
+    "cover": true
+  },
+  {
+    "id": 21638,
+    "slug": "tarrano-the-conqueror",
+    "title": "Tarrano the Conqueror",
+    "author": "Ray Cummings",
+    "genres": [
+      "Novels",
+      "Science fiction and fantasy",
+      "Adventure"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 664,
+    "cover": true
+  },
+  {
+    "id": 49322,
+    "slug": "the-skirts-of-the-great-city",
+    "title": "The Skirts of the Great City",
+    "author": "N. D'Anvers",
+    "genres": [
+      "History and lives"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 665,
+    "cover": true
+  },
+  {
+    "id": 18947,
+    "slug": "the-younger-edda",
+    "title": "The Younger Edda",
+    "author": "Snorri Sturluson",
+    "genres": [],
+    "published": null,
+    "publishedSort": null,
+    "rank": 666,
+    "cover": true
+  },
+  {
+    "id": 60,
+    "slug": "the-scarlet-pimpernel",
+    "title": "The Scarlet Pimpernel",
+    "author": "Emmuska Orczy Orczy",
+    "genres": [
+      "Adventure"
+    ],
+    "published": "1905",
+    "publishedSort": 1905,
+    "rank": 668,
+    "cover": true
+  },
+  {
+    "id": 28152,
+    "slug": "sword-and-pen",
+    "title": "Sword and Pen",
+    "author": "John Algernon Owens",
+    "genres": [
+      "History and lives"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 669,
+    "cover": true
+  },
+  {
+    "id": 38326,
+    "slug": "bedes-ecclesiastical-history-of-england",
+    "title": "Bede's Ecclesiastical History of England",
+    "author": "the Venerable Bede",
+    "genres": [
+      "History and lives"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 670,
+    "cover": true
+  },
+  {
+    "id": 24950,
+    "slug": "bradfords-history-of-plimoth-plantation",
+    "title": "Bradford's History of 'Plimoth Plantation'",
+    "author": "William Bradford",
+    "genres": [
+      "History and lives"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 671,
+    "cover": true
+  },
+  {
+    "id": 19994,
+    "slug": "the-aesop-for-children",
+    "title": "The Aesop for Children",
+    "author": "Aesop",
+    "genres": [
+      "Children's"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 672,
+    "cover": true
+  },
+  {
+    "id": 25282,
+    "slug": "the-jewish-state",
+    "title": "The Jewish State",
+    "author": "Theodor Herzl",
+    "genres": [
+      "Philosophy and ideas",
+      "History and lives"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 673,
+    "cover": true
+  },
+  {
+    "id": 23790,
+    "slug": "the-ultimate-weapon",
+    "title": "The Ultimate Weapon",
+    "author": "John W. Campbell",
+    "genres": [
+      "Science fiction and fantasy",
+      "Adventure"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 674,
+    "cover": true
+  },
+  {
+    "id": 32,
+    "slug": "herland",
+    "title": "Herland",
+    "author": "Charlotte Perkins Gilman",
+    "genres": [
+      "Novels",
+      "Science fiction and fantasy"
+    ],
+    "published": "1915",
+    "publishedSort": 1915,
+    "rank": 675,
+    "cover": true
+  },
+  {
+    "id": 10800,
+    "slug": "the-anatomy-of-melancholy",
+    "title": "The Anatomy of Melancholy",
+    "author": "Robert Burton",
+    "genres": [
+      "Philosophy and ideas"
+    ],
+    "published": "1621",
+    "publishedSort": 1621,
+    "rank": 676,
+    "cover": true
+  },
+  {
+    "id": 1353,
+    "slug": "off-on-a-comet-a-journey-through-planetary-space",
+    "title": "Off on a Comet! a Journey Through Planetary Space",
+    "author": "Jules Verne",
+    "genres": [
+      "Novels",
+      "Science fiction and fantasy",
+      "Adventure"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 677,
+    "cover": true
+  },
+  {
+    "id": 57009,
+    "slug": "history-of-lace",
+    "title": "History of Lace",
+    "author": "Bury Palliser",
+    "genres": [
+      "History and lives"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 678,
+    "cover": true
+  },
+  {
+    "id": 17851,
+    "slug": "the-history-of-mary-prince-a-west-indian-slave",
+    "title": "The History of Mary Prince, a West Indian Slave",
+    "author": "Mary Prince",
+    "genres": [
+      "History and lives"
+    ],
+    "published": "1831",
+    "publishedSort": 1831,
+    "rank": 679,
+    "cover": true
+  },
+  {
+    "id": 42486,
+    "slug": "the-two-magics",
+    "title": "The Two Magics",
+    "author": "Henry James",
+    "genres": [
+      "Novels",
+      "Mystery and crime"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 680,
+    "cover": true
+  },
+  {
+    "id": 44608,
+    "slug": "the-babur-nama-in-english-memoirs-of-babur",
+    "title": "The Bābur-nāma in English (Memoirs of Bābur)",
+    "author": "Emperor of Hindustan Babur",
+    "genres": [
+      "History and lives"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 681,
+    "cover": true
+  },
+  {
+    "id": 44833,
+    "slug": "chaucers-works-volume-2",
+    "title": "Chaucer's Works, Volume 2",
+    "author": "Geoffrey Chaucer",
+    "genres": [
+      "Poetry",
+      "Romance",
+      "Philosophy and ideas"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 682,
+    "cover": true
+  },
+  {
+    "id": 7164,
+    "slug": "gitanjali",
+    "title": "Gitanjali",
+    "author": "Rabindranath Tagore",
+    "genres": [
+      "Poetry",
+      "Philosophy and ideas"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 683,
+    "cover": true
+  },
+  {
+    "id": 31,
+    "slug": "plays-of-sophocles",
+    "title": "Plays of Sophocles",
+    "author": "Sophocles",
+    "genres": [
+      "Plays"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 684,
+    "cover": true
+  },
+  {
+    "id": 967,
+    "slug": "nicholas-nickleby",
+    "title": "Nicholas Nickleby",
+    "author": "Charles Dickens",
+    "genres": [
+      "Novels"
+    ],
+    "published": "1839",
+    "publishedSort": 1839,
+    "rank": 685,
+    "cover": true
+  },
+  {
+    "id": 1064,
+    "slug": "the-masque-of-the-red-death",
+    "title": "The Masque of the Red Death",
+    "author": "Edgar Allan Poe",
+    "genres": [
+      "Short stories"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 686,
+    "cover": true
+  },
+  {
+    "id": 40361,
+    "slug": "the-air-pirate",
+    "title": "The Air Pirate",
+    "author": "Guy Thorne",
+    "genres": [
+      "Novels",
+      "Mystery and crime",
+      "Adventure"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 687,
+    "cover": true
+  },
+  {
+    "id": 38145,
+    "slug": "human-all-too-human",
+    "title": "Human, All Too Human",
+    "author": "Friedrich Wilhelm Nietzsche",
+    "genres": [
+      "Philosophy and ideas"
+    ],
+    "published": "1878",
+    "publishedSort": 1878,
+    "rank": 688,
+    "cover": true
+  },
+  {
+    "id": 3289,
+    "slug": "the-valley-of-fear",
+    "title": "The Valley of Fear",
+    "author": "Arthur Conan Doyle",
+    "genres": [
+      "Novels",
+      "Mystery and crime"
+    ],
+    "published": "1915",
+    "publishedSort": 1915,
+    "rank": 689,
+    "cover": true
+  },
+  {
+    "id": 27587,
+    "slug": "a-victor-of-salamis",
+    "title": "A Victor of Salamis",
+    "author": "William Stearns Davis",
+    "genres": [
+      "Adventure"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 690,
+    "cover": true
+  },
+  {
+    "id": 11757,
+    "slug": "the-velveteen-rabbit",
+    "title": "The Velveteen Rabbit",
+    "author": "Margery Williams Bianco",
+    "genres": [
+      "Children's"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 691,
+    "cover": true
+  },
+  {
+    "id": 22400,
+    "slug": "foxs-book-of-martyrs",
+    "title": "Fox's Book of Martyrs",
+    "author": "John Foxe",
+    "genres": [
+      "History and lives"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 692,
+    "cover": true
+  },
+  {
+    "id": 50290,
+    "slug": "space-station-1",
+    "title": "Space Station 1",
+    "author": "Frank Belknap Long",
+    "genres": [
+      "Novels",
+      "Science fiction and fantasy",
+      "Mystery and crime"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 693,
+    "cover": true
+  },
+  {
+    "id": 3623,
+    "slug": "the-golden-bough",
+    "title": "The Golden Bough",
+    "author": "James George Frazer",
+    "genres": [
+      "Philosophy and ideas"
+    ],
+    "published": "1890",
+    "publishedSort": 1890,
+    "rank": 694,
+    "cover": true
+  },
+  {
+    "id": 76503,
+    "slug": "the-man-who-mastered-time",
+    "title": "The Man Who Mastered Time",
+    "author": "Ray Cummings",
+    "genres": [
+      "Novels",
+      "Science fiction and fantasy",
+      "Adventure"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 695,
+    "cover": true
+  },
+  {
+    "id": 9622,
+    "slug": "lyrical-ballads-with-a-few-other-poems-1798",
+    "title": "Lyrical Ballads, With a Few Other Poems (1798)",
+    "author": "William Wordsworth",
+    "genres": [
+      "Poetry"
+    ],
+    "published": "1798",
+    "publishedSort": 1798,
+    "rank": 696,
+    "cover": true
+  },
+  {
+    "id": 10827,
+    "slug": "discourses-on-the-first-decade-of-titus-livius",
+    "title": "Discourses on the First Decade of Titus Livius",
+    "author": "Niccolò Machiavelli",
+    "genres": [
+      "Philosophy and ideas",
+      "History and lives"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 697,
+    "cover": true
+  },
+  {
+    "id": 34856,
+    "slug": "my-own-story",
+    "title": "My Own Story",
+    "author": "Emmeline Pankhurst",
+    "genres": [
+      "Philosophy and ideas",
+      "History and lives"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 698,
+    "cover": true
+  },
+  {
+    "id": 75011,
+    "slug": "all-quiet-on-the-western-front",
+    "title": "All Quiet on the Western Front",
+    "author": "Erich Maria Remarque",
+    "genres": [
+      "Novels",
+      "History and lives"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 700,
+    "cover": true
+  },
+  {
+    "id": 398,
+    "slug": "the-first-book-of-adam-and-eve",
+    "title": "The First Book of Adam and Eve",
+    "author": "Rutherford Hayes Platt",
+    "genres": [
+      "Novels",
+      "Philosophy and ideas"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 701,
+    "cover": true
+  },
+  {
+    "id": 34206,
+    "slug": "the-thousand-and-one-nights-vol-i",
+    "title": "The Thousand and One Nights, Vol. I.",
+    "author": "Edward William Lane",
+    "genres": [],
+    "published": null,
+    "publishedSort": null,
+    "rank": 702,
+    "cover": true
+  },
+  {
+    "id": 76049,
+    "slug": "dancing-devil-range",
+    "title": "Dancing Devil Range",
+    "author": "W. C. Tuttle",
+    "genres": [
+      "Novels",
+      "Mystery and crime",
+      "Adventure"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 703,
+    "cover": true
+  },
+  {
+    "id": 6456,
+    "slug": "public-opinion",
+    "title": "Public Opinion",
+    "author": "Walter Lippmann",
+    "genres": [
+      "Philosophy and ideas"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 704,
+    "cover": true
+  },
+  {
+    "id": 553,
+    "slug": "out-of-times-abyss",
+    "title": "Out of Time's Abyss",
+    "author": "Edgar Rice Burroughs",
+    "genres": [
+      "Science fiction and fantasy",
+      "Adventure"
+    ],
+    "published": "1963",
+    "publishedSort": 1963,
+    "rank": 705,
+    "cover": true
+  },
+  {
+    "id": 14474,
+    "slug": "the-chemical-history-of-a-candle",
+    "title": "The Chemical History of a Candle",
+    "author": "Michael Faraday",
+    "genres": [],
+    "published": null,
+    "publishedSort": null,
+    "rank": 706,
+    "cover": true
+  },
+  {
+    "id": 33504,
+    "slug": "opticks",
+    "title": "Opticks",
+    "author": "Isaac Newton",
+    "genres": [],
+    "published": null,
+    "publishedSort": null,
+    "rank": 707,
+    "cover": true
+  },
+  {
+    "id": 22542,
+    "slug": "jesus-the-christ",
+    "title": "Jesus the Christ",
+    "author": "James E. Talmage",
+    "genres": [
+      "Philosophy and ideas"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 708,
+    "cover": true
+  },
+  {
+    "id": 43855,
+    "slug": "franklins-way-to-wealth",
+    "title": "Franklin's Way to Wealth",
+    "author": "Benjamin Franklin",
+    "genres": [
+      "Philosophy and ideas"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 709,
+    "cover": true
+  },
+  {
+    "id": 30691,
+    "slug": "astounding-stories-of-super-science-december-1930",
+    "title": "Astounding Stories of Super-Science, December 1930",
+    "author": "Various",
+    "genres": [
+      "Short stories",
+      "Science fiction and fantasy",
+      "Adventure"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 710,
+    "cover": true
+  },
+  {
+    "id": 76352,
+    "slug": "the-world-below",
+    "title": "The World Below",
+    "author": "S. Fowler Wright",
+    "genres": [
+      "Novels",
+      "Science fiction and fantasy",
+      "Adventure"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 711,
+    "cover": true
+  },
+  {
+    "id": 14988,
+    "slug": "ciceros-tusculan-disputations",
+    "title": "Cicero's Tusculan Disputations",
+    "author": "Marcus Tullius Cicero",
+    "genres": [
+      "Philosophy and ideas"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 712,
+    "cover": true
+  },
+  {
+    "id": 29391,
+    "slug": "blue-grass-and-broadway",
+    "title": "Blue-grass and Broadway",
+    "author": "Maria Thompson Daviess",
+    "genres": [
+      "Novels",
+      "Adventure",
+      "Romance"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 713,
+    "cover": true
+  },
+  {
+    "id": 33118,
+    "slug": "just-around-the-corner",
+    "title": "Just Around the Corner",
+    "author": "Fannie Hurst",
+    "genres": [
+      "Novels",
+      "Romance"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 714,
+    "cover": true
+  },
+  {
+    "id": 67691,
+    "slug": "pharmacographia",
+    "title": "Pharmacographia",
+    "author": "Friedrich A. Flückiger",
+    "genres": [
+      "History and lives"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 715,
+    "cover": true
+  },
+  {
+    "id": 47,
+    "slug": "anne-of-avonlea",
+    "title": "Anne of Avonlea",
+    "author": "L. M. Montgomery",
+    "genres": [
+      "Novels",
+      "Children's"
+    ],
+    "published": "1909",
+    "publishedSort": 1909,
+    "rank": 716,
+    "cover": true
+  },
+  {
+    "id": 20782,
+    "slug": "triplanetary",
+    "title": "Triplanetary",
+    "author": "E. E. Smith",
+    "genres": [
+      "Novels",
+      "Science fiction and fantasy",
+      "Adventure"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 717,
+    "cover": true
+  },
+  {
+    "id": 82,
+    "slug": "ivanhoe",
+    "title": "Ivanhoe",
+    "author": "Walter Scott",
+    "genres": [
+      "Novels"
+    ],
+    "published": "1819",
+    "publishedSort": 1819,
+    "rank": 718,
+    "cover": true
+  },
+  {
+    "id": 503,
+    "slug": "the-blue-fairy-book",
+    "title": "The Blue Fairy Book",
+    "author": "Andrew Lang",
+    "genres": [
+      "Children's",
+      "Adventure"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 719,
+    "cover": true
+  },
+  {
+    "id": 68470,
+    "slug": "fossil-plants-vol-2",
+    "title": "Fossil Plants, Vol. 2",
+    "author": "A. C. Seward",
+    "genres": [],
+    "published": null,
+    "publishedSort": null,
+    "rank": 720,
+    "cover": true
+  },
+  {
+    "id": 10897,
+    "slug": "the-wendigo",
+    "title": "The Wendigo",
+    "author": "Algernon Blackwood",
+    "genres": [
+      "Novels",
+      "Horror and gothic"
+    ],
+    "published": "1910",
+    "publishedSort": 1910,
+    "rank": 721,
+    "cover": true
+  },
+  {
+    "id": 19027,
+    "slug": "the-revolt-on-venus",
+    "title": "The Revolt on Venus",
+    "author": "Carey Rockwell",
+    "genres": [
+      "Science fiction and fantasy",
+      "Adventure"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 722,
+    "cover": true
+  },
+  {
+    "id": 20023,
+    "slug": "the-letters-of-queen-victoria-vol-1-1837-1843",
+    "title": "The Letters of Queen Victoria, Vol. 1, 1837-1843",
+    "author": "Queen of Great Britain Victoria",
+    "genres": [
+      "Philosophy and ideas",
+      "History and lives"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 723,
+    "cover": true
+  },
+  {
+    "id": 54219,
+    "slug": "a-little-english-gallery",
+    "title": "A Little English Gallery",
+    "author": "Louise Imogen Guiney",
+    "genres": [
+      "History and lives"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 724,
+    "cover": true
+  },
+  {
+    "id": 76261,
+    "slug": "tales-of-terror",
+    "title": "Tales of Terror",
+    "author": "Dick Donovan",
+    "genres": [
+      "Short stories",
+      "Science fiction and fantasy",
+      "Mystery and crime"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 725,
+    "cover": true
+  },
+  {
+    "id": 76084,
+    "slug": "the-nowadays-girls-in-the-adirondacks",
+    "title": "The Nowadays Girls in the Adirondacks",
+    "author": "Gertrude Hall Brownell",
+    "genres": [
+      "Novels",
+      "Children's",
+      "Mystery and crime",
+      "Adventure"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 726,
+    "cover": true
+  },
+  {
+    "id": 76358,
+    "slug": "they-return-at-evening",
+    "title": "They Return at Evening",
+    "author": "Herbert Russell Wakefield",
+    "genres": [
+      "Short stories",
+      "Science fiction and fantasy"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 727,
+    "cover": true
+  },
+  {
+    "id": 45988,
+    "slug": "novum-organum",
+    "title": "Novum Organum",
+    "author": "Francis Bacon",
+    "genres": [
+      "Philosophy and ideas"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 728,
+    "cover": true
+  },
+  {
+    "id": 23789,
+    "slug": "cruel-as-the-grave",
+    "title": "Cruel as the Grave",
+    "author": "Emma Dorothy Eliza Nevitte Southworth",
+    "genres": [
+      "Novels",
+      "Romance"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 729,
+    "cover": true
+  },
+  {
+    "id": 833,
+    "slug": "the-theory-of-the-leisure-class",
+    "title": "The Theory of the Leisure Class",
+    "author": "Thorstein Veblen",
+    "genres": [],
+    "published": null,
+    "publishedSort": null,
+    "rank": 730,
+    "cover": true
+  },
+  {
+    "id": 30532,
+    "slug": "astounding-stories-may-1931",
+    "title": "Astounding Stories, May, 1931",
+    "author": "Various",
+    "genres": [
+      "Short stories",
+      "Science fiction and fantasy",
+      "Adventure"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 731,
+    "cover": true
+  },
+  {
+    "id": 76521,
+    "slug": "the-hunniwell-boys-and-the-platinum-mystery",
+    "title": "The Hunniwell Boys and the Platinum Mystery",
+    "author": "L. P. Wyman",
+    "genres": [
+      "Children's",
+      "Mystery and crime",
+      "Adventure"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 732,
+    "cover": true
+  },
+  {
+    "id": 10148,
+    "slug": "the-merry-adventures-of-robin-hood",
+    "title": "The Merry Adventures of Robin Hood",
+    "author": "Howard Pyle",
+    "genres": [
+      "Science fiction and fantasy",
+      "Adventure"
+    ],
+    "published": "1883",
+    "publishedSort": 1883,
+    "rank": 733,
+    "cover": true
+  },
+  {
+    "id": 76339,
+    "slug": "the-roman-hat-mystery",
+    "title": "The Roman Hat Mystery",
+    "author": "Ellery Queen",
+    "genres": [
+      "Novels",
+      "Mystery and crime"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 734,
+    "cover": true
+  },
+  {
+    "id": 16199,
+    "slug": "memoirs-of-the-author-of-a-vindication-of-the-rights-of-woman",
+    "title": "Memoirs of the Author of a Vindication of the Rights of Woman",
+    "author": "William Godwin",
+    "genres": [
+      "History and lives"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 735,
+    "cover": true
+  },
+  {
+    "id": 2232,
+    "slug": "the-duchess-of-malfi",
+    "title": "The Duchess of Malfi",
+    "author": "John Webster",
+    "genres": [
+      "Plays"
+    ],
+    "published": "1623",
+    "publishedSort": 1623,
+    "rank": 736,
+    "cover": true
+  },
+  {
+    "id": 17199,
+    "slug": "golden-days-for-boys-and-girls-vol-xii-jan-3-1891",
+    "title": "Golden Days for Boys and Girls, Vol. XII, Jan. 3, 1891",
+    "author": "Various",
+    "genres": [
+      "Children's",
+      "Adventure"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 737,
+    "cover": true
+  },
+  {
+    "id": 24375,
+    "slug": "wizard",
+    "title": "Wizard",
+    "author": "Laurence M. Janifer",
+    "genres": [
+      "Science fiction and fantasy",
+      "Adventure"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 738,
+    "cover": true
+  },
+  {
+    "id": 55822,
+    "slug": "argonauts-of-the-western-pacific",
+    "title": "Argonauts of the Western Pacific",
+    "author": "Bronislaw Malinowski",
+    "genres": [],
+    "published": null,
+    "publishedSort": null,
+    "rank": 739,
+    "cover": true
+  },
+  {
+    "id": 61963,
+    "slug": "we",
+    "title": "We",
+    "author": "Evgenii Ivanovich Zamiatin",
+    "genres": [
+      "Novels",
+      "Science fiction and fantasy"
+    ],
+    "published": "1924",
+    "publishedSort": 1924,
+    "rank": 740,
+    "cover": true
+  },
+  {
+    "id": 21279,
+    "slug": "2-b-r-0-2-b",
+    "title": "2 B R 0 2 B",
+    "author": "Kurt Vonnegut",
+    "genres": [
+      "Short stories",
+      "Science fiction and fantasy"
+    ],
+    "published": "1962",
+    "publishedSort": 1962,
+    "rank": 741,
+    "cover": true
+  },
+  {
+    "id": 77097,
+    "slug": "the-magic-ring-vol-1-of-3",
+    "title": "The Magic Ring, Vol. 1 (of 3)",
+    "author": "Friedrich Heinrich Karl La Motte-Fouqué",
+    "genres": [
+      "Novels",
+      "Science fiction and fantasy",
+      "Adventure",
+      "Romance"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 742,
+    "cover": true
+  },
+  {
+    "id": 3913,
+    "slug": "the-confessions-of-jean-jacques-rousseau",
+    "title": "The Confessions of Jean Jacques Rousseau",
+    "author": "Jean-Jacques Rousseau",
+    "genres": [
+      "Philosophy and ideas",
+      "History and lives"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 743,
+    "cover": true
+  },
+  {
+    "id": 76418,
+    "slug": "the-tomb-of-tsin",
+    "title": "The Tomb of Ts'in",
+    "author": "Edgar Wallace",
+    "genres": [
+      "Novels",
+      "Mystery and crime",
+      "Adventure"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 744,
+    "cover": true
+  },
+  {
+    "id": 50603,
+    "slug": "minute-mysteries",
+    "title": "Minute Mysteries",
+    "author": "H. A. Ripley",
+    "genres": [
+      "Short stories",
+      "Mystery and crime"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 745,
+    "cover": true
+  },
+  {
+    "id": 39423,
+    "slug": "the-manual-of-the-botany-of-the-northern-united-states",
+    "title": "The Manual of the Botany of the Northern United States",
+    "author": "Asa Gray",
+    "genres": [],
+    "published": null,
+    "publishedSort": null,
+    "rank": 746,
+    "cover": true
+  },
+  {
+    "id": 75790,
+    "slug": "cursed-be-the-treasure",
+    "title": "Cursed Be the Treasure",
+    "author": "H. B. Drake",
+    "genres": [
+      "Novels",
+      "Mystery and crime",
+      "Adventure"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 747,
+    "cover": true
+  },
+  {
+    "id": 2811,
+    "slug": "letters-of-pliny",
+    "title": "Letters of Pliny",
+    "author": "the Younger Pliny",
+    "genres": [
+      "Philosophy and ideas",
+      "History and lives"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 748,
+    "cover": true
+  },
+  {
+    "id": 76131,
+    "slug": "the-mark-of-the-monster",
+    "title": "The Mark of the Monster",
+    "author": "Jack Williamson",
+    "genres": [
+      "Short stories",
+      "Mystery and crime"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 749,
+    "cover": true
+  },
+  {
+    "id": 76116,
+    "slug": "the-blue-scarab",
+    "title": "The Blue Scarab",
+    "author": "R. Austin Freeman",
+    "genres": [
+      "Short stories",
+      "Mystery and crime"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 750,
+    "cover": true
+  },
+  {
+    "id": 76222,
+    "slug": "the-valley-of-eyes-unseen",
+    "title": "The Valley of Eyes Unseen",
+    "author": "Gilbert Collins",
+    "genres": [
+      "Novels",
+      "Science fiction and fantasy",
+      "Adventure"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 751,
+    "cover": true
+  },
+  {
+    "id": 20796,
+    "slug": "the-colors-of-space",
+    "title": "The Colors of Space",
+    "author": "Marion Zimmer Bradley",
+    "genres": [
+      "Children's",
+      "Science fiction and fantasy",
+      "Adventure"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 752,
+    "cover": true
+  },
+  {
+    "id": 76059,
+    "slug": "the-thing-in-the-woods",
+    "title": "The Thing in the Woods",
+    "author": "Harper Williams",
+    "genres": [
+      "Novels",
+      "Mystery and crime"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 753,
+    "cover": true
+  },
+  {
+    "id": 6157,
+    "slug": "what-men-live-by-and-other-tales",
+    "title": "What Men Live By, and Other Tales",
+    "author": "Leo Tolstoy",
+    "genres": [
+      "Short stories"
+    ],
+    "published": "1886",
+    "publishedSort": 1886,
+    "rank": 754,
+    "cover": true
+  },
+  {
+    "id": 45001,
+    "slug": "institutes-of-the-christian-religion-vol-1-of-2",
+    "title": "Institutes of the Christian Religion (Vol. 1 of 2)",
+    "author": "Jean Calvin",
+    "genres": [
+      "Philosophy and ideas",
+      "History and lives"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 755,
+    "cover": true
+  },
+  {
+    "id": 76871,
+    "slug": "the-magnificent-possession",
+    "title": "The Magnificent Possession",
+    "author": "Isaac Asimov",
+    "genres": [
+      "Short stories",
+      "Science fiction and fantasy"
+    ],
+    "published": "1940",
+    "publishedSort": 1940,
+    "rank": 756,
+    "cover": true
+  },
+  {
+    "id": 42243,
+    "slug": "the-hour-of-the-dragon",
+    "title": "The Hour of the Dragon",
+    "author": "Robert E. Howard",
+    "genres": [
+      "Science fiction and fantasy",
+      "Adventure"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 757,
+    "cover": true
+  },
+  {
+    "id": 14860,
+    "slug": "the-journal-of-sir-walter-scott",
+    "title": "The Journal of Sir Walter Scott",
+    "author": "Walter Scott",
+    "genres": [
+      "History and lives"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 758,
+    "cover": true
+  },
+  {
+    "id": 201,
+    "slug": "flatland",
+    "title": "Flatland",
+    "author": "Edwin Abbott Abbott",
+    "genres": [
+      "Novels",
+      "Science fiction and fantasy"
+    ],
+    "published": "1884",
+    "publishedSort": 1884,
+    "rank": 759,
+    "cover": true
+  },
+  {
+    "id": 59112,
+    "slug": "r-u-r-rossums-universal-robots",
+    "title": "R.U.R. (Rossum's Universal Robots)",
+    "author": "Karel Čapek",
+    "genres": [
+      "Plays",
+      "Science fiction and fantasy"
+    ],
+    "published": "1920",
+    "publishedSort": 1920,
+    "rank": 760,
+    "cover": true
+  },
+  {
+    "id": 75967,
+    "slug": "dr-mabuse-master-of-mystery",
+    "title": "Dr. Mabuse, Master of Mystery",
+    "author": "Norbert Jacques",
+    "genres": [
+      "Novels",
+      "Mystery and crime"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 761,
+    "cover": true
+  },
+  {
+    "id": 18500,
+    "slug": "the-complete-works-of-robert-burns",
+    "title": "The Complete Works of Robert Burns",
+    "author": "Robert Burns",
+    "genres": [
+      "Poetry",
+      "Philosophy and ideas"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 762,
+    "cover": true
+  },
+  {
+    "id": 26151,
+    "slug": "the-tapestry-book",
+    "title": "The Tapestry Book",
+    "author": "Helen Churchill Candee",
+    "genres": [
+      "History and lives"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 763,
+    "cover": true
+  },
+  {
+    "id": 76857,
+    "slug": "i-mars",
+    "title": "I, Mars",
+    "author": "Ray Bradbury",
+    "genres": [
+      "Short stories",
+      "Science fiction and fantasy"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 764,
+    "cover": true
+  },
+  {
+    "id": 5683,
+    "slug": "the-critique-of-practical-reason",
+    "title": "The Critique of Practical Reason",
+    "author": "Immanuel Kant",
+    "genres": [
+      "Philosophy and ideas"
+    ],
+    "published": "1788",
+    "publishedSort": 1788,
+    "rank": 765,
+    "cover": true
+  },
+  {
+    "id": 76812,
+    "slug": "fighting-for-fortune",
+    "title": "Fighting for Fortune",
+    "author": "Roy Franklin",
+    "genres": [
+      "Children's",
+      "Mystery and crime",
+      "Adventure"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 766,
+    "cover": true
+  },
+  {
+    "id": 75998,
+    "slug": "daredevil",
+    "title": "Daredevil",
+    "author": "Leslie Charteris",
+    "genres": [
+      "Novels",
+      "Mystery and crime",
+      "Adventure"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 767,
+    "cover": true
+  },
+  {
+    "id": 2833,
+    "slug": "the-portrait-of-a-lady",
+    "title": "The Portrait of a Lady",
+    "author": "Henry James",
+    "genres": [
+      "Novels"
+    ],
+    "published": "1881",
+    "publishedSort": 1881,
+    "rank": 768,
+    "cover": true
+  },
+  {
+    "id": 6852,
+    "slug": "venus-in-furs",
+    "title": "Venus in Furs",
+    "author": "Leopold Sacher-Masoch",
+    "genres": [
+      "Novels"
+    ],
+    "published": "1870",
+    "publishedSort": 1870,
+    "rank": 769,
+    "cover": true
+  },
+  {
+    "id": 25088,
+    "slug": "famous-sea-fights-from-salamis-to-tsu-shima",
+    "title": "Famous Sea Fights, from Salamis to Tsu-Shima",
+    "author": "A. Hilliard Atteridge",
+    "genres": [
+      "History and lives"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 770,
+    "cover": true
+  },
+  {
+    "id": 48991,
+    "slug": "leyte",
+    "title": "Leyte",
+    "author": "M. Hamlin Cannon",
+    "genres": [
+      "History and lives"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 771,
+    "cover": true
+  },
+  {
+    "id": 5657,
+    "slug": "the-practice-of-the-presence-of-god",
+    "title": "The Practice of the Presence of God",
+    "author": "of the Resurrection Lawrence",
+    "genres": [
+      "Philosophy and ideas"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 772,
+    "cover": true
+  },
+  {
+    "id": 74335,
+    "slug": "the-ghost-dance-religion-and-the-sioux-outbreak-of-1890",
+    "title": "The Ghost-dance Religion and the Sioux Outbreak of 1890",
+    "author": "James Mooney",
+    "genres": [
+      "Philosophy and ideas",
+      "History and lives"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 773,
+    "cover": true
+  },
+  {
+    "id": 66583,
+    "slug": "the-magic-of-jewels-and-charms",
+    "title": "The Magic of Jewels and Charms",
+    "author": "George Frederick Kunz",
+    "genres": [
+      "History and lives"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 774,
+    "cover": true
+  },
+  {
+    "id": 76072,
+    "slug": "the-mystery-of-angelina-frood",
+    "title": "The Mystery of Angelina Frood",
+    "author": "R. Austin Freeman",
+    "genres": [
+      "Novels",
+      "Mystery and crime"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 775,
+    "cover": true
+  },
+  {
+    "id": 75896,
+    "slug": "arsene-lupin-intervenes",
+    "title": "Arsène Lupin Intervenes",
+    "author": "Maurice Leblanc",
+    "genres": [
+      "Novels",
+      "Mystery and crime"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 776,
+    "cover": true
+  },
+  {
+    "id": 76082,
+    "slug": "one-jump-ahead",
+    "title": "One Jump Ahead",
+    "author": "Ray Humphreys",
+    "genres": [
+      "Short stories",
+      "Mystery and crime"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 777,
+    "cover": true
+  },
+  {
+    "id": 76435,
+    "slug": "the-black-kiss",
+    "title": "The Black Kiss",
+    "author": "Robert Bloch",
+    "genres": [
+      "Short stories",
+      "Science fiction and fantasy"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 778,
+    "cover": true
+  },
+  {
+    "id": 13701,
+    "slug": "the-philippine-islands-1493-1898",
+    "title": "The Philippine Islands, 1493-1898",
+    "author": "Emma Helen Blair",
+    "genres": [
+      "History and lives"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 779,
+    "cover": true
+  },
+  {
+    "id": 26654,
+    "slug": "peter-and-wendy",
+    "title": "Peter and Wendy",
+    "author": "J. M. Barrie",
+    "genres": [
+      "Novels",
+      "Children's"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 780,
+    "cover": true
+  },
+  {
+    "id": 76539,
+    "slug": "the-life-eater",
+    "title": "The Life-eater",
+    "author": "Harold Ward",
+    "genres": [
+      "Short stories",
+      "Science fiction and fantasy"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 781,
+    "cover": true
+  },
+  {
+    "id": 76247,
+    "slug": "how-joy-was-found",
+    "title": "How Joy Was Found",
+    "author": "Isobel Wylie Hutchison",
+    "genres": [
+      "Plays",
+      "Science fiction and fantasy"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 782,
+    "cover": true
+  },
+  {
+    "id": 14975,
+    "slug": "southern-horrors",
+    "title": "Southern Horrors",
+    "author": "Ida B. Wells-Barnett",
+    "genres": [
+      "Mystery and crime",
+      "Philosophy and ideas",
+      "History and lives"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 783,
+    "cover": true
+  },
+  {
+    "id": 33644,
+    "slug": "the-secret-of-the-ninth-planet",
+    "title": "The Secret of the Ninth Planet",
+    "author": "Donald A. Wollheim",
+    "genres": [
+      "Novels",
+      "Science fiction and fantasy",
+      "Adventure"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 784,
+    "cover": true
+  },
+  {
+    "id": 75840,
+    "slug": "the-trail-of-the-serpent",
+    "title": "The Trail of the Serpent",
+    "author": "M. E. Braddon",
+    "genres": [
+      "Novels",
+      "Mystery and crime"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 785,
+    "cover": true
+  },
+  {
     "id": 67138,
     "slug": "the-sun-also-rises",
     "title": "The Sun Also Rises",
@@ -6452,7 +10237,2843 @@
     ],
     "published": "1926",
     "publishedSort": 1926,
-    "rank": null,
+    "rank": 786,
+    "cover": true
+  },
+  {
+    "id": 6688,
+    "slug": "the-mill-on-the-floss",
+    "title": "The Mill on the Floss",
+    "author": "George Eliot",
+    "genres": [
+      "Novels"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 787,
+    "cover": true
+  },
+  {
+    "id": 76462,
+    "slug": "the-adventures-of-heine",
+    "title": "The Adventures of Heine",
+    "author": "Edgar Wallace",
+    "genres": [
+      "Short stories",
+      "Mystery and crime"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 788,
+    "cover": true
+  },
+  {
+    "id": 27609,
+    "slug": "the-undersea-tube",
+    "title": "The Undersea Tube",
+    "author": "L. Taylor Hansen",
+    "genres": [
+      "Novels",
+      "Science fiction and fantasy",
+      "Adventure"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 789,
+    "cover": true
+  },
+  {
+    "id": 575,
+    "slug": "the-essays-or-counsels-civil-and-moral",
+    "title": "The Essays or Counsels, Civil and Moral",
+    "author": "Francis Bacon",
+    "genres": [
+      "Philosophy and ideas"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 790,
+    "cover": true
+  },
+  {
+    "id": 26358,
+    "slug": "eastern-tales-by-many-story-tellers",
+    "title": "Eastern Tales by Many Story Tellers",
+    "author": "L. Valentine",
+    "genres": [
+      "Short stories",
+      "Children's"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 791,
+    "cover": true
+  },
+  {
+    "id": 29728,
+    "slug": "cookery-and-dining-in-imperial-rome",
+    "title": "Cookery and Dining in Imperial Rome",
+    "author": "Apicius",
+    "genres": [
+      "History and lives"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 792,
+    "cover": true
+  },
+  {
+    "id": 75922,
+    "slug": "the-amazing-adventures-of-letitia-carberry",
+    "title": "The Amazing Adventures of Letitia Carberry",
+    "author": "Mary Roberts Rinehart",
+    "genres": [
+      "Novels",
+      "Mystery and crime"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 793,
+    "cover": true
+  },
+  {
+    "id": 33016,
+    "slug": "astounding-stories-august-1931",
+    "title": "Astounding Stories,  August, 1931",
+    "author": "Various",
+    "genres": [
+      "Short stories",
+      "Science fiction and fantasy",
+      "Adventure"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 794,
+    "cover": true
+  },
+  {
+    "id": 76257,
+    "slug": "the-crimson-circle",
+    "title": "The Crimson Circle",
+    "author": "Edgar Wallace",
+    "genres": [
+      "Novels",
+      "Mystery and crime"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 795,
+    "cover": true
+  },
+  {
+    "id": 67025,
+    "slug": "lives-of-fair-and-gallant-ladies-vol-1",
+    "title": "Lives of Fair and Gallant Ladies. Vol 1",
+    "author": "Pierre de Bourdeille Brantôme",
+    "genres": [
+      "History and lives"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 796,
+    "cover": true
+  },
+  {
+    "id": 5669,
+    "slug": "considerations-on-representative-government",
+    "title": "Considerations on Representative Government",
+    "author": "John Stuart Mill",
+    "genres": [
+      "Philosophy and ideas"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 797,
+    "cover": true
+  },
+  {
+    "id": 21851,
+    "slug": "history-of-the-negro-race-in-america-from-1619-to-1880-vol-2",
+    "title": "History of the Negro Race in America from 1619 to 1880. Vol. 2",
+    "author": "George Washington Williams",
+    "genres": [
+      "History and lives"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 798,
+    "cover": true
+  },
+  {
+    "id": 75877,
+    "slug": "lucius-davoren",
+    "title": "Lucius Davoren",
+    "author": "M. E. Braddon",
+    "genres": [
+      "Novels",
+      "Mystery and crime",
+      "Romance"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 799,
+    "cover": true
+  },
+  {
+    "id": 76995,
+    "slug": "law-star-for-an-outlaw",
+    "title": "Law-star for an Outlaw",
+    "author": "W. C. Tuttle",
+    "genres": [
+      "Short stories",
+      "Mystery and crime",
+      "Adventure"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 800,
+    "cover": true
+  },
+  {
+    "id": 4018,
+    "slug": "japanese-fairy-tales",
+    "title": "Japanese Fairy Tales",
+    "author": "Yei Theodora Ozaki",
+    "genres": [
+      "Short stories",
+      "Children's"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 801,
+    "cover": true
+  },
+  {
+    "id": 75909,
+    "slug": "the-double-dagger",
+    "title": "The Double Dagger",
+    "author": "Nat Ridley",
+    "genres": [
+      "Novels",
+      "Mystery and crime"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 802,
+    "cover": true
+  },
+  {
+    "id": 26716,
+    "slug": "the-crown-of-wild-olive",
+    "title": "The Crown of Wild Olive",
+    "author": "John Ruskin",
+    "genres": [
+      "Philosophy and ideas"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 803,
+    "cover": true
+  },
+  {
+    "id": 51,
+    "slug": "anne-of-the-island",
+    "title": "Anne of the Island",
+    "author": "L. M. Montgomery",
+    "genres": [
+      "Novels",
+      "Children's"
+    ],
+    "published": "1915",
+    "publishedSort": 1915,
+    "rank": 804,
+    "cover": true
+  },
+  {
+    "id": 76200,
+    "slug": "only-seven-were-hanged",
+    "title": "Only Seven Were Hanged",
+    "author": "Stuart Martin",
+    "genres": [
+      "Novels",
+      "Mystery and crime"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 805,
+    "cover": true
+  },
+  {
+    "id": 41481,
+    "slug": "astounding-stories-of-super-science-january-1930",
+    "title": "Astounding Stories of Super-Science January 1930",
+    "author": "Harry Bates",
+    "genres": [
+      "Short stories",
+      "Science fiction and fantasy",
+      "Adventure"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 806,
+    "cover": true
+  },
+  {
+    "id": 76533,
+    "slug": "limanora",
+    "title": "Limanora",
+    "author": "Godfrey Sweven",
+    "genres": [
+      "Novels",
+      "Science fiction and fantasy"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 807,
+    "cover": true
+  },
+  {
+    "id": 8486,
+    "slug": "ghost-stories-of-an-antiquary",
+    "title": "Ghost Stories of an Antiquary",
+    "author": "M. R. James",
+    "genres": [
+      "Short stories",
+      "Horror and gothic",
+      "Mystery and crime"
+    ],
+    "published": "1904",
+    "publishedSort": 1904,
+    "rank": 808,
+    "cover": true
+  },
+  {
+    "id": 75949,
+    "slug": "terror-keep",
+    "title": "Terror Keep",
+    "author": "Edgar Wallace",
+    "genres": [
+      "Novels",
+      "Mystery and crime"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 809,
+    "cover": true
+  },
+  {
+    "id": 16287,
+    "slug": "talks-to-teachers-on-psychology",
+    "title": "Talks To Teachers On Psychology",
+    "author": "William James",
+    "genres": [
+      "Philosophy and ideas"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 810,
+    "cover": true
+  },
+  {
+    "id": 76603,
+    "slug": "karl-grier",
+    "title": "Karl Grier",
+    "author": "Louis Tracy",
+    "genres": [
+      "Novels",
+      "Science fiction and fantasy",
+      "Mystery and crime",
+      "Adventure"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 811,
+    "cover": true
+  },
+  {
+    "id": 75858,
+    "slug": "the-strange-countess",
+    "title": "The Strange Countess",
+    "author": "Edgar Wallace",
+    "genres": [
+      "Novels",
+      "Mystery and crime"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 812,
+    "cover": true
+  },
+  {
+    "id": 75937,
+    "slug": "chamberss-journal-of-popular-literature-science-and-art-fifth-series-no-153-vol-iii-december-4-1886",
+    "title": "Chambers's Journal of Popular Literature, Science, and Art, Fifth Series, No. 153, Vol. III, December 4, 1886",
+    "author": "Various",
+    "genres": [
+      "Short stories",
+      "Poetry",
+      "Mystery and crime",
+      "Romance",
+      "Philosophy and ideas"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 813,
+    "cover": true
+  },
+  {
+    "id": 76541,
+    "slug": "red-aces",
+    "title": "Red Aces",
+    "author": "Edgar Wallace",
+    "genres": [
+      "Short stories",
+      "Mystery and crime"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 814,
+    "cover": true
+  },
+  {
+    "id": 28158,
+    "slug": "history-of-the-war-in-south-africa-1899-1902-v-1-of-4",
+    "title": "History of the War in South Africa 1899-1902 V. 1 (of 4)",
+    "author": "Great Britain. War Office",
+    "genres": [
+      "History and lives"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 815,
+    "cover": true
+  },
+  {
+    "id": 76493,
+    "slug": "the-new-terror",
+    "title": "The New Terror",
+    "author": "Gaston Leroux",
+    "genres": [
+      "Novels",
+      "Mystery and crime"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 816,
+    "cover": true
+  },
+  {
+    "id": 31893,
+    "slug": "astounding-stories-june-1931",
+    "title": "Astounding Stories, June, 1931",
+    "author": "Various",
+    "genres": [
+      "Short stories",
+      "Science fiction and fantasy",
+      "Adventure"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 817,
+    "cover": true
+  },
+  {
+    "id": 76914,
+    "slug": "the-mystery-of-the-missing-eyebrows",
+    "title": "The Mystery of the Missing Eyebrows",
+    "author": "Stephen Rudd",
+    "genres": [
+      "Novels",
+      "Children's",
+      "Mystery and crime"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 818,
+    "cover": true
+  },
+  {
+    "id": 76413,
+    "slug": "slighted-love",
+    "title": "Slighted Love",
+    "author": "Alex. McVeigh Miller",
+    "genres": [
+      "Novels",
+      "Mystery and crime",
+      "Romance"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 819,
+    "cover": true
+  },
+  {
+    "id": 25609,
+    "slug": "a-childs-garden-of-verses",
+    "title": "A Child's Garden of Verses",
+    "author": "Robert Louis Stevenson",
+    "genres": [
+      "Poetry",
+      "Children's"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 820,
+    "cover": true
+  },
+  {
+    "id": 23684,
+    "slug": "keats",
+    "title": "Keats",
+    "author": "John Keats",
+    "genres": [
+      "Poetry"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 821,
+    "cover": true
+  },
+  {
+    "id": 35451,
+    "slug": "medea-of-euripides",
+    "title": "Medea of Euripides",
+    "author": "Euripides",
+    "genres": [
+      "Plays"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 822,
+    "cover": true
+  },
+  {
+    "id": 8419,
+    "slug": "the-journals-of-lewis-and-clark-1804-1806",
+    "title": "The Journals of Lewis and Clark, 1804-1806",
+    "author": "Meriwether Lewis",
+    "genres": [
+      "Children's",
+      "Adventure",
+      "History and lives"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 823,
+    "cover": true
+  },
+  {
+    "id": 76476,
+    "slug": "missing-men",
+    "title": "Missing Men",
+    "author": "Vincent Starrett",
+    "genres": [
+      "Short stories",
+      "Mystery and crime"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 824,
+    "cover": true
+  },
+  {
+    "id": 67799,
+    "slug": "the-book-of-the-courtier",
+    "title": "The Book of the Courtier",
+    "author": "Baldassarre Castiglione",
+    "genres": [
+      "Plays",
+      "History and lives"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 825,
+    "cover": true
+  },
+  {
+    "id": 76442,
+    "slug": "the-dryad",
+    "title": "The Dryad",
+    "author": "Justin H. McCarthy",
+    "genres": [
+      "Novels",
+      "Science fiction and fantasy",
+      "Romance"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 826,
+    "cover": true
+  },
+  {
+    "id": 76689,
+    "slug": "snow-blind",
+    "title": "Snow-blind",
+    "author": "Albert M. Treynor",
+    "genres": [
+      "Novels",
+      "Mystery and crime",
+      "Adventure"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 827,
+    "cover": true
+  },
+  {
+    "id": 76212,
+    "slug": "kate-plus-10",
+    "title": "Kate Plus 10",
+    "author": "Edgar Wallace",
+    "genres": [
+      "Novels",
+      "Mystery and crime"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 828,
+    "cover": true
+  },
+  {
+    "id": 42259,
+    "slug": "the-people-of-the-black-circle",
+    "title": "The People of the Black Circle",
+    "author": "Robert E. Howard",
+    "genres": [
+      "Novels",
+      "Science fiction and fantasy",
+      "Adventure"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 829,
+    "cover": true
+  },
+  {
+    "id": 76168,
+    "slug": "room-13",
+    "title": "Room 13",
+    "author": "Edgar Wallace",
+    "genres": [
+      "Novels",
+      "Mystery and crime"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 830,
+    "cover": true
+  },
+  {
+    "id": 76409,
+    "slug": "marigold",
+    "title": "Marigold",
+    "author": "Edith Allonby",
+    "genres": [
+      "Novels",
+      "Science fiction and fantasy"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 831,
+    "cover": true
+  },
+  {
+    "id": 9182,
+    "slug": "villette",
+    "title": "Villette",
+    "author": "Charlotte Brontë",
+    "genres": [
+      "Novels"
+    ],
+    "published": "1853",
+    "publishedSort": 1853,
+    "rank": 832,
+    "cover": true
+  },
+  {
+    "id": 77016,
+    "slug": "the-trail-of-deception",
+    "title": "The Trail of Deception",
+    "author": "W. C. Tuttle",
+    "genres": [
+      "Novels",
+      "Mystery and crime",
+      "Adventure"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 833,
+    "cover": true
+  },
+  {
+    "id": 20480,
+    "slug": "palmistry-for-all",
+    "title": "Palmistry for All",
+    "author": "Cheiro",
+    "genres": [],
+    "published": null,
+    "publishedSort": null,
+    "rank": 834,
+    "cover": true
+  },
+  {
+    "id": 76546,
+    "slug": "the-corbin-necklace",
+    "title": "The Corbin Necklace",
+    "author": "Henry Kitchell Webster",
+    "genres": [
+      "Novels",
+      "Mystery and crime"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 835,
+    "cover": true
+  },
+  {
+    "id": 6524,
+    "slug": "stray-birds",
+    "title": "Stray Birds",
+    "author": "Rabindranath Tagore",
+    "genres": [
+      "Poetry"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 836,
+    "cover": true
+  },
+  {
+    "id": 5658,
+    "slug": "lord-jim",
+    "title": "Lord Jim",
+    "author": "Joseph Conrad",
+    "genres": [
+      "Novels",
+      "Adventure"
+    ],
+    "published": "1900",
+    "publishedSort": 1900,
+    "rank": 837,
+    "cover": true
+  },
+  {
+    "id": 1872,
+    "slug": "the-red-house-mystery",
+    "title": "The Red House Mystery",
+    "author": "A. A. Milne",
+    "genres": [
+      "Novels",
+      "Mystery and crime"
+    ],
+    "published": "1922",
+    "publishedSort": 1922,
+    "rank": 838,
+    "cover": true
+  },
+  {
+    "id": 26154,
+    "slug": "the-joyous-adventures-of-aristide-pujol",
+    "title": "The Joyous Adventures of Aristide Pujol",
+    "author": "William John Locke",
+    "genres": [
+      "Novels",
+      "Adventure"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 839,
+    "cover": true
+  },
+  {
+    "id": 75808,
+    "slug": "four-square-jane",
+    "title": "Four Square Jane",
+    "author": "Edgar Wallace",
+    "genres": [
+      "Novels",
+      "Mystery and crime"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 840,
+    "cover": true
+  },
+  {
+    "id": 21957,
+    "slug": "the-psychology-of-singing",
+    "title": "The Psychology of Singing",
+    "author": "David C. Taylor",
+    "genres": [],
+    "published": null,
+    "publishedSort": null,
+    "rank": 841,
+    "cover": true
+  },
+  {
+    "id": 5225,
+    "slug": "the-satyricon",
+    "title": "The Satyricon",
+    "author": "Petronius Arbiter",
+    "genres": [
+      "Novels"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 842,
+    "cover": true
+  },
+  {
+    "id": 17700,
+    "slug": "the-suppression-of-the-african-slave-trade-to-the-united-states-of-america",
+    "title": "The Suppression of the African Slave Trade to the United States of America",
+    "author": "W. E. B. Du Bois",
+    "genres": [
+      "History and lives"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 843,
+    "cover": true
+  },
+  {
+    "id": 76849,
+    "slug": "this-star-shall-be-free",
+    "title": "This Star Shall Be Free",
+    "author": "Murray Leinster",
+    "genres": [
+      "Short stories",
+      "Science fiction and fantasy"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 844,
+    "cover": true
+  },
+  {
+    "id": 76759,
+    "slug": "the-strange-house",
+    "title": "The Strange House",
+    "author": "Catharine Shaw",
+    "genres": [
+      "Novels",
+      "Mystery and crime"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 845,
+    "cover": true
+  },
+  {
+    "id": 14977,
+    "slug": "the-red-record",
+    "title": "The Red Record",
+    "author": "Ida B. Wells-Barnett",
+    "genres": [
+      "Mystery and crime",
+      "Philosophy and ideas",
+      "History and lives"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 846,
+    "cover": true
+  },
+  {
+    "id": 22342,
+    "slug": "supermind",
+    "title": "Supermind",
+    "author": "Randall Garrett",
+    "genres": [
+      "Novels",
+      "Science fiction and fantasy",
+      "Mystery and crime"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 847,
+    "cover": true
+  },
+  {
+    "id": 74723,
+    "slug": "the-first-voyage-round-the-world-by-magellan",
+    "title": "The First Voyage Round the World, by Magellan",
+    "author": "Antonio Pigafetta",
+    "genres": [
+      "History and lives"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 848,
+    "cover": true
+  },
+  {
+    "id": 76208,
+    "slug": "his-brothers-keeper",
+    "title": "His Brother's Keeper",
+    "author": "W. C. Tuttle",
+    "genres": [
+      "Short stories",
+      "Mystery and crime"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 849,
+    "cover": true
+  },
+  {
+    "id": 38219,
+    "slug": "a-general-introduction-to-psychoanalysis",
+    "title": "A General Introduction to Psychoanalysis",
+    "author": "Sigmund Freud",
+    "genres": [],
+    "published": null,
+    "publishedSort": null,
+    "rank": 850,
+    "cover": true
+  },
+  {
+    "id": 41006,
+    "slug": "the-fairy-mythology",
+    "title": "The Fairy Mythology",
+    "author": "Thomas Keightley",
+    "genres": [],
+    "published": null,
+    "publishedSort": null,
+    "rank": 851,
+    "cover": true
+  },
+  {
+    "id": 269,
+    "slug": "beasts-and-super-beasts",
+    "title": "Beasts and Super-Beasts",
+    "author": "Saki",
+    "genres": [
+      "Short stories"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 852,
+    "cover": true
+  },
+  {
+    "id": 2620,
+    "slug": "the-home-book-of-verse",
+    "title": "The Home Book of Verse",
+    "author": "Burton Egbert Stevenson",
+    "genres": [
+      "Poetry",
+      "Romance"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 853,
+    "cover": true
+  },
+  {
+    "id": 31036,
+    "slug": "the-lovers-assistant",
+    "title": "The Lovers Assistant",
+    "author": "Henry Fielding",
+    "genres": [
+      "Romance"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 854,
+    "cover": true
+  },
+  {
+    "id": 43548,
+    "slug": "the-illustrated-key-to-the-tarot",
+    "title": "The Illustrated Key to the Tarot",
+    "author": "L. W. De Laurence",
+    "genres": [
+      "Philosophy and ideas",
+      "History and lives"
+    ],
+    "published": "1916",
+    "publishedSort": 1916,
+    "rank": 855,
+    "cover": true
+  },
+  {
+    "id": 42188,
+    "slug": "shadows-in-the-moonlight",
+    "title": "Shadows in the Moonlight",
+    "author": "Robert E. Howard",
+    "genres": [
+      "Short stories",
+      "Science fiction and fantasy",
+      "Adventure"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 856,
+    "cover": true
+  },
+  {
+    "id": 75855,
+    "slug": "the-smear",
+    "title": "The Smear",
+    "author": "John Beames",
+    "genres": [
+      "Short stories",
+      "Mystery and crime"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 857,
+    "cover": true
+  },
+  {
+    "id": 1519,
+    "slug": "much-ado-about-nothing",
+    "title": "Much Ado About Nothing",
+    "author": "William Shakespeare",
+    "genres": [
+      "Plays"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 858,
+    "cover": true
+  },
+  {
+    "id": 47642,
+    "slug": "the-strand-magazine-vol-27-february-1904-no-159",
+    "title": "The Strand Magazine, Vol. 27, February 1904, No. 159.",
+    "author": "Various",
+    "genres": [
+      "Short stories",
+      "Mystery and crime"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 859,
+    "cover": true
+  },
+  {
+    "id": 76804,
+    "slug": "wanted",
+    "title": "Wanted—?",
+    "author": "Eugene Cunningham",
+    "genres": [
+      "Short stories",
+      "Mystery and crime",
+      "Adventure"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 860,
+    "cover": true
+  },
+  {
+    "id": 14033,
+    "slug": "plutarchs-lives-volume-1-of-4",
+    "title": "Plutarch's Lives, Volume 1 (of 4)",
+    "author": "Plutarch",
+    "genres": [
+      "History and lives"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 861,
+    "cover": true
+  },
+  {
+    "id": 36098,
+    "slug": "the-flowers-of-evil",
+    "title": "The Flowers of Evil",
+    "author": "Charles Baudelaire",
+    "genres": [
+      "Poetry"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 862,
+    "cover": true
+  },
+  {
+    "id": 50657,
+    "slug": "the-satires-of-juvenal-persius-sulpicia-and-lucilius",
+    "title": "The Satires of Juvenal, Persius, Sulpicia, and Lucilius",
+    "author": "Juvenal",
+    "genres": [
+      "Poetry"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 863,
+    "cover": true
+  },
+  {
+    "id": 77099,
+    "slug": "the-magic-ring-vol-3-of-3",
+    "title": "The Magic Ring, Vol. 3 (of 3)",
+    "author": "Friedrich Heinrich Karl La Motte-Fouqué",
+    "genres": [
+      "Novels",
+      "Science fiction and fantasy",
+      "Adventure",
+      "Romance"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 864,
+    "cover": true
+  },
+  {
+    "id": 43063,
+    "slug": "a-case-in-camera",
+    "title": "A Case in Camera",
+    "author": "Oliver Onions",
+    "genres": [
+      "Novels",
+      "Mystery and crime"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 865,
+    "cover": true
+  },
+  {
+    "id": 12096,
+    "slug": "bushido-the-soul-of-japan",
+    "title": "Bushido, the Soul of Japan",
+    "author": "Inazo Nitobe",
+    "genres": [
+      "Philosophy and ideas",
+      "History and lives"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 866,
+    "cover": true
+  },
+  {
+    "id": 62704,
+    "slug": "the-natural-history-of-pliny-volume-6-of-6",
+    "title": "The Natural History of Pliny, Volume 6 (of 6)",
+    "author": "the Elder Pliny",
+    "genres": [
+      "History and lives"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 867,
+    "cover": true
+  },
+  {
+    "id": 76983,
+    "slug": "skeeter-bill-comes-to-town",
+    "title": "Skeeter Bill Comes to Town",
+    "author": "W. C. Tuttle",
+    "genres": [
+      "Short stories",
+      "Mystery and crime",
+      "Adventure"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 868,
+    "cover": true
+  },
+  {
+    "id": 25001,
+    "slug": "an-old-mans-love",
+    "title": "An Old Man's Love",
+    "author": "Anthony Trollope",
+    "genres": [
+      "Novels",
+      "Romance"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 870,
+    "cover": true
+  },
+  {
+    "id": 76621,
+    "slug": "sergeant-dick-of-the-royal-mounted-police",
+    "title": "Sergeant Dick of the Royal Mounted Police",
+    "author": "John G. Rowe",
+    "genres": [
+      "Novels",
+      "Mystery and crime",
+      "Adventure"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 871,
+    "cover": true
+  },
+  {
+    "id": 76796,
+    "slug": "a-silent-witness",
+    "title": "A Silent Witness",
+    "author": "R. Austin Freeman",
+    "genres": [
+      "Novels",
+      "Mystery and crime"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 872,
+    "cover": true
+  },
+  {
+    "id": 12814,
+    "slug": "philippine-folk-tales",
+    "title": "Philippine Folk Tales",
+    "author": "Mabel Cook Cole",
+    "genres": [],
+    "published": null,
+    "publishedSort": null,
+    "rank": 873,
+    "cover": true
+  },
+  {
+    "id": 42196,
+    "slug": "shadows-in-zamboula",
+    "title": "Shadows in Zamboula",
+    "author": "Robert E. Howard",
+    "genres": [
+      "Short stories",
+      "Science fiction and fantasy",
+      "Adventure"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 874,
+    "cover": true
+  },
+  {
+    "id": 32398,
+    "slug": "brood-of-the-dark-moon",
+    "title": "Brood of the Dark Moon",
+    "author": "Charles Willard Diffin",
+    "genres": [
+      "Science fiction and fantasy",
+      "Adventure"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 876,
+    "cover": true
+  },
+  {
+    "id": 77098,
+    "slug": "the-magic-ring-vol-2-of-3",
+    "title": "The Magic Ring, Vol. 2 (of 3)",
+    "author": "Friedrich Heinrich Karl La Motte-Fouqué",
+    "genres": [
+      "Novels",
+      "Science fiction and fantasy",
+      "Adventure"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 877,
+    "cover": true
+  },
+  {
+    "id": 76677,
+    "slug": "the-girl-from-scotland-yard",
+    "title": "The Girl from Scotland Yard",
+    "author": "Edgar Wallace",
+    "genres": [
+      "Novels",
+      "Mystery and crime"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 878,
+    "cover": true
+  },
+  {
+    "id": 76764,
+    "slug": "landscape-with-figures",
+    "title": "Landscape with Figures",
+    "author": "Ronald Fraser",
+    "genres": [
+      "Novels",
+      "Science fiction and fantasy"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 879,
+    "cover": true
+  },
+  {
+    "id": 7524,
+    "slug": "the-germany-and-the-agricola-of-tacitus",
+    "title": "The Germany and the Agricola of Tacitus",
+    "author": "Cornelius Tacitus",
+    "genres": [
+      "History and lives"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 880,
+    "cover": true
+  },
+  {
+    "id": 25948,
+    "slug": "fifty-two-stories-for-girls",
+    "title": "Fifty-Two Stories For Girls",
+    "author": "Alfred H. Miles",
+    "genres": [
+      "Short stories",
+      "Children's"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 881,
+    "cover": true
+  },
+  {
+    "id": 48893,
+    "slug": "mademoiselle-de-maupin-volume-1-of-2",
+    "title": "Mademoiselle De Maupin, Volume 1 (of 2)",
+    "author": "Théophile Gautier",
+    "genres": [
+      "Novels",
+      "Romance"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 882,
+    "cover": true
+  },
+  {
+    "id": 1643,
+    "slug": "meno",
+    "title": "Meno",
+    "author": "Plato",
+    "genres": [
+      "Philosophy and ideas"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 883,
+    "cover": true
+  },
+  {
+    "id": 21200,
+    "slug": "the-letters-of-cicero-volume-1",
+    "title": "The Letters of Cicero, Volume 1",
+    "author": "Marcus Tullius Cicero",
+    "genres": [
+      "Philosophy and ideas",
+      "History and lives"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 884,
+    "cover": true
+  },
+  {
+    "id": 77109,
+    "slug": "a-journey-to-the-world-under-ground",
+    "title": "A Journey to the World Under-ground",
+    "author": "Ludvig Holberg",
+    "genres": [
+      "Novels",
+      "Science fiction and fantasy"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 885,
+    "cover": true
+  },
+  {
+    "id": 284,
+    "slug": "the-house-of-mirth",
+    "title": "The House of Mirth",
+    "author": "Edith Wharton",
+    "genres": [
+      "Novels"
+    ],
+    "published": "1905",
+    "publishedSort": 1905,
+    "rank": 886,
+    "cover": true
+  },
+  {
+    "id": 11438,
+    "slug": "the-willows",
+    "title": "The Willows",
+    "author": "Algernon Blackwood",
+    "genres": [
+      "Novels",
+      "Science fiction and fantasy",
+      "Horror and gothic"
+    ],
+    "published": "1907",
+    "publishedSort": 1907,
+    "rank": 888,
+    "cover": true
+  },
+  {
+    "id": 1726,
+    "slug": "theaetetus",
+    "title": "Theaetetus",
+    "author": "Plato",
+    "genres": [
+      "Philosophy and ideas"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 890,
+    "cover": true
+  },
+  {
+    "id": 76919,
+    "slug": "the-magic-casket",
+    "title": "The Magic Casket",
+    "author": "R. Austin Freeman",
+    "genres": [
+      "Short stories",
+      "Mystery and crime"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 891,
+    "cover": true
+  },
+  {
+    "id": 40580,
+    "slug": "a-general-history-of-the-pyrates",
+    "title": "A General History of the Pyrates",
+    "author": "Charles Johnson",
+    "genres": [
+      "History and lives"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 892,
+    "cover": true
+  },
+  {
+    "id": 19707,
+    "slug": "one-wonderful-night",
+    "title": "One Wonderful Night",
+    "author": "Louis Tracy",
+    "genres": [
+      "Novels",
+      "Adventure",
+      "Romance"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 893,
+    "cover": true
+  },
+  {
+    "id": 77056,
+    "slug": "the-dream-detective",
+    "title": "The Dream Detective",
+    "author": "Sax Rohmer",
+    "genres": [
+      "Short stories",
+      "Mystery and crime"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 894,
+    "cover": true
+  },
+  {
+    "id": 445,
+    "slug": "the-crowd",
+    "title": "The Crowd",
+    "author": "Gustave Le Bon",
+    "genres": [],
+    "published": null,
+    "publishedSort": null,
+    "rank": 896,
+    "cover": true
+  },
+  {
+    "id": 7889,
+    "slug": "erotica-romana",
+    "title": "Erotica Romana",
+    "author": "Johann Wolfgang von Goethe",
+    "genres": [
+      "Poetry",
+      "Romance"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 897,
+    "cover": true
+  },
+  {
+    "id": 76659,
+    "slug": "the-seventh-shot",
+    "title": "The Seventh Shot",
+    "author": "Herman Landon",
+    "genres": [
+      "Novels",
+      "Mystery and crime"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 898,
+    "cover": true
+  },
+  {
+    "id": 935,
+    "slug": "self-help",
+    "title": "Self Help",
+    "author": "Samuel Smiles",
+    "genres": [
+      "Philosophy and ideas"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 899,
+    "cover": true
+  },
+  {
+    "id": 550,
+    "slug": "silas-marner",
+    "title": "Silas Marner",
+    "author": "George Eliot",
+    "genres": [
+      "Novels"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 900,
+    "cover": true
+  },
+  {
+    "id": 55300,
+    "slug": "society-as-i-have-found-it",
+    "title": "Society as I Have Found It",
+    "author": "Ward McAllister",
+    "genres": [
+      "History and lives"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 901,
+    "cover": true
+  },
+  {
+    "id": 22049,
+    "slug": "a-literary-history-of-the-english-people-from-the-origins-to-the-renaissance",
+    "title": "A Literary History of the English People, from the Origins to the Renaissance",
+    "author": "J. J. Jusserand",
+    "genres": [
+      "History and lives"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 902,
+    "cover": true
+  },
+  {
+    "id": 46440,
+    "slug": "a-journal-of-the-first-voyage-of-vasco-da-gama-1497-1499",
+    "title": "A Journal of the First Voyage of  Vasco Da Gama 1497-1499",
+    "author": "Alvaro Velho",
+    "genres": [
+      "History and lives"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 903,
+    "cover": true
+  },
+  {
+    "id": 1057,
+    "slug": "poems-with-the-ballad-of-reading-gaol",
+    "title": "Poems, with The Ballad of Reading Gaol",
+    "author": "Oscar Wilde",
+    "genres": [
+      "Poetry"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 904,
+    "cover": true
+  },
+  {
+    "id": 76998,
+    "slug": "jonah",
+    "title": "Jonah",
+    "author": "Robert Nathan",
+    "genres": [
+      "Novels",
+      "Science fiction and fantasy"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 905,
+    "cover": true
+  },
+  {
+    "id": 5160,
+    "slug": "the-mabinogion",
+    "title": "The Mabinogion",
+    "author": "Charlotte Schreiber",
+    "genres": [
+      "Science fiction and fantasy",
+      "Adventure"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 906,
+    "cover": true
+  },
+  {
+    "id": 5500,
+    "slug": "the-advancement-of-learning",
+    "title": "The Advancement of Learning",
+    "author": "Francis Bacon",
+    "genres": [
+      "Philosophy and ideas",
+      "History and lives"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 907,
+    "cover": true
+  },
+  {
+    "id": 15735,
+    "slug": "history-of-the-negro-race-in-america-from-1619-to-1880-vol-1",
+    "title": "History of the Negro Race in America from 1619 to 1880. Vol 1",
+    "author": "George Washington Williams",
+    "genres": [
+      "History and lives"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 908,
+    "cover": true
+  },
+  {
+    "id": 76737,
+    "slug": "the-sociable-ghost",
+    "title": "The Sociable Ghost",
+    "author": "Olive Harper",
+    "genres": [
+      "Novels",
+      "Science fiction and fantasy"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 909,
+    "cover": true
+  },
+  {
+    "id": 76899,
+    "slug": "the-man-who-saved-new-york",
+    "title": "The Man Who Saved New York",
+    "author": "Ray Cummings",
+    "genres": [
+      "Short stories",
+      "Science fiction and fantasy"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 910,
+    "cover": true
+  },
+  {
+    "id": 20158,
+    "slug": "the-works-of-lord-byron-vol-4",
+    "title": "The Works of Lord Byron. Vol. 4",
+    "author": "George Gordon Byron Byron",
+    "genres": [
+      "Poetry"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 911,
+    "cover": true
+  },
+  {
+    "id": 40059,
+    "slug": "wanderfoot-the-dream-ship",
+    "title": "Wanderfoot (The Dream Ship)",
+    "author": "Cynthia Stockley",
+    "genres": [
+      "Novels",
+      "Romance"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 912,
+    "cover": true
+  },
+  {
+    "id": 16653,
+    "slug": "myths-of-babylonia-and-assyria",
+    "title": "Myths of Babylonia and Assyria",
+    "author": "Donald A. Mackenzie",
+    "genres": [
+      "History and lives"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 913,
+    "cover": true
+  },
+  {
+    "id": 883,
+    "slug": "our-mutual-friend",
+    "title": "Our Mutual Friend",
+    "author": "Charles Dickens",
+    "genres": [
+      "Novels"
+    ],
+    "published": "1864",
+    "publishedSort": 1864,
+    "rank": 914,
+    "cover": true
+  },
+  {
+    "id": 77033,
+    "slug": "the-sinister-mark",
+    "title": "The Sinister Mark",
+    "author": "Lee Thayer",
+    "genres": [
+      "Novels",
+      "Mystery and crime"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 915,
+    "cover": true
+  },
+  {
+    "id": 74222,
+    "slug": "demian",
+    "title": "Demian",
+    "author": "Hermann Hesse",
+    "genres": [
+      "Novels"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 916,
+    "cover": true
+  },
+  {
+    "id": 76929,
+    "slug": "maugis-ye-sorcerer",
+    "title": "Maugis, Ye Sorcerer",
+    "author": "Lord Gilhooley",
+    "genres": [
+      "Novels",
+      "Science fiction and fantasy",
+      "Adventure"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 917,
+    "cover": true
+  },
+  {
+    "id": 76960,
+    "slug": "the-corsair",
+    "title": "The Corsair",
+    "author": "William Brough",
+    "genres": [
+      "Plays",
+      "Science fiction and fantasy"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 918,
+    "cover": true
+  },
+  {
+    "id": 598,
+    "slug": "heimskringla",
+    "title": "Heimskringla",
+    "author": "Snorri Sturluson",
+    "genres": [
+      "History and lives"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 919,
+    "cover": true
+  },
+  {
+    "id": 38015,
+    "slug": "de-re-metallica-translated-from-the-first-latin-edition-of-1556",
+    "title": "De Re Metallica, Translated from the First Latin Edition of 1556",
+    "author": "Georg Agricola",
+    "genres": [
+      "History and lives"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 920,
+    "cover": true
+  },
+  {
+    "id": 76927,
+    "slug": "only-a-clod",
+    "title": "Only a Clod",
+    "author": "M. E. Braddon",
+    "genres": [
+      "Novels",
+      "Mystery and crime"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 921,
+    "cover": true
+  },
+  {
+    "id": 5186,
+    "slug": "kalevala",
+    "title": "Kalevala",
+    "author": "Elias Lönnrot",
+    "genres": [
+      "Poetry"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 922,
+    "cover": true
+  },
+  {
+    "id": 731,
+    "slug": "history-of-the-decline-and-fall-of-the-roman-empire",
+    "title": "History of the Decline and Fall of the Roman Empire",
+    "author": "Edward Gibbon",
+    "genres": [
+      "History and lives"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 923,
+    "cover": true
+  },
+  {
+    "id": 76685,
+    "slug": "the-sign-of-the-seven-sins",
+    "title": "The Sign of the Seven Sins",
+    "author": "William Le Queux",
+    "genres": [
+      "Novels",
+      "Mystery and crime"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 924,
+    "cover": true
+  },
+  {
+    "id": 76950,
+    "slug": "the-ghost-of-charlotte-cray-and-other-stories",
+    "title": "The Ghost of Charlotte Cray, and Other Stories",
+    "author": "Florence Marryat",
+    "genres": [
+      "Short stories",
+      "Science fiction and fantasy"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 925,
+    "cover": true
+  },
+  {
+    "id": 61792,
+    "slug": "olympic-victor-monuments-and-greek-athletic-art",
+    "title": "Olympic Victor Monuments and Greek Athletic Art",
+    "author": "Walter Woodburn Hyde",
+    "genres": [
+      "History and lives"
+    ],
+    "published": "1921",
+    "publishedSort": 1921,
+    "rank": 926,
+    "cover": true
+  },
+  {
+    "id": 21415,
+    "slug": "the-young-visiters-or-mr-salteenas-plan",
+    "title": "The Young Visiters Or, Mr. Salteena's Plan",
+    "author": "Daisy Ashford",
+    "genres": [
+      "Novels",
+      "Romance"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 927,
+    "cover": true
+  },
+  {
+    "id": 23354,
+    "slug": "vegetable-teratology",
+    "title": "Vegetable Teratology",
+    "author": "Maxwell T. Masters",
+    "genres": [],
+    "published": null,
+    "publishedSort": null,
+    "rank": 928,
+    "cover": true
+  },
+  {
+    "id": 3567,
+    "slug": "memoirs-of-napoleon-bonaparte",
+    "title": "Memoirs of Napoleon Bonaparte",
+    "author": "Louis Antoine Fauvelet de Bourrienne",
+    "genres": [
+      "History and lives"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 929,
+    "cover": true
+  },
+  {
+    "id": 51649,
+    "slug": "the-mysteries-of-london-v-4-4",
+    "title": "The Mysteries of London, V. 4/4",
+    "author": "George W. M. Reynolds",
+    "genres": [
+      "Novels",
+      "Mystery and crime"
+    ],
+    "published": "1845",
+    "publishedSort": 1845,
+    "rank": 930,
+    "cover": true
+  },
+  {
+    "id": 47221,
+    "slug": "quintus-claudius",
+    "title": "Quintus Claudius",
+    "author": "Ernst Eckstein",
+    "genres": [
+      "Adventure",
+      "Romance"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 931,
+    "cover": true
+  },
+  {
+    "id": 2885,
+    "slug": "the-house-of-the-wolfings",
+    "title": "The House of the Wolfings",
+    "author": "William Morris",
+    "genres": [
+      "Science fiction and fantasy"
+    ],
+    "published": "1889",
+    "publishedSort": 1889,
+    "rank": 932,
+    "cover": true
+  },
+  {
+    "id": 10657,
+    "slug": "de-bello-gallico-and-other-commentaries",
+    "title": "\"De Bello Gallico\" and Other Commentaries",
+    "author": "Julius Caesar",
+    "genres": [
+      "History and lives"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 933,
+    "cover": true
+  },
+  {
+    "id": 41232,
+    "slug": "hungry-hearts",
+    "title": "Hungry Hearts",
+    "author": "Anzia Yezierska",
+    "genres": [
+      "Novels"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 934,
+    "cover": true
+  },
+  {
+    "id": 77001,
+    "slug": "moon-of-madness",
+    "title": "Moon of Madness",
+    "author": "Sax Rohmer",
+    "genres": [
+      "Novels",
+      "Mystery and crime",
+      "Adventure"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 935,
+    "cover": true
+  },
+  {
+    "id": 66785,
+    "slug": "the-poems-of-felicia-hemans",
+    "title": "The Poems of Felicia Hemans",
+    "author": "Mrs. Hemans",
+    "genres": [
+      "Poetry"
+    ],
+    "published": "1849",
+    "publishedSort": 1849,
+    "rank": 936,
+    "cover": true
+  },
+  {
+    "id": 76834,
+    "slug": "the-arctic-legions",
+    "title": "The Arctic Legions",
+    "author": "A. De Herries Smith",
+    "genres": [
+      "Short stories",
+      "Mystery and crime",
+      "Adventure"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 937,
+    "cover": true
+  },
+  {
+    "id": 76858,
+    "slug": "the-spirit-rapper",
+    "title": "The Spirit-rapper",
+    "author": "Orestes Augustus Brownson",
+    "genres": [
+      "Novels",
+      "Science fiction and fantasy"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 938,
+    "cover": true
+  },
+  {
+    "id": 76931,
+    "slug": "false-face",
+    "title": "False Face",
+    "author": "Ernest Haycox",
+    "genres": [
+      "Short stories",
+      "Mystery and crime"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 939,
+    "cover": true
+  },
+  {
+    "id": 45917,
+    "slug": "origin-of-cultivated-plants",
+    "title": "Origin of Cultivated Plants",
+    "author": "Alphonse de Candolle",
+    "genres": [
+      "History and lives"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 940,
+    "cover": true
+  },
+  {
+    "id": 2825,
+    "slug": "undine",
+    "title": "Undine",
+    "author": "Friedrich Heinrich Karl La Motte-Fouqué",
+    "genres": [
+      "Novels",
+      "Science fiction and fantasy",
+      "Romance"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 941,
+    "cover": true
+  },
+  {
+    "id": 76903,
+    "slug": "the-copper-house",
+    "title": "The Copper House",
+    "author": "Julius Regis",
+    "genres": [
+      "Novels",
+      "Mystery and crime"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 942,
+    "cover": true
+  },
+  {
+    "id": 77069,
+    "slug": "murder-in-the-gilded-cage",
+    "title": "Murder in the Gilded Cage",
+    "author": "Samuel Spewack",
+    "genres": [
+      "Novels",
+      "Mystery and crime"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 943,
+    "cover": true
+  },
+  {
+    "id": 769,
+    "slug": "the-book-of-tea",
+    "title": "The Book of Tea",
+    "author": "Kakuzo Okakura",
+    "genres": [
+      "Philosophy and ideas",
+      "History and lives"
+    ],
+    "published": "1906",
+    "publishedSort": 1906,
+    "rank": 944,
+    "cover": true
+  },
+  {
+    "id": 76579,
+    "slug": "the-strange-transfiguration-of-hannah-stubbs",
+    "title": "The Strange Transfiguration of Hannah Stubbs",
+    "author": "Florence Marryat",
+    "genres": [
+      "Novels",
+      "Science fiction and fantasy"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 945,
+    "cover": true
+  },
+  {
+    "id": 76592,
+    "slug": "murder-mask",
+    "title": "Murder Mask",
+    "author": "Edgar Daniel Kramer",
+    "genres": [
+      "Short stories",
+      "Science fiction and fantasy",
+      "Mystery and crime"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 946,
+    "cover": true
+  },
+  {
+    "id": 77022,
+    "slug": "the-porcelain-mask",
+    "title": "The Porcelain Mask",
+    "author": "John Jay Chichester",
+    "genres": [
+      "Novels",
+      "Mystery and crime"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 948,
+    "cover": true
+  },
+  {
+    "id": 11945,
+    "slug": "essays-of-schopenhauer",
+    "title": "Essays of Schopenhauer",
+    "author": "Arthur Schopenhauer",
+    "genres": [
+      "Philosophy and ideas"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 949,
+    "cover": true
+  },
+  {
+    "id": 28,
+    "slug": "the-fables-of-aesop",
+    "title": "The Fables of Aesop",
+    "author": "Aesop",
+    "genres": [
+      "Short stories",
+      "Children's"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 950,
+    "cover": true
+  },
+  {
+    "id": 35382,
+    "slug": "the-romance-of-biography-vol-1-of-2",
+    "title": "The Romance of Biography (Vol 1 of 2)",
+    "author": "Mrs. Jameson",
+    "genres": [
+      "Philosophy and ideas",
+      "History and lives"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 951,
+    "cover": true
+  },
+  {
+    "id": 23319,
+    "slug": "mechanical-drawing-self-taught",
+    "title": "Mechanical Drawing Self-Taught",
+    "author": "Joshua Rose",
+    "genres": [],
+    "published": null,
+    "publishedSort": null,
+    "rank": 952,
+    "cover": true
+  },
+  {
+    "id": 4583,
+    "slug": "dialogues-concerning-natural-religion",
+    "title": "Dialogues Concerning Natural Religion",
+    "author": "David Hume",
+    "genres": [
+      "Philosophy and ideas"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 953,
+    "cover": true
+  },
+  {
+    "id": 64908,
+    "slug": "what-is-art",
+    "title": "What Is Art?",
+    "author": "Leo Tolstoy",
+    "genres": [
+      "Philosophy and ideas"
+    ],
+    "published": "1897",
+    "publishedSort": 1897,
+    "rank": 954,
+    "cover": true
+  },
+  {
+    "id": 27739,
+    "slug": "poetical-works-of-matthew-arnold",
+    "title": "Poetical Works of Matthew Arnold",
+    "author": "Matthew Arnold",
+    "genres": [
+      "Poetry"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 955,
+    "cover": true
+  },
+  {
+    "id": 22188,
+    "slug": "the-comedies-of-terence",
+    "title": "The Comedies of Terence",
+    "author": "Terence",
+    "genres": [
+      "Plays"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 956,
+    "cover": true
+  },
+  {
+    "id": 27442,
+    "slug": "belgium",
+    "title": "Belgium",
+    "author": "Emile Cammaerts",
+    "genres": [
+      "History and lives"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 957,
+    "cover": true
+  },
+  {
+    "id": 16341,
+    "slug": "poems-by-william-cullen-bryant",
+    "title": "Poems by William Cullen Bryant",
+    "author": "William Cullen Bryant",
+    "genres": [
+      "Poetry"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 958,
+    "cover": true
+  },
+  {
+    "id": 52404,
+    "slug": "the-girl-philippa",
+    "title": "The Girl Philippa",
+    "author": "Robert W. Chambers",
+    "genres": [
+      "Novels",
+      "Mystery and crime",
+      "Romance"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 959,
+    "cover": true
+  },
+  {
+    "id": 18897,
+    "slug": "the-epic-of-gilgamish",
+    "title": "The Epic of Gilgamish",
+    "author": "Stephen Langdon",
+    "genres": [],
+    "published": null,
+    "publishedSort": null,
+    "rank": 960,
+    "cover": true
+  },
+  {
+    "id": 76634,
+    "slug": "lillians-vow",
+    "title": "Lillian's Vow",
+    "author": "E. Burke Collins",
+    "genres": [
+      "Novels",
+      "Mystery and crime",
+      "Romance"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 961,
+    "cover": true
+  },
+  {
+    "id": 2300,
+    "slug": "the-descent-of-man-and-selection-in-relation-to-sex",
+    "title": "The Descent of Man, and Selection in Relation to Sex",
+    "author": "Charles Darwin",
+    "genres": [
+      "History and lives"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 962,
+    "cover": true
+  },
+  {
+    "id": 29021,
+    "slug": "the-fairy-tales-of-charles-perrault",
+    "title": "The Fairy Tales of Charles Perrault",
+    "author": "Charles Perrault",
+    "genres": [],
+    "published": "1693",
+    "publishedSort": 1693,
+    "rank": 963,
+    "cover": true
+  },
+  {
+    "id": 41386,
+    "slug": "human-nature-and-conduct",
+    "title": "Human Nature and Conduct",
+    "author": "John Dewey",
+    "genres": [
+      "Philosophy and ideas"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 964,
+    "cover": true
+  },
+  {
+    "id": 2868,
+    "slug": "the-green-mummy",
+    "title": "The Green Mummy",
+    "author": "Fergus Hume",
+    "genres": [
+      "Novels",
+      "Mystery and crime",
+      "Romance"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 965,
+    "cover": true
+  },
+  {
+    "id": 944,
+    "slug": "the-voyage-of-the-beagle",
+    "title": "The Voyage of the Beagle",
+    "author": "Charles Darwin",
+    "genres": [],
+    "published": null,
+    "publishedSort": null,
+    "rank": 966,
+    "cover": true
+  },
+  {
+    "id": 76981,
+    "slug": "saved-from-herself",
+    "title": "Saved from Herself",
+    "author": "Adelaide Stirling",
+    "genres": [
+      "Novels",
+      "Mystery and crime",
+      "Romance"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 967,
+    "cover": true
+  },
+  {
+    "id": 1081,
+    "slug": "dead-souls",
+    "title": "Dead Souls",
+    "author": "Nikolai Vasilevich Gogol",
+    "genres": [
+      "Novels"
+    ],
+    "published": "1842",
+    "publishedSort": 1842,
+    "rank": 968,
+    "cover": true
+  },
+  {
+    "id": 1254,
+    "slug": "cyrano-de-bergerac",
+    "title": "Cyrano De Bergerac",
+    "author": "Edmond Rostand",
+    "genres": [
+      "Plays"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 969,
+    "cover": true
+  },
+  {
+    "id": 1450,
+    "slug": "pollyanna",
+    "title": "Pollyanna",
+    "author": "Eleanor H. Porter",
+    "genres": [
+      "Novels",
+      "Children's"
+    ],
+    "published": "1913",
+    "publishedSort": 1913,
+    "rank": 970,
+    "cover": true
+  },
+  {
+    "id": 10002,
+    "slug": "the-house-on-the-borderland",
+    "title": "The House on the Borderland",
+    "author": "William Hope Hodgson",
+    "genres": [
+      "Novels",
+      "Science fiction and fantasy",
+      "Horror and gothic",
+      "Mystery and crime"
+    ],
+    "published": "1908",
+    "publishedSort": 1908,
+    "rank": 971,
+    "cover": true
+  },
+  {
+    "id": 24855,
+    "slug": "concrete-construction",
+    "title": "Concrete Construction",
+    "author": "Halbert Powers Gillette",
+    "genres": [],
+    "published": null,
+    "publishedSort": null,
+    "rank": 972,
+    "cover": true
+  },
+  {
+    "id": 57821,
+    "slug": "scenes-in-the-life-of-harriet-tubman",
+    "title": "Scenes in the Life of Harriet Tubman",
+    "author": "Sarah H. Bradford",
+    "genres": [
+      "History and lives"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 973,
+    "cover": true
+  },
+  {
+    "id": 4352,
+    "slug": "laughter",
+    "title": "Laughter",
+    "author": "Henri Bergson",
+    "genres": [
+      "Philosophy and ideas"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 974,
+    "cover": true
+  },
+  {
+    "id": 790,
+    "slug": "lady-windermeres-fan",
+    "title": "Lady Windermere's Fan",
+    "author": "Oscar Wilde",
+    "genres": [
+      "Plays"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 975,
+    "cover": true
+  },
+  {
+    "id": 76713,
+    "slug": "blue-eyes-and-diamonds",
+    "title": "Blue Eyes and Diamonds",
+    "author": "Lemuel De Bra",
+    "genres": [
+      "Short stories",
+      "Mystery and crime"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 976,
+    "cover": true
+  },
+  {
+    "id": 26593,
+    "slug": "the-place-of-honeymoons",
+    "title": "The Place of Honeymoons",
+    "author": "Harold MacGrath",
+    "genres": [
+      "Novels",
+      "Romance"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 977,
+    "cover": true
+  },
+  {
+    "id": 26330,
+    "slug": "frenzied-finance-vol-1",
+    "title": "Frenzied Finance, Vol. 1",
+    "author": "Thomas William Lawson",
+    "genres": [
+      "Philosophy and ideas",
+      "History and lives"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 978,
+    "cover": true
+  },
+  {
+    "id": 78,
+    "slug": "tarzan-of-the-apes",
+    "title": "Tarzan of the Apes",
+    "author": "Edgar Rice Burroughs",
+    "genres": [
+      "Novels",
+      "Adventure"
+    ],
+    "published": "1912",
+    "publishedSort": 1912,
+    "rank": 979,
+    "cover": true
+  },
+  {
+    "id": 19800,
+    "slug": "london-and-the-kingdom-volume-1",
+    "title": "London and the Kingdom - Volume 1",
+    "author": "Reginald R. Sharpe",
+    "genres": [
+      "History and lives"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 980,
+    "cover": true
+  },
+  {
+    "id": 13707,
+    "slug": "twice-told-tales",
+    "title": "Twice-told Tales",
+    "author": "Nathaniel Hawthorne",
+    "genres": [
+      "Short stories",
+      "Children's"
+    ],
+    "published": "1837",
+    "publishedSort": 1837,
+    "rank": 981,
+    "cover": true
+  },
+  {
+    "id": 54138,
+    "slug": "camp-cookery-how-to-live-in-camp",
+    "title": "Camp Cookery. How to Live in Camp",
+    "author": "Maria Parloa",
+    "genres": [],
+    "published": null,
+    "publishedSort": null,
+    "rank": 982,
+    "cover": true
+  },
+  {
+    "id": 77031,
+    "slug": "just-a-bit-too-fast",
+    "title": "Just a Bit Too Fast",
+    "author": "Hal Moore",
+    "genres": [
+      "Short stories",
+      "Mystery and crime"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 983,
+    "cover": true
+  },
+  {
+    "id": 11136,
+    "slug": "a-discourse-upon-the-origin-and-the-foundation-of-the-inequality-among-mankind",
+    "title": "A Discourse Upon the Origin and the Foundation of the Inequality Among Mankind",
+    "author": "Jean-Jacques Rousseau",
+    "genres": [
+      "Philosophy and ideas",
+      "History and lives"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 984,
+    "cover": true
+  },
+  {
+    "id": 37484,
+    "slug": "the-strand-magazine-vol-27-issue-160-april-1904",
+    "title": "The Strand Magazine, Vol. 27, Issue 160, April, 1904",
+    "author": "Various",
+    "genres": [
+      "Plays",
+      "History and lives"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 985,
+    "cover": true
+  },
+  {
+    "id": 52821,
+    "slug": "kants-prolegomena-to-any-future-metaphysics",
+    "title": "Kant's Prolegomena to Any Future Metaphysics",
+    "author": "Immanuel Kant",
+    "genres": [
+      "Philosophy and ideas"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 986,
+    "cover": true
+  },
+  {
+    "id": 23186,
+    "slug": "the-handbook-to-english-heraldry",
+    "title": "The Handbook to English Heraldry",
+    "author": "Charles Boutell",
+    "genres": [
+      "History and lives"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 987,
+    "cover": true
+  },
+  {
+    "id": 1522,
+    "slug": "julius-caesar",
+    "title": "Julius Caesar",
+    "author": "William Shakespeare",
+    "genres": [
+      "Plays"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 988,
+    "cover": true
+  },
+  {
+    "id": 61751,
+    "slug": "the-book-of-the-sword",
+    "title": "The Book of the Sword",
+    "author": "Richard Francis Burton",
+    "genres": [
+      "History and lives"
+    ],
+    "published": "1884",
+    "publishedSort": 1884,
+    "rank": 989,
+    "cover": true
+  },
+  {
+    "id": 2166,
+    "slug": "king-solomons-mines",
+    "title": "King Solomon's Mines",
+    "author": "H. Rider Haggard",
+    "genres": [
+      "Novels",
+      "Adventure"
+    ],
+    "published": "1885",
+    "publishedSort": 1885,
+    "rank": 990,
+    "cover": true
+  },
+  {
+    "id": 8092,
+    "slug": "tremendous-trifles",
+    "title": "Tremendous Trifles",
+    "author": "G. K. Chesterton",
+    "genres": [
+      "Philosophy and ideas"
+    ],
+    "published": "1909",
+    "publishedSort": 1909,
+    "rank": 991,
+    "cover": true
+  },
+  {
+    "id": 73144,
+    "slug": "lady-chatterleys-lover",
+    "title": "Lady Chatterley's Lover",
+    "author": "D. H. Lawrence",
+    "genres": [
+      "Novels"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 992,
+    "cover": true
+  },
+  {
+    "id": 2449,
+    "slug": "the-common-law",
+    "title": "The Common Law",
+    "author": "Oliver Wendell Holmes",
+    "genres": [
+      "History and lives"
+    ],
+    "published": "1881",
+    "publishedSort": 1881,
+    "rank": 993,
+    "cover": true
+  },
+  {
+    "id": 1004,
+    "slug": "divine-comedy-longfellows-translation",
+    "title": "Divine Comedy, Longfellow's Translation",
+    "author": "Dante Alighieri",
+    "genres": [
+      "Poetry"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 994,
+    "cover": true
+  },
+  {
+    "id": 4239,
+    "slug": "an-essay-on-the-principle-of-population",
+    "title": "An Essay on the Principle of Population",
+    "author": "T. R. Malthus",
+    "genres": [
+      "Philosophy and ideas"
+    ],
+    "published": "1798",
+    "publishedSort": 1798,
+    "rank": 995,
+    "cover": true
+  },
+  {
+    "id": 20717,
+    "slug": "the-girl-on-the-boat",
+    "title": "The Girl on the Boat",
+    "author": "P. G. Wodehouse",
+    "genres": [
+      "Novels",
+      "Romance"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 996,
+    "cover": true
+  },
+  {
+    "id": 35123,
+    "slug": "the-ladies-book-of-etiquette-and-manual-of-politeness",
+    "title": "The Ladies' Book of Etiquette, and Manual of Politeness",
+    "author": "Florence Hartley",
+    "genres": [],
+    "published": null,
+    "publishedSort": null,
+    "rank": 997,
+    "cover": true
+  },
+  {
+    "id": 17366,
+    "slug": "notes-on-nursing",
+    "title": "Notes on Nursing",
+    "author": "Florence Nightingale",
+    "genres": [],
+    "published": null,
+    "publishedSort": null,
+    "rank": 998,
+    "cover": true
+  },
+  {
+    "id": 26951,
+    "slug": "firebrand-trevison",
+    "title": "'Firebrand' Trevison",
+    "author": "Charles Alden Seltzer",
+    "genres": [
+      "Novels",
+      "Adventure",
+      "Romance"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 999,
+    "cover": true
+  },
+  {
+    "id": 45451,
+    "slug": "the-man-who-did-the-right-thing",
+    "title": "The Man Who Did the Right Thing",
+    "author": "Harry Johnston",
+    "genres": [
+      "Novels",
+      "Romance"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 1000,
     "cover": true
   }
 ]

@@ -459,7 +459,8 @@ test('every built page has complete metadata, and every internal link and asset 
     const h1s = [...shown.matchAll(/<h1([^>]*)>([\s\S]*?)<\/h1>/g)];
     expect(h1s.length, `${where} h1 count`).toBe(1);
     expect(h1s[0]![1]!.match(/aria-label="([^"]+)"/)?.[1] ?? h1s[0]![2]!.replace(/<[^>]+>/g, '').trim(), `${where} h1`).toBeTruthy();
-    const description = head.match(/<meta name="description" content="([^"]*)">/)![1]!;
+    // Counted as a reader sees it: &quot; is one character, not six.
+    const description = head.match(/<meta name="description" content="([^"]*)">/)![1]!.replace(/&(?:quot|amp|lt|gt|#39);/g, 'x');
     expect(description.length, `${where} description length`).toBeLessThanOrEqual(160);
     expect(html, `${where} loads nothing over http`).not.toMatch(/(?:src|href)="http:/);
     if (!notFound) {

@@ -6,7 +6,7 @@
 // site/covers/<slug>.jpg, skipping files already on disk, deletes the files of
 // books that left the shelf, then writes site/catalog.json. Usually run by
 // site/scripts/update-shelf.mjs; on its own:
-//   node site/scripts/fetch-books.mjs [--top 500]
+//   node site/scripts/fetch-books.mjs [--top 1000]
 import { spawn } from 'node:child_process';
 import { existsSync } from 'node:fs';
 import { mkdir, readdir, readFile, rm, writeFile } from 'node:fs/promises';
@@ -18,9 +18,11 @@ import { gunzipSync, gzipSync } from 'node:zlib';
 const UA = { 'User-Agent': 'punc-site-builder (https://github.com/JoeKarlsson/punc)' };
 const PAUSE_MS = 1500;
 const MAX_TEXT_BYTES = 3.5 * 1024 * 1024;
-const DEFAULT_TOP = 500;
+const DEFAULT_TOP = 1000;
 // Books kept on the shelf even when they drop out of the top list
 const EXTRA_IDS = ['1079', '12242', '67138'];
+// Other editions of books already on the shelf under a different title
+const REPEAT_EDITIONS = new Set(['2489', '15877', '55317', '2009', '41537', '1728', '50742', '5314', '27200', '25525']);
 const SKIP_SHELVES = /Encyclopedias|Dictionaries|Reference|Language & Communication/;
 // Shorter titles and plain names where the catalog's don't read well
 const TITLES = {
@@ -183,8 +185,8 @@ const GENRES = [
 ];
 
 const sleep = ms => new Promise(r => setTimeout(r, ms));
-async function get(url) {
-  const res = await fetch(url, { headers: UA });
+async function get(url, options = {}) {
+  const res = await fetch(url, { ...options, headers: { ...UA, ...options.headers } });
   if (!res.ok) throw new Error(`${res.status} for ${url}`);
   return Buffer.from(await res.arrayBuffer());
 }
@@ -274,7 +276,9 @@ async function wikidataYears(ids) {
     OPTIONAL { ?item wdt:P629 ?work . ?work wdt:P577 ?viaWork }
     OPTIONAL { FILTER NOT EXISTS { ?item wdt:P629 ?w } ?item wdt:P31/wdt:P279* wd:Q7725634 ; wdt:P577 ?own }
   } GROUP BY ?g`;
-  const json = JSON.parse((await get(`https://query.wikidata.org/sparql?format=json&query=${encodeURIComponent(query)}`)).toString('utf8'));
+  // POST: a shelf's worth of ids is too long for a GET URL (414).
+  const body = new URLSearchParams({ format: 'json', query });
+  const json = JSON.parse((await get('https://query.wikidata.org/sparql', { method: 'POST', body })).toString('utf8'));
   const years = new Map();
   for (const row of json.results.bindings) {
     const year = row.a ?? row.b;
@@ -311,6 +315,7 @@ async function main() {
 
   const catalog = [];
   const seenTitles = new Set();
+  const seenSlugs = new Set();
   // Rank among the books that qualify for the shelf, so the top N is N books.
   const rankOf = new Map();
   function* candidates() {
@@ -326,11 +331,13 @@ async function main() {
     const [type, language, rawTitle, authors, shelves] = ['Type', 'Language', 'Title', 'Authors', 'Bookshelves'].map(c => row[col(c)] ?? '');
     if (type !== 'Text' || language !== 'en' || SKIP_SHELVES.test(shelves)) { console.warn(`skip ${id}: ${type} ${language} ${rawTitle.slice(0, 30)}`); continue; }
     const title = TITLES[id] ?? cleanTitle(rawTitle);
-    if (seenTitles.has(title)) { console.warn(`skip ${id}: duplicate edition of ${title}`); continue; }
+    const slug = SLUGS[id] ?? slugify(title);
+    // Same title or slug ("Moby Dick", "Moby-Dick"): another edition, which would share the files.
+    if (REPEAT_EDITIONS.has(id) || seenTitles.has(title) || seenSlugs.has(slug)) { console.warn(`skip ${id}: duplicate edition of ${title}`); continue; }
     seenTitles.add(title);
+    seenSlugs.add(slug);
     if (rankOf.size < top) rankOf.set(id, rankOf.size + 1);
     const author = AUTHORS[id] ?? parseAuthor(authors);
-    const slug = SLUGS[id] ?? slugify(title);
 
     const textPath = `site/books/${slug}.txt.gz`;
     if (!existsSync(textPath)) {

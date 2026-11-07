@@ -275,14 +275,17 @@ const twinLine = book => {
 // works, held out and guessed. Shown on the numbers page and book pages.
 const authors = N.authorsWithWorks(shelfNumbers, 3);
 const guesses = N.guessAuthors(authors);
-// Authors with two or more works get a section on each of their book pages.
-const authorShelf = new Map(N.authorsWithWorks(shelfNumbers, 2).map(({ author, books: list }) => [author, list]));
+// Every book with a named author gets a section on its author; "Various" and
+// "Anonymous" aren't one.
+const authorShelf = new Map(N.authorsWithWorks(shelfNumbers, 1).map(({ author, books: list }) => [author, list]));
+const authorPrints = N.authorFingerprints(shelfNumbers);
+const medians = N.shelfMedians(shelfNumbers);
 const numbersBySlug = new Map(shelfNumbers.map(b => [b.slug, b]));
 const authorSection = book => {
   const list = authorShelf.get(book.author);
   if (!list) return '';
   const numbers = numbersBySlug.get(book.slug);
-  return N.bookAuthorHTML(numbers, list, guesses.find(g => g.book === numbers));
+  return N.bookAuthorHTML(numbers, list, guesses.find(g => g.book === numbers), authorPrints, medians);
 };
 
 const missingShareImages = [];

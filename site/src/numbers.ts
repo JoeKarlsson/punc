@@ -587,16 +587,59 @@ export function authorDetailHTML(author: string, books: BookNumbers[], guessed: 
         </div>`;
 }
 
-// A book page's author on the shelf: the book against the author's average,
-// whether the marks name its author, and the author's books. For authors
-// with two or more works; `guess` is there when they have three.
-export function bookAuthorHTML(book: BookNumbers, authorBooks: BookNumbers[], guess: Guess | undefined): string {
+// Each author's average fingerprint, for finding the author another
+// punctuates most like.
+export function authorFingerprints(books: BookNumbers[]): Map<string, number[]> {
+  return new Map(authorsWithWorks(books, 1).map(({ author, books: list }) => [author, averageShares(list.map(b => b.shares))]));
+}
+
+// The author whose average fingerprint is nearest `author`'s own.
+export function closestAuthor(author: string, prints: Map<string, number[]>): string {
+  const own = prints.get(author);
+  if (!own) throw new Error(`No fingerprint for ${author}`);
+  let best = { author: '', distance: Infinity };
+  for (const [other, shares] of prints) {
+    if (other === author) continue;
+    const distance = fingerprintDistance(own, shares);
+    if (distance < best.distance) best = { author: other, distance };
+  }
+  return best.author;
+}
+
+// The median of every book on the shelf, for each measure.
+export const shelfMedians = (books: BookNumbers[]) => Object.fromEntries(METRICS.map(({ key }) => [key, median(books.map(b => b[key]))])) as Record<MetricKey, number>;
+
+// A book page's author on the shelf, for every book with a named author: the
+// book against the author's average and the whole shelf, the author whose
+// punctuation theirs is closest to, and, for authors with more than one book,
+// whether the marks name its author (`guess`, for three works or more) and
+// the author's other books.
+export function bookAuthorHTML(
+  book: BookNumbers,
+  authorBooks: BookNumbers[],
+  guess: Guess | undefined,
+  prints: Map<string, number[]>,
+  medians: Record<MetricKey, number>
+): string {
   const { author } = book;
+  const several = authorBooks.length > 1;
   const center = averageShares(authorBooks.map(b => b.shares));
   const closer = authorBooks.filter(b => fingerprintDistance(b.shares, center) < fingerprintDistance(book.shares, center)).length;
   const verdict = guess === undefined ? '' : ` Held out and guessed from its marks alone, the shelf ${guess.guessed === author ? `names ${author} as its author` : `takes it for ${guess.guessed}`}.`;
-  const note = `${authorBooks.length} books by ${author} are on the shelf. Its fingerprint is the ${ordinal(closer + 1)} closest of the ${authorBooks.length} to their average.${verdict}`;
-  const rows = TABLE_METRICS.map(key => `<tr><th scope="row">${metric(key).label}</th><td>${formatValue(key, book[key])}</td><td>${formatValue(key, mean(authorBooks.map(b => b[key])))}</td></tr>`).join('');
+  const note = several
+    ? `${authorBooks.length} books by ${author} are on the shelf. Its fingerprint is the ${ordinal(closer + 1)} closest of the ${authorBooks.length} to their average.${verdict}`
+    : `It's the only book by ${author} on the shelf.`;
+  const nearest = closestAuthor(author, prints);
+  const nearestLine = `Of the ${prints.size - 1} other authors on the shelf, ${escapeHTML(author)}'s punctuation is closest to <a href="numbers.html?author=${encodeURIComponent(nearest)}#authors">${escapeHTML(nearest)}</a>'s.`;
+  const head = `<th scope="col">This book</th>${several ? `<th scope="col">${escapeHTML(author)}'s average</th>` : ''}<th scope="col">Every book's median</th>`;
+  const rows = TABLE_METRICS.map(
+    key =>
+      `<tr><th scope="row">${metric(key).label}</th><td>${formatValue(key, book[key])}</td>${several ? `<td>${formatValue(key, mean(authorBooks.map(b => b[key])))}</td>` : ''}<td>${formatValue(key, medians[key])}</td></tr>`
+  ).join('');
+  // One book: the closest author's fingerprint, to set beside the book's own.
+  const print = several
+    ? `<h3 class="author-name">${escapeHTML(author)}'s average fingerprint</h3>${fingerprintHTML(center, 'fingerprint fingerprint-large')}`
+    : `<h3 class="author-name">${escapeHTML(nearest)}'s average fingerprint</h3>${fingerprintHTML(prints.get(nearest)!, 'fingerprint fingerprint-large')}`;
   const shelfBooks = byYear(authorBooks)
     .map(b => {
       const title = b === book ? `<span class="author-book-this" aria-current="page">${escapeHTML(b.title)}</span>` : `<a href="books/${b.slug}/">${escapeHTML(b.title)}</a>`;
@@ -607,13 +650,12 @@ export function bookAuthorHTML(book: BookNumbers, authorBooks: BookNumbers[], gu
     <h2 id="book-author-heading" class="view-heading">${escapeHTML(author)} on the shelf</h2>
     <div class="book-author-body">
       <div>
-        <p class="view-note">${escapeHTML(note)}</p>
-        <h3 class="author-name">${escapeHTML(author)}'s average fingerprint</h3>
-        ${fingerprintHTML(center, 'fingerprint fingerprint-large')}
-        <p class="view-note"><a href="numbers.html?author=${encodeURIComponent(author)}#authors">${escapeHTML(author)} on the numbers page</a></p>
+        <p class="view-note">${escapeHTML(note)} ${nearestLine}</p>
+        ${print}
+        ${guess === undefined ? '' : `<p class="view-note"><a href="numbers.html?author=${encodeURIComponent(author)}#authors">${escapeHTML(author)} on the numbers page</a></p>`}
       </div>
-      <table class="compare-table"><thead><tr><td></td><th scope="col">This book</th><th scope="col">${escapeHTML(author)}'s average</th></tr></thead><tbody>${rows}</tbody></table>
+      <table class="compare-table"><caption>Marks per 1,000 words, except words per sentence and dialogue (the share of words inside quotation marks).</caption><thead><tr><td></td>${head}</tr></thead><tbody>${rows}</tbody></table>
     </div>
-    <ul class="author-books">${shelfBooks}</ul>
+    ${several ? `<ul class="author-books">${shelfBooks}</ul>` : ''}
   </section>`;
 }

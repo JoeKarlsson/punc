@@ -122,8 +122,17 @@ jobs:
       - name: Build the site
         run: npm run site:build
 
+      # Three runs per page, judged on the median (lighthouserc.json): one run
+      # on a shared runner swings by a tenth or more.
       - name: Run Lighthouse CI
         run: npx --yes @lhci/cli@0.15.1 autorun
+
+      - name: Keep the Lighthouse reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lighthouse-reports
+          path: .lighthouseci/
 
   security:
     name: Security Audit

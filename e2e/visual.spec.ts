@@ -45,5 +45,6 @@ test('a book page head and its views', async ({ page }) => {
 
 test('the map', async ({ page }) => {
   await open(page, 'numbers.html');
+  await expect(page.locator('.shelf-map a[data-tip]').first()).toBeAttached();
   await expect(page.locator('.shelf-map')).toHaveScreenshot('map.png');
 });

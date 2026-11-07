@@ -31,7 +31,7 @@ await build({
 // The same analysis the browser runs, bundled for Node so the numbers match.
 const analyzerPath = join(tmpdir(), `punc-site-analyze-${process.pid}.mjs`);
 await build({ entryPoints: [join(SITE, 'src/node-entry.ts')], bundle: true, platform: 'node', format: 'esm', outfile: analyzerPath });
-const { analyzeBook, cardHTML, fingerprintHTML, mapSVG, markShares, numbers: N, shelfPosition, SHELF_PAGE_SIZE } = await import(pathToFileURL(analyzerPath).href);
+const { analyzeBook, cardHTML, fingerprintHTML, markShares, numbers: N, shelfPosition, SHELF_PAGE_SIZE } = await import(pathToFileURL(analyzerPath).href);
 await rm(analyzerPath);
 
 // GitHub Pages can't send headers, so the policy rides in a meta tag, first in
@@ -361,30 +361,23 @@ const authorRows = authors
   })
   .join('\n');
 
-// Careers: authors with four or more dated books across at least eight years.
-const careerAuthors = N.authorsWithWorks(shelfNumbers, 3).filter(({ books: list }) => {
-  const years = list.filter(b => b.year !== null && b.year >= N.TIMELINE_FROM).map(b => b.year);
-  return years.length >= 4 && Math.max(...years) - Math.min(...years) >= 8;
-});
-const careerAxes = N.axesFor(careerAuthors.flatMap(a => a.books));
-const careers = careerAuthors
-  .map(({ author, books: list }) => `      <figure class="chart career">
+// Careers: a frame per author; the browser draws the charts.
+const careers = N.careerAuthors(shelfNumbers)
+  .map(({ author }) => `      <figure class="chart career" data-author="${escapeHTML(author)}">
         <figcaption><strong>${escapeHTML(author)}</strong></figcaption>
-        ${N.careerSVG(list.filter(b => b.year !== null && b.year >= N.TIMELINE_FROM), shelfNumbers, careerAxes)}
+        <div class="career-chart"></div>
         <p class="map-tip" hidden></p>
       </figure>`)
   .join('\n');
 const metricOptions = N.METRICS.map(({ key, label }) => `          <option value="${key}">${label}</option>`).join('\n');
 
-// Compare: every author with two or more books, then every book.
+// Compare: every author with two or more books, then every book. The books
+// are added in the browser, from numbers.json.
 const compareAuthors = N.authorsWithWorks(shelfNumbers, 2);
-const byTitle = [...shelfNumbers].sort((a, b) => a.title.localeCompare(b.title));
 const compareOptions = picked => `          <optgroup label="Authors">
 ${compareAuthors.map(({ author }) => `            <option value="author:${escapeHTML(author)}"${author === picked ? ' selected' : ''}>${escapeHTML(author)}</option>`).join('\n')}
           </optgroup>
-          <optgroup label="Books">
-${byTitle.map(b => `            <option value="book:${b.slug}">${escapeHTML(b.title)}, ${escapeHTML(b.author)}</option>`).join('\n')}
-          </optgroup>`;
+          <optgroup label="Books"></optgroup>`;
 const authorBooks = name => compareAuthors.find(a => a.author === name).books;
 const compareDefault = N.compareHTML(N.authorProfile('Jane Austen', authorBooks('Jane Austen')), N.authorProfile('Charles Dickens', authorBooks('Charles Dickens')));
 
@@ -433,15 +426,6 @@ const records = recordList
   })
   .join('\n');
 
-const tableMetrics = ['semicolon', 'comma', 'colon', 'exclaim', 'question', 'wps', 'dialogue'];
-const position = new Map(books.map(b => [b.slug, b]));
-const tableRows = byTitle
-  .map(b => {
-    const p = position.get(b.slug);
-    return `          <tr><th scope="row"><a href="books/${b.slug}/">${escapeHTML(b.title)}</a>, ${escapeHTML(b.author)}</th><td>${escapeHTML(b.yearLabel ?? '')}</td>${tableMetrics.map(key => `<td>${N.formatValue(key, b[key])}</td>`).join('')}<td>${p.pausesPerStop.toFixed(1)}</td><td>${(p.loudness * 100).toFixed(1)}%</td></tr>`;
-  })
-  .join('\n');
-
 const fill = {
   books: books.length,
   ancient: shelfNumbers.filter(b => b.year !== null && b.year < N.TIMELINE_FROM).length,
@@ -472,9 +456,9 @@ const numbersBody = (await fragment('numbers.html'))
   .replace('<!--POPULARITY-->', N.popularitySVG(shelfNumbers, 'wps'))
   .replace('<!--RANKLINKS-->', rankLinks)
   .replace('<!--RECORDS-->', records)
-  .replace('<!--MAP-->', mapSVG(books, { labelled: mapLabels }))
-  .replace('<!--TABLEHEAD-->', tableMetrics.map(key => `<th scope="col">${N.metric(key).label}</th>`).join(''))
-  .replace('<!--TABLE-->', tableRows);
+  // The map is drawn in the browser from numbers.json, with these labelled.
+  .replace('<!--MAPLABELS-->', mapLabels.join(' '))
+  .replace('<!--TABLEHEAD-->', N.TABLE_METRICS.map(key => `<th scope="col">${N.metric(key).label}</th>`).join(''));
 await writePage({
   path: 'numbers.html',
   nav: 'numbers',

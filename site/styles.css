@@ -1579,14 +1579,6 @@ code {
   gap: var(--space-5);
 }
 
-.career-layer {
-  display: none;
-}
-
-.career-layer.on {
-  display: inline;
-}
-
 .chart-line-author {
   stroke: var(--pink);
 }
@@ -1802,4 +1794,20 @@ code {
   text-align: left;
   font-size: 0.9rem;
   color: var(--muted);
+}
+
+/* Holds the map's space until the browser draws it */
+.map-holder:empty {
+  aspect-ratio: 1000 / 640;
+}
+
+.career-chart:empty {
+  aspect-ratio: 320 / 190;
+}
+
+/* A long page: skip layout and paint for sections off screen. auto keeps
+   each section's real height once it has been drawn. */
+.numbers-section {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 1400px;
 }

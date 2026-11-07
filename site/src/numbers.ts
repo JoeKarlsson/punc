@@ -4,7 +4,7 @@
 // the charts; numbers-page.ts reuses the comparison markup in the browser.
 
 import { countWords } from '../../src/text';
-import { TRACKED_MARKS, fingerprintHTML, markShares, niceAxis } from './patterns';
+import { TRACKED_MARKS, fingerprintHTML, markShares, niceAxis, shelfPosition } from './patterns';
 
 export type MetricKey = 'semicolon' | 'comma' | 'colon' | 'dash' | 'exclaim' | 'question' | 'marks' | 'wps' | 'dialogue';
 
@@ -46,6 +46,9 @@ export interface BookNumbers extends Record<MetricKey, number> {
   words: number;
   // Fingerprint shares, in TRACKED_MARKS order
   shares: number[];
+  // Where it sits on the map (shelfPosition)
+  pausesPerStop: number;
+  loudness: number;
 }
 
 export interface BookMeta {
@@ -117,6 +120,7 @@ export function bookNumbers(
     rank: meta.rank,
     words: analysis.wordCount,
     shares: markShares(analysis.marks),
+    ...shelfPosition(analysis.marks),
     semicolon: per1000(counts.get(';') ?? 0),
     comma: per1000(counts.get(',') ?? 0),
     colon: per1000(counts.get(':') ?? 0),
@@ -325,36 +329,43 @@ export const TIMELINE_TO = 1975;
 
 const linePath = (points: Array<[number, number]>) => points.map(([x, y], i) => `${i ? 'L' : 'M'}${r1(x)} ${r1(y)}`).join('');
 
-// One measure over time: a dot per dated book from TIMELINE_FROM on, and the
-// median line for every 25 years. A line for each genre is drawn too, hidden
-// until the genre picker shows it (numbers-page.ts).
+const TIMELINE = { W: 520, H: 300, L: 48, R: 14, T: 14, B: 34 };
+const timelineBooks = (books: BookNumbers[]) => books.filter(b => b.year !== null && b.year >= TIMELINE_FROM && b.year < TIMELINE_TO);
+const timelineX = (year: number) => TIMELINE.L + ((year - TIMELINE_FROM) / (TIMELINE_TO - TIMELINE_FROM)) * (TIMELINE.W - TIMELINE.L - TIMELINE.R);
+// A value's height in a chart frame; values over the axis top sit on it.
+const valueY = (frame: { H: number; T: number; B: number }, key: MetricKey, axisMax: number) => (v: number) =>
+  frame.H - frame.B - (Math.min(scaled(key, v), axisMax) / axisMax) * (frame.H - frame.T - frame.B);
+
+// One measure over time: the median line for every 25 years, and a line for
+// each genre, hidden until the genre picker shows it. The dots, one per dated
+// book from TIMELINE_FROM on, are drawn in the browser (timelineDots) into the
+// empty .chart-dots group, which carries the measure and the axis top.
 export function timelineSVG(books: BookNumbers[], key: MetricKey, genres: string[]): string {
-  const W = 520;
-  const H = 300;
-  const L = 48;
-  const R = 14;
-  const T = 14;
-  const B = 34;
-  const dated = books.filter(b => b.year !== null && b.year >= TIMELINE_FROM && b.year < TIMELINE_TO);
+  const { W, H, L, R } = TIMELINE;
+  const dated = timelineBooks(books);
   const axis = axisFor(dated.map(b => b[key]), key);
-  const x = (year: number) => L + ((year - TIMELINE_FROM) / (TIMELINE_TO - TIMELINE_FROM)) * (W - L - R);
-  const y = (v: number) => H - B - (Math.min(scaled(key, v), axis.max) / axis.max) * (H - T - B);
+  const y = valueY(TIMELINE, key, axis.max);
+  const tickY = (v: number) => y(key === 'dialogue' ? v / 100 : v);
   const grid = [
-    ...axis.ticks.map(v => `<line class="chart-grid" x1="${L}" x2="${W - R}" y1="${r1(y(key === 'dialogue' ? v / 100 : v))}" y2="${r1(y(key === 'dialogue' ? v / 100 : v))}"/><text class="chart-tick" x="${L - 8}" y="${r1(y(key === 'dialogue' ? v / 100 : v) + 5)}" text-anchor="end">${tickText(key, v)}</text>`),
-    ...[1600, 1700, 1800, 1900].map(year => `<text class="chart-tick" x="${r1(x(year))}" y="${H - 10}" text-anchor="middle">${year}</text>`),
+    ...axis.ticks.map(v => `<line class="chart-grid" x1="${L}" x2="${W - R}" y1="${r1(tickY(v))}" y2="${r1(tickY(v))}"/><text class="chart-tick" x="${L - 8}" y="${r1(tickY(v) + 5)}" text-anchor="end">${tickText(key, v)}</text>`),
+    ...[1600, 1700, 1800, 1900].map(year => `<text class="chart-tick" x="${r1(timelineX(year))}" y="${H - 10}" text-anchor="middle">${year}</text>`),
   ].join('');
   // Every book's line needs five books in a span, so the thin 1600s don't
   // swing it; a genre's needs three, or most genres would have no line.
   const line = (list: BookNumbers[], className: string, genre?: string) => {
-    const points = trend(list, key, TIMELINE_FROM, TIMELINE_TO, 25, genre ? 3 : 5).map(p => [x((p.from + p.to) / 2), y(p.value)] as [number, number]);
+    const points = trend(list, key, TIMELINE_FROM, TIMELINE_TO, 25, genre ? 3 : 5).map(p => [timelineX((p.from + p.to) / 2), y(p.value)] as [number, number]);
     return points.length > 1 ? `<path class="${className}"${genre ? ` data-genre="${escapeHTML(genre)}"` : ''} d="${linePath(points)}"/>` : '';
   };
-  const dots = dated
-    .map(b => `<circle class="chart-dot" cx="${r1(x(b.year!))}" cy="${r1(y(b[key]))}" r="4" data-genres="${escapeHTML(b.genres.join('|'))}" data-tip="${escapeHTML(bookTip(b, key))}"/>`)
-    .join('');
   const genreLines = genres.map(g => line(dated.filter(b => b.genres.includes(g)), 'chart-line chart-line-genre', g)).join('');
   const m = metric(key);
-  return `<svg class="chart-svg" viewBox="0 0 ${W} ${H}" role="img" aria-label="${escapeHTML(`${m.label} over time, ${dated.length} books from ${TIMELINE_FROM} on: ${trendSentence(books, key)}`)}">${grid}<g class="chart-dots">${dots}</g>${line(dated, 'chart-line chart-line-all')}${genreLines}</svg>`;
+  return `<svg class="chart-svg" viewBox="0 0 ${W} ${H}" role="img" aria-label="${escapeHTML(`${m.label} over time, ${dated.length} books from ${TIMELINE_FROM} on: ${trendSentence(books, key)}`)}">${grid}<g class="chart-dots" data-metric="${key}" data-max="${axis.max}"></g>${line(dated, 'chart-line chart-line-all')}${genreLines}</svg>`;
+}
+
+export function timelineDots(books: BookNumbers[], key: MetricKey, axisMax: number): string {
+  const y = valueY(TIMELINE, key, axisMax);
+  return timelineBooks(books)
+    .map(b => `<circle class="chart-dot" cx="${r1(timelineX(b.year!))}" cy="${r1(y(b[key]))}" r="4" data-genres="${escapeHTML(b.genres.join('|'))}" data-tip="${escapeHTML(bookTip(b, key))}"/>`)
+    .join('');
 }
 
 // "13.5 semicolons per 1,000 words in 1750–1774, 1.8 in 1950–1974": the
@@ -368,63 +379,86 @@ export function trendSentence(books: BookNumbers[], key: MetricKey): string {
   return `${describeValue(key, first.value)} in ${span(first)}, ${formatValue(key, last.value)} in ${span(last)}`;
 }
 
+// Authors with a career to chart: four or more books dated from
+// TIMELINE_FROM on, across at least eight years. Only those books count.
+export function careerAuthors(books: BookNumbers[]): Array<{ author: string; books: BookNumbers[] }> {
+  return authorsWithWorks(books, 3)
+    .map(({ author, books: list }) => ({ author, books: list.filter(b => b.year !== null && b.year >= TIMELINE_FROM) }))
+    .filter(({ books: list }) => {
+      const years = list.map(b => b.year!);
+      return years.length >= 4 && Math.max(...years) - Math.min(...years) >= 8;
+    });
+}
+
+// Every career chart, for one measure, keyed by author. The measure's scale
+// is shared by all of them.
+export function careerSVGs(shelf: BookNumbers[], key: MetricKey): Map<string, string> {
+  const authors = careerAuthors(shelf);
+  const axis = axisFor(authors.flatMap(a => a.books).map(b => b[key]), key);
+  return new Map(authors.map(({ author, books }) => [author, careerSVG(books, shelf, key, axis)]));
+}
+
 // An author's books in order of year against the shelf around them: their
 // books joined by a line, and the median of the shelf's books within 15
-// years of each one as a dashed line. Every measure is drawn, one shown at a
-// time (numbers-page.ts); each measure shares its scale across authors.
-export function careerSVG(authorBooks: BookNumbers[], shelf: BookNumbers[], axes: Map<MetricKey, { max: number; ticks: number[] }>): string {
-  const W = 320;
-  const H = 190;
-  const L = 40;
-  const R = 12;
-  const T = 12;
-  const B = 30;
-  const dated = authorBooks.filter(b => b.year !== null).sort((a, b) => a.year! - b.year!);
+// years of each one as a dashed line.
+function careerSVG(authorBooks: BookNumbers[], shelf: BookNumbers[], key: MetricKey, axis: { max: number; ticks: number[] }): string {
+  const frame = { W: 320, H: 190, L: 40, R: 12, T: 12, B: 30 };
+  const { W, H, L, R } = frame;
+  const dated = [...authorBooks].sort((a, b) => a.year! - b.year!);
   const first = dated[0]!.year!;
   const last = dated.at(-1)!.year!;
   const pad = Math.max(2, (last - first) * 0.08);
   const x = (year: number) => L + ((year - first + pad) / (last - first + pad * 2)) * (W - L - R);
-  // The first measure shows until numbers-page.ts switches.
-  const layers = METRICS.map(({ key }, layer) => {
-    const axis = axes.get(key)!;
-    const y = (v: number) => H - B - (Math.min(scaled(key, v), axis.max) / axis.max) * (H - T - B);
-    const tickY = (v: number) => y(key === 'dialogue' ? v / 100 : v);
-    const ticks = [axis.ticks[0]!, axis.ticks.at(-1)!]
-      .map(v => `<line class="chart-grid" x1="${L}" x2="${W - R}" y1="${r1(tickY(v))}" y2="${r1(tickY(v))}"/><text class="chart-tick" x="${L - 6}" y="${r1(tickY(v) + 5)}" text-anchor="end">${tickText(key, v)}</text>`)
-      .join('');
-    const around = dated.map(b => [x(b.year!), y(median(shelf.filter(s => s.year !== null && Math.abs(s.year - b.year!) <= 15).map(s => s[key])))] as [number, number]);
-    const own = dated.map(b => [x(b.year!), y(b[key])] as [number, number]);
-    const dots = dated.map((b, i) => `<circle class="chart-dot" cx="${r1(own[i]![0])}" cy="${r1(own[i]![1])}" r="5" data-tip="${escapeHTML(bookTip(b, key))}"/>`).join('');
-    return `<g class="career-layer${layer === 0 ? ' on' : ''}" data-metric="${key}">${ticks}<path class="chart-line chart-line-shelf" d="${linePath(around)}"/><path class="chart-line chart-line-author" d="${linePath(own)}"/>${dots}</g>`;
-  }).join('');
+  const y = valueY(frame, key, axis.max);
+  const tickY = (v: number) => y(key === 'dialogue' ? v / 100 : v);
+  const ticks = [axis.ticks[0]!, axis.ticks.at(-1)!]
+    .map(v => `<line class="chart-grid" x1="${L}" x2="${W - R}" y1="${r1(tickY(v))}" y2="${r1(tickY(v))}"/><text class="chart-tick" x="${L - 6}" y="${r1(tickY(v) + 5)}" text-anchor="end">${tickText(key, v)}</text>`)
+    .join('');
+  const around = dated.map(b => [x(b.year!), y(median(shelf.filter(s => s.year !== null && Math.abs(s.year - b.year!) <= 15).map(s => s[key])))] as [number, number]);
+  const own = dated.map(b => [x(b.year!), y(b[key])] as [number, number]);
+  const dots = dated.map((b, i) => `<circle class="chart-dot" cx="${r1(own[i]![0])}" cy="${r1(own[i]![1])}" r="5" data-tip="${escapeHTML(bookTip(b, key))}"/>`).join('');
   const years = `<text class="chart-tick" x="${L}" y="${H - 8}" text-anchor="start">${first}</text><text class="chart-tick" x="${W - R}" y="${H - 8}" text-anchor="end">${last}</text>`;
-  return `<svg class="chart-svg" viewBox="0 0 ${W} ${H}" role="img" aria-label="${escapeHTML(`${dated[0]!.author}'s books from ${first} to ${last}, against the shelf at the time`)}">${years}${layers}</svg>`;
+  return `<svg class="chart-svg" viewBox="0 0 ${W} ${H}" role="img" aria-label="${escapeHTML(`${dated[0]!.author}'s books from ${first} to ${last}, ${metric(key).label.toLowerCase()} against the shelf at the time`)}">${years}${ticks}<path class="chart-line chart-line-shelf" d="${linePath(around)}"/><path class="chart-line chart-line-author" d="${linePath(own)}"/>${dots}</svg>`;
 }
-
-// The shared scale for each measure across a set of books.
-export const axesFor = (books: BookNumbers[]) => new Map(METRICS.map(({ key }) => [key, axisFor(books.map(b => b[key]), key)]));
 
 // A scatter of download rank (most downloaded on the left) against a measure.
 export function popularitySVG(books: BookNumbers[], key: MetricKey): string {
-  const W = 1000;
-  const H = 360;
-  const L = 60;
-  const R = 20;
-  const T = 16;
-  const B = 50;
+  const { W, H, L, R } = POPULARITY;
   const ranked = books.filter(b => b.rank !== null);
-  const maxRank = Math.max(...ranked.map(b => b.rank!));
+  const x = rankX(ranked);
   const axis = axisFor(ranked.map(b => b[key]), key);
-  const x = (rank: number) => L + ((rank - 1) / (maxRank - 1)) * (W - L - R);
-  const y = (v: number) => H - B - (Math.min(scaled(key, v), axis.max) / axis.max) * (H - T - B);
-  const tickY = (v: number) => y(key === 'dialogue' ? v / 100 : v);
+  const tickY = (v: number) => valueY(POPULARITY, key, axis.max)(key === 'dialogue' ? v / 100 : v);
   const grid = [
     ...axis.ticks.map(v => `<line class="chart-grid" x1="${L}" x2="${W - R}" y1="${r1(tickY(v))}" y2="${r1(tickY(v))}"/><text class="chart-tick" x="${L - 10}" y="${r1(tickY(v) + 5)}" text-anchor="end">${tickText(key, v)}</text>`),
-    ...[1, 100, 200, 300, 400, 500].filter(r => r <= maxRank).map(r => `<text class="chart-tick" x="${r1(x(r))}" y="${H - 22}" text-anchor="middle">${r}</text>`),
+    ...[1, 100, 200, 300, 400, 500].filter(r => r <= ranked.length).map(r => `<text class="chart-tick" x="${r1(x(r))}" y="${H - 22}" text-anchor="middle">${r}</text>`),
   ].join('');
   const label = `<text class="chart-axis" x="${(L + W - R) / 2}" y="${H - 2}" text-anchor="middle">download rank, most read on the left</text>`;
-  const dots = ranked.map(b => `<circle class="chart-dot" cx="${r1(x(b.rank!))}" cy="${r1(y(b[key]))}" r="5" data-tip="${escapeHTML(`#${b.rank} ${bookTip(b, key)}`)}"/>`).join('');
-  return `<svg class="chart-svg" viewBox="0 0 ${W} ${H}" role="img" aria-label="${escapeHTML(`Download rank against ${metric(key).unit}`)}">${grid}${label}<g class="chart-dots">${dots}</g></svg>`;
+  return `<svg class="chart-svg" viewBox="0 0 ${W} ${H}" role="img" aria-label="${escapeHTML(`Download rank against ${metric(key).unit}`)}">${grid}${label}<g class="chart-dots" data-metric="${key}" data-max="${axis.max}"></g></svg>`;
+}
+
+const POPULARITY = { W: 1000, H: 360, L: 60, R: 20, T: 16, B: 50 };
+const rankX = (ranked: BookNumbers[]) => {
+  const maxRank = Math.max(...ranked.map(b => b.rank!));
+  return (rank: number) => POPULARITY.L + ((rank - 1) / (maxRank - 1)) * (POPULARITY.W - POPULARITY.L - POPULARITY.R);
+};
+
+// The scatter's dots, drawn in the browser like timelineDots.
+export function popularityDots(books: BookNumbers[], key: MetricKey, axisMax: number): string {
+  const ranked = books.filter(b => b.rank !== null);
+  const x = rankX(ranked);
+  const y = valueY(POPULARITY, key, axisMax);
+  return ranked.map(b => `<circle class="chart-dot" cx="${r1(x(b.rank!))}" cy="${r1(y(b[key]))}" r="5" data-tip="${escapeHTML(`#${b.rank} ${bookTip(b, key)}`)}"/>`).join('');
+}
+
+// The measures in the table of every book's numbers, after the year.
+export const TABLE_METRICS: MetricKey[] = ['semicolon', 'comma', 'colon', 'exclaim', 'question', 'wps', 'dialogue'];
+
+// That table's rows, by title; the map's two measures close each row.
+export function numbersTableRows(books: BookNumbers[]): string {
+  return [...books]
+    .sort((a, b) => a.title.localeCompare(b.title))
+    .map(b => `<tr><th scope="row"><a href="books/${b.slug}/">${escapeHTML(b.title)}</a>, ${escapeHTML(b.author)}</th><td>${escapeHTML(b.yearLabel ?? '')}</td>${TABLE_METRICS.map(key => `<td>${formatValue(key, b[key])}</td>`).join('')}<td>${b.pausesPerStop.toFixed(1)}</td><td>${(b.loudness * 100).toFixed(1)}%</td></tr>`)
+    .join('');
 }
 
 // Plain words for a rank correlation.

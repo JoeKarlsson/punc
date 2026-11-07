@@ -85,7 +85,7 @@ The shelf is refreshed by hand, not on a schedule: each refresh commits its new
 books to git for good. To refresh it, run `npm run shelf:update` (or
 `npm run shelf:update -- --top 200` for a different size). It ranks Gutenberg's
 English books by the last 30 days of downloads (from its RDF feed), skips
-reference books and repeat editions, downloads the top 500 and their covers,
+reference books and repeat editions, downloads the top 1000 and their covers,
 removes the files of books that dropped off, renders a share card per book,
 runs `npm run check`, then commits the shelf and pushes, which deploys the site.
 `site/scripts/fetch-books.mjs` does the Gutenberg part on its own. Title and

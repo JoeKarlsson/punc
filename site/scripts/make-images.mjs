@@ -5,9 +5,12 @@
 //   node site/scripts/make-images.mjs
 import { Resvg } from '@resvg/resvg-js';
 import { chromium } from '@playwright/test';
+import { build } from 'esbuild';
 import { createServer } from 'node:http';
 import { mkdir, readFile, rm, writeFile } from 'node:fs/promises';
+import { tmpdir } from 'node:os';
 import { extname, join, normalize } from 'node:path';
+import { pathToFileURL } from 'node:url';
 
 const STATIC = 'site/static';
 const SHARE = 'site/share';
@@ -51,10 +54,15 @@ ${ransom}
 </body></html>`
 );
 
-// One card per book: its shelf poster, built into the front page by
-// site/build.mjs, taped on the left, with the title and the fingerprint big.
-const shelfHTML = await readFile(join(DIST, 'index.html'), 'utf8');
-const shelfCards = [...shelfHTML.match(/<ul class="shelf" id="shelf">([\s\S]*?)<\/ul>/)[1].matchAll(/<li class="cover poster"[\s\S]*?<\/li>/g)].map(m => m[0]);
+// One card per book: its shelf poster, drawn by the shelf's own cardHTML from
+// the build's shelf.json (the front page only holds the first page of books),
+// taped on the left, with the title and the fingerprint big.
+const cardModulePath = join(tmpdir(), `punc-share-card-${process.pid}.mjs`);
+await build({ entryPoints: ['site/src/node-entry.ts'], bundle: true, platform: 'node', format: 'esm', outfile: cardModulePath, logLevel: 'error' });
+const { cardHTML } = await import(pathToFileURL(cardModulePath).href);
+await rm(cardModulePath);
+const shelfBooks = JSON.parse(await readFile(join(DIST, 'shelf.json'), 'utf8'));
+const shelfCards = shelfBooks.map((book, i) => cardHTML(book, i));
 const bookCardPage = card => {
   const slug = card.match(/href="books\/([^/]+)\//)[1];
   const title = card.match(/<span class="cover-title">([\s\S]*?)<\/span>/)[1];

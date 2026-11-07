@@ -20,6 +20,12 @@ two parts:
 
 [![The Punc website: a ransom note asks what a book looks like without words, next to dithered pink posters for Frankenstein, Pride and Prejudice and Moby-Dick](https://joekarlsson.github.io/punc/og.png)](https://joekarlsson.github.io/punc/)
 
+## Recording (November 2026)
+
+[![Punc's site: the shelf of books shown as punctuation, then Alice's Adventures in Wonderland with 26,777 words removed and 8,076 marks left, and the book's punctuation laid out in reading order](.github/readme/2026-11-recording.webp)](.github/readme/2026-11-recording.mp4)
+
+What Punc looked like in November 2026, recorded for [its page on joekarlsson.com](https://www.joekarlsson.com/work/punc/). Click the picture to play the video.
+
 ## The website
 
 [joekarlsson.github.io/punc](https://joekarlsson.github.io/punc/)

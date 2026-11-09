@@ -70,11 +70,11 @@
   "devDependencies": {
     "@axe-core/playwright": "4.14.0",
     "@eslint/js": "^10.0.1",
-    "@playwright/test": "^1.64.1",
+    "@playwright/test": "^1.65.0",
     "@swc/jest": "^0.2.36",
     "@types/jest": "^30.0.0",
     "@types/node": "^26.6.6",
-    "@types/pdfkit": "^0.17.3",
+    "@types/pdfkit": "^0.17.7",
     "@types/through2": "^5.0.0",
     "@typescript-eslint/eslint-plugin": "^8.0.0",
     "@typescript-eslint/parser": "^8.0.0",

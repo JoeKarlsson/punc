@@ -99,22 +99,30 @@ function pickAuthor(button: HTMLButtonElement, shelf: BookNumbers[] | null): voi
   drawCareer(shelf);
 }
 
-function drawBooks(shelf: BookNumbers[]): void {
+// Lets the browser paint and answer taps between the charts: drawn in one go,
+// every book on every chart blocked the page for over half a second on a phone.
+const yieldToBrowser = () => new Promise<void>(resolve => setTimeout(resolve, 0));
+
+async function drawBooks(shelf: BookNumbers[]): Promise<void> {
   loadedShelf = shelf;
   findAuthor(shelf);
   const picked = picks.find(p => p.dataset['author'] === pickedAuthor);
   if (picked && picked !== picks[0]) pickAuthor(picked, shelf);
-  document.querySelectorAll<SVGGElement>('#time .chart-dots, #popularity .chart-dots').forEach(group => {
+  for (const group of document.querySelectorAll<SVGGElement>('#time .chart-dots, #popularity .chart-dots')) {
+    await yieldToBrowser();
     const key = group.dataset['metric'] as MetricKey;
     const max = Number(group.dataset['max']);
     group.innerHTML = group.closest('#time') ? timelineDots(shelf, key, max) : popularityDots(shelf, key, max);
     tooltips(group.closest<HTMLElement>('figure.chart')!);
-  });
+  }
   showGenre();
 
+  await yieldToBrowser();
   const map = need<HTMLElement>('#numbers-map');
   map.innerHTML = mapSVG(shelf, { labelled: (map.dataset['labelled'] ?? '').split(' ') });
   setUpMapTooltips(need<HTMLElement>('.shelf-map'), need<HTMLElement>('#map-tip'));
+
+  await yieldToBrowser();
 
   const byTitle = [...shelf].sort((a, b) => a.title.localeCompare(b.title));
   for (const pick of [pickA, pickB]) {
@@ -123,9 +131,10 @@ function drawBooks(shelf: BookNumbers[]): void {
     pick.addEventListener('change', () => (out.innerHTML = compareHTML(profileFor(pickA.value, shelf), profileFor(pickB.value, shelf))));
   }
 
+  await yieldToBrowser();
   drawCareer(shelf);
   careerPick.addEventListener('change', () => drawCareer(shelf));
-  // The table is 490 rows; it's drawn the first time it's opened.
+  // The table has a row for every book; it's drawn the first time it's opened.
   table.addEventListener('toggle', () => {
     const body = need<HTMLElement>('tbody', table);
     if (table.open && !body.firstChild) body.innerHTML = numbersTableRows(shelf);

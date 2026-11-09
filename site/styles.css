@@ -842,6 +842,47 @@ main {
   position: relative;
 }
 
+/* The score's holder is as tall as the whole score; its window sticks to the
+   top of the screen while the holder scrolls past (site/src/canvas.ts). */
+.score {
+  margin-bottom: var(--space-4);
+  background: var(--ink);
+}
+
+.score-window {
+  position: sticky;
+  top: 0;
+}
+
+.score-window canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.score-rail {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 20px;
+  cursor: pointer;
+  touch-action: none;
+}
+
+.score-rail[hidden] {
+  display: none;
+}
+
+.score-thumb {
+  position: absolute;
+  top: 0;
+  right: 4px;
+  width: 6px;
+  border-radius: 3px;
+  background: var(--pink);
+}
+
 /* As tall as the screen allows on a computer; square on a phone, so there's
    page left above and below to scroll by. */
 .explorer-canvas {

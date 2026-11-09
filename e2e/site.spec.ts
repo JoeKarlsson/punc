@@ -4,6 +4,8 @@ import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import { dirname, join, normalize } from 'node:path';
 
 const catalog = JSON.parse(readFileSync('site/catalog.json', 'utf8')) as Array<{ slug: string; title: string; author: string; genres: string[]; rank: number | null; published: string | null; publishedSort: number | null }>;
+// How many shelf books a one-word search finds in a title or author.
+const shelfMatches = (word: string) => catalog.filter(b => `${b.title} ${b.author}`.toLowerCase().includes(word)).length;
 
 // Fail any test that throws in the page or trips the Content-Security-Policy.
 test.beforeEach(({ page }) => {
@@ -40,8 +42,7 @@ test('the shelf searches by title or author, filters by genre, and sorts', async
   await page.goto('./');
   const visible = page.locator('#shelf .cover:not([hidden])');
   await page.getByLabel('Search').fill('austen');
-  const austen = catalog.filter(b => b.author === 'Jane Austen').length;
-  await expect(visible).toHaveCount(Math.min(austen, 24));
+  await expect(visible).toHaveCount(Math.min(shelfMatches('austen'), 24));
   await expect(page).toHaveURL(/\?q=austen/);
 
   await page.getByLabel('Search').fill('');
@@ -84,14 +85,14 @@ test('the shelf turns pages, keeps the page in the URL, and a new search starts 
   await expect(pages.getByRole('button', { name: String(pageCount), exact: true })).toBeVisible();
   await page.getByLabel('Search').fill('dracula');
   await expect(page).not.toHaveURL(/page=/);
-  await expect(visible).toHaveCount(1);
+  await expect(visible).toHaveCount(shelfMatches('dracula'));
   await expect(pages).toBeHidden();
 });
 
 test('shelf choices survive a reload from the URL', async ({ page }) => {
   await page.goto('./?q=dracula');
   await expect(page.getByLabel('Search')).toHaveValue('dracula');
-  await expect(page.locator('#shelf .cover:not([hidden])')).toHaveCount(1);
+  await expect(page.locator('#shelf .cover:not([hidden])')).toHaveCount(shelfMatches('dracula'));
 });
 
 test('old read.html?b= links go to the book page', async ({ page }) => {

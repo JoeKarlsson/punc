@@ -1,7 +1,7 @@
 // The bulk importer: refreshes the shelf with Gutenberg's top books, analyzes
 // them in the site build, renders their share cards, runs the checks, then
 // commits the shelf files and pushes, which deploys the site.
-//   npm run shelf:update             (top 1000)
+//   npm run shelf:update             (top 2000)
 //   npm run shelf:update -- --top 200
 import { execFileSync } from 'node:child_process';
 

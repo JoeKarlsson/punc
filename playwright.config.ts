@@ -31,6 +31,7 @@ export default defineConfig({
     command: 'npm run site:serve',
     url: 'http://localhost:4173/',
     reuseExistingServer: !process.env['CI'],
-    timeout: 120_000,
+    // The build analyzes every book on the shelf: about 2.5 minutes for 2000 on a laptop.
+    timeout: 600_000,
   },
 });

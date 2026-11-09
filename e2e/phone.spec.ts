@@ -36,6 +36,8 @@ test('the shelf shows a page of books, and the next page on a tap', async ({ pag
 
 test('a book page switches views by tapping, and the spiral zooms with its buttons', async ({ page }) => {
   await page.goto('books/frankenstein/');
+  // The view buttons work once reader.js has analyzed the book, which numbers the pages.
+  await expect(page.locator('#folio-left')).toHaveText(/ of /);
   await page.getByRole('button', { name: 'Spiral' }).tap();
   await expect(page.locator('#view-spiral')).toBeVisible();
   await page.getByRole('button', { name: 'Zoom in' }).tap();

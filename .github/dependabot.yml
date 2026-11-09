@@ -7,6 +7,11 @@ updates:
     groups:
       dev-dependencies:
         dependency-type: development
+    # typescript-eslint 8 supports TypeScript below 6.1; a newer TypeScript
+    # fails npm ci on its peer range. Lift this once typescript-eslint does.
+    ignore:
+      - dependency-name: typescript
+        versions: ['>=6.1.0']
   - package-ecosystem: github-actions
     directory: /
     schedule:

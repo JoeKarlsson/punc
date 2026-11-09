@@ -65,7 +65,7 @@
   "dependencies": {
     "@resvg/resvg-js": "^2.6.2",
     "pdfkit": "^0.20.2",
-    "through2": "^5.0.0"
+    "through2": "^5.0.12"
   },
   "devDependencies": {
     "@axe-core/playwright": "4.11.0",
@@ -75,7 +75,7 @@
     "@types/jest": "^30.0.0",
     "@types/node": "^20.11.17",
     "@types/pdfkit": "^0.17.3",
-    "@types/through2": "^2.0.41",
+    "@types/through2": "^5.0.0",
     "@typescript-eslint/eslint-plugin": "^8.0.0",
     "@typescript-eslint/parser": "^8.0.0",
     "esbuild": "^0.25.10",

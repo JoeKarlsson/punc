@@ -4,20 +4,16 @@
 [![Build Status](https://github.com/JoeKarlsson/punc/workflows/CI%2FCD%20Pipeline/badge.svg)](https://github.com/JoeKarlsson/punc/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-Punc takes the words out of a book and leaves the punctuation where it was.
-This repo has the [website](https://joekarlsson.github.io/punc/) and a
-TypeScript library and CLI that count the marks in any text file and draw them
-as SVG, PNG or PDF.
-
 ![Punc's site: the shelf of books shown as punctuation, then Alice's Adventures in Wonderland with 26,777 words removed and 8,076 marks left, and the book's punctuation laid out in reading order](.github/readme/2026-11-recording.gif)
 
-## Artist statement
+Punc takes the words out of a book and leaves the punctuation where it was. A
+lot of what steers you through a book isn't the words: a comma tells you to take
+a breath, and a period tells you to stop. With the words gone, you can see a
+book's rhythm on its own, where it runs without a breath and where it goes
+quiet. It's an erasure, like the blackout poems I make on paper, except a
+blackout poem keeps a few words and Punc keeps none.
 
-A lot of what steers you through a book isn't the words. Punc takes the words
-away and leaves the instructions. It's an erasure, like the blackout poems I
-make on paper, except a blackout poem keeps a few words and Punc keeps none.
-
-[Read the full statement](https://www.joekarlsson.com/work/punc/).
+[See the books](https://joekarlsson.github.io/punc/) · [Read the full statement](https://www.joekarlsson.com/work/punc/)
 
 ## Quick start
 

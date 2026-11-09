@@ -24,7 +24,18 @@ two parts:
 
 ![Punc's site: the shelf of books shown as punctuation, then Alice's Adventures in Wonderland with 26,777 words removed and 8,076 marks left, and the book's punctuation laid out in reading order](.github/readme/2026-11-recording.gif)
 
-What Punc looked like in November 2026, recorded for [its page on joekarlsson.com](https://www.joekarlsson.com/work/punc/). The full-quality video is [2026-11-recording.mp4](.github/readme/2026-11-recording.mp4).
+What Punc looked like in November 2026, recorded for
+[its page on joekarlsson.com](https://www.joekarlsson.com/work/punc/). The
+full-quality video is
+[2026-11-recording.mp4](.github/readme/2026-11-recording.mp4).
+
+## Artist statement
+
+A lot of what steers you through a book isn't the words. Punc takes the words
+away and leaves the instructions. It's an erasure, like the blackout poems I
+make on paper, except a blackout poem keeps a few words and Punc keeps none.
+
+[Read the full statement](https://www.joekarlsson.com/work/punc/).
 
 ## The website
 

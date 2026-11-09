@@ -6,7 +6,7 @@
 // site/covers/<slug>.jpg, skipping files already on disk, deletes the files of
 // books that left the shelf, then writes site/catalog.json. Usually run by
 // site/scripts/update-shelf.mjs; on its own:
-//   node site/scripts/fetch-books.mjs [--top 1000]
+//   node site/scripts/fetch-books.mjs [--top 2000]
 import { spawn } from 'node:child_process';
 import { existsSync } from 'node:fs';
 import { mkdir, readdir, readFile, rm, writeFile } from 'node:fs/promises';
@@ -18,7 +18,7 @@ import { gunzipSync, gzipSync } from 'node:zlib';
 const UA = { 'User-Agent': 'punc-site-builder (https://github.com/JoeKarlsson/punc)' };
 const PAUSE_MS = 1500;
 const MAX_TEXT_BYTES = 3.5 * 1024 * 1024;
-const DEFAULT_TOP = 1000;
+const DEFAULT_TOP = 2000;
 // Books kept on the shelf even when they drop out of the top list
 const EXTRA_IDS = ['1079', '12242', '67138'];
 // Other editions of books already on the shelf under a different title
@@ -427,7 +427,15 @@ async function main() {
         await sleep(PAUSE_MS);
       }
       if (raw.length > MAX_TEXT_BYTES) { console.warn(`skip ${id}: ${(raw.length / 1e6).toFixed(1)} MB`); continue; }
-      await writeFile(textPath, gzipSync(stripGutenberg(raw.toString('utf8')), { level: 9 }));
+      let text;
+      try {
+        text = stripGutenberg(raw.toString('utf8'));
+      } catch (e) {
+        // A few old files have no START/END lines, so the license can't be cut off.
+        console.warn(`skip ${id}: ${e.message}`);
+        continue;
+      }
+      await writeFile(textPath, gzipSync(text, { level: 9 }));
     }
     const coverPath = `site/covers/${slug}.jpg`;
     let cover = existsSync(coverPath);

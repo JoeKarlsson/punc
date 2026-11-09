@@ -161,6 +161,17 @@ export function mapSVG(points: MapPoint[], { labelled = [], highlight, root = ''
     `${b.title}${b.author ? `, ${b.author}` : ''}: ${b.pausesPerStop.toFixed(1)} pauses per stop, ${(b.loudness * 100).toFixed(1)}% ? and !`;
   const labelAt = (cx: number, cy: number, text: string, className = 'map-label') =>
     `<text class="${className}" x="${cx + (cx > W * 0.75 ? -16 : 16)}" y="${cy + 6}" text-anchor="${cx > W * 0.75 ? 'end' : 'start'}">${escapeHTML(text)}</text>`;
+  // A label's rough box (19px type, about 10.5px a character), so a label
+  // that would run into one already placed is left to the hover tooltip.
+  const placed: Array<{ left: number; right: number; top: number; bottom: number }> = [];
+  const labelFits = (cx: number, cy: number, text: string) => {
+    const width = text.length * 10.5;
+    const left = cx > W * 0.75 ? cx - 16 - width : cx + 16;
+    const box = { left, right: left + width, top: cy - 7, bottom: cy + 10 };
+    if (placed.some(p => box.left < p.right && p.left < box.right && box.top < p.bottom && p.top < box.bottom)) return false;
+    placed.push(box);
+    return true;
+  };
   const picked = new Set(labelled);
 
   const dots: string[] = [];
@@ -171,7 +182,7 @@ export function mapSVG(points: MapPoint[], { labelled = [], highlight, root = ''
     const cy = y(b.loudness * 100);
     const tip = escapeHTML(tipFor(b));
     dots.push(`<a href="${root}books/${b.slug}/" data-tip="${tip}" aria-label="${tip}"><circle class="map-hit" cx="${cx}" cy="${cy}" r="16"/><circle class="map-dot" cx="${cx}" cy="${cy}" r="7"/></a>`);
-    if (b.slug && picked.has(b.slug) && !highlight) labels.push(labelAt(cx, cy, b.title));
+    if (b.slug && picked.has(b.slug) && !highlight && labelFits(cx, cy, b.title)) labels.push(labelAt(cx, cy, b.title));
   }
   if (highlight) {
     const cx = x(highlight.pausesPerStop);

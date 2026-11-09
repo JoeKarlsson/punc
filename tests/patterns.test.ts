@@ -74,4 +74,16 @@ describe('map axes', () => {
     expect(svg).toContain('href="../../books/b/"');
     expect(svg).toContain('class="map-here"');
   });
+
+  test('a label that would run into one already placed is left off', () => {
+    const shelf = [
+      { slug: 'a', title: 'A Brief Account', pausesPerStop: 8, loudness: 0.001 },
+      { slug: 'b', title: 'The Close Neighbour', pausesPerStop: 7.9, loudness: 0.002 },
+      { slug: 'c', title: 'Far Away', pausesPerStop: 1, loudness: 0.15 },
+    ];
+    const svg = mapSVG(shelf, { labelled: ['a', 'b', 'c'] });
+    expect(svg).toContain('>A Brief Account</text>');
+    expect(svg).not.toContain('>The Close Neighbour</text>');
+    expect(svg).toContain('>Far Away</text>');
+  });
 });

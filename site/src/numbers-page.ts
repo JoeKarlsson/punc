@@ -3,6 +3,7 @@
 // (thousands of dots would make the page slow to arrive), and runs the
 // tooltips, the genre and measure pickers, the comparison and the table of
 // every book.
+import { afterFirstPaint } from './first-paint';
 import { setUpMapTooltips } from './map-tooltips';
 import {
   authorDetailHTML,
@@ -185,7 +186,9 @@ else {
   findAuthor(null);
 }
 
-fetch('numbers.json')
+// The page's text and medians are in the HTML; the dots for every book can wait.
+afterFirstPaint()
+  .then(() => fetch('numbers.json'))
   .then(response => {
     if (!response.ok) throw new Error(`numbers.json: ${response.status}`);
     return response.json() as Promise<BookNumbers[]>;

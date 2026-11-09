@@ -4,6 +4,7 @@
 // hundreds costs no more than one page. The choices live in the URL so they
 // can be shared.
 import { cardHTML, type ShelfBook } from './card';
+import { afterFirstPaint } from './first-paint';
 import { initPosters } from './posters';
 import { initShare } from './share';
 import { normalizeForSearch, pageLinks, SHELF_PAGE_SIZE, SHELF_PAGE_SIZE_PHONE } from './paging';
@@ -51,6 +52,8 @@ async function setUpShelf(): Promise<void> {
   const heading = byId('shelf-heading');
   const controls = byId<HTMLFormElement>('shelf-controls');
 
+  // The first page of cards is already in the HTML, so the whole shelf can wait.
+  await afterFirstPaint();
   const res = await fetch('shelf.json');
   if (!res.ok) throw new Error(`Couldn't load the shelf (${res.status})`);
   const books = (await res.json()) as ShelfBook[];

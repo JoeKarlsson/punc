@@ -254,7 +254,31 @@ async function fetchBookText(slug: string): Promise<string> {
 
 // The page already has the book's title and stats from the build, so there's
 // no loading message: one above them would push the page down and back.
+// Resolves once the browser has painted the page (or after 2 s: a tab opened in
+// the background never reports a first paint).
+function afterFirstPaint(): Promise<void> {
+  return new Promise(resolve => {
+    if (!PerformanceObserver.supportedEntryTypes?.includes('paint')) return resolve();
+    const observer = new PerformanceObserver(list => {
+      if (list.getEntriesByName('first-contentful-paint').length > 0) {
+        observer.disconnect();
+        resolve();
+      }
+    });
+    observer.observe({ type: 'paint', buffered: true });
+    setTimeout(() => {
+      observer.disconnect();
+      resolve();
+    }, 2000);
+  });
+}
+
 async function loadFromShelf(slug: string, title: string, byline: string): Promise<void> {
+  // The page already shows the book from its build, so the 160 KB book text
+  // waits for that first paint. Fetched earlier, it competed with the fonts and
+  // CSS on a slow phone, and Lighthouse's mobile simulation counted it in the
+  // page's LCP whenever it finished first (performance 0.84-0.91 instead of 0.99).
+  await afterFirstPaint();
   const text = await fetchBookText(slug);
   showBook(text, title, byline, slug, slug);
 }

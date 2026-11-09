@@ -13,7 +13,7 @@ import { createHash } from 'node:crypto';
 
 const SITE = 'site';
 const OUT = 'site-dist';
-const SITE_URL = 'https://joekarlsson.github.io/punc/';
+const SITE_URL = 'https://punc.joekarlsson.com/';
 const FEATURED_COUNT = 4;
 
 await rm(OUT, { recursive: true, force: true });
@@ -165,7 +165,7 @@ async function writePage({ path, nav, title, socialTitle, description, body, scr
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Security-Policy" content="${CSP}">
 <meta name="referrer" content="strict-origin-when-cross-origin">
-${notFound ? '<base href="/punc/">\n' : ''}<title>${escapeHTML(title)}</title>
+${notFound ? '<base href="/">\n' : ''}<title>${escapeHTML(title)}</title>
 <meta name="description" content="${escapeHTML(description)}">
 ${notFound ? '<meta name="robots" content="noindex">' : `<link rel="canonical" href="${url}">`}
 <meta name="color-scheme" content="only dark">

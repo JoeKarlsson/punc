@@ -1,6 +1,6 @@
 # Punc
 
-[![Website](https://img.shields.io/badge/website-joekarlsson.github.io%2Fpunc-ff4fd8)](https://joekarlsson.github.io/punc/)
+[![Website](https://img.shields.io/badge/website-punc.joekarlsson.com-ff4fd8)](https://punc.joekarlsson.com/)
 [![Build Status](https://github.com/JoeKarlsson/punc/workflows/CI%2FCD%20Pipeline/badge.svg)](https://github.com/JoeKarlsson/punc/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
@@ -13,7 +13,7 @@ book's rhythm on its own, where it runs without a breath and where it goes
 quiet. It's an erasure, like the blackout poems I make on paper, except a
 blackout poem keeps a few words and Punc keeps none.
 
-[See the books](https://joekarlsson.github.io/punc/) · [Read the full statement](https://www.joekarlsson.com/work/punc/)
+[See the books](https://punc.joekarlsson.com/) · [Read the full statement](https://www.joekarlsson.com/work/punc/)
 
 ## Quick start
 

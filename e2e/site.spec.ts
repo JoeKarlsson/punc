@@ -15,12 +15,6 @@ test.beforeEach(({ page }) => {
   });
 });
 
-// The 404 page links from /punc/, as on GitHub Pages; the local server
-// serves the site from /.
-async function servePuncPathLocally(page: Page) {
-  await page.route(/\/punc\//, route => route.continue({ url: route.request().url().replace('/punc/', '/') }));
-}
-
 async function openBook(page: Page, slug: string) {
   await page.goto(`books/${slug}/`);
   await expect(page.locator('#book')).toBeVisible();
@@ -129,11 +123,11 @@ test('a book page has its own share metadata and share links', async ({ page }) 
   await page.goto('books/moby-dick/');
   const meta = (key: string) => page.locator(`meta[property="${key}"], meta[name="${key}"]`).getAttribute('content');
   expect(await meta('og:title')).toBe('Moby-Dick, without words');
-  expect(await meta('og:url')).toBe('https://joekarlsson.github.io/punc/books/moby-dick/');
-  expect(await meta('og:image')).toBe('https://joekarlsson.github.io/punc/share/moby-dick.png');
+  expect(await meta('og:url')).toBe('https://punc.joekarlsson.com/books/moby-dick/');
+  expect(await meta('og:image')).toBe('https://punc.joekarlsson.com/share/moby-dick.png');
   expect(await meta('twitter:card')).toBe('summary_large_image');
   expect(await meta('og:description')).toMatch(/^Herman Melville's Moby-Dick \(1851\) with all [\d,]+ words removed/);
-  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', 'https://joekarlsson.github.io/punc/books/moby-dick/');
+  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', 'https://punc.joekarlsson.com/books/moby-dick/');
   await expect(page.locator('.book-poster .poster-art')).toHaveCount(1);
   await expect(page.locator('#book-byline')).toHaveText('Herman Melville, 1851');
   const poster = page.getByRole('link', { name: 'Moby-Dick on Project Gutenberg (opens in a new tab)' });
@@ -141,7 +135,7 @@ test('a book page has its own share metadata and share links', async ({ page }) 
   await expect(poster).toHaveAttribute('target', '_blank');
 
   const hn = page.locator('.share').getByRole('link', { name: 'Hacker News' });
-  await expect(hn).toHaveAttribute('href', /news\.ycombinator\.com\/submitlink\?u=https%3A%2F%2Fjoekarlsson\.github\.io%2Fpunc%2Fbooks%2Fmoby-dick%2F/);
+  await expect(hn).toHaveAttribute('href', /news\.ycombinator\.com\/submitlink\?u=https%3A%2F%2Fpunc\.joekarlsson\.com%2Fbooks%2Fmoby-dick%2F/);
   for (const network of ['Reddit', 'Bluesky', 'Threads', 'LinkedIn', 'X']) {
     await expect(page.locator('.share').getByRole('link', { name: network, exact: true })).toBeVisible();
   }
@@ -152,7 +146,7 @@ test('copy the link puts the page URL on the clipboard', async ({ page, context 
   await page.goto('about.html');
   await page.getByRole('button', { name: 'copy the link' }).click();
   await expect(page.getByRole('button', { name: 'Copied' })).toBeVisible();
-  expect(await page.evaluate(() => navigator.clipboard.readText())).toBe('https://joekarlsson.github.io/punc/about.html');
+  expect(await page.evaluate(() => navigator.clipboard.readText())).toBe('https://punc.joekarlsson.com/about.html');
 });
 
 test('the favicons, manifest and share image are served', async ({ request }) => {
@@ -382,13 +376,13 @@ test('pages declare a dark color scheme, the sitemap lists them, and the 404 pag
   await expect(page.locator('meta[name="darkreader-lock"]')).toHaveCount(1);
 
   const sitemap = await (await request.get('sitemap.xml')).text();
-  expect(sitemap).toContain('<loc>https://joekarlsson.github.io/punc/</loc>');
-  expect(sitemap).toContain('<loc>https://joekarlsson.github.io/punc/books/ulysses/</loc>');
+  expect(sitemap).toContain('<loc>https://punc.joekarlsson.com/</loc>');
+  expect(sitemap).toContain('<loc>https://punc.joekarlsson.com/books/ulysses/</loc>');
   expect(sitemap).not.toContain('404');
 
   await page.goto('404.html');
   await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', 'noindex');
-  await expect(page.locator('base')).toHaveAttribute('href', '/punc/');
+  await expect(page.locator('base')).toHaveAttribute('href', '/');
   await expect(page.locator('.share')).toHaveCount(0);
 });
 
@@ -402,7 +396,6 @@ test('a book page shares its own card and describes the book for search engines'
 test('every page type passes axe (WCAG 2.2 AA)', async ({ page }) => {
   // The shelf is hundreds of cards; axe needs longer than the default on CI.
   test.slow();
-  await servePuncPathLocally(page);
   const scan = async (where: string) => {
     const { violations } = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa']).analyze();
     expect(violations.map(v => `${v.id}: ${v.nodes.map(n => n.target.join(' ')).join(', ')}`), where).toEqual([]);
@@ -487,15 +480,15 @@ test('every built page has complete metadata, and every internal link and asset 
     expect(description.length, `${where} description length`).toBeLessThanOrEqual(160);
     expect(html, `${where} loads nothing over http`).not.toMatch(/(?:src|href)="http:/);
     if (!notFound) {
-      const canonical = head.match(/<link rel="canonical" href="(https:\/\/joekarlsson\.github\.io\/punc\/[^"]*)">/)?.[1];
+      const canonical = head.match(/<link rel="canonical" href="(https:\/\/punc\.joekarlsson\.com\/[^"]*)">/)?.[1];
       expect(canonical, `${where} canonical`).toBeTruthy();
       indexable.push({ url: canonical!, title: head.match(/<title>([^<]+)<\/title>/)![1]!, description });
-      const image = head.match(/<meta property="og:image" content="https:\/\/joekarlsson\.github\.io\/punc\/([^"]+)">/)?.[1];
+      const image = head.match(/<meta property="og:image" content="https:\/\/punc\.joekarlsson\.com\/([^"]+)">/)?.[1];
       expect(image && existsSync(join(OUT, image)), `${where} og:image`).toBeTruthy();
     }
     const base = notFound ? OUT : dirname(file);
     for (const [, target] of html.matchAll(/(?:href|src)="([^"]+)"/g)) {
-      if (/^(https?:|mailto:|#|data:|blob:)/.test(target!) || target === '/punc/') continue;
+      if (/^(https?:|mailto:|#|data:|blob:)/.test(target!) || target === '/') continue;
       const clean = target!.replace(/[?#].*$/, '');
       const resolved = normalize(join(base, clean));
       const exists = existsSync(resolved) && (!clean.endsWith('/') || existsSync(join(resolved, 'index.html')));

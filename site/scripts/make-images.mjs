@@ -48,7 +48,7 @@ await writeFile(
   .cover:nth-child(2) { margin-top: 70px; }
 </style></head><body>
 ${ransom}
-<span class="wordmark">Punc</span><p class="url">joekarlsson.github.io/punc</p>
+<span class="wordmark">Punc</span><p class="url">punc.joekarlsson.com</p>
 <ul class="shelf">${posters}</ul>
 <script type="module" src="assets/page.js"></script>
 </body></html>`

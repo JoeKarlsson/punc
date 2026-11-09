@@ -40,6 +40,9 @@ test('a book page head and its views', async ({ page }) => {
   await expect(page.locator('.book-head')).toHaveScreenshot('book-head.png');
   await expect(page.locator('.views')).toHaveScreenshot('book-views.png');
   await page.click('[data-view=counts]');
+  // The click leaves the mouse over the chart, and a hovered bar turns pink, so
+  // a small layout shift would change which bar the shot catches. Park it.
+  await page.mouse.move(0, 0);
   await expect(page.locator('#through-book')).toHaveScreenshot('through-book.png');
 });
 

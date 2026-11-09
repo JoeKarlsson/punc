@@ -21,8 +21,8 @@ async function openBook(page: Page, slug: string) {
   await page.goto(`books/${slug}/`);
   await expect(page.locator('#book')).toBeVisible();
   // #book is in the built HTML, so it shows before the text loads; the view buttons
-  // only work once reader.js has analyzed the book, which also numbers the pages.
-  await expect(page.locator('#folio-left')).toHaveText(/ of /);
+  // only work once reader.js has analyzed the book and marked it ready.
+  await expect(page.locator('#book[data-ready]')).toBeAttached();
 }
 
 test('the front page features the most read books, then the shelf a page at a time', async ({ page }) => {

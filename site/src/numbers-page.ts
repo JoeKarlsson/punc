@@ -3,7 +3,7 @@
 // (thousands of dots would make the page slow to arrive), and runs the
 // tooltips, the genre and measure pickers, the comparison and the table of
 // every book.
-import { afterFirstPaint } from './first-paint';
+import { afterFirstPaint, yieldToBrowser } from './first-paint';
 import { setUpMapTooltips } from './map-tooltips';
 import {
   authorDetailHTML,
@@ -101,7 +101,6 @@ function pickAuthor(button: HTMLButtonElement, shelf: BookNumbers[] | null): voi
 
 // Lets the browser paint and answer taps between the charts: drawn in one go,
 // every book on every chart blocked the page for over half a second on a phone.
-const yieldToBrowser = () => new Promise<void>(resolve => setTimeout(resolve, 0));
 
 async function drawBooks(shelf: BookNumbers[]): Promise<void> {
   loadedShelf = shelf;

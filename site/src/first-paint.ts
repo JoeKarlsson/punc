@@ -2,6 +2,10 @@
 // page's first paint. Fetched earlier, they compete with the fonts and CSS on
 // a slow phone, and Lighthouse's mobile simulation counts them in the page's
 // LCP.
+// Lets the browser paint and handle input between steps of a long job, so no
+// one task blocks the main thread for long.
+export const yieldToBrowser = () => new Promise<void>(resolve => setTimeout(resolve, 0));
+
 // Resolves once the browser has painted the page (or after 2 s: a tab opened in
 // the background never reports a first paint).
 export function afterFirstPaint(): Promise<void> {

@@ -3,7 +3,7 @@ import { createScoreScroller, createSpiralExplorer, drawScore, downloadCanvas, t
 import { initPosters } from './posters';
 import { initShare } from './share';
 import { fingerprintHTML, mapSVG, markShares, marksThroughBook, shelfPosition, throughBookHTML, type MapPoint } from './patterns';
-import { afterFirstPaint } from './first-paint';
+import { afterFirstPaint, yieldToBrowser } from './first-paint';
 import { setUpMapTooltips } from './map-tooltips';
 
 interface CatalogBook {
@@ -73,7 +73,7 @@ function titleFromFilename(name: string): string {
 
 // views
 
-function showBook(rawText: string, title: string, byline: string, fileStem: string, shelfSlug?: string): void {
+async function showBook(rawText: string, title: string, byline: string, fileStem: string, shelfSlug?: string): Promise<void> {
   const book: BookAnalysis = analyzeBook(rawText);
   if (book.marks.length === 0) {
     showStatus('No punctuation in that file. Is it plain text?');
@@ -100,14 +100,21 @@ function showBook(rawText: string, title: string, byline: string, fileStem: stri
   if (twin) fingerprint.append(twin);
   byId('through-book').innerHTML = throughBookHTML(marksThroughBook(book.marks));
   describeCanvases(book);
+  // The stats are up; let them paint before the map and the score, so the whole
+  // book isn't one long task on a slow phone.
+  await yieldToBrowser();
   void drawOnMap(book, title, shelfSlug);
-  setUpPages(erasedPages(book.text));
 
   const drawn = new Set<string>();
   let spiral: SpiralExplorer | undefined;
   const draw = async (view: string) => {
-    if (drawn.has(view) || (view !== 'spiral' && view !== 'score')) return;
+    if (drawn.has(view) || !['spiral', 'score', 'pages'].includes(view)) return;
     drawn.add(view);
+    // Erasing the whole book into pages is slow, so it waits until someone opens Pages.
+    if (view === 'pages') {
+      setUpPages(erasedPages(book.text));
+      return;
+    }
     // Canvas text uses whatever font is loaded at draw time.
     await document.fonts.load('20px Fraunces');
     if (view === 'score') {
@@ -163,6 +170,8 @@ function showBook(rawText: string, title: string, byline: string, fileStem: stri
     copyButton.textContent = `Copied ${book.marks.length.toLocaleString()} marks`;
     setTimeout(() => (copyButton.textContent = 'Copy the marks'), 2500);
   });
+  // The book is analyzed and every button works.
+  byId('book').dataset['ready'] = '';
 }
 
 // The shelf map with this book picked out: a shelf book in its own spot, an
@@ -268,7 +277,7 @@ async function loadFromShelf(slug: string, title: string, byline: string): Promi
   // page's LCP whenever it finished first (performance 0.84-0.91 instead of 0.99).
   await afterFirstPaint();
   const text = await fetchBookText(slug);
-  showBook(text, title, byline, slug, slug);
+  await showBook(text, title, byline, slug, slug);
 }
 
 // Old links were read.html?b=<slug>; each book has its own page now.
@@ -289,7 +298,7 @@ async function loadFile(file: File): Promise<void> {
   showStatus('Taking the words out…');
   const text = await file.text();
   const stem = file.name.replace(/\.[^.]+$/, '') || 'book';
-  requestAnimationFrame(() => showBook(text, titleFromFilename(file.name), 'Your file', stem));
+  requestAnimationFrame(() => void showBook(text, titleFromFilename(file.name), 'Your file', stem));
 }
 
 function setUpUpload(): void {

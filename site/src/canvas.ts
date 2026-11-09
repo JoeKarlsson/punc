@@ -234,6 +234,9 @@ export function createSpiralExplorer(
 
 // Laid out at least 1100 units wide, and at the canvas's own width when that's
 // wider, so a big screen gets more columns rather than bigger marks.
+// The whole score fitted into one picture for Download PNG: the longer the
+// book, the smaller its marks. On screen the score scrolls instead
+// (createScoreScroller).
 export function drawScore(canvas: HTMLCanvasElement, marks: string[]): void {
   const width = Math.max(1100, Math.round(canvas.clientWidth));
   const pad = 48;
@@ -258,4 +261,113 @@ export function downloadCanvas(canvas: HTMLCanvasElement, filename: string): voi
     a.click();
     setTimeout(() => URL.revokeObjectURL(a.href), 10_000);
   }, 'image/png');
+}
+
+// The score on screen: every mark the same size, so a long book is a long
+// scroll and a short one a short one. A phone gets slightly smaller marks and
+// a narrow margin rather than a computer's layout shrunk to fit.
+export function scoreLayout(width: number, count: number): { cell: number; pad: number; cols: number; rows: number; height: number } {
+  const narrow = width < 600;
+  const cell = narrow ? 12 : 14;
+  const pad = narrow ? 16 : 48;
+  const cols = Math.max(1, Math.floor((width - pad * 2) / cell));
+  const rows = Math.ceil(count / cols);
+  return { cell, pad, cols, rows, height: rows * cell + pad * 2 };
+}
+
+// Draws the score for scrolling. The holder is as tall as the whole score;
+// inside it a screen-high window sticks to the top while the holder scrolls
+// past, and its canvas redraws only the rows in view. One canvas the size of
+// the screen stays sharp at any length, where a single canvas for the whole of
+// a long book would pass the browser's size limits. The rail beside it shows
+// where you are and can be dragged to jump through the book.
+export function createScoreScroller(holder: HTMLElement, marks: string[]): void {
+  const frame = holder.querySelector<HTMLElement>('.score-window');
+  const canvas = holder.querySelector<HTMLCanvasElement>('canvas');
+  const rail = holder.querySelector<HTMLElement>('.score-rail');
+  const thumb = holder.querySelector<HTMLElement>('.score-thumb');
+  if (!frame || !canvas || !rail || !thumb) throw new Error('The score is missing its window, canvas or rail');
+  const context = canvas.getContext('2d');
+  if (!context) throw new Error('This browser could not open a 2D canvas');
+  const ctx = context;
+  const { ink, paper, pink } = colors();
+  let width = 0;
+  let viewHeight = 0;
+  let dpr = 1;
+  let layout = scoreLayout(1, marks.length);
+
+  const scrolled = () => Math.min(Math.max(-holder.getBoundingClientRect().top, 0), layout.height - viewHeight);
+
+  const draw = () => {
+    if (!width) return;
+    const top = scrolled();
+    const { cell, pad, cols, rows } = layout;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, -top * dpr);
+    ctx.fillStyle = ink;
+    ctx.fillRect(0, top, width, viewHeight);
+    ctx.font = `${Math.floor(cell * 0.8)}px Fraunces, Georgia, serif`;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    const firstRow = Math.max(0, Math.floor((top - pad) / cell));
+    const lastRow = Math.min(rows - 1, Math.floor((top + viewHeight - pad) / cell));
+    for (let row = firstRow; row <= lastRow; row++) {
+      const y = pad + (row + 0.5) * cell;
+      for (let col = 0, i = row * cols; col < cols && i < marks.length; col++, i++) {
+        const mark = marks[i]!;
+        ctx.fillStyle = ENDS_SENTENCE.has(mark) ? pink : paper;
+        ctx.fillText(mark, pad + (col + 0.5) * cell, y);
+      }
+    }
+    const travel = layout.height - viewHeight;
+    rail.hidden = travel <= 0;
+    const thumbHeight = Math.max(32, (viewHeight * viewHeight) / layout.height);
+    thumb.style.height = `${thumbHeight}px`;
+    thumb.style.transform = `translateY(${travel > 0 ? (top / travel) * (viewHeight - thumbHeight) : 0}px)`;
+  };
+
+  const resize = () => {
+    // Hidden behind another view: drawn when it's shown, which resizes it.
+    if (!holder.clientWidth) return;
+    // Setting the holder's height below resizes it too; only a new width or
+    // screen height needs a new layout.
+    if (holder.clientWidth === width && Math.min(window.innerHeight, layout.height) === viewHeight) return;
+    width = holder.clientWidth;
+    layout = scoreLayout(width, marks.length);
+    holder.style.height = `${layout.height}px`;
+    viewHeight = Math.min(window.innerHeight, layout.height);
+    frame.style.height = `${viewHeight}px`;
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    canvas.width = Math.round(width * dpr);
+    canvas.height = Math.round(viewHeight * dpr);
+    draw();
+  };
+
+  let pending = false;
+  const drawSoon = () => {
+    if (pending) return;
+    pending = true;
+    requestAnimationFrame(() => {
+      pending = false;
+      draw();
+    });
+  };
+  window.addEventListener('scroll', drawSoon, { passive: true });
+  window.addEventListener('resize', resize);
+  // On the next frame, not inside the observer: changing the holder's height
+  // there would set off another round of notifications.
+  new ResizeObserver(() => requestAnimationFrame(resize)).observe(holder);
+
+  // Dragging the rail scrolls the page to that point in the book.
+  const scrollToRail = (event: PointerEvent) => {
+    const box = rail.getBoundingClientRect();
+    const fraction = Math.min(Math.max((event.clientY - box.top) / box.height, 0), 1);
+    window.scrollTo({ top: window.scrollY + holder.getBoundingClientRect().top + fraction * (layout.height - viewHeight) });
+  };
+  rail.addEventListener('pointerdown', event => {
+    rail.setPointerCapture(event.pointerId);
+    scrollToRail(event);
+  });
+  rail.addEventListener('pointermove', event => {
+    if (rail.hasPointerCapture(event.pointerId)) scrollToRail(event);
+  });
 }

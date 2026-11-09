@@ -1,5 +1,5 @@
 import { analyzeBook, erasedPages, type BookAnalysis } from './analyze';
-import { createSpiralExplorer, drawScore, downloadCanvas, type SpiralExplorer } from './canvas';
+import { createScoreScroller, createSpiralExplorer, drawScore, downloadCanvas, type SpiralExplorer } from './canvas';
 import { initPosters } from './posters';
 import { initShare } from './share';
 import { fingerprintHTML, mapSVG, markShares, marksThroughBook, shelfPosition, throughBookHTML, type MapPoint } from './patterns';
@@ -111,7 +111,7 @@ function showBook(rawText: string, title: string, byline: string, fileStem: stri
     // Canvas text uses whatever font is loaded at draw time.
     await document.fonts.load('20px Fraunces');
     if (view === 'score') {
-      drawScore(byId<HTMLCanvasElement>('score-canvas'), book.marks);
+      createScoreScroller(byId('score'), book.marks);
       return;
     }
     const readout = byId('spiral-readout');
@@ -140,7 +140,13 @@ function showBook(rawText: string, title: string, byline: string, fileStem: stri
   document.querySelectorAll<HTMLButtonElement>('[data-download]').forEach(button => {
     button.addEventListener('click', () => {
       const kind = button.dataset['download']!;
-      const canvas = kind === 'spiral' && spiral ? spiral.exportCanvas() : byId<HTMLCanvasElement>(`${kind}-canvas`);
+      let canvas: HTMLCanvasElement;
+      if (kind === 'spiral' && spiral) canvas = spiral.exportCanvas();
+      else if (kind === 'score') {
+        // The download is the whole book in one picture, not the rows in view.
+        canvas = document.createElement('canvas');
+        drawScore(canvas, book.marks);
+      } else canvas = byId<HTMLCanvasElement>(`${kind}-canvas`);
       downloadCanvas(canvas, `${fileStem}-${kind}.png`);
     });
   });

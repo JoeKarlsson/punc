@@ -38,7 +38,12 @@
       <button type="button" class="button" id="copy-marks">Copy the marks</button>
       <button type="button" class="button" data-download="score">Download PNG</button>
     </div>
-    <canvas id="score-canvas" class="art bleed"></canvas>
+    <div id="score" class="score bleed">
+      <div class="score-window">
+        <canvas id="score-canvas"></canvas>
+        <div class="score-rail" aria-hidden="true" hidden><div class="score-thumb"></div></div>
+      </div>
+    </div>
   </section>
 
   <section id="view-spiral" class="view" hidden>

@@ -241,10 +241,9 @@ const inlineFigures = async html => {
   for (const [marker, name, alt] of [...html.matchAll(/<!--FIGURE:([\w-]+)\|([^>]*)-->/g)]) {
     const svg = async file =>
       (await readFile(join(SITE, 'figures', file), 'utf8')).replace(/aria-label="[^"]*"/, `aria-label="${escapeHTML(alt)}"`);
-    html = html.replace(
-      marker,
-      `<figure class="anim-figure"><div class="figure-wide">${await svg(`${name}.svg`)}</div><div class="figure-phone">${await svg(`${name}.phone.svg`)}</div></figure>`
-    );
+    // A function, so $' or $& inside an SVG isn't read as a replacement pattern
+    const figure = `<figure class="anim-figure"><div class="figure-wide">${await svg(`${name}.svg`)}</div><div class="figure-phone">${await svg(`${name}.phone.svg`)}</div></figure>`;
+    html = html.replace(marker, () => figure);
   }
   return html;
 };

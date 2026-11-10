@@ -20,6 +20,7 @@ import {
 } from './numbers';
 import { normalizeForSearch } from './paging';
 import { mapSVG } from './patterns';
+import { initFigures } from './figures';
 import { initShare } from './share';
 
 const need = <T extends Element>(selector: string, within: ParentNode = document): T => {
@@ -208,3 +209,4 @@ afterFirstPaint()
   });
 
 initShare();
+initFigures();

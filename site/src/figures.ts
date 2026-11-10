@@ -12,7 +12,12 @@ export const mostlyInView = (
 
 export function initFigures(): void {
   const svgs = [...document.querySelectorAll<SVGSVGElement>('.anim-figure > div > svg')];
-  if (!svgs.length || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  // Reduced motion shows the still layer (styles.css); stop the hidden one ticking too
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    svgs.forEach(svg => svg.pauseAnimations());
+    return;
+  }
+  if (!svgs.length) return;
   const started = new WeakSet<SVGSVGElement>();
   const timers = new WeakMap<SVGSVGElement, number>();
   const observer = new IntersectionObserver(

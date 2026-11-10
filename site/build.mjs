@@ -355,7 +355,7 @@ const percentOf = (n, total) => `${Math.round((n / total) * 100)}%`;
 const timelineMetrics = ['semicolon', 'comma', 'wps', 'question', 'exclaim', 'dialogue'];
 const timelines = timelineMetrics
   .map(key => `      <figure class="chart">
-        <figcaption><strong>${N.metric(key).label}</strong>: ${escapeHTML(N.trendSentence(shelfNumbers, key))}</figcaption>
+        <figcaption><strong>${N.metric(key).label}</strong>: ${escapeHTML(N.trendSentence(shelfNumbers, key))}${key === 'wps' ? '. Dotted: counting ; and : as stops too' : ''}</figcaption>
         ${N.timelineSVG(shelfNumbers, key, genres)}
         <p class="map-tip" hidden></p>
       </figure>`)
@@ -449,8 +449,33 @@ const records = recordList
   })
   .join('\n');
 
+// The findings the page leads with.
+const shrink = N.shrinkingSentence(shelfNumbers);
+const withoutMarks = N.hitRateWithout(authors).sort((a, b) => a.rate - b.rate);
+const genreMedian = (genre, key) => N.median(shelfNumbers.filter(b => b.genres.includes(genre)).map(b => b[key]));
+const genresBy = key => [...genres].sort((a, b) => genreMedian(a, key) - genreMedian(b, key));
+const mostDialogue = genresBy('dialogue').at(-1);
+const [quietest, nextQuietest] = genresBy('exclaim');
+const genreFinding = `${mostDialogue} has the most dialogue, ${N.formatValue('dialogue', genreMedian(mostDialogue, 'dialogue'))} of its words inside quotation marks. The quietest are ${quietest} (${N.formatValue('exclaim', genreMedian(quietest, 'exclaim'))} exclamation marks per 1,000 words) and ${nextQuietest} (${N.formatValue('exclaim', genreMedian(nextQuietest, 'exclaim'))}).`;
+const [twinA, twinB] = N.surprisingTwins(shelfNumbers)[0];
+const twinText = b => `<cite><a href="books/${b.slug}/">${escapeHTML(b.title)}</a></cite> (${escapeHTML(N.yearText(b))})`;
+const percent = rate => `${Math.round(rate * 100)}%`;
+
 const fill = {
   books: books.length,
+  semicolons: escapeHTML(N.trendSentence(shelfNumbers, 'semicolon')),
+  firstSpan: N.spanText(shrink.first),
+  lastSpan: N.spanText(shrink.last),
+  sentenceFrom: N.formatValue('wps', shrink.sentence[0]),
+  sentenceTo: N.formatValue('wps', shrink.sentence[1]),
+  clauseTo: N.formatValue('wps', shrink.clause[1]),
+  punctuationShare: percent(shrink.punctuationShare),
+  genreFinding: escapeHTML(genreFinding),
+  withoutLow: percent(withoutMarks[0].rate),
+  withoutHigh: percent(withoutMarks.at(-1).rate),
+  markMost: withoutMarks[0].name,
+  markLeast: withoutMarks.at(-1).name,
+  twins: `${twinText(twinA)} and ${twinText(twinB)}`,
   ancient: shelfNumbers.filter(b => b.year !== null && b.year < N.TIMELINE_FROM).length,
   authors: authors.length,
   hits,

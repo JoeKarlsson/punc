@@ -1,6 +1,19 @@
 <article class="numbers-page">
   <h1 class="page-title">The numbers</h1>
-  <p class="lede">{{books}} books, counted by their punctuation alone. Every chart here measures the marks; the year, genre, author and download rank only sort the books into groups. Point at a dot to see its book.</p>
+  <p class="lede">Punc took every word out of {{books}} books and counted what was left. Every chart here measures the marks; the year, genre, author and download rank only sort the books into groups. Point at a dot to see its book.</p>
+
+  <section id="found" class="numbers-section" aria-labelledby="found-heading">
+    <h2 id="found-heading" class="section-title">What Punc found</h2>
+    <ol class="found-list">
+      <li><a href="#time">Semicolons nearly vanished.</a> The typical book had {{semicolons}}.</li>
+      <li><a href="#time">Sentences got shorter, but not by as much as it looks.</a> The typical sentence fell from {{sentenceFrom}} words in {{firstSpan}} to {{sentenceTo}} in {{lastSpan}}. Count every semicolon and colon as the end of a sentence too, and {{punctuationShare}} of that fall goes away: older writers joined their thoughts with ; and : where newer ones put a period.</li>
+      <li><a href="#genres">Genre shows in the marks.</a> {{genreFinding}}</li>
+      <li><a href="#authors">The marks alone can name the author.</a> Punc's test gets {{hitRate}} of books right, where guessing would get {{chance}}, and no single mark gives the author away.</li>
+      <li><a href="#twins">Books centuries apart can punctuate alike.</a> {{twins}} are each other's closest match on the shelf.</li>
+      <li><a href="#popularity">Do popular books punctuate differently?</a> {{popularity}}</li>
+    </ol>
+  </section>
+
   <nav class="numbers-contents" aria-label="On this page">
     <a href="#time">Over time</a>
     <a href="#genres">Genres</a>
@@ -15,7 +28,10 @@
 
   <section id="time" class="numbers-section">
     <h2 class="section-title">Over time</h2>
-    <p class="numbers-note">Sentences got shorter and semicolons nearly vanished. Each dot is a book at the year it first came out, and the white line is the median for every 25 years. Translations count by the year of the original. The {{ancient}} books from before 1600, Homer and Plato among them, are off the left edge.</p>
+    <p class="numbers-finding">Sentences got shorter and semicolons nearly vanished.</p>
+    <p class="numbers-note">Each dot is a book at the year it first came out, and the white line is the median for every 25 years. Translations count by the year of the original. The {{ancient}} books from before 1600, Homer and Plato among them, are off the left edge.</p>
+    <p class="numbers-note">Part of the shorter sentence is a change in punctuation, not in writing. The dotted line on the words per sentence chart counts every semicolon and colon as the end of a sentence too. Older writers joined clauses with them where a newer writer puts a period, and once they count, {{punctuationShare}} of the fall from {{firstSpan}} to {{lastSpan}} goes away. By {{lastSpan}} the two lines meet, at {{sentenceTo}} and {{clauseTo}} words, because books barely use either mark any more. The rest of the fall is sentences really getting shorter.</p>
+    <p class="numbers-context">Linguists have seen both changes. Karolina Rudnicka's <a href="https://doi.org/10.1075/scl.85.10rud">study of sentence length</a> (2018) traces the shrinking sentence back to writers who noticed it in the 1890s, finds semicolons falling sharply between 1810 and 1900 in a large corpus of American English, and discusses the argument that shorter sentences are partly a by-product of changing punctuation. The dotted line puts a size on that argument.</p>
     <div class="shelf-controls numbers-controls">
       <label>Genre
         <select id="genre-pick">
@@ -32,7 +48,8 @@
 
   <section id="genres" class="numbers-section">
     <h2 class="section-title">Genres</h2>
-    <p class="numbers-note">Each genre's average fingerprint: every mark's share of all the marks, on the same scale as the fingerprints on the shelf. A book can sit in more than one genre.</p>
+    <p class="numbers-finding">{{genreFinding}}</p>
+    <p class="numbers-note">Each genre's average fingerprint: every mark's share of all the marks, on the same scale as the fingerprints on the shelf. A book can sit in more than one genre. Plays look short on dialogue only because they don't put speech in quotation marks.</p>
     <ul class="genre-prints">
 <!--GENREPRINTS-->
     </ul>
@@ -41,10 +58,12 @@
   <section id="authors" class="numbers-section">
     <h2 class="section-title">Authors</h2>
     <h3 class="view-heading">Can the marks name the author?</h3>
+    <p class="numbers-finding">The marks alone name the right author for {{hitRate}} of books. Guessing at random would get about {{chance}}.</p>
     <div class="numbers-notes">
-      <p class="numbers-note">Take one book away from its author. Average the fingerprints of each author's other books, and guess whichever author's average is closest to the book. For the {{authors}} authors with at least three different works on the shelf, that guess names the right author for {{hits}} of {{guessed}} books, {{hitRate}}. Guessing at random would be right about {{chance}} of the time.</p>
+      <p class="numbers-note">Take one book away from its author. Average the fingerprints of each author's other books, and guess whichever author's average is closest to the book. For the {{authors}} authors with at least three different works on the shelf, that guess names the right author for {{hits}} of {{guessed}} books. No single mark carries it: leave any one mark out of every fingerprint and the test still gets {{withoutLow}} to {{withoutHigh}} right. The {{markMost}} matters most and the {{markLeast}} least. An author shows in how all the marks sit together.</p>
       <p class="numbers-note">Each square is one of an author's books, oldest first: pink where the guess named the author. Spread is how far an author's books stray from their own average fingerprint, where 100 is the gap between two books picked at random from the shelf. The lower it is, the more alike their books are.</p>
     </div>
+    <p class="numbers-context">Alexandra Darmon and colleagues (<a href="https://doi.org/10.1017/S0956792520000157">2021</a>) tried this on Project Gutenberg too, with 651 authors and a neural network that learns which mark follows which, and named the right author about 62% of the time. Their model is stronger and their setup different, so the numbers don't compare directly. One of their cautions holds here: a Gutenberg text is punctuated by its editors, printers and translators as well as its author.</p>
     <div class="author-explorer">
       <div class="author-browse">
         <form class="shelf-controls numbers-controls" role="search" id="author-find">
@@ -84,7 +103,7 @@
 
   <section id="twins" class="numbers-section">
     <h2 class="section-title">Punctuation twins</h2>
-    <p class="numbers-note">Every book has a closest fingerprint on the shelf, named on its own page. These pairs are each other's closest match, by different authors and centuries apart.</p>
+    <p class="numbers-note">Every book has a closest fingerprint on the shelf, named on its own page. These pairs are each other's closest match, by different authors and centuries apart. Many of the oldest books here are translations, so a pair like this also says something about the translator or editor who punctuated it.</p>
     <ul class="twin-list">
 <!--TWINS-->
     </ul>
@@ -111,7 +130,8 @@
 
   <section id="popularity" class="numbers-section">
     <h2 class="section-title">Popularity</h2>
-    <p class="numbers-note">Do the most downloaded books punctuate differently? {{popularity}}</p>
+    <p class="numbers-finding">Do the most downloaded books punctuate differently? {{popularity}}</p>
+    <p class="numbers-note">What little link there is likely comes from which books are popular. History and philosophy, which almost never ask or exclaim, make up far more of the least downloaded books than of the most downloaded.</p>
     <div class="numbers-split numbers-split-wide">
     <figure class="chart">
       <figcaption><strong>Words per sentence</strong> by download rank</figcaption>

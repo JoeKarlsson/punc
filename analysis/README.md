@@ -6,8 +6,8 @@ Python 3 standard library only. The data is Punc's own build output plus Project
 
 ```bash
 npm run site:build                     # writes site-dist/numbers.json and site-dist/books/*.txt.gz
-curl -O https://www.gutenberg.org/cache/epub/feeds/pg_catalog.csv   # translators and author birth years
 cd analysis
+curl -O https://www.gutenberg.org/cache/epub/feeds/pg_catalog.csv   # translators and author birth years
 ```
 
 The post used Punc at commit `66982de` and the Gutenberg catalog downloaded 2026-11-10.
@@ -21,9 +21,10 @@ The post used Punc at commit `66982de` and the Gutenberg catalog downloaded 2026
 | `timeseries.py ../site-dist/numbers.json` | 25-year medians: semicolons, commas, dialogue, question marks; genre subsets |
 | `cohort.py measures.json ../site-dist/numbers.json` | Semicolons on publication year and author birth year |
 | `rest.py ../site-dist/numbers.json` | Career slopes, popularity correlations, genre medians |
-| `attribution.py`, `attribution_genre.py` | Punc's author test, shuffled-label and genre-preserving baselines, leave one mark out |
+| `attribution.py ../site-dist/numbers.json` | Punc's author test, a shuffled-label baseline, leave one mark out |
+| `attribution_genre.py ../site-dist/numbers.json measures2.json` | The genre-preserving baseline and English originals only |
 | `arc.py ../site-dist/numbers.json ../site-dist/books` | Question and exclamation marks by tenth of a book |
-| `sample_marks.py`, `sample_marks_1900s.py` | The hand-coded samples (seeds 42 and 1900) |
+| `sample_marks.py measures.json ../site-dist/books`, `sample_marks_1900s.py measures2.json ../site-dist/books` | The hand-coded samples (seeds 42 and 1900) |
 | `agreement.py second-coder-codes.json measures2.json` | Agreement between the two coders and the weighted estimate with each era's rates |
 | `make_csv.py ../site-dist/numbers.json measures2.json > books.csv` | The per-book table |
 

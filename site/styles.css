@@ -1544,6 +1544,36 @@ code {
   margin: 0 0 var(--space-4);
 }
 
+/* A section's finding, said before how it was measured */
+.numbers-finding {
+  max-width: 32em;
+  margin: 0 0 var(--space-4);
+  font-size: clamp(1.15rem, 1.05rem + 0.4vw, 1.35rem);
+}
+
+/* What others found, after Punc's own numbers */
+.numbers-context {
+  max-width: 40em;
+  margin: 0 0 var(--space-5);
+  font-size: 0.95rem;
+  color: var(--muted);
+}
+
+.found-list {
+  max-width: 44em;
+  margin: 0;
+  padding-left: 1.6em;
+}
+
+.found-list li + li {
+  margin-top: var(--space-3);
+}
+
+.found-list li::marker {
+  font-family: var(--poster);
+  color: var(--pink);
+}
+
 .numbers-controls {
   display: flex;
   flex-wrap: wrap;
@@ -1637,6 +1667,16 @@ code {
 
 .chart-line-genre.on {
   display: inline;
+}
+
+.chart-line-clause {
+  stroke: var(--paper);
+  stroke-width: 2.5;
+  stroke-dasharray: 1 6;
+}
+
+.genre-picked .chart-line-clause {
+  display: none;
 }
 
 .genre-picked .chart-line-all {

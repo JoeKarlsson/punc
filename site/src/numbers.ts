@@ -280,6 +280,22 @@ export function guessAuthors(authors: Array<{ author: string; books: BookNumbers
   return guesses;
 }
 
+export const hitRate = (guesses: Guess[]) => guesses.filter(g => g.guessed === g.book.author).length / Math.max(guesses.length, 1);
+
+// The author test again with one tracked mark left out of every fingerprint
+// (the other shares rescaled to add up to 1): how much each mark carries.
+export function hitRateWithout(authors: Array<{ author: string; books: BookNumbers[] }>): Array<{ mark: string; name: string; rate: number }> {
+  return TRACKED_MARKS.map(({ mark, name }, dropped) => {
+    const without = (shares: number[]) => {
+      const kept = shares.map((s, i) => (i === dropped ? 0 : s));
+      const total = kept.reduce((sum, s) => sum + s, 0);
+      return total > 0 ? kept.map(s => s / total) : kept;
+    };
+    const rate = hitRate(guessAuthors(authors.map(a => ({ author: a.author, books: a.books.map(b => ({ ...b, shares: without(b.shares) })) }))));
+    return { mark, name, rate };
+  });
+}
+
 // Two-mark clusters with nothing between them, like ?" or ,' : counts by
 // cluster. Runs over four long (rules, rows of dots) are left out.
 export function touchingClusters(text: string): Map<string, number> {
@@ -357,8 +373,10 @@ export function timelineSVG(books: BookNumbers[], key: MetricKey, genres: string
     return points.length > 1 ? `<path class="${className}"${genre ? ` data-genre="${escapeHTML(genre)}"` : ''} d="${linePath(points)}"/>` : '';
   };
   const genreLines = genres.map(g => line(dated.filter(b => b.genres.includes(g)), 'chart-line chart-line-genre', g)).join('');
+  // Sentence length also gets a dotted line counting ; and : as stops.
+  const clauseLine = key === 'wps' ? line(asClauses(dated), 'chart-line chart-line-clause') : '';
   const m = metric(key);
-  return `<svg class="chart-svg" viewBox="0 0 ${W} ${H}" role="img" aria-label="${escapeHTML(`${m.label} over time, ${dated.length} books from ${TIMELINE_FROM} on: ${trendSentence(books, key)}`)}">${grid}<g class="chart-dots" data-metric="${key}" data-max="${axis.max}"></g>${line(dated, 'chart-line chart-line-all')}${genreLines}</svg>`;
+  return `<svg class="chart-svg" viewBox="0 0 ${W} ${H}" role="img" aria-label="${escapeHTML(`${m.label} over time, ${dated.length} books from ${TIMELINE_FROM} on: ${trendSentence(books, key)}`)}">${grid}<g class="chart-dots" data-metric="${key}" data-max="${axis.max}"></g>${clauseLine}${line(dated, 'chart-line chart-line-all')}${genreLines}</svg>`;
 }
 
 export function timelineDots(books: BookNumbers[], key: MetricKey, axisMax: number): string {
@@ -368,15 +386,47 @@ export function timelineDots(books: BookNumbers[], key: MetricKey, axisMax: numb
     .join('');
 }
 
-// "13.5 semicolons per 1,000 words in 1750–1774, 1.8 in 1950–1974": the
-// medians of the first and last 25-year spans with at least ten books.
-export function trendSentence(books: BookNumbers[], key: MetricKey): string {
-  const points = trend(books, key, TIMELINE_FROM, TIMELINE_TO, 25, 10);
+// The first and last 25-year spans with at least this many books are the ones
+// a sentence compares. Fewer, and a handful of plays in 1600–1624 makes
+// sentences look like they got longer.
+export const SPAN_MIN_BOOKS = 20;
+const firstAndLast = (points: TrendPoint[]) => {
   const first = points[0];
   const last = points.at(-1);
-  if (!first || !last || first === last) return 'too few dated books to say';
-  const span = (p: TrendPoint) => `${p.from}–${p.to - 1}`;
-  return `${describeValue(key, first.value)} in ${span(first)}, ${formatValue(key, last.value)} in ${span(last)}`;
+  return first && last && first !== last ? { first, last } : undefined;
+};
+export const spanText = (p: TrendPoint) => `${p.from}–${p.to - 1}`;
+
+// "10.1 semicolons per 1,000 words in 1775–1799, 1.8 in 1950–1974": the
+// medians of the first and last 25-year spans with enough books.
+export function trendSentence(books: BookNumbers[], key: MetricKey): string {
+  const ends = firstAndLast(trend(books, key, TIMELINE_FROM, TIMELINE_TO, 25, SPAN_MIN_BOOKS));
+  if (!ends) return 'too few dated books to say';
+  return `${describeValue(key, ends.first.value)} in ${spanText(ends.first)}, ${formatValue(key, ends.last.value)} in ${spanText(ends.last)}`;
+}
+
+// Words per sentence if every semicolon and colon ended a sentence too.
+export const wordsPerClause = (b: BookNumbers) => (b.wps > 0 ? 1000 / (1000 / b.wps + b.semicolon + b.colon) : 0);
+const asClauses = (books: BookNumbers[]) => books.map(b => ({ ...b, wps: wordsPerClause(b) }));
+
+// How much of the fall in sentence length is semicolons and colons turning
+// into periods: the median sentence, and the median clause, in the first and
+// last spans with enough books, and the share of the sentence's fall that
+// the clause doesn't share.
+export function shrinkingSentence(books: BookNumbers[]) {
+  const sentences = firstAndLast(trend(books, 'wps', TIMELINE_FROM, TIMELINE_TO, 25, SPAN_MIN_BOOKS));
+  if (!sentences) throw new Error('Too few dated books for the shrinking sentence');
+  const clauses = trend(asClauses(books), 'wps', TIMELINE_FROM, TIMELINE_TO, 25, SPAN_MIN_BOOKS);
+  const clauseAt = (p: TrendPoint) => clauses.find(c => c.from === p.from)!.value;
+  const { first, last } = sentences;
+  const fall = first.value - last.value;
+  return {
+    first,
+    last,
+    sentence: [first.value, last.value],
+    clause: [clauseAt(first), clauseAt(last)],
+    punctuationShare: fall > 0 ? 1 - (clauseAt(first) - clauseAt(last)) / fall : 0,
+  };
 }
 
 // Authors with a career to chart: four or more books dated from

@@ -4,7 +4,9 @@ import {
   dialogueShare,
   fingerprintDistance,
   guessAuthors,
+  hitRateWithout,
   nextMarkShares,
+  shrinkingSentence,
   spearman,
   touchingClusters,
   trend,
@@ -61,6 +63,28 @@ describe('numbers page measures', () => {
   test('trend takes the median of each span with enough books', () => {
     const books = [1800, 1801, 1802, 1830].map((year, i) => book({ year, semicolon: i }));
     expect(trend(books, 'semicolon', 1800, 1850, 25, 3)).toEqual([{ from: 1800, to: 1825, books: 3, value: 1 }]);
+  });
+
+  test('shrinkingSentence splits the fall in sentence length into punctuation and real shortening', () => {
+    // Early books: 30 words a sentence (33.3 stops per 1,000 words), and 50
+    // semicolons and colons on top make clauses of 1000 / 83.3 = 12 words.
+    // Late books: 12 words a sentence and no semicolons, so the clause stays 12.
+    const early = Array.from({ length: 20 }, () => book({ year: 1780, wps: 30, semicolon: 40, colon: 10 }));
+    const late = Array.from({ length: 20 }, () => book({ year: 1950, wps: 12 }));
+    const shrink = shrinkingSentence([...early, ...late]);
+    expect(shrink.sentence).toEqual([30, 12]);
+    expect(shrink.clause[0]).toBeCloseTo(12);
+    expect(shrink.punctuationShare).toBeCloseTo(1);
+  });
+
+  test('hitRateWithout reruns the author test with each mark left out', () => {
+    // Two authors told apart only by commas and periods
+    const shares = (comma: number) => TRACKED_MARKS.map(({ mark }) => (mark === ',' ? comma : mark === '.' ? 1 - comma : 0));
+    const authors = ['A', 'B'].map((author, i) => ({ author, books: [0, 1, 2].map(n => book({ author, slug: `${author}${n}`, shares: shares(i ? 0.8 : 0.2) })) }));
+    const rates = Object.fromEntries(hitRateWithout(authors).map(r => [r.mark, r.rate]));
+    expect(rates[';']).toBe(1);
+    // Without the comma every book is all periods, and the guess can't tell them apart
+    expect(rates[',']).toBe(0.5);
   });
 
   test('authors need enough different works, volumes of one work counting once', () => {

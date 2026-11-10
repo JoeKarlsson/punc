@@ -1,6 +1,6 @@
 # Prompt given to the second coder
 
-A Claude agent (Claude Opus 5.5) got this prompt and two files: `sample.txt` (renamed set-a) and `sample-1900s.txt` (renamed set-b). It could not see Joe's codes. Its answers are in `second-coder-codes.json`.
+A Claude agent (Claude Opus 5.5) got this prompt and two files: `sample.txt` (renamed set-a) and `sample-1900s.txt` (renamed set-b). It could not see the first-pass codes. Its answers are in `second-coder-codes.json`.
 
 > You are an independent coder for a small linguistics check. Do not look at any other files except the two below, and do not search for anyone else's codes.
 >

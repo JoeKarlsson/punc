@@ -45,7 +45,7 @@ Babbel check: 1 per 90 words in 1781 = 11.1 per 1,000; Punc 1775-99 median 10.1.
 ## Careers and generations (rest.py, cohort.py)
 
 17 authors with 5+ dated books over 20+ years: 8 down, 9 up, median slope 0.01 per decade. Dickens -1.8 (fitted 11.8 -> 5.6), Henry James -2.3, Austen +3.4 (juvenilia first), Twain +1.3, Chesterton +1.6.
-Joint model, 748 English-original books 1750-1974, author aged 15-90 at publication: semicolons per century: publication year -3.1 [-5.9, -0.5], birth year -3.7 [-6.2, -1.1]. Alone: pub -6.6 (R2 .273), birth -6.6 (R2 .275). Reading: both move it, about evenly.
+Joint model, 748 English-original books 1750-1974, author aged 15-90 at publication: semicolons per century: publication year -3.1 [-5.9, -0.5], birth year -3.7 [-6.2, -1.1]. Alone: pub -6.6 (R2 .273), birth -6.6 (R2 .275). Resampling authors instead of books (456 authors; cohort_by_author.py): publication -6.2 to -0.02, birth -6.7 to -0.7. The post uses these. The two overlap almost completely and the predictors are collinear, so the model can't say which matters more.
 
 ## Authorship (attribution.py, attribution_genre.py)
 

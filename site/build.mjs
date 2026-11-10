@@ -234,7 +234,21 @@ const assetHash = createHash('sha256');
 for (const file of ['styles.css', 'analytics.js', 'assets/reader.js', 'assets/shelf.js', 'assets/page.js', 'assets/numbers-page.js']) assetHash.update(await readFile(join(OUT, file)));
 const version = assetHash.digest('hex').slice(0, 10);
 
-const fragment = async name => readFile(join(SITE, 'pages', name), 'utf8');
+// <!--FIGURE:name|alt--> in a page becomes site/figures/<name>.svg inline, with its
+// .phone.svg for narrow screens: animated figures from the joekarlsson.com write-up.
+// Inline so they use the page's fonts; site/src/figures.ts plays each once it's in view.
+const inlineFigures = async html => {
+  for (const [marker, name, alt] of [...html.matchAll(/<!--FIGURE:([\w-]+)\|([^>]*)-->/g)]) {
+    const svg = async file =>
+      (await readFile(join(SITE, 'figures', file), 'utf8')).replace(/aria-label="[^"]*"/, `aria-label="${escapeHTML(alt)}"`);
+    html = html.replace(
+      marker,
+      `<figure class="anim-figure"><div class="figure-wide">${await svg(`${name}.svg`)}</div><div class="figure-phone">${await svg(`${name}.phone.svg`)}</div></figure>`
+    );
+  }
+  return html;
+};
+const fragment = async name => inlineFigures(await readFile(join(SITE, 'pages', name), 'utf8'));
 
 const featured = byRank.slice(0, FEATURED_COUNT);
 const indexBody = (await fragment('index.html'))

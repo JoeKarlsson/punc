@@ -44,7 +44,7 @@ Babbel check: 1 per 90 words in 1781 = 11.1 per 1,000; Punc 1775-99 median 10.1.
 
 ## Careers and generations (rest.py, cohort.py)
 
-17 authors with 5+ dated books over 20+ years: 8 down, 9 up, median slope 0.01 per decade. Dickens -1.8 (11.4 -> 8.4 per notes), Henry James -2.3, Austen +3.4 (juvenilia first), Twain +1.3, Chesterton +1.6.
+17 authors with 5+ dated books over 20+ years: 8 down, 9 up, median slope 0.01 per decade. Dickens -1.8 (fitted 11.8 -> 5.6), Henry James -2.3, Austen +3.4 (juvenilia first), Twain +1.3, Chesterton +1.6.
 Joint model, 748 English-original books 1750-1974, author aged 15-90 at publication: semicolons per century: publication year -3.1 [-5.9, -0.5], birth year -3.7 [-6.2, -1.1]. Alone: pub -6.6 (R2 .273), birth -6.6 (R2 .275). Reading: both move it, about evenly.
 
 ## Authorship (attribution.py, attribution_genre.py)
@@ -67,3 +67,12 @@ A Claude agent, given only the contexts (blind/set-a.txt = sample.txt, blind/set
 - Set A agreement with Joe's codes: 95 of 100, Cohen's kappa 0.89. Disagreements: 21, 55, 74, 77, 94. Agent: ; 41/60, : 22/40.
 - Set B (1900-49): ; 37/60 glue (62%), : 7/40 (18%).
 - Weighted estimate with both coders' 1700s rates (; .70, : .5625) at both ends: 37% [26, 47]. With era-specific rates (1700s for 1700-49, 1900s for 1900-49): 38% [28, 48]. Headline stays about 40%.
+
+## Other numbers the post quotes (checked 2026-11-10)
+
+- Dated books 1,073; 114 dated before 1600; 67 dated after 1930; 408 dated 1900-1930; latest 2004.
+- Semicolons as a share of all marks (median, 25-yr periods with 20+ books): 1775-99 6.0%, 1950-74 0.8% (timeseries.py).
+- Genres (rest.py): mystery and crime dialogue 42%, question marks 6.8, semicolons 3.0; plays 8.5 words a sentence, 9.3 exclamation and 11.9 question marks per 1,000 words; history and philosophy 0.3 and 0.5 exclamation marks per 1,000 words.
+- Dickens's books taken for Robert E. Howard (attribution.py): David Copperfield, The Pickwick Papers, Hard Times, Nicholas Nickleby, Our Mutual Friend, The Old Curiosity Shop, Little Dorrit. Dickens's fitted career (chart-data.json careers): 11.8 to 5.6 semicolons per 1,000 words, 1836-1870.
+- Side-by-side figure: 1,000 words from the middle of each book. Tom Jones: 258 marks, 24 semicolons and colons, 41 sentence ends. A Farewell to Arms: 399 marks, 1 semicolon, 166 sentence ends.
+- The Wealth of Nations, 1776 first edition (archive.org inquiryintonatur02smit_0, vol. 2): "It is in most cases, therefore, hurtful to the landlord. It is frequently hurtful to the tenant, and it is always hurtful to the community." Gutenberg's text has semicolons there. "A shepherd has a great deal of leisure; a husbandman, in the rude state of husbandry, has some; an artificer or manufacturer has none at all." has the same punctuation in both.

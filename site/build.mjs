@@ -404,7 +404,8 @@ ${compareAuthors.map(({ author }) => `            <option value="author:${escape
 const authorBooks = name => compareAuthors.find(a => a.author === name).books;
 const compareDefault = N.compareHTML(N.authorProfile('Jane Austen', authorBooks('Jane Austen')), N.authorProfile('Charles Dickens', authorBooks('Charles Dickens')));
 
-const twinItems = N.surprisingTwins(shelfNumbers)
+const twinPairs = N.surprisingTwins(shelfNumbers);
+const twinItems = twinPairs
   .map(pair => `      <li class="twin">${pair
     .map(b => `<div class="twin-book"><a class="twin-title" href="books/${b.slug}/">${escapeHTML(b.title)}</a><p class="twin-detail">${escapeHTML(b.author)}, ${escapeHTML(N.yearText(b))}</p>${fingerprintHTML(b.shares, 'fingerprint fingerprint-large')}</div>`)
     .join('')}</li>`)
@@ -457,7 +458,7 @@ const genresBy = key => [...genres].sort((a, b) => genreMedian(a, key) - genreMe
 const mostDialogue = genresBy('dialogue').at(-1);
 const [quietest, nextQuietest] = genresBy('exclaim');
 const genreFinding = `${mostDialogue} has the most dialogue, ${N.formatValue('dialogue', genreMedian(mostDialogue, 'dialogue'))} of its words inside quotation marks. The quietest are ${quietest} (${N.formatValue('exclaim', genreMedian(quietest, 'exclaim'))} exclamation marks per 1,000 words) and ${nextQuietest} (${N.formatValue('exclaim', genreMedian(nextQuietest, 'exclaim'))}).`;
-const [twinA, twinB] = N.surprisingTwins(shelfNumbers)[0];
+const [twinA, twinB] = twinPairs[0];
 const twinText = b => `<cite><a href="books/${b.slug}/">${escapeHTML(b.title)}</a></cite> (${escapeHTML(N.yearText(b))})`;
 const percent = rate => `${Math.round(rate * 100)}%`;
 

@@ -29,4 +29,4 @@ The post used Punc at commit `66982de` and the Gutenberg catalog downloaded 2026
 | `agreement.py second-coder-codes.json measures2.json` | Agreement between the two coders and the weighted estimate with each era's rates |
 | `make_csv.py ../site-dist/numbers.json measures2.json > books.csv` | The per-book table |
 
-`sample-coded.md` has Joe's codes for the 1700s sample. `second-coder-codes.json` has the blind second coder's codes (a Claude agent given only the contexts and the rule) for both samples, and `second-coder-prompt.md` is the exact prompt. `chart-data.json` holds the numbers the post's charts are drawn from.
+`sample-coded.md` has the first-pass codes for the 1700s sample (Claude, in the analysis session). `second-coder-codes.json` has the blind second coder's codes (a Claude agent given only the contexts and the rule) for both samples, and `second-coder-prompt.md` is the exact prompt. `chart-data.json` holds the numbers the post's charts are drawn from.

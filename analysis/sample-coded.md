@@ -2,7 +2,7 @@
 
 The test: could the words after the mark stand as a sentence of their own (counting ones that open with and, but or for)? **GLUE** = yes, it joins two clauses a modern writer might split. **NOT** = it separates list items, introduces a quotation, or is a heading or footnote.
 
-Result: semicolons 43 of 60 glue (72%), colons 23 of 40 (58%). Change any code you disagree with and I'll rerun the weighted estimate.
+Result: semicolons 43 of 60 glue (72%), colons 23 of 40 (58%). Coded by Claude in the analysis session; a separate Claude agent recoded these blind (second-coder-codes.json, 95 of 100 agree).
 
 1. `;` **GLUE** - _a-discourse-upon-the-origin-_  
     always a more robust constitution, more vigour, more strength and courage in their forests than in our houses [;]  they lose half these advantages by becoming domestic animals; it looks as if all our attention to treat them

@@ -64,7 +64,7 @@ Leave one mark out: , 31.4  . 30.9  " 33.8  ' 32.1  ; 32.3  : 31.4  - 32.3  ? 32
 ## Second coder and a 1900s sample (blind/, agreement.py output 2026-11-10)
 
 A Claude agent, given only the contexts (blind/set-a.txt = sample.txt, blind/set-b.txt = sample-1900s.txt, seed 1900, 382 English-original prose books 1900-1949) and the coding rule, coded both sets (blind/codes-b2.json).
-- Set A agreement with Joe's codes: 95 of 100, Cohen's kappa 0.89. Disagreements: 21, 55, 74, 77, 94. Agent: ; 41/60, : 22/40.
+- Set A agreement with the first-pass codes: 95 of 100, Cohen's kappa 0.89. Disagreements: 21, 55, 74, 77, 94. Agent: ; 41/60, : 22/40.
 - Set B (1900-49): ; 37/60 glue (62%), : 7/40 (18%).
 - Weighted estimate with both coders' 1700s rates (; .70, : .5625) at both ends: 37% [26, 47]. With era-specific rates (1700s for 1700-49, 1900s for 1900-49): 38% [28, 48]. Headline stays about 40%.
 

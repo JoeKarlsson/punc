@@ -3,7 +3,7 @@ python3 agreement.py second-coder-codes.json measures2.json"""
 import sys, json, random, statistics as st
 from punc_common import period
 B = json.load(open(sys.argv[1])); M = json.load(open(sys.argv[2]))
-# Joe's codes for sample.txt: these items do NOT glue two clauses (see sample-coded.md)
+# First-pass codes for sample.txt (Claude, in the analysis session): these items do NOT glue two clauses (see sample-coded.md)
 NOT = {9,10,14,16,17,20,25,33,36,38,39,40,47,52,54,56,60,61,62,63,64,66,67,74,75,76,79,80,83,89,92,96,99,100}
 mine = {k: k not in NOT for k in range(1, 101)}; theirs = {int(k): v == 'GLUE' for k, v in B['set_a'].items()}
 po = sum(mine[k] == theirs[k] for k in mine) / 100
@@ -20,7 +20,7 @@ def est(bs, w):
     f = lambda r: r['all']['words'] / r['all']['stops']
     g = lambda r, ws, wc: r['all']['words'] / (r['all']['stops'] + ws * r['all']['semi'] + wc * r['all']['colon'])
     return 1 - (st.median(g(r, *w[0]) for r in A) - st.median(g(r, *w[1]) for r in Z)) / (st.median(map(f, A)) - st.median(map(f, Z)))
-for name, w in [("Joe's rates", ((.72, .58), (.72, .58))), ('both coders, 1700s rates', ((s17, c17), (s17, c17))), ('era-specific rates', ((s17, c17), (s19, c19)))]:
+for name, w in [('first-pass rates', ((.72, .58), (.72, .58))), ('both coders, 1700s rates', ((s17, c17), (s17, c17))), ('era-specific rates', ((s17, c17), (s19, c19)))]:
     random.seed(4); A = [r for r in rows if period(r['year']) == 1700]; Z = [r for r in rows if period(r['year']) == 1900]
     v = sorted(est([random.choice(A) for _ in A] + [random.choice(Z) for _ in Z], w) for _ in range(1000))
     print(name, f"{est(rows, w):.0%} [{v[25]:.0%}, {v[975]:.0%}]")

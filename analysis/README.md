@@ -20,6 +20,7 @@ The post used Punc at commit `66982de` and the Gutenberg catalog downloaded 2026
 | `robustness.py measures.json` | The share of the drop that disappears, every way of counting, with bootstrap intervals |
 | `timeseries.py ../site-dist/numbers.json` | 25-year medians: semicolons, commas, dialogue, question marks; genre subsets |
 | `cohort.py measures.json ../site-dist/numbers.json` | Semicolons on publication year and author birth year |
+| `cohort_by_author.py measures.json ../site-dist/numbers.json` | The same model with intervals from resampling authors (the ones the post reports) |
 | `rest.py ../site-dist/numbers.json` | Career slopes, popularity correlations, genre medians |
 | `attribution.py ../site-dist/numbers.json` | Punc's author test, a shuffled-label baseline, leave one mark out |
 | `attribution_genre.py ../site-dist/numbers.json measures2.json` | The genre-preserving baseline and English originals only |
@@ -28,4 +29,4 @@ The post used Punc at commit `66982de` and the Gutenberg catalog downloaded 2026
 | `agreement.py second-coder-codes.json measures2.json` | Agreement between the two coders and the weighted estimate with each era's rates |
 | `make_csv.py ../site-dist/numbers.json measures2.json > books.csv` | The per-book table |
 
-`sample-coded.md` has Joe's codes for the 1700s sample. `second-coder-codes.json` has the blind second coder's codes (a Claude agent given only the contexts and the rule) for both samples. `chart-data.json` holds the numbers the post's charts are drawn from.
+`sample-coded.md` has Joe's codes for the 1700s sample. `second-coder-codes.json` has the blind second coder's codes (a Claude agent given only the contexts and the rule) for both samples, and `second-coder-prompt.md` is the exact prompt. `chart-data.json` holds the numbers the post's charts are drawn from.

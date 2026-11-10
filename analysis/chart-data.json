@@ -977,14 +977,15 @@
   "years": "1750-1974",
   "publication_year_per_century": -3.1,
   "pub_ci": [
-   -5.9,
-   -0.5
+   -6.2,
+   -0.02
   ],
   "birth_year_per_century": -3.7,
   "birth_ci": [
-   -6.2,
-   -1.1
-  ]
+   -6.7,
+   -0.7
+  ],
+  "ci_note": "bootstrap resampling authors (456), not books"
  },
  "authorship": {
   "authors": 132,

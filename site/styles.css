@@ -23,23 +23,6 @@
   src: url(fonts/anton-latin.woff2) format('woff2');
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
-/* Hanken Grotesk (SIL Open Font License), for the charts borrowed from joekarlsson.com */
-@font-face {
-  font-family: 'Hanken Grotesk';
-  font-style: normal;
-  font-weight: 400 900;
-  font-display: swap;
-  src: url(fonts/hanken-grotesk-latin-ext.woff2) format('woff2');
-  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
-}
-@font-face {
-  font-family: 'Hanken Grotesk';
-  font-style: normal;
-  font-weight: 400 900;
-  font-display: swap;
-  src: url(fonts/hanken-grotesk-latin.woff2) format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
 /* Fraunces, latin-ext */
 @font-face {
   font-family: 'Fraunces';
@@ -102,9 +85,12 @@ body {
   background: var(--ink);
   color: var(--paper);
   font-family: var(--book);
-  font-size: clamp(17px, 0.95rem + 0.4vw, 20px);
+  font-size: clamp(1.0625rem, 0.95rem + 0.4vw, 1.25rem);
   line-height: 1.6;
   overflow-x: clip;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
 }
 
 a {
@@ -147,6 +133,7 @@ a:hover {
 }
 
 main {
+  flex: 1 0 auto;
   padding: 0 var(--page-inset) 6rem;
 }
 
@@ -252,13 +239,12 @@ main {
   stroke: var(--pink);
   stroke-dasharray: 1;
   stroke-dashoffset: 1;
-  animation: redraw 9s 0.6s cubic-bezier(0.45, 0.55, 0.3, 1) infinite;
+  /* Drawn once in stop-motion steps, like the figures, and then it stays */
+  animation: draw-ring 1.8s 0.6s steps(22, end) forwards;
 }
 
-@keyframes redraw {
-  0% { stroke-dashoffset: 1; }
-  35%, 85% { stroke-dashoffset: 0; }
-  100% { stroke-dashoffset: -1; }
+@keyframes draw-ring {
+  to { stroke-dashoffset: 0; }
 }
 
 .lede {
@@ -289,10 +275,6 @@ main {
    dithered to hot pink and black (site/src/dither.ts), with the book's own
    punctuation running across the top like the tour dates. */
 
-.featured {
-  margin-bottom: clamp(3.5rem, 8vw, 6rem);
-}
-
 .shelf {
   list-style: none;
   margin: 0;
@@ -300,11 +282,6 @@ main {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(min(100%, 190px), 1fr));
   gap: 3.5rem clamp(1.5rem, 3vw, 2.5rem);
-}
-
-.shelf-featured {
-  /* Book-sized however wide the screen: the columns stop growing at 300px */
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 300px));
 }
 
 .cover {
@@ -403,10 +380,6 @@ main {
   text-transform: uppercase;
   padding: 0.2em 0.35em 0.15em;
   transform: rotate(-1.5deg);
-}
-
-.shelf-featured .cover-title {
-  font-size: clamp(1.7rem, 2.6vw, 2.3rem);
 }
 
 .cover-author {
@@ -554,7 +527,7 @@ main {
   max-width: 40em;
   margin: var(--space-8) 0 0;
   font-family: var(--book);
-  font-size: 0.95rem;
+  font-size: 1rem;
   color: var(--muted);
 }
 
@@ -678,6 +651,21 @@ main {
 .book-poster:hover,
 .book-poster:focus-visible {
   transform: rotate(0deg) scale(1.02);
+}
+
+/* Says where the poster goes, since the same poster on the shelf opens the book page */
+.poster-source {
+  position: absolute;
+  top: var(--space-1);
+  right: var(--space-1);
+  z-index: 1;
+  padding: 0 0.4em;
+  background: var(--chalk);
+  color: var(--ink);
+  font-family: var(--book);
+  font-weight: 600;
+  font-size: 1rem;
+  transform: rotate(-1.5deg);
 }
 
 .book-title {
@@ -1008,7 +996,7 @@ main {
 }
 
 #through-book {
-  margin-bottom: var(--space-7);
+  margin-bottom: var(--space-8);
 }
 
 .through-book {
@@ -1215,11 +1203,13 @@ main {
 }
 
 .shelf-map-book {
-  margin-bottom: var(--space-7);
+  margin-bottom: var(--space-8);
 }
 
 .map-tip {
   position: absolute;
+  left: 0;
+  top: 0;
   z-index: 3;
   max-width: 18rem;
   margin: 0;
@@ -1236,6 +1226,31 @@ main {
   max-width: 900px;
   margin-top: var(--space-6);
   font-family: var(--book);
+}
+
+/* The table folds open; it closes on ease-in-out, as the content below moves with it */
+@supports (interpolate-size: allow-keywords) {
+  .map-table {
+    interpolate-size: allow-keywords;
+  }
+
+  .map-table::details-content {
+    block-size: 0;
+    overflow: clip;
+    transition: block-size 300ms ease-in-out, content-visibility 300ms allow-discrete;
+  }
+
+  .map-table[open]::details-content {
+    block-size: auto;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chart-dot,
+  .chart-line-genre.on,
+  .map-table::details-content {
+    transition-duration: 0s;
+  }
 }
 
 .map-table summary {
@@ -1315,7 +1330,7 @@ main {
 }
 
 .about section {
-  margin-bottom: var(--space-7);
+  margin-bottom: var(--space-8);
 }
 
 .about p {
@@ -1485,17 +1500,14 @@ code {
     font-size: 0.85rem;
   }
 
-  .cover-title,
-  .shelf-featured .cover-title {
-    font-size: 1.05rem;
-  }
-
-  .cover-author {
+  .cover-title {
     font-size: 0.8rem;
   }
 
-  .cover-meta {
-    font-size: 0.75rem;
+  .cover-author,
+  .cover-meta,
+  .fp-caption {
+    font-size: 1rem;
   }
 
   .shelf-controls input,
@@ -1525,14 +1537,126 @@ code {
   }
 }
 
+/* Touch screens: every control at least 44px to tap */
+@media (pointer: coarse) {
+  .site-header nav a,
+  .site-footer a,
+  .numbers-contents a,
+  .views button,
+  .author-detail-books a,
+  .map-table summary {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+  }
+
+  .shelf-page,
+  .shelf-controls input,
+  .button {
+    min-height: 44px;
+  }
+
+  /* Safari ignores min-height on a select */
+  .shelf-controls select {
+    height: 44px;
+  }
+
+  .pager input {
+    height: 44px;
+  }
+
+  .score-rail {
+    width: 44px;
+  }
+}
+
+/* A small squash on press, so buttons feel physical */
+.button,
+.views button,
+.shelf-page,
+.author-pick {
+  transition: scale 60ms ease-out;
+}
+
+.button:active,
+.views button:active,
+.shelf-page:active:not(:disabled),
+.author-pick:active {
+  scale: 0.97;
+}
+
 @media (prefers-reduced-motion: reduce) {
+  .button,
+  .views button,
+  .shelf-page,
+  .author-pick {
+    transition-duration: 0s;
+  }
+
   .ring path {
     animation: none;
     stroke-dashoffset: 0;
   }
 
-  .cover {
-    transition: none;
+  .cover,
+  .book-poster {
+    transition-duration: 0s;
+  }
+}
+
+/* Copy buttons (site/src/share.ts): both labels stacked in one cell, so the button keeps its
+   width while "Copied" crossfades in with a little blur, and one pulse says it worked. */
+.copy-button {
+  display: inline-grid;
+}
+
+.copy-button > span {
+  grid-area: 1 / 1;
+  transition: opacity 200ms ease-out, scale 200ms ease-out, filter 200ms ease-out;
+}
+
+.copy-button .copy-done,
+.copy-button[data-copied] .copy-idle {
+  opacity: 0;
+  scale: 0.96;
+  filter: blur(2px);
+}
+
+.copy-button[data-copied] .copy-done {
+  opacity: 1;
+  scale: 1;
+  filter: none;
+}
+
+.copy-button[data-copied] {
+  animation: copied 250ms ease-out;
+}
+
+@keyframes copied {
+  50% { scale: 1.06; }
+}
+
+.copy-status:not(:empty) {
+  margin-left: 0.5em;
+  color: var(--pink);
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .copy-button > span {
+    transition-duration: 0s;
+  }
+
+  .copy-button[data-copied] {
+    animation: none;
   }
 }
 
@@ -1665,6 +1789,11 @@ code {
   fill: var(--surface-line);
 }
 
+/* A genre pick recolours the dots and wipes its median line in from the left */
+.chart-dot {
+  transition: fill 150ms ease-out;
+}
+
 .chart-line {
   fill: none;
   stroke-width: 3;
@@ -1684,6 +1813,14 @@ code {
 
 .chart-line-genre.on {
   display: inline;
+  clip-path: inset(0);
+  transition: clip-path 300ms ease-out;
+}
+
+@starting-style {
+  .chart-line-genre.on {
+    clip-path: inset(0 100% 0 0);
+  }
 }
 
 .chart-line-clause {
@@ -1740,7 +1877,7 @@ code {
 .compare-detail,
 .twin-detail {
   margin: 0;
-  font-size: 0.9rem;
+  font-size: 1rem;
   color: var(--muted);
 }
 
@@ -2064,11 +2201,13 @@ code {
 }
 
 .author-book-year {
-  font-size: 0.85rem;
+  font-size: 1rem;
   color: var(--muted);
 }
 
 .twin-title {
+  display: inline-block;
+  padding-block: 0.15rem;
   font-size: 1.1rem;
 }
 
@@ -2194,22 +2333,48 @@ code {
 }
 
 /* A long page: skip layout and paint for sections off screen. auto keeps
-   each section's real height once it has been drawn. */
+   each section's real height once it has been drawn; until then each holds about
+   its measured height, so a jump to #map lands without the page shifting under it. */
 .numbers-section {
   content-visibility: auto;
-  contain-intrinsic-size: auto 1400px;
+  contain-intrinsic-size: auto var(--section-height, 1400px);
+}
+#found { --section-height: 680px; }
+#time { --section-height: 3800px; }
+#genres { --section-height: 900px; }
+#authors { --section-height: 1800px; }
+#compare { --section-height: 730px; }
+#twins { --section-height: 1200px; }
+#grammar { --section-height: 660px; }
+#popularity { --section-height: 740px; }
+#records { --section-height: 1500px; }
+#map { --section-height: 620px; }
+
+@media (max-width: 720px) {
+  #found { --section-height: 1000px; }
+  #time { --section-height: 4700px; }
+  #genres { --section-height: 2550px; }
+  #authors { --section-height: 3550px; }
+  #compare { --section-height: 1120px; }
+  #twins { --section-height: 1620px; }
+  #grammar { --section-height: 1950px; }
+  #popularity { --section-height: 960px; }
+  #records { --section-height: 2930px; }
+  #map { --section-height: 790px; }
 }
 
-/* Animated figures from the write-up (build.mjs inlineFigures): the still on phones and
-   under reduced motion, the animation otherwise (site/src/figures.ts starts it in view). */
+/* Animated figures from the write-up (build.mjs inlineFigures): the finished still until
+   Play is pressed (site/src/figures.ts), and only the still on phones. */
 .anim-figure { margin: 2rem 0; }
 .anim-figure svg { display: block; width: 100%; height: auto; }
+.anim-figure .anim-live { display: none; }
+.anim-figure .anim-still { display: inline; }
+.anim-figure[data-playing] .anim-live { display: inline; }
+.anim-figure[data-playing] .anim-still { display: none; }
+.figure-play { margin-top: var(--space-3); }
 .figure-phone { display: none; }
 @media (max-width: 639px) {
-  .figure-wide { display: none; }
+  .figure-wide,
+  .figure-play { display: none; }
   .figure-phone { display: block; }
-}
-@media (prefers-reduced-motion: reduce) {
-  .anim-figure .anim-live { display: none; }
-  .anim-figure .anim-still { display: inline; }
 }

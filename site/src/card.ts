@@ -1,5 +1,4 @@
-// One shelf card, as HTML. The build writes the featured books and the first
-// page of the shelf with it, and the browser draws the rest of the shelf from
+// One shelf card, as HTML. The build writes the first page of the shelf with it, and the browser draws the rest of the shelf from
 // shelf.json with it, so the two can't drift apart.
 import { fingerprintHTML } from './patterns';
 
@@ -31,9 +30,10 @@ const escapeHTML = (s: string) =>
   s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 const fmt = (n: number) => n.toLocaleString('en-US');
 
-// i picks the card's tilt, so neighbours lean different ways.
+// i picks the card's tilt, so neighbours lean different ways. The first row can be on the
+// first screen, so it isn't lazy.
 export function cardHTML(book: ShelfBook, i: number): string {
-  const poster = book.cover ? `<img data-poster src="covers/${book.slug}.jpg" alt="" loading="lazy" decoding="async">` : '';
+  const poster = book.cover ? `<img data-poster src="covers/${book.slug}.jpg" alt=""${i < 4 ? '' : ' loading="lazy"'} decoding="async">` : '';
   return `<li class="cover poster" style="--tilt:${TILTS[i % TILTS.length]}deg" data-slug="${book.slug}">
       <a href="books/${book.slug}/">
         ${poster}

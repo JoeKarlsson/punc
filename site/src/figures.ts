@@ -1,47 +1,35 @@
-// Plays each animated figure (build.mjs inlineFigures) once most of it is on screen and
-// it has sat there a beat, from its first frame, and pauses it when it scrolls away, so a
-// reader scrolling past sees the change happen instead of its tail end.
-const START_DELAY_MS = 400;
+// Animated figures (build.mjs inlineFigures) rest on their finished still and play once
+// from the start when the reader presses Play, then settle back on the still. Nothing
+// plays on scroll or on load, and the still is what prints.
 
-/** Most of a figure is on screen, or it fills most of the screen when it's taller than that. */
-export const mostlyInView = (
-  entry: Pick<IntersectionObserverEntry, 'intersectionRatio' | 'intersectionRect' | 'rootBounds'>
-): boolean =>
-  entry.intersectionRatio >= 0.6 ||
-  (entry.rootBounds !== null && entry.intersectionRect.height >= 0.6 * entry.rootBounds.height);
+/** Seconds in an SMIL `dur` like "9.5s" or "800ms". */
+export const durationSeconds = (dur: string | null): number => {
+  const match = /^([\d.]+)(ms|s)$/.exec(dur?.trim() ?? '');
+  if (!match) throw new Error(`Unreadable animation duration: ${dur}`);
+  return Number(match[1]) / (match[2] === 'ms' ? 1000 : 1);
+};
 
 export function initFigures(): void {
-  const svgs = [...document.querySelectorAll<SVGSVGElement>('.anim-figure > div > svg')];
-  // Reduced motion shows the still layer (styles.css); stop the hidden one ticking too
-  if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    svgs.forEach(svg => svg.pauseAnimations());
-    return;
-  }
-  if (!svgs.length) return;
-  const started = new WeakSet<SVGSVGElement>();
-  const timers = new WeakMap<SVGSVGElement, number>();
-  const observer = new IntersectionObserver(
-    entries => {
-      for (const entry of entries) {
-        const svg = entry.target as SVGSVGElement;
-        clearTimeout(timers.get(svg));
-        if (!entry.isIntersecting) svg.pauseAnimations();
-        else if (started.has(svg)) svg.unpauseAnimations();
-        else if (mostlyInView(entry))
-          timers.set(
-            svg,
-            window.setTimeout(() => {
-              started.add(svg);
-              svg.setCurrentTime(0);
-              svg.unpauseAnimations();
-            }, START_DELAY_MS)
-          );
-      }
-    },
-    { threshold: [0, 0.3, 0.6, 1] }
-  );
-  for (const svg of svgs) {
+  for (const figure of document.querySelectorAll<HTMLElement>('.anim-figure')) {
+    const svg = figure.querySelector<SVGSVGElement>('.figure-wide svg');
+    const button = figure.querySelector<HTMLButtonElement>('.figure-play');
+    if (!svg || !button) continue;
     svg.pauseAnimations();
-    observer.observe(svg);
+    const seconds = durationSeconds(svg.querySelector('.anim-live [dur]')?.getAttribute('dur') ?? null);
+    let timer = 0;
+    const stop = () => {
+      clearTimeout(timer);
+      svg.pauseAnimations();
+      delete figure.dataset['playing'];
+      button.textContent = 'Play';
+    };
+    button.addEventListener('click', () => {
+      if (figure.dataset['playing'] !== undefined) return stop();
+      figure.dataset['playing'] = '';
+      button.textContent = 'Stop';
+      svg.setCurrentTime(0);
+      svg.unpauseAnimations();
+      timer = window.setTimeout(stop, seconds * 1000);
+    });
   }
 }

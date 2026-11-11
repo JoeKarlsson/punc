@@ -181,7 +181,7 @@ export function mapSVG(points: MapPoint[], { labelled = [], highlight, root = ''
     const cx = x(b.pausesPerStop);
     const cy = y(b.loudness * 100);
     const tip = escapeHTML(tipFor(b));
-    dots.push(`<a href="${root}books/${b.slug}/" data-tip="${tip}" aria-label="${tip}"><circle class="map-hit" cx="${cx}" cy="${cy}" r="16"/><circle class="map-dot" cx="${cx}" cy="${cy}" r="7"/></a>`);
+    dots.push(`<a href="${root}books/${b.slug}/" tabindex="-1" data-tip="${tip}" aria-label="${tip}"><circle class="map-hit" cx="${cx}" cy="${cy}" r="16"/><circle class="map-dot" cx="${cx}" cy="${cy}" r="7"/></a>`);
     if (b.slug && picked.has(b.slug) && !highlight && labelFits(cx, cy, b.title)) labels.push(labelAt(cx, cy, b.title));
   }
   if (highlight) {

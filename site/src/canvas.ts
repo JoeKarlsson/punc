@@ -96,8 +96,12 @@ export function createSpiralExplorer(
   const wholeBook: View = { zoom: MIN_ZOOM, centerX: SPIRAL_SIZE / 2, centerY: SPIRAL_SIZE / 2 };
   let view = wholeBook;
   let frame = 0;
+  // The whole book is the slowest picture to paint (every mark is on screen), so keep a copy
+  // to put back on Reset and when the view is shown again.
+  const wholeBookCopy = document.createElement('canvas');
+  const isWholeBook = (v: View) => v.zoom === wholeBook.zoom && v.centerX === wholeBook.centerX && v.centerY === wholeBook.centerY;
 
-  const screen = (): Screen => ({ width: canvas.clientWidth || SPIRAL_SIZE, height: canvas.clientHeight || SPIRAL_SIZE });
+  const screen = (): Screen => ({ width: canvas.clientWidth, height: canvas.clientHeight });
   const dpr = () => Math.min(window.devicePixelRatio || 1, 2);
 
   // How far through the book the mark nearest the view's center is
@@ -120,28 +124,41 @@ export function createSpiralExplorer(
   const render = () => {
     frame = 0;
     const { width: cssWidth, height: cssHeight } = screen();
+    // Hidden behind another view: drawn when it's shown again, which resizes it.
+    if (!cssWidth || !cssHeight) return;
     const width = Math.round(cssWidth * dpr());
     const height = Math.round(cssHeight * dpr());
     if (canvas.width !== width || canvas.height !== height) {
       canvas.width = width;
       canvas.height = height;
     }
-    const scale = (Math.min(width, height) / SPIRAL_SIZE) * view.zoom;
-    paintSpiral(ctx, marks, layout, scale, width / 2 - view.centerX * scale, height / 2 - view.centerY * scale, width, height);
+    const whole = isWholeBook(view);
+    if (whole && wholeBookCopy.width === width && wholeBookCopy.height === height) {
+      ctx.setTransform(1, 0, 0, 1, 0, 0);
+      ctx.drawImage(wholeBookCopy, 0, 0);
+    } else {
+      const scale = (Math.min(width, height) / SPIRAL_SIZE) * view.zoom;
+      paintSpiral(ctx, marks, layout, scale, width / 2 - view.centerX * scale, height / 2 - view.centerY * scale, width, height);
+      if (whole) {
+        wholeBookCopy.width = width;
+        wholeBookCopy.height = height;
+        wholeBookCopy.getContext('2d')?.drawImage(canvas, 0, 0);
+      }
+    }
     onChange(view.zoom, percentAtCenter());
   };
   const schedule = () => {
     if (!frame) frame = requestAnimationFrame(render);
   };
 
-  const zoomAt = (factor: number, cssX: number, cssY: number) => {
-    view = zoomViewAt(view, factor, cssX, cssY, screen(), bounds);
+  // Repaint only when the view really moved: a drag at the whole-book zoom is clamped in place.
+  const moveTo = (next: View) => {
+    if (next.zoom === view.zoom && next.centerX === view.centerX && next.centerY === view.centerY) return;
+    view = next;
     schedule();
   };
-  const panBy = (dxCss: number, dyCss: number) => {
-    view = panView(view, dxCss, dyCss, screen(), bounds);
-    schedule();
-  };
+  const zoomAt = (factor: number, cssX: number, cssY: number) => moveTo(zoomViewAt(view, factor, cssX, cssY, screen(), bounds));
+  const panBy = (dxCss: number, dyCss: number) => moveTo(panView(view, dxCss, dyCss, screen(), bounds));
   const local = (e: { clientX: number; clientY: number }) => {
     const r = canvas.getBoundingClientRect();
     return { x: e.clientX - r.left, y: e.clientY - r.top };
@@ -210,14 +227,12 @@ export function createSpiralExplorer(
       action();
     }
   });
+  // Its first callback paints the first picture.
   new ResizeObserver(schedule).observe(canvas);
 
   const explorer: SpiralExplorer = {
     zoomBy: factor => zoomAt(factor, screen().width / 2, screen().height / 2),
-    reset: () => {
-      view = wholeBook;
-      schedule();
-    },
+    reset: () => moveTo(wholeBook),
     exportCanvas: () => {
       const out = document.createElement('canvas');
       const size = SPIRAL_SIZE * 2;
@@ -228,7 +243,6 @@ export function createSpiralExplorer(
       return out;
     },
   };
-  render();
   return explorer;
 }
 
@@ -295,6 +309,7 @@ export function createScoreScroller(holder: HTMLElement, marks: string[]): void 
   let viewHeight = 0;
   let dpr = 1;
   let layout = scoreLayout(1, marks.length);
+  let thumbHeight = 0;
 
   const scrolled = () => Math.min(Math.max(-holder.getBoundingClientRect().top, 0), layout.height - viewHeight);
 
@@ -319,9 +334,6 @@ export function createScoreScroller(holder: HTMLElement, marks: string[]): void 
       }
     }
     const travel = layout.height - viewHeight;
-    rail.hidden = travel <= 0;
-    const thumbHeight = Math.max(32, (viewHeight * viewHeight) / layout.height);
-    thumb.style.height = `${thumbHeight}px`;
     thumb.style.transform = `translateY(${travel > 0 ? (top / travel) * (viewHeight - thumbHeight) : 0}px)`;
   };
 
@@ -339,6 +351,9 @@ export function createScoreScroller(holder: HTMLElement, marks: string[]): void 
     dpr = Math.min(window.devicePixelRatio || 1, 2);
     canvas.width = Math.round(width * dpr);
     canvas.height = Math.round(viewHeight * dpr);
+    rail.hidden = layout.height <= viewHeight;
+    thumbHeight = Math.max(32, (viewHeight * viewHeight) / layout.height);
+    thumb.style.height = `${thumbHeight}px`;
     draw();
   };
 

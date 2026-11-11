@@ -1,13 +1,13 @@
-import { mostlyInView } from '../site/src/figures';
+import { durationSeconds } from '../site/src/figures';
 
-describe('mostlyInView', () => {
-  const box = (height: number) => ({ height }) as DOMRectReadOnly;
-  const screen = box(800);
+describe('durationSeconds', () => {
+  it('reads seconds and milliseconds', () => {
+    expect(durationSeconds('9.5s')).toBe(9.5);
+    expect(durationSeconds('800ms')).toBe(0.8);
+  });
 
-  it('waits for most of a figure, or most of a short screen', () => {
-    expect(mostlyInView({ intersectionRatio: 0.2, intersectionRect: box(80), rootBounds: screen })).toBe(false);
-    expect(mostlyInView({ intersectionRatio: 0.65, intersectionRect: box(260), rootBounds: screen })).toBe(true);
-    // A tall figure on a phone held sideways never reaches 60% of itself
-    expect(mostlyInView({ intersectionRatio: 0.4, intersectionRect: box(500), rootBounds: screen })).toBe(true);
+  it('refuses a duration it cannot read rather than guessing', () => {
+    expect(() => durationSeconds('indefinite')).toThrow('Unreadable');
+    expect(() => durationSeconds(null)).toThrow('Unreadable');
   });
 });

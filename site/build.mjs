@@ -14,13 +14,12 @@ import { createHash } from 'node:crypto';
 const SITE = 'site';
 const OUT = 'site-dist';
 const SITE_URL = 'https://punc.joekarlsson.com/';
-const FEATURED_COUNT = 4;
 
 await rm(OUT, { recursive: true, force: true });
 await mkdir(join(OUT, 'assets'), { recursive: true });
 
 await build({
-  entryPoints: [join(SITE, 'src/reader.ts'), join(SITE, 'src/shelf.ts'), join(SITE, 'src/page.ts'), join(SITE, 'src/numbers-page.ts')],
+  entryPoints: [join(SITE, 'src/reader.ts'), join(SITE, 'src/shelf.ts'), join(SITE, 'src/page.ts'), join(SITE, 'src/numbers-page.ts'), join(SITE, 'src/analyze-worker.ts')],
   bundle: true,
   format: 'esm',
   target: 'es2020',
@@ -140,7 +139,7 @@ function shareLinks(url, title) {
     ([label, href]) =>
       `<a href="${escapeHTML(href)}" target="_blank" rel="noopener noreferrer" class="plausible-event-name=Share+Click plausible-event-network=${label.replace(/ /g, '+')}">${label}</a>`
   );
-  return `<p class="share">Share it on ${links.join(', ')}, or <button type="button" class="link-button" data-copy-link="${escapeHTML(url)}">copy the link</button>.</p>`;
+  return `<p class="share">Share it on ${links.join(', ')}, or <button type="button" class="link-button copy-button" data-copy-link="${escapeHTML(url)}"><span class="copy-idle">copy the link</span><span class="copy-done" aria-hidden="true">Copied</span></button>.</p>`;
 }
 
 const sitemapURLs = [];
@@ -231,27 +230,25 @@ ${notFound ? '' : shareLinks(url, socialTitle ?? title)}
 // GitHub Pages lets browsers cache CSS and JS for 10 minutes. A content hash
 // in the URL makes each deploy load the new files right away.
 const assetHash = createHash('sha256');
-for (const file of ['styles.css', 'analytics.js', 'assets/reader.js', 'assets/shelf.js', 'assets/page.js', 'assets/numbers-page.js']) assetHash.update(await readFile(join(OUT, file)));
+for (const file of ['styles.css', 'analytics.js', 'assets/reader.js', 'assets/shelf.js', 'assets/page.js', 'assets/numbers-page.js', 'assets/analyze-worker.js']) assetHash.update(await readFile(join(OUT, file)));
 const version = assetHash.digest('hex').slice(0, 10);
 
 // <!--FIGURE:name|alt--> in a page becomes site/figures/<name>.svg inline, with its
 // .phone.svg for narrow screens: animated figures from the joekarlsson.com write-up.
-// Inline so they use the page's fonts; site/src/figures.ts plays each once it's in view.
+// Inline so they use the page's fonts; site/src/figures.ts plays each when Play is pressed.
 const inlineFigures = async html => {
   for (const [marker, name, alt] of [...html.matchAll(/<!--FIGURE:([\w-]+)\|([^>]*)-->/g)]) {
     const svg = async file =>
       (await readFile(join(SITE, 'figures', file), 'utf8')).replace(/aria-label="[^"]*"/, `aria-label="${escapeHTML(alt)}"`);
     // A function, so $' or $& inside an SVG isn't read as a replacement pattern
-    const figure = `<figure class="anim-figure"><div class="figure-wide">${await svg(`${name}.svg`)}</div><div class="figure-phone">${await svg(`${name}.phone.svg`)}</div></figure>`;
+    const figure = `<figure class="anim-figure"><div class="figure-wide">${await svg(`${name}.svg`)}</div><div class="figure-phone">${await svg(`${name}.phone.svg`)}</div><button type="button" class="button figure-play">Play</button></figure>`;
     html = html.replace(marker, () => figure);
   }
   return html;
 };
 const fragment = async name => inlineFigures(await readFile(join(SITE, 'pages', name), 'utf8'));
 
-const featured = byRank.slice(0, FEATURED_COUNT);
 const indexBody = (await fragment('index.html'))
-  .replace('<!--FEATURED-->', featured.map((book, i) => cardHTML(shelfBook(book), i)).join('\n'))
   // Only the first page is in the HTML; site/src/shelf.ts draws the rest from shelf.json.
   .replace('<!--SHELF-->', byRank.slice(0, SHELF_PAGE_SIZE).map((book, i) => cardHTML(shelfBook(book), i)).join('\n'))
   .replace('<!--GENRES-->', genres.map(g => `<option>${escapeHTML(g)}</option>`).join(''));
@@ -304,7 +301,7 @@ const authorSection = book => {
 const missingShareImages = [];
 for (const book of books) {
   const poster = book.cover
-    ? `    <a class="book-poster poster" href="https://www.gutenberg.org/ebooks/${book.id}" target="_blank" rel="noopener noreferrer" aria-label="${escapeHTML(book.title)} on Project Gutenberg (opens in a new tab)"><img data-poster src="covers/${book.slug}.jpg" alt=""></a>`
+    ? `    <a class="book-poster poster" href="https://www.gutenberg.org/ebooks/${book.id}" target="_blank" rel="noopener noreferrer" aria-label="${escapeHTML(book.title)} on Project Gutenberg (opens in a new tab)"><img data-poster src="covers/${book.slug}.jpg" alt=""><span class="poster-source" aria-hidden="true">On Gutenberg</span></a>`
     : '';
   const shareImage = `share/${book.slug}.png`;
   if (!existsSync(join(SITE, shareImage))) missingShareImages.push(book.slug);
@@ -355,12 +352,12 @@ for (const book of books) {
   });
 }
 
-// Label the two books at each extreme and the featured ones; the rest are
+// Label the two books at each extreme and the four most read; the rest are
 // hover-only, or the middle of the map turns into a pile of text.
 const mapLabels = [
   ...[...books].sort((a, b) => b.pausesPerStop - a.pausesPerStop).slice(0, 2),
   ...[...books].sort((a, b) => b.loudness - a.loudness).slice(0, 2),
-  ...featured,
+  ...byRank.slice(0, 4),
 ].map(b => b.slug);
 
 // The numbers page. The measures and charts are in site/src/numbers.ts.
@@ -567,13 +564,14 @@ await writePage({
   body: `<article class="about">
   <h1 class="page-title">Not on the shelf</h1>
   <p>There's no page at this address. Try <a href="./">the shelf</a> or <a href="read.html">read your own</a>.</p>
+  <p id="closest-page" hidden></p>
 </article>`,
   script: 'page.js',
   notFound: true,
 });
 
-// No robots.txt: GitHub Pages only reads one at the domain root, which this
-// project site doesn't own. Submit the sitemap in Search Console instead.
+// robots.txt and .well-known/security.txt come from site/static: the site has its own
+// domain, so GitHub Pages serves them at the root.
 await writeFile(
   join(OUT, 'sitemap.xml'),
   `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${sitemapURLs.map(u => `  <url><loc>${u}</loc></url>`).join('\n')}\n</urlset>\n`
@@ -582,4 +580,4 @@ await writeFile(
 if (missingShareImages.length) {
   console.warn(`No share card for ${missingShareImages.join(', ')}; those pages share og.png. Run node site/scripts/make-images.mjs after this build.`);
 }
-console.log(`Built ${books.length} books, ${featured.length} featured, into ${OUT}/`);
+console.log(`Built ${books.length} books into ${OUT}/`);

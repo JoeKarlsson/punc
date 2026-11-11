@@ -12,17 +12,11 @@
   <p class="lede">Punc takes the words out of a book and leaves the punctuation where it was. Pick one off the shelf or <a href="read.html">bring your own</a>.</p>
 </section>
 
-<section class="featured" aria-labelledby="featured-heading">
-  <h2 id="featured-heading" class="section-title">Most read on Project Gutenberg this month</h2>
-  <ul class="shelf shelf-featured">
-<!--FEATURED-->
-  </ul>
-</section>
-
 <section class="shelf-section" aria-labelledby="shelf-heading">
   <h2 id="shelf-heading" class="section-title" tabindex="-1">The shelf</h2>
-  <form id="shelf-controls" class="shelf-controls" role="search" hidden>
-    <label>Search <input type="search" id="shelf-search" placeholder="Title or author" autocomplete="off"></label>
+  <search>
+  <form id="shelf-controls" class="shelf-controls" hidden>
+    <label>Search <input type="search" id="shelf-search" placeholder="Title or author" autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false"></label>
     <label>Genre <select id="shelf-genre"><option value="">Everything</option><!--GENRES--></select></label>
     <label>Sort <select id="shelf-sort">
       <option value="popular">Most read</option>
@@ -37,9 +31,10 @@
     </select></label>
     <p id="shelf-count" class="shelf-count" aria-live="polite"></p>
   </form>
+  </search>
   <ul class="shelf" id="shelf">
 <!--SHELF-->
   </ul>
-  <p id="shelf-empty" class="shelf-empty" hidden>Nothing on the shelf matches that.</p>
+  <p id="shelf-empty" class="shelf-empty" hidden>Nothing on the shelf matches that. <button type="button" class="link-button" id="shelf-clear">Show every book</button></p>
   <nav id="shelf-pages" class="shelf-pages" aria-label="Shelf pages" hidden></nav>
 </section>

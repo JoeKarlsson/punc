@@ -21,10 +21,18 @@ test('header and footer', async ({ page }) => {
 test('front page hero and a shelf card', async ({ page }) => {
   await open(page, './');
   await expect(page.locator('.hero')).toHaveScreenshot('hero.png');
-  const card = page.locator('.shelf-featured li').first();
+  const card = page.locator('#shelf li').first();
   // Posters are dithered once their cover loads
   await expect(card.locator('.poster-art')).toBeVisible();
   await expect(card).toHaveScreenshot('shelf-card.png');
+});
+
+test('the front page on a 2560 pixel screen stays in its centered column', async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== 'visual-desktop', 'a wide screen is a desktop check');
+  await page.setViewportSize({ width: 2560, height: 1440 });
+  await open(page, './');
+  await expect(page.locator('#shelf .poster-art').first()).toBeVisible();
+  await expect(page).toHaveScreenshot('front-2560.png');
 });
 
 test('page titles', async ({ page }) => {

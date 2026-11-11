@@ -46,6 +46,18 @@ test('a book page switches views by tapping, and the spiral zooms with its butto
   await expect(page.locator('#through-book .tb-axis')).toBeVisible();
 });
 
+test('a phone turns the pages one at a time, since it shows one', async ({ page }) => {
+  await page.goto('books/frankenstein/');
+  await expect(page.locator('#book[data-ready]')).toBeAttached();
+  await page.getByRole('button', { name: 'Pages' }).tap();
+  await expect(page.locator('#folio-left')).toHaveText(/^1 of \d+$/);
+  await page.getByRole('button', { name: 'Turn' }).tap();
+  await expect(page.locator('#folio-left')).toHaveText(/^2 of \d+$/);
+  await expect(page.locator('#page-range')).toHaveAttribute('aria-valuetext', /^Page 2 of \d+$/);
+  // The top of the page is back on screen after the turn
+  expect((await page.locator('.spread').boundingBox())!.y).toBeGreaterThanOrEqual(0);
+});
+
 test('form fields are big enough that Safari does not zoom in on them', async ({ page }) => {
   await page.goto('./');
   for (const field of await page.locator('#shelf-controls input, #shelf-controls select').all()) {
@@ -53,14 +65,24 @@ test('form fields are big enough that Safari does not zoom in on them', async ({
   }
 });
 
-test('nav, buttons and share links are at least 24 pixels tall to tap', async ({ page }) => {
-  for (const path of ['./', 'books/frankenstein/']) {
+test('nav, buttons, links and fields are at least 44 pixels tall to tap', async ({ page }) => {
+  const selector =
+    '.site-header nav a, .site-footer a, .share a, .share button, .views button, .explorer-controls button, .shelf-controls input, .shelf-controls select, .shelf-page, .numbers-contents a, .map-table summary';
+  for (const [path, ready] of [
+    ['./', '#shelf-controls:not([hidden])'],
+    ['books/frankenstein/', '#book[data-ready]'],
+    ['numbers.html', '.numbers-contents'],
+  ] as const) {
     await page.goto(path);
-    const targets = page.locator('.site-header nav a, .share a, .share button, .views button, .explorer-controls button');
-    for (const target of await targets.all()) {
-      if (!(await target.isVisible())) continue;
-      const box = (await target.boundingBox())!;
-      expect(box.height, `${path}: ${await target.textContent()}`).toBeGreaterThanOrEqual(24);
-    }
+    await expect(page.locator(ready)).toBeAttached();
+    // Measured in one pass: a locator per target is too slow in WebKit
+    const small = await page.evaluate(
+      sel =>
+        [...document.querySelectorAll<HTMLElement>(sel)]
+          .filter(el => el.checkVisibility() && el.getBoundingClientRect().height < 44)
+          .map(el => `${el.textContent?.trim().slice(0, 30)}: ${el.getBoundingClientRect().height}px`),
+      selector
+    );
+    expect(small, path).toEqual([]);
   }
 });

@@ -25,17 +25,17 @@
   </header>
 <!--AUTHOR-->
 
-  <nav class="views" aria-label="Ways to look at it">
+  <div class="views" role="group" aria-label="Ways to look at it">
     <button type="button" data-view="score" aria-pressed="true">Score</button>
     <button type="button" data-view="spiral" aria-pressed="false">Spiral</button>
     <button type="button" data-view="pages" aria-pressed="false">Pages</button>
     <button type="button" data-view="counts" aria-pressed="false">Counts</button>
-  </nav>
+  </div>
 
   <section id="view-score" class="view">
     <p class="view-note">Every mark in reading order, left to right, top to bottom. Sentence endings are pink.</p>
     <div class="explorer-controls">
-      <button type="button" class="button" id="copy-marks">Copy the marks</button>
+      <button type="button" class="button copy-button" id="copy-marks"><span class="copy-idle">Copy the marks</span><span class="copy-done" aria-hidden="true">Copied</span></button>
       <button type="button" class="button" data-download="score">Download PNG</button>
     </div>
     <div id="score" class="score bleed">

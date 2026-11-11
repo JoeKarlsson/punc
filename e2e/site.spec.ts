@@ -25,15 +25,14 @@ async function openBook(page: Page, slug: string) {
   await expect(page.locator('#book[data-ready]')).toBeAttached();
 }
 
-test('the front page features the most read books, then the shelf a page at a time', async ({ page }) => {
+test('the front page opens on the shelf, most read first, a page at a time', async ({ page }) => {
   await page.goto('./');
-  await expect(page.locator('.shelf-featured .cover:visible')).toHaveCount(4);
   // Only the page in view is drawn.
   await expect(page.locator('#shelf .cover')).toHaveCount(72);
   await expect(page.locator('#shelf-count')).toHaveText(`Showing 1–72 of ${catalog.length} books`);
   // Covers get dithered into pink-and-black posters.
-  await expect(page.locator('.shelf-featured .poster-art')).toHaveCount(4);
-  await page.locator('.shelf-featured').getByRole('link', { name: /Pride and Prejudice/ }).click();
+  await expect(page.locator('#shelf .poster-art').first()).toBeVisible();
+  await page.locator('#shelf').getByRole('link', { name: /Pride and Prejudice/ }).click();
   await expect(page).toHaveURL(/books\/pride-and-prejudice\/$/);
   await expect(page.locator('#book-title')).toHaveText('Pride and Prejudice');
 });
@@ -146,7 +145,8 @@ test('copy the link puts the page URL on the clipboard', async ({ page, context 
   await context.grantPermissions(['clipboard-read', 'clipboard-write']);
   await page.goto('about.html');
   await page.getByRole('button', { name: 'copy the link' }).click();
-  await expect(page.getByRole('button', { name: 'Copied' })).toBeVisible();
+  await expect(page.locator('.share [role=status]')).toHaveText('Copied');
+  await expect(page.locator('.share [data-copied] .copy-done')).toBeVisible();
   expect(await page.evaluate(() => navigator.clipboard.readText())).toBe('https://punc.joekarlsson.com/about.html');
 });
 
@@ -166,6 +166,63 @@ test('an uploaded file is read in the browser', async ({ page }) => {
   await expect(page.locator('#book-title')).toHaveText('my short story');
   await expect(page.locator('#stat-marks')).toHaveText('11');
   await expect(page.locator('#stat-words')).toHaveText('9');
+  // The focused file input is gone: focus moves to the book, and the status says it's ready.
+  await expect(page.locator('#book-title')).toBeFocused();
+  await expect(page.locator('#status')).toHaveText('my short story: 11 marks left.');
+});
+
+test('a copy that the browser refuses says so', async ({ page }) => {
+  await page.goto('about.html');
+  await page.evaluate(() => {
+    navigator.clipboard.writeText = () => Promise.reject(new Error('Write permission denied.'));
+  });
+  await page.getByRole('button', { name: 'copy the link' }).click();
+  await expect(page.locator('.share [role=status]')).toHaveText("Couldn't copy: Write permission denied.");
+  await expect(page.locator('.share [role=status]')).toBeVisible();
+});
+
+test('the figures rest on their finished still and play when asked', async ({ page }) => {
+  await page.goto('numbers.html');
+  const figure = page.locator('.anim-figure').first();
+  await figure.scrollIntoViewIfNeeded();
+  await expect(figure.locator('.figure-wide .anim-still')).toBeVisible();
+  await expect(figure.locator('.figure-wide .anim-live')).toBeHidden();
+  await figure.getByRole('button', { name: 'Play' }).click();
+  await expect(figure.locator('.figure-wide .anim-live')).toBeVisible();
+  await figure.getByRole('button', { name: 'Stop' }).click();
+  await expect(figure.locator('.figure-wide .anim-still')).toBeVisible();
+});
+
+test('the 404 page offers the closest real page', async ({ page }) => {
+  // The test server has no 404 handling; serve 404.html the way GitHub Pages does.
+  const notFound = readFileSync('site-dist/404.html', 'utf8');
+  await page.route('**/books/moby-dik/', route => route.fulfill({ status: 404, contentType: 'text/html', body: notFound }));
+  await page.goto('books/moby-dik/');
+  await expect(page.locator('#closest-page')).toHaveText('Did you mean Moby-Dick?');
+  await page.locator('#closest-page a').click();
+  await expect(page).toHaveURL(/books\/moby-dick\/$/);
+});
+
+test('at 2560 pixels wide every page stays in one centered column', async ({ page }) => {
+  await page.setViewportSize({ width: 2560, height: 1440 });
+  for (const path of ['./', 'about.html', 'numbers.html', 'read.html', 'books/frankenstein/', '404.html']) {
+    await page.goto(path);
+    const outside = await page.evaluate(() => {
+      const column = document.querySelector('main')!;
+      const style = getComputedStyle(column);
+      const left = column.getBoundingClientRect().left + parseFloat(style.paddingLeft);
+      const right = column.getBoundingClientRect().right - parseFloat(style.paddingRight);
+      // The score (.bleed) and the scribble round "without" (.ring) break out on purpose,
+      // and the taped-up posters lean a few pixels past the edge.
+      const lean = 12;
+      return [...column.querySelectorAll('*')]
+        .filter(el => !el.closest('.bleed, .ring') && el.checkVisibility())
+        .map(el => ({ el, box: el.getBoundingClientRect() }))
+        .filter(({ box }) => box.width > 0 && (box.left < left - lean || box.right > right + lean))
+        .map(({ el }) => `${el.tagName}.${el.className}`);
+    });
+    expect(outside, path).toEqual([]);
+  }
 });
 
 test('the spiral zooms, pans, resets and downloads', async ({ page }) => {
@@ -220,7 +277,7 @@ test('copy the marks puts only the punctuation on the clipboard', async ({ page,
   await context.grantPermissions(['clipboard-read', 'clipboard-write']);
   await openBook(page, 'alice');
   await page.getByRole('button', { name: 'Copy the marks' }).click();
-  await expect(page.getByRole('button', { name: 'Copied 8,076 marks' })).toBeVisible();
+  await expect(page.locator('#copy-marks + [role=status]')).toHaveText('Copied 8,076 marks');
   const copied = await page.evaluate(() => navigator.clipboard.readText());
   expect([...copied]).toHaveLength(8076);
   expect(copied).not.toMatch(/[A-Za-z0-9\s]/);

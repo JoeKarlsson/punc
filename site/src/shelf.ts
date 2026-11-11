@@ -158,6 +158,12 @@ async function setUpShelf(): Promise<void> {
     apply();
   };
   search.addEventListener('input', fromFirstPage);
+  byId('shelf-clear').addEventListener('click', () => {
+    search.value = '';
+    genre.value = '';
+    fromFirstPage();
+    search.focus();
+  });
   wideScreen.addEventListener('change', apply);
   genre.addEventListener('change', fromFirstPage);
   sort.addEventListener('change', fromFirstPage);

@@ -1,7 +1,8 @@
-import { analyzeBook, erasedPages, type BookAnalysis } from './analyze';
+import type { BookAnalysis } from './analyze';
+import type { AnalyzeJob } from './analyze-worker';
 import { createScoreScroller, createSpiralExplorer, drawScore, downloadCanvas, type SpiralExplorer } from './canvas';
 import { initPosters } from './posters';
-import { initShare } from './share';
+import { initShare, setUpCopyButton } from './share';
 import { fingerprintHTML, mapSVG, markShares, marksThroughBook, shelfPosition, throughBookHTML, type MapPoint } from './patterns';
 import { afterFirstPaint, yieldToBrowser } from './first-paint';
 import { setUpMapTooltips } from './map-tooltips';
@@ -67,6 +68,16 @@ window.addEventListener('unhandledrejection', e =>
   showStatus(`Something broke: ${e.reason instanceof Error ? e.reason.message : String(e.reason)}`)
 );
 
+// One job in its own worker; the ?v= cache-buster carries over from this script's URL.
+function inWorker<T>(job: AnalyzeJob): Promise<T> {
+  const worker = new Worker(new URL(`analyze-worker.js${new URL(import.meta.url).search}`, import.meta.url), { type: 'module' });
+  return new Promise<T>((resolve, reject) => {
+    worker.addEventListener('message', (e: MessageEvent<T>) => resolve(e.data));
+    worker.addEventListener('error', e => reject(new Error(`Couldn't read the book: ${e.message}`)));
+    worker.postMessage(job);
+  }).finally(() => worker.terminate());
+}
+
 function titleFromFilename(name: string): string {
   return name.replace(/\.[^.]+$/, '').replace(/[-_]+/g, ' ').trim() || 'Untitled';
 }
@@ -74,7 +85,7 @@ function titleFromFilename(name: string): string {
 // views
 
 async function showBook(rawText: string, title: string, byline: string, fileStem: string, shelfSlug?: string): Promise<void> {
-  const book: BookAnalysis = analyzeBook(rawText);
+  const book = await inWorker<BookAnalysis>({ kind: 'analyze', text: rawText });
   if (book.marks.length === 0) {
     showStatus('No punctuation in that file. Is it plain text?');
     return;
@@ -82,8 +93,14 @@ async function showBook(rawText: string, title: string, byline: string, fileStem
   document.title = `${title} · Punc`;
   byId('upload').hidden = true;
   byId('book').hidden = false;
-  showStatus('');
-  byId('book-title').textContent = title;
+  const heading = byId('book-title');
+  heading.textContent = title;
+  // An upload hid the focused file input: say the book is ready and move focus to it.
+  showStatus(shelfSlug ? '' : `${title}: ${book.marks.length.toLocaleString()} marks left.`);
+  if (!shelfSlug) {
+    heading.tabIndex = -1;
+    heading.focus();
+  }
   byId('book-byline').textContent = byline;
   byId('stat-words').textContent = book.wordCount.toLocaleString();
   byId('stat-marks').textContent = book.marks.length.toLocaleString();
@@ -112,7 +129,7 @@ async function showBook(rawText: string, title: string, byline: string, fileStem
     drawn.add(view);
     // Erasing the whole book into pages is slow, so it waits until someone opens Pages.
     if (view === 'pages') {
-      setUpPages(erasedPages(book.text));
+      setUpPages(await inWorker<string[]>({ kind: 'pages', text: book.text }));
       return;
     }
     // Canvas text uses whatever font is loaded at draw time.
@@ -159,17 +176,9 @@ async function showBook(rawText: string, title: string, byline: string, fileStem
   });
 
   // The whole book as one string of marks, in reading order.
-  const copyButton = byId<HTMLButtonElement>('copy-marks');
-  copyButton.addEventListener('click', async () => {
-    try {
-      await navigator.clipboard.writeText(book.marks.join(''));
-    } catch (error) {
-      showStatus(`Couldn't copy to the clipboard: ${error instanceof Error ? error.message : String(error)}`);
-      return;
-    }
-    copyButton.textContent = `Copied ${book.marks.length.toLocaleString()} marks`;
-    setTimeout(() => (copyButton.textContent = 'Copy the marks'), 2500);
-  });
+  const copyMarks = byId<HTMLButtonElement>('copy-marks');
+  copyMarks.querySelector('.copy-done')!.textContent = `Copied ${book.marks.length.toLocaleString()} marks`;
+  setUpCopyButton(copyMarks, () => book.marks.join(''));
   // The book is analyzed and every button works.
   byId('book').dataset['ready'] = '';
 }
@@ -232,25 +241,39 @@ function setUpPages(pages: string[]): void {
   const folioLeft = byId('folio-left');
   const folioRight = byId('folio-right');
   const range = byId<HTMLInputElement>('page-range');
-  const spreads = Math.ceil(pages.length / 2);
-  range.max = String(Math.max(spreads - 1, 0));
+  const spread = byId('view-pages').querySelector<HTMLElement>('.spread')!;
+  // A phone shows one page at a time (styles.css hides the right page), so it turns one.
+  const phone = matchMedia('(max-width: 720px)');
+  const perView = () => (phone.matches ? 1 : 2);
+  let first = 0;
 
-  const show = (spread: number) => {
-    const s = Math.min(Math.max(spread, 0), spreads - 1);
-    range.value = String(s);
-    left.textContent = pages[s * 2] ?? '';
-    right.textContent = pages[s * 2 + 1] ?? '';
-    folioLeft.textContent = `${s * 2 + 1} of ${pages.length}`;
-    folioRight.textContent = pages[s * 2 + 1] !== undefined ? `${s * 2 + 2}` : '';
+  const show = (start: number) => {
+    const step = perView();
+    const last = Math.max(pages.length - 1, 0);
+    first = Math.min(Math.max(start, 0), last);
+    first -= first % step;
+    const second = step === 2 ? pages[first + 1] : undefined;
+    range.max = String(Math.floor(last / step));
+    range.value = String(first / step);
+    range.setAttribute('aria-valuetext', second === undefined ? `Page ${first + 1} of ${pages.length}` : `Pages ${first + 1} and ${first + 2} of ${pages.length}`);
+    left.textContent = pages[first] ?? '';
+    right.textContent = second ?? '';
+    folioLeft.textContent = `${first + 1} of ${pages.length}`;
+    folioRight.textContent = second === undefined ? '' : `${first + 2}`;
   };
-  const current = () => Number(range.value);
-  range.addEventListener('input', () => show(current()));
-  byId('page-prev').addEventListener('click', () => show(current() - 1));
-  byId('page-next').addEventListener('click', () => show(current() + 1));
+  // After a turn, bring the top of the page back on screen, as a real page turn would.
+  const turn = (by: number) => {
+    show(first + by * perView());
+    if (spread.getBoundingClientRect().top < 0) spread.scrollIntoView({ block: 'start' });
+  };
+  range.addEventListener('input', () => show(Number(range.value) * perView()));
+  byId('page-prev').addEventListener('click', () => turn(-1));
+  byId('page-next').addEventListener('click', () => turn(1));
+  phone.addEventListener('change', () => show(first));
   document.addEventListener('keydown', e => {
     if (byId('view-pages').hidden || e.target instanceof HTMLInputElement) return;
-    if (e.key === 'ArrowLeft') show(current() - 1);
-    if (e.key === 'ArrowRight') show(current() + 1);
+    if (e.key === 'ArrowLeft') turn(-1);
+    if (e.key === 'ArrowRight') turn(1);
   });
   show(0);
 }

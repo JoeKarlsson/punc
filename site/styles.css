@@ -1247,7 +1247,7 @@ main {
 
 @media (prefers-reduced-motion: reduce) {
   .chart-dot,
-  .chart-line-genre.on,
+  [data-genre-ready] .chart-line-genre.on,
   .map-table::details-content {
     transition-duration: 0s;
   }
@@ -1813,12 +1813,15 @@ code {
 
 .chart-line-genre.on {
   display: inline;
+}
+
+[data-genre-ready] .chart-line-genre.on {
   clip-path: inset(0);
   transition: clip-path 300ms ease-out;
 }
 
 @starting-style {
-  .chart-line-genre.on {
+  [data-genre-ready] .chart-line-genre.on {
     clip-path: inset(0 100% 0 0);
   }
 }

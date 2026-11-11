@@ -116,6 +116,8 @@ async function drawBooks(shelf: BookNumbers[]): Promise<void> {
     tooltips(group.closest<HTMLElement>('figure.chart')!);
   }
   showGenre();
+  // A genre the browser restored on reload is drawn as is; only a pick after this animates.
+  time.dataset['genreReady'] = '';
 
   await yieldToBrowser();
   const map = need<HTMLElement>('#numbers-map');

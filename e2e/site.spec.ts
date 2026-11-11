@@ -130,7 +130,7 @@ test('a book page has its own share metadata and share links', async ({ page }) 
   await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', 'https://punc.joekarlsson.com/books/moby-dick/');
   await expect(page.locator('.book-poster .poster-art')).toHaveCount(1);
   await expect(page.locator('#book-byline')).toHaveText('Herman Melville, 1851');
-  const poster = page.getByRole('link', { name: 'Moby-Dick on Project Gutenberg (opens in a new tab)' });
+  const poster = page.getByRole('link', { name: 'On Gutenberg: Moby-Dick (opens in a new tab)' });
   await expect(poster).toHaveAttribute('href', 'https://www.gutenberg.org/ebooks/2701');
   await expect(poster).toHaveAttribute('target', '_blank');
 

@@ -408,8 +408,11 @@ main {
   margin: 0 0 var(--space-6);
 }
 
+/* Until shelf.ts wires it up the form keeps its space, invisible and out of reach,
+   so revealing it doesn't push the shelf down (that shift failed Lighthouse's CLS). */
 .shelf-controls[hidden] {
-  display: none;
+  display: flex;
+  visibility: hidden;
 }
 
 .shelf-controls label {

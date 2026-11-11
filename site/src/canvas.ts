@@ -99,7 +99,7 @@ export function createSpiralExplorer(
   // The whole book is the slowest picture to paint (every mark is on screen), so keep a copy
   // to put back on Reset and when the view is shown again.
   const wholeBookCopy = document.createElement('canvas');
-  const isWholeBook = (v: View) => v.zoom === wholeBook.zoom && v.centerX === wholeBook.centerX && v.centerY === wholeBook.centerY;
+  const sameView = (a: View, b: View) => a.zoom === b.zoom && a.centerX === b.centerX && a.centerY === b.centerY;
 
   const screen = (): Screen => ({ width: canvas.clientWidth, height: canvas.clientHeight });
   const dpr = () => Math.min(window.devicePixelRatio || 1, 2);
@@ -132,7 +132,7 @@ export function createSpiralExplorer(
       canvas.width = width;
       canvas.height = height;
     }
-    const whole = isWholeBook(view);
+    const whole = sameView(view, wholeBook);
     if (whole && wholeBookCopy.width === width && wholeBookCopy.height === height) {
       ctx.setTransform(1, 0, 0, 1, 0, 0);
       ctx.drawImage(wholeBookCopy, 0, 0);
@@ -153,7 +153,7 @@ export function createSpiralExplorer(
 
   // Repaint only when the view really moved: a drag at the whole-book zoom is clamped in place.
   const moveTo = (next: View) => {
-    if (next.zoom === view.zoom && next.centerX === view.centerX && next.centerY === view.centerY) return;
+    if (sameView(next, view)) return;
     view = next;
     schedule();
   };

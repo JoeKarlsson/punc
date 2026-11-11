@@ -11,7 +11,7 @@
     };
   var s = document.createElement('script');
   s.defer = true;
-  s.dataset.domain = 'joekarlsson.github.io/punc';
+  s.dataset.domain = 'punc.joekarlsson.com';
   s.src = 'https://plausible.joekarlsson.io/js/script.tagged-events.outbound-links.file-downloads.js';
   document.head.appendChild(s);
 

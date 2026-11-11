@@ -301,7 +301,7 @@ const authorSection = book => {
 const missingShareImages = [];
 for (const book of books) {
   const poster = book.cover
-    ? `    <a class="book-poster poster" href="https://www.gutenberg.org/ebooks/${book.id}" target="_blank" rel="noopener noreferrer" aria-label="${escapeHTML(book.title)} on Project Gutenberg (opens in a new tab)"><img data-poster src="covers/${book.slug}.jpg" alt=""><span class="poster-source" aria-hidden="true">On Gutenberg</span></a>`
+    ? `    <a class="book-poster poster" href="https://www.gutenberg.org/ebooks/${book.id}" target="_blank" rel="noopener noreferrer" aria-label="On Gutenberg: ${escapeHTML(book.title)} (opens in a new tab)"><img data-poster src="covers/${book.slug}.jpg" alt=""><span class="poster-source" aria-hidden="true">On Gutenberg</span></a>`
     : '';
   const shareImage = `share/${book.slug}.png`;
   if (!existsSync(join(SITE, shareImage))) missingShareImages.push(book.slug);

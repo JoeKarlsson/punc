@@ -29,7 +29,7 @@ describe('punctuation markup', () => {
   test('a fingerprint has ten fixed slots and an empty bar for a missing mark', () => {
     const html = fingerprintHTML(markShares(marks(',,.')));
     expect(html.match(/class="fp-slot"/g)).toHaveLength(10);
-    expect(html).toContain('class="fp-slot"><span class="fp-bar" style="height:0.0%">');
+    expect(html).toContain('<span class="fp-bar" style="height:0.0%"></span><span class="fp-mark">;</span>');
     expect(html).toContain('aria-label="Punctuation fingerprint: comma 67%, period 33%');
   });
 

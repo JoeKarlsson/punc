@@ -14,7 +14,7 @@ function renderPoster(img: HTMLImageElement): void {
   canvas.className = 'poster-art';
   canvas.setAttribute('aria-hidden', 'true');
   const ctx = canvas.getContext('2d', { willReadFrequently: true });
-  if (!ctx) throw new Error('This browser could not open a 2D canvas');
+  if (!ctx) throw new Error("This browser couldn't open a 2D canvas");
   // object-fit: cover, by hand
   const scale = Math.max(w / img.naturalWidth, h / img.naturalHeight);
   const dw = img.naturalWidth * scale;

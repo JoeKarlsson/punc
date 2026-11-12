@@ -5,7 +5,12 @@
     <span class="dropzone-big">Open a .txt file</span>
     <span class="dropzone-small">Tap or click to pick one, or drop it here. It's read in your browser and never leaves your device.</span>
   </label>
-  <p class="hint">Project Gutenberg has about 75,000 free books as plain text. Download the "Plain Text UTF-8" version of any of them and open it here.</p>
+  <form id="paste-form" class="paste">
+    <label for="paste-text" class="paste-label">Or paste some text</label>
+    <textarea id="paste-text" rows="8" placeholder="A chapter, a poem, an email" spellcheck="false"></textarea>
+    <button type="submit" class="button">Take the words out</button>
+  </form>
+  <p class="hint"><a href="https://www.gutenberg.org/">Project Gutenberg</a> has about 75,000 free books as plain text. Download the "Plain Text UTF-8" version of any of them and open it here.</p>
 </section>
 
 <p id="status" class="status" role="status" aria-live="polite"></p>
@@ -16,7 +21,6 @@
     <h1 id="book-title" class="book-title"></h1>
     <p id="book-byline" class="book-byline"></p>
     <dl class="stats">
-      <div><dt>words removed</dt><dd id="stat-words"></dd></div>
       <div><dt>marks left</dt><dd id="stat-marks"></dd></div>
       <div><dt>words a sentence</dt><dd id="stat-wps"></dd></div>
       <div><dt>most used mark</dt><dd id="stat-top" class="serif-mark"></dd></div>
@@ -78,7 +82,7 @@
     <p class="view-note">How often each mark turns up as the book goes on, from the first page on the left to the last on the right. Each bar is a tenth of the book, and each row is scaled to its own peak.</p>
     <div id="through-book"></div>
     <h2 class="view-heading">On the map</h2>
-    <p class="view-note">Where this book sits among the shelf, by its punctuation alone: pauses before each stop across, the share of question and exclamation marks up. <a href="numbers.html#map">The full map</a></p>
+    <p class="view-note">Where this book lands among the shelf's books, by punctuation alone. Across is pauses before each stop, up is the share of question and exclamation marks. <a href="numbers.html#map">The full map</a></p>
     <figure class="shelf-map shelf-map-book">
       <div id="book-map"></div>
       <p id="book-map-tip" class="map-tip" role="status" hidden></p>

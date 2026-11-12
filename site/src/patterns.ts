@@ -68,14 +68,14 @@ export function shelfPosition(marks: string[]): { pausesPerStop: number; loudnes
 
 // Ten bars in fixed slots, the mark printed under each. Every book shares one
 // scale (0 to FINGERPRINT_MAX), square-root so a 1% "!" still shows beside a
-// 30% comma; the exact share is in each slot's tooltip and the label.
+// 30% comma; the exact shares are in the label.
 const FINGERPRINT_MAX = 0.5;
 export function fingerprintHTML(shares: number[], className = 'fingerprint'): string {
   const label = TRACKED_MARKS.map(({ name }, i) => `${name} ${percent(shares[i]!)}`).join(', ');
-  const slots = TRACKED_MARKS.map(({ mark, name }, i) => {
+  const slots = TRACKED_MARKS.map(({ mark }, i) => {
     const share = shares[i]!;
     const height = share > 0 ? Math.max(4, Math.sqrt(Math.min(share / FINGERPRINT_MAX, 1)) * 100) : 0;
-    return `<span class="fp-slot" title="${escapeHTML(`${name}: ${percent(share)}`)}"><span class="fp-bar" style="height:${height.toFixed(1)}%"></span><span class="fp-mark">${escapeHTML(mark)}</span></span>`;
+    return `<span class="fp-slot"><span class="fp-bar" style="height:${height.toFixed(1)}%"></span><span class="fp-mark">${escapeHTML(mark)}</span></span>`;
   }).join('');
   return `<p class="${className}" role="img" aria-label="${escapeHTML(`Punctuation fingerprint: ${label}`)}">${slots}</p>`;
 }

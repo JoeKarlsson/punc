@@ -4,6 +4,7 @@
 // hundreds costs no more than one page. The choices live in the URL so they
 // can be shared.
 import { cardHTML, type ShelfBook } from './card';
+import { closestMatch } from './closest-page';
 import { afterFirstPaint } from './first-paint';
 import { initPosters } from './posters';
 import { initShare } from './share';
@@ -54,7 +55,7 @@ async function setUpShelf(): Promise<void> {
 
   // The first page of cards is already in the HTML, so the whole shelf can wait.
   await afterFirstPaint();
-  const res = await fetch('shelf.json');
+  const res = await fetch('shelf.json', { priority: 'low' });
   if (!res.ok) throw new Error(`Couldn't load the shelf (${res.status})`);
   const books = (await res.json()) as ShelfBook[];
   // Reuse the cards already in the page.
@@ -64,6 +65,16 @@ async function setUpShelf(): Promise<void> {
     text: normalizeForSearch(`${book.title} ${book.author}`),
     el: built.get(book.slug),
   }));
+  // A search term that matches nothing gets the nearest word on the shelf
+  // instead, if that finds something: "frankenstien" offers "frankenstein".
+  const vocabulary = new Set(cards.flatMap(c => c.text.split(' ').filter(word => word.length >= 3)));
+  const suggestion = (terms: string[]): string | null => {
+    const fixed = terms.map(t => (cards.some(c => c.text.includes(t)) ? t : t.length >= 4 ? closestMatch(t, vocabulary) : null));
+    if (fixed.some(t => t === null) || fixed.every((t, i) => t === terms[i])) return null;
+    const found = cards.some(c => fixed.every(t => c.text.includes(t!)) && (!genre.value || c.book.genres.includes(genre.value)));
+    return found ? fixed.join(' ') : null;
+  };
+  const suggest = byId('shelf-suggest');
   const template = document.createElement('template');
   const draw = (card: Card, i: number): HTMLElement => {
     if (!card.el) {
@@ -120,9 +131,24 @@ async function setUpShelf(): Promise<void> {
     const onPage = shown.slice(start, start + pageSize).map((c, i) => draw(c, start + i));
     // The first page as built needs no redraw.
     if (onPage.length !== list.children.length || onPage.some((el, i) => list.children[i] !== el)) list.replaceChildren(...onPage);
-    const matching = shown.length === cards.length ? `${cards.length} books` : `${shown.length} matching books (${cards.length} on the shelf)`;
-    count.textContent = onPage.length ? `Showing ${start + 1}–${start + onPage.length} of ${matching}` : `Showing 0 of ${cards.length} books`;
+    const fmt = (n: number) => n.toLocaleString('en-US');
+    const matching = shown.length === cards.length ? `${fmt(cards.length)} books` : `${fmt(shown.length)} matching books (${fmt(cards.length)} on the shelf)`;
+    count.textContent = onPage.length ? `Showing ${start + 1}–${start + onPage.length} of ${matching}` : `Showing 0 of ${fmt(cards.length)} books`;
     empty.hidden = shown.length > 0;
+    const better = shown.length === 0 ? suggestion(terms) : null;
+    suggest.hidden = better === null;
+    if (better !== null) {
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'link-button';
+      button.textContent = better;
+      button.addEventListener('click', () => {
+        search.value = better;
+        fromFirstPage();
+        search.focus();
+      });
+      suggest.replaceChildren('Did you mean ', button, '?');
+    }
 
     // Previous and Next always hold their place at the ends, so the numbers
     // between them don't shift; a wide screen has room for every number.
@@ -176,7 +202,7 @@ async function setUpShelf(): Promise<void> {
 initPosters();
 initShare();
 setUpShelf().catch((error: unknown) => {
-  byId('shelf-empty').textContent = 'The rest of the shelf did not load. Reload the page to try again.';
+  byId('shelf-empty').textContent = "The rest of the shelf didn't load. Reload the page to try again.";
   byId('shelf-empty').hidden = false;
   throw error;
 });

@@ -610,6 +610,38 @@ main {
   font-size: 1.1rem;
 }
 
+.paste {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-2);
+  max-width: 900px;
+  margin-top: var(--space-6);
+}
+
+.paste-label {
+  font-family: var(--poster);
+  font-size: clamp(1.5rem, 4vw, 2.2rem);
+  text-transform: uppercase;
+}
+
+.paste textarea {
+  box-sizing: border-box;
+  width: 100%;
+  padding: var(--space-2);
+  background: var(--ink);
+  color: var(--paper);
+  border: 3px solid var(--pink);
+  border-radius: 0;
+  font-family: var(--book);
+  font-size: 1.05rem;
+  resize: vertical;
+}
+
+.paste textarea::placeholder {
+  color: var(--muted);
+}
+
 .hint {
   max-width: 34em;
   margin-top: var(--space-6);
@@ -698,22 +730,16 @@ main {
 .stats {
   grid-area: stats;
   display: grid;
-  grid-template-columns: repeat(4, max-content);
-  gap: 1.25rem clamp(2rem, 5vw, 4.5rem);
+  grid-template-columns: repeat(3, minmax(0, max-content));
+  gap: 1.25rem clamp(1.25rem, 5vw, 4.5rem);
   margin: var(--space-6) 0 0;
-}
-
-/* Two by two once four don't fit, so no number sits alone on a row */
-@media (max-width: 1100px) {
-  .stats {
-    grid-template-columns: repeat(2, minmax(0, max-content));
-    column-gap: clamp(2rem, 8vw, 5rem);
-  }
 }
 
 .stats div {
   display: flex;
   flex-direction: column-reverse;
+  /* Numbers line up along the top even when a label wraps to two lines */
+  justify-content: flex-end;
 }
 
 .stats dt {
@@ -1336,6 +1362,11 @@ main {
   margin-bottom: var(--space-8);
 }
 
+/* The same space above the first heading as above every other one */
+.about .page-title + section {
+  margin-top: var(--space-8);
+}
+
 .about p {
   margin: 0 0 var(--space-3);
 }
@@ -1455,7 +1486,7 @@ code {
   }
 
   .stats {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     column-gap: var(--space-3);
   }
 
@@ -1521,11 +1552,45 @@ code {
 
   .shelf-controls label {
     flex: 1 1 100%;
+    min-width: 0;
+  }
+
+  /* Phones: the question, the line under it, the search and the top of the
+     first covers all fit on the first screen */
+  .hero {
+    padding-bottom: var(--space-4);
+  }
+
+  .ransom {
+    font-size: 1.95rem;
+  }
+
+  .lede {
+    margin-top: var(--space-3);
+  }
+
+  .shelf-section .section-title {
+    margin-bottom: var(--space-2);
+  }
+
+  .shelf-section .shelf-controls {
+    gap: var(--space-2) var(--space-3);
+    margin-bottom: var(--space-4);
+  }
+
+  .shelf-section .shelf-controls label:has(select) {
+    flex-basis: 40%;
   }
 
   .site-header nav a {
     display: inline-block;
     padding: 0.2rem 0;
+  }
+
+  /* Short labels like About still get a 44px wide target */
+  .site-header nav a,
+  .numbers-contents a {
+    min-width: 44px;
   }
 
   /* Thumb-sized share links */
@@ -2054,17 +2119,17 @@ code {
 }
 
 .author-detail-books li {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
+  display: grid;
+  grid-template-columns: 12px minmax(0, 1fr);
   gap: 0 var(--space-1);
   padding: 0.2rem 0;
 }
 
+/* The square stays beside the first line when a long title wraps */
 .author-detail-books .named {
   width: 12px;
   height: 12px;
-  align-self: center;
+  margin-top: 0.45em;
 }
 
 #author-career {
@@ -2383,4 +2448,18 @@ code {
   .figure-wide,
   .figure-play { display: none; }
   .figure-phone { display: block; }
+}
+
+/* Windows High Contrast drops background colors, and these show their data
+   or their state with nothing else */
+@media (forced-colors: active) {
+  .fp-bar,
+  .count-bar {
+    background: CanvasText;
+  }
+
+  .shelf-page[aria-current='page'],
+  .author-pick[aria-pressed='true'] {
+    outline: 3px solid Highlight;
+  }
 }

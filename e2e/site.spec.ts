@@ -29,7 +29,7 @@ test('the front page opens on the shelf, most read first, a page at a time', asy
   await page.goto('./');
   // Only the page in view is drawn.
   await expect(page.locator('#shelf .cover')).toHaveCount(72);
-  await expect(page.locator('#shelf-count')).toHaveText(`Showing 1–72 of ${catalog.length} books`);
+  await expect(page.locator('#shelf-count')).toHaveText(`Showing 1–72 of ${catalog.length.toLocaleString("en-US")} books`);
   // Covers get dithered into pink-and-black posters.
   await expect(page.locator('#shelf .poster-art').first()).toBeVisible();
   await page.locator('#shelf').getByRole('link', { name: /Pride and Prejudice/ }).click();
@@ -70,14 +70,14 @@ test('the shelf turns pages, keeps the page in the URL, and a new search starts 
   const pages = page.getByRole('navigation', { name: 'Shelf pages' });
   await pages.getByRole('button', { name: '2', exact: true }).click();
   await expect(page).toHaveURL(/\?page=2/);
-  await expect(page.locator('#shelf-count')).toHaveText(`Showing 73–144 of ${catalog.length} books`);
+  await expect(page.locator('#shelf-count')).toHaveText(`Showing 73–144 of ${catalog.length.toLocaleString("en-US")} books`);
   await expect(visible.first()).toHaveAttribute('data-slug', byRank[72]!.slug);
   await expect(pages.getByRole('button', { name: '2', exact: true })).toHaveAttribute('aria-current', 'page');
   await expect(page.locator('#shelf-heading')).toBeFocused();
   await pages.getByRole('button', { name: 'Next' }).click();
   await expect(page).toHaveURL(/\?page=3/);
   await page.reload();
-  await expect(page.locator('#shelf-count')).toHaveText(`Showing 145–216 of ${catalog.length} books`);
+  await expect(page.locator('#shelf-count')).toHaveText(`Showing 145–216 of ${catalog.length.toLocaleString("en-US")} books`);
   // A computer screen offers every page, from Previous to Next.
   const pageCount = Math.ceil(catalog.length / 72);
   await expect(pages.getByRole('button')).toHaveCount(pageCount + 2);
@@ -103,7 +103,6 @@ test('old read.html?b= links go to the book page', async ({ page }) => {
 test('a shelf book opens on the score with its stats', async ({ page }) => {
   await openBook(page, 'alice');
   await expect(page.locator('#book-title')).toHaveText("Alice's Adventures in Wonderland");
-  await expect(page.locator('#stat-words')).toHaveText('26,777');
   await expect(page.locator('#stat-marks')).toHaveText('8,076');
   await expect(page.locator('[data-view]')).toHaveText(['Score', 'Spiral', 'Pages', 'Counts']);
   await expect(page.locator('#view-score')).toBeVisible();
@@ -134,7 +133,7 @@ test('a book page has its own share metadata and share links', async ({ page }) 
   expect(await meta('og:url')).toBe('https://punc.joekarlsson.com/books/moby-dick/');
   expect(await meta('og:image')).toBe('https://punc.joekarlsson.com/share/moby-dick.png');
   expect(await meta('twitter:card')).toBe('summary_large_image');
-  expect(await meta('og:description')).toMatch(/^Herman Melville's Moby-Dick \(1851\) with all [\d,]+ words removed/);
+  expect(await meta('og:description')).toMatch(/^Herman Melville's Moby-Dick \(1851\) with every word removed\. [\d,]+ punctuation marks are left/);
   await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', 'https://punc.joekarlsson.com/books/moby-dick/');
   await expect(page.locator('.book-poster .poster-art')).toHaveCount(1);
   await expect(page.locator('#book-byline')).toHaveText('Herman Melville, 1851');
@@ -173,10 +172,37 @@ test('an uploaded file is read in the browser', async ({ page }) => {
   });
   await expect(page.locator('#book-title')).toHaveText('my short story');
   await expect(page.locator('#stat-marks')).toHaveText('11');
-  await expect(page.locator('#stat-words')).toHaveText('9');
-  // The focused file input is gone: focus moves to the book, and the status says it's ready.
+  // The focused file input is gone: focus moves to the book, and the status says it's
+  // ready to screen readers only, since the stats show the same count.
   await expect(page.locator('#book-title')).toBeFocused();
   await expect(page.locator('#status')).toHaveText('my short story: 11 marks left.');
+  await expect(page.locator('#status')).toHaveClass(/visually-hidden/);
+});
+
+test('pasted text is read in the browser', async ({ page }) => {
+  await page.goto('read.html');
+  await page.getByRole('button', { name: 'Take the words out' }).click();
+  await expect(page.locator('#status')).toHaveText('Paste some text first.');
+  await expect(page.locator('#status')).not.toHaveClass(/visually-hidden/);
+  await page.getByLabel('Or paste some text').fill('"Wait," she said. "Is it you?" It was! (Mostly.)');
+  await page.getByRole('button', { name: 'Take the words out' }).click();
+  await expect(page.locator('#book-title')).toHaveText('Your text');
+  await expect(page.locator('#stat-marks')).toHaveText('11');
+});
+
+test('a search typo offers the title it meant', async ({ page }) => {
+  await page.goto('./');
+  await page.getByLabel('Search').fill('frankenstien');
+  await expect(page.locator('#shelf-empty')).toBeVisible();
+  await page.locator('#shelf-suggest').getByRole('button', { name: 'frankenstein' }).click();
+  await expect(page.getByLabel('Search')).toHaveValue('frankenstein');
+  await expect(page.locator('#shelf .cover:not([hidden])')).toHaveCount(shelfMatches('frankenstein'));
+});
+
+test('security.txt has at least two months before it expires', async ({ request }) => {
+  const text = await (await request.get('.well-known/security.txt')).text();
+  const expires = Date.parse(/^Expires: (.+)$/m.exec(text)![1]!);
+  expect(expires - Date.now(), 'renew Expires in site/static/.well-known/security.txt').toBeGreaterThan(60 * 24 * 3600 * 1000);
 });
 
 test('a copy that the browser refuses says so', async ({ page }) => {
@@ -396,7 +422,13 @@ test('the numbers page picks an author from the list or a search, and points to 
 });
 
 test('a book page marks the book on the shelf map', async ({ page }) => {
+  const shelfFetches: string[] = [];
+  page.on('request', r => {
+    if (r.url().endsWith('/books.json')) shelfFetches.push(r.url());
+  });
   await openBook(page, 'moby-dick');
+  // The map's data waits until Counts is opened.
+  expect(shelfFetches).toEqual([]);
   await page.getByRole('button', { name: 'Counts', exact: true }).click();
   const map = page.locator('#book-map');
   await expect(map.locator('a[data-tip]')).toHaveCount(catalog.length - 1);
@@ -476,6 +508,13 @@ test('every page type passes axe (WCAG 2.2 AA)', async ({ page }) => {
     await page.click(`[data-view=${view}]`);
     await scan(`book, ${view}`);
   }
+  // On a phone the map and the full table scroll sideways in their own frames.
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('numbers.html');
+  await page.waitForLoadState('networkidle');
+  await page.getByText("Every book's numbers as a table").click();
+  await expect(page.locator('.map-table tbody tr')).toHaveCount(catalog.length);
+  await scan('numbers.html at phone width');
 });
 
 test('the main pages share one header: same nav, same title size and the same space above it', async ({ page }) => {

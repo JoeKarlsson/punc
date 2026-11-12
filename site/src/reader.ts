@@ -61,6 +61,7 @@ function byId<T extends HTMLElement>(id: string): T {
 
 const status = byId<HTMLParagraphElement>('status');
 const showStatus = (message: string) => {
+  status.classList.remove('visually-hidden');
   status.textContent = message;
 };
 window.addEventListener('error', e => showStatus(`Something broke: ${e.message}`));
@@ -97,12 +98,13 @@ async function showBook(rawText: string, title: string, byline: string, fileStem
   heading.textContent = title;
   // An upload hid the focused file input: say the book is ready and move focus to it.
   showStatus(shelfSlug ? '' : `${title}: ${book.marks.length.toLocaleString()} marks left.`);
+  // The stats right below say the same, so sighted readers don't need it twice.
+  status.classList.add('visually-hidden');
   if (!shelfSlug) {
     heading.tabIndex = -1;
     heading.focus();
   }
   byId('book-byline').textContent = byline;
-  byId('stat-words').textContent = book.wordCount.toLocaleString();
   byId('stat-marks').textContent = book.marks.length.toLocaleString();
   byId('stat-wps').textContent = book.wordsPerSentence ? book.wordsPerSentence.toFixed(1) : 'n/a';
   byId('stat-top').textContent = book.counts[0]?.[0] ?? '';
@@ -117,16 +119,20 @@ async function showBook(rawText: string, title: string, byline: string, fileStem
   if (twin) fingerprint.append(twin);
   byId('through-book').innerHTML = throughBookHTML(marksThroughBook(book.marks));
   describeCanvases(book);
-  // The stats are up; let them paint before the map and the score, so the whole
-  // book isn't one long task on a slow phone.
+  // The stats are up; let them paint before the score, so the whole book isn't
+  // one long task on a slow phone.
   await yieldToBrowser();
-  void drawOnMap(book, title, shelfSlug);
 
   const drawn = new Set<string>();
   let spiral: SpiralExplorer | undefined;
   const draw = async (view: string) => {
-    if (drawn.has(view) || !['spiral', 'score', 'pages'].includes(view)) return;
+    if (drawn.has(view) || !['spiral', 'score', 'pages', 'counts'].includes(view)) return;
     drawn.add(view);
+    // The map needs the whole shelf's numbers, so it waits until someone opens Counts.
+    if (view === 'counts') {
+      await drawOnMap(book, title, shelfSlug);
+      return;
+    }
     // Erasing the whole book into pages is slow, so it waits until someone opens Pages.
     if (view === 'pages') {
       setUpPages(await inWorker<string[]>({ kind: 'pages', text: book.text }));
@@ -326,6 +332,15 @@ async function loadFile(file: File): Promise<void> {
   requestAnimationFrame(() => void showBook(text, titleFromFilename(file.name), 'Your file', stem));
 }
 
+function loadPasted(text: string): void {
+  if (!text.trim()) {
+    showStatus('Paste some text first.');
+    return;
+  }
+  showStatus('Taking the words out…');
+  requestAnimationFrame(() => void showBook(text, 'Your text', 'Pasted in', 'pasted-text'));
+}
+
 function setUpUpload(): void {
   byId('upload').hidden = false;
   const input = byId<HTMLInputElement>('file-input');
@@ -344,6 +359,10 @@ function setUpUpload(): void {
     zone.classList.remove('dragging');
     const file = e.dataTransfer?.files[0];
     if (file) void loadFile(file);
+  });
+  byId('paste-form').addEventListener('submit', e => {
+    e.preventDefault();
+    loadPasted(byId<HTMLTextAreaElement>('paste-text').value);
   });
 }
 

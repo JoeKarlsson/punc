@@ -26,7 +26,7 @@ function prepare(canvas: HTMLCanvasElement, w: number, h: number): CanvasRenderi
   canvas.height = Math.floor(h * dpr);
   canvas.style.aspectRatio = `${w} / ${h}`;
   const ctx = canvas.getContext('2d');
-  if (!ctx) throw new Error('This browser could not open a 2D canvas');
+  if (!ctx) throw new Error("This browser couldn't open a 2D canvas");
   ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
   ctx.fillStyle = colors().ink;
   ctx.fillRect(0, 0, w, h);
@@ -91,7 +91,7 @@ export function createSpiralExplorer(
 ): SpiralExplorer {
   const layout = spiralLayout(marks.length, SPIRAL_SIZE, SPIRAL_SIZE);
   const ctx = canvas.getContext('2d');
-  if (!ctx) throw new Error('This browser could not open a 2D canvas');
+  if (!ctx) throw new Error("This browser couldn't open a 2D canvas");
   const bounds: ViewBounds = { size: SPIRAL_SIZE, minZoom: MIN_ZOOM, maxZoom: MAX_ZOOM };
   const wholeBook: View = { zoom: MIN_ZOOM, centerX: SPIRAL_SIZE / 2, centerY: SPIRAL_SIZE / 2 };
   let view = wholeBook;
@@ -238,7 +238,7 @@ export function createSpiralExplorer(
       const size = SPIRAL_SIZE * 2;
       out.width = out.height = size;
       const outCtx = out.getContext('2d');
-      if (!outCtx) throw new Error('This browser could not open a 2D canvas');
+      if (!outCtx) throw new Error("This browser couldn't open a 2D canvas");
       paintSpiral(outCtx, marks, layout, size / SPIRAL_SIZE, 0, 0, size, size);
       return out;
     },
@@ -302,7 +302,7 @@ export function createScoreScroller(holder: HTMLElement, marks: string[]): void 
   const thumb = holder.querySelector<HTMLElement>('.score-thumb');
   if (!frame || !canvas || !rail || !thumb) throw new Error('The score is missing its window, canvas or rail');
   const context = canvas.getContext('2d');
-  if (!context) throw new Error('This browser could not open a 2D canvas');
+  if (!context) throw new Error("This browser couldn't open a 2D canvas");
   const ctx = context;
   const { ink, paper, pink } = colors();
   let width = 0;

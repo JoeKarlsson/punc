@@ -36,7 +36,7 @@ await rm(analyzerPath);
 // GitHub Pages can't send headers, so the policy rides in a meta tag, first in
 // <head> so it covers everything after it. A meta CSP can't set
 // frame-ancestors, so it gives no clickjacking protection. Style attributes
-// (card tilts, chart positions) need 'unsafe-inline' for styles; scripts get
+// (card tilts, chart positions) need 'unsafe-inline' in style-src-attr; scripts get
 // none. No upgrade-insecure-requests: Pages is https-only and the site has no
 // http:// assets (a test checks), and WebKit would apply it to localhost.
 const PLAUSIBLE = 'https://plausible.joekarlsson.io';
@@ -44,7 +44,8 @@ const CSP = [
   "default-src 'self'",
   `script-src 'self' ${PLAUSIBLE}`,
   `connect-src 'self' ${PLAUSIBLE}`,
-  "style-src 'self' 'unsafe-inline'",
+  "style-src 'self'",
+  "style-src-attr 'unsafe-inline'",
   "img-src 'self' data: blob:",
   "font-src 'self'",
   "object-src 'none'",
@@ -257,7 +258,7 @@ await writePage({
   nav: 'shelf',
   title: 'Punc: what books look like without words',
   socialTitle: 'Punc: what does a book look like without words?',
-  description: `${books.length} famous books with every word taken out and only the punctuation left. Browse the shelf or open your own .txt file.`,
+  description: `${fmt(books.length)} famous books with every word taken out and only the punctuation left. Browse the shelf or bring your own text.`,
   body: indexBody,
   script: 'shelf.js',
   structuredData: { ...WEBSITE, description: 'Famous books with every word taken out and only the punctuation left.', author: AUTHOR },
@@ -268,7 +269,7 @@ await writePage({
   path: 'read.html',
   nav: 'read',
   title: 'Read your own · Punc',
-  description: 'Open any plain text file and see it as punctuation only. It never leaves your browser.',
+  description: 'Open a plain text file or paste some text and see it as punctuation only. It never leaves your browser.',
   // The upload box shows without waiting for the script, h1 and all.
   body: readBody.replace('<!--POSTER-->', '').replace('<!--AUTHOR-->', '').replace('<section id="upload" class="upload" hidden>', '<section id="upload" class="upload">'),
   script: 'reader.js',
@@ -307,8 +308,8 @@ for (const book of books) {
   if (!existsSync(join(SITE, shareImage))) missingShareImages.push(book.slug);
   // Search results cut descriptions at about 160 characters; long titles lose
   // the last clause, then the author, then the end of the title.
-  const removed = `${book.author}'s ${book.title}${book.published ? ` (${book.published})` : ''} with all ${fmt(book.words)} words removed. ${fmt(book.marks)} punctuation marks are left`;
-  const titleOnly = ` with all ${fmt(book.words)} words removed.`;
+  const removed = `${book.author}'s ${book.title}${book.published ? ` (${book.published})` : ''} with every word removed. ${fmt(book.marks)} punctuation marks are left`;
+  const titleOnly = ' with every word removed.';
   const description = [`${removed}, about ${book.wps.toFixed(1)} words to a sentence.`, `${removed}.`, `${book.title}${titleOnly}`].find(d => d.length <= 160)
     ?? `${book.title.slice(0, 159 - titleOnly.length).replace(/\s+\S*$/, '')}…${titleOnly}`;
   await writePage({
@@ -342,7 +343,6 @@ for (const book of books) {
       .replace('<article id="book" class="book" hidden>', '<article id="book" class="book">')
       .replace('<h1 id="book-title" class="book-title"></h1>', `<h1 id="book-title" class="book-title">${escapeHTML(book.title)}</h1>`)
       .replace('<p id="book-byline" class="book-byline"></p>', `<p id="book-byline" class="book-byline">${escapeHTML(book.byline)}</p>`)
-      .replace('<dd id="stat-words"></dd>', `<dd id="stat-words">${fmt(book.words)}</dd>`)
       .replace('<dd id="stat-marks"></dd>', `<dd id="stat-marks">${fmt(book.marks)}</dd>`)
       .replace('<dd id="stat-wps"></dd>', `<dd id="stat-wps">${book.wps ? book.wps.toFixed(1) : 'n/a'}</dd>`)
       .replace('<dd id="stat-top" class="serif-mark"></dd>', `<dd id="stat-top" class="serif-mark">${escapeHTML(book.topMark)}</dd>`)
@@ -435,8 +435,8 @@ const clusterItems = [...clusters]
 const ranked = shelfNumbers.filter(b => b.rank !== null);
 const links = N.METRICS.map(({ key, label }) => ({ key, label, rho: N.spearman(ranked.map(b => b.rank), ranked.map(b => b[key])) }));
 const strongest = [...links].sort((a, b) => Math.abs(b.rho) - Math.abs(a.rho))[0];
-const answer = Math.abs(strongest.rho) < 0.1 ? 'No.' : Math.abs(strongest.rho) < 0.3 ? 'Barely.' : 'Somewhat.';
-const popularity = `${answer} Across the ${ranked.length} ranked books, the closest link between download rank and any measure is for ${strongest.label.toLowerCase()}: a rank correlation of ${strongest.rho.toFixed(2)}, where 0 is no link and 1 or -1 a perfect one.`;
+const popularityClaim = Math.abs(strongest.rho) < 0.1 ? 'Popular books punctuate like the rest.' : Math.abs(strongest.rho) < 0.3 ? 'Popular books punctuate almost like the rest.' : 'Popular books punctuate a little differently.';
+const popularity = `Across the ${fmt(ranked.length)} ranked books, the closest link between download rank and any measure is for ${strongest.label.toLowerCase()}: a rank correlation of ${strongest.rho.toFixed(2)}, where 0 is no link and 1 or -1 a perfect one.`;
 const rankLinks = links.map(({ label, rho }) => `      <li>${label}: ${N.correlationWords(rho)} (${rho.toFixed(2)})</li>`).join('\n');
 
 const recordBooks = shelfNumbers.filter(b => b.words >= 2000);
@@ -473,7 +473,7 @@ const twinText = b => `<cite><a href="books/${b.slug}/">${escapeHTML(b.title)}</
 const percent = rate => `${Math.round(rate * 100)}%`;
 
 const fill = {
-  books: books.length,
+  books: fmt(books.length),
   semicolons: escapeHTML(N.trendSentence(shelfNumbers, 'semicolon')),
   firstSpan: N.spanText(shrink.first),
   lastSpan: N.spanText(shrink.last),
@@ -494,6 +494,7 @@ const fill = {
   hitRate: percentOf(hits, guesses.length),
   chance: percentOf(1, authors.length),
   popularity: escapeHTML(popularity),
+  popularityClaim,
 };
 const numbersBody = (await fragment('numbers.html'))
   .replace(/\{\{(\w+)\}\}/g, (_, name) => {
@@ -522,7 +523,7 @@ await writePage({
   nav: 'numbers',
   title: 'The numbers · Punc',
   socialTitle: 'Punc: the punctuation of famous books, by the numbers',
-  description: `${books.length} books by their punctuation alone: how it changed over time, by genre and author, punctuation twins, the grammar of marks, and the map.`,
+  description: `Punc took the words out of ${fmt(books.length)} books. Semicolons nearly vanished, sentences got shorter, and the marks alone name the author ${percentOf(hits, guesses.length)} of the time.`,
   body: numbersBody,
   script: 'numbers-page.js',
 });

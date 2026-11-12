@@ -136,10 +136,18 @@ async function drawBooks(shelf: BookNumbers[]): Promise<void> {
   await yieldToBrowser();
   drawCareer(shelf);
   careerPick.addEventListener('change', () => drawCareer(shelf));
-  // The table has a row for every book; it's drawn the first time it's opened.
-  table.addEventListener('toggle', () => {
+  // The table has a row for every book; it's drawn the first time it's opened,
+  // a few hundred rows at a time so opening it stays quick on a slow phone.
+  let tableStarted = false;
+  table.addEventListener('toggle', async () => {
+    if (!table.open || tableStarted) return;
+    tableStarted = true;
     const body = need<HTMLElement>('tbody', table);
-    if (table.open && !body.firstChild) body.innerHTML = numbersTableRows(shelf);
+    const byTitle = [...shelf].sort((a, b) => a.title.localeCompare(b.title));
+    for (let i = 0; i < byTitle.length; i += 200) {
+      body.insertAdjacentHTML('beforeend', numbersTableRows(byTitle.slice(i, i + 200)));
+      await yieldToBrowser();
+    }
   });
 }
 
@@ -199,7 +207,7 @@ else {
 
 // The page's text and medians are in the HTML; the dots for every book can wait.
 afterFirstPaint()
-  .then(() => fetch('numbers.json'))
+  .then(() => fetch('numbers.json', { priority: 'low' }))
   .then(response => {
     if (!response.ok) throw new Error(`numbers.json: ${response.status}`);
     return response.json() as Promise<BookNumbers[]>;

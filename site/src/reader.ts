@@ -132,8 +132,10 @@ async function showBook(rawText: string, title: string, byline: string, fileStem
       setUpPages(await inWorker<string[]>({ kind: 'pages', text: book.text }));
       return;
     }
-    // Canvas text uses whatever font is loaded at draw time.
-    await document.fonts.load('20px Fraunces');
+    // Canvas text uses whatever font is loaded at draw time. A blocked or failed font
+    // download (content blockers, crawlers) rejects with a NetworkError; draw in the
+    // fallback font rather than leaving the view blank.
+    await document.fonts.load('20px Fraunces').catch(() => undefined);
     if (view === 'score') {
       createScoreScroller(byId('score'), book.marks);
       return;

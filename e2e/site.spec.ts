@@ -113,6 +113,14 @@ test('a shelf book opens on the score with its stats', async ({ page }) => {
   await expect(page.locator('.site-header [aria-current="page"]')).toHaveText('The shelf');
 });
 
+test('the score still draws when the web fonts are blocked', async ({ page }) => {
+  // Content blockers and crawlers drop font downloads, and document.fonts.load then
+  // rejects with "A network error occurred." (56 Plausible JS Errors, 2026-11).
+  await page.route('**/*.woff2', route => route.abort());
+  await openBook(page, 'alice');
+  await expect.poll(() => page.locator('#score-canvas').evaluate(c => (c as HTMLCanvasElement).height)).toBeGreaterThan(300);
+});
+
 test('an unknown old link says so and offers the upload', async ({ page }) => {
   await page.goto('read.html?b=not-a-book');
   await expect(page.locator('#status')).toContainText('no "not-a-book" on the shelf');

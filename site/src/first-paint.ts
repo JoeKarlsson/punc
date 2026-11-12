@@ -4,7 +4,11 @@
 // LCP.
 // Lets the browser paint and handle input between steps of a long job, so no
 // one task blocks the main thread for long.
-export const yieldToBrowser = () => new Promise<void>(resolve => setTimeout(resolve, 0));
+// scheduler.yield() keeps this task's place at the front of the queue; Safari
+// doesn't have it yet.
+const scheduler = (globalThis as { scheduler?: { yield?: () => Promise<void> } }).scheduler;
+export const yieldToBrowser = (): Promise<void> =>
+  scheduler?.yield ? scheduler.yield() : new Promise<void>(resolve => setTimeout(resolve, 0));
 
 // Resolves once the browser has painted the page (or after 2 s: a tab opened in
 // the background never reports a first paint).

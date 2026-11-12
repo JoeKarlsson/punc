@@ -29,13 +29,13 @@ describe('punctuation markup', () => {
   test('a fingerprint has ten fixed slots and an empty bar for a missing mark', () => {
     const html = fingerprintHTML(markShares(marks(',,.')));
     expect(html.match(/class="fp-slot"/g)).toHaveLength(10);
-    expect(html).toContain('title="semicolon: 0.0%"><span class="fp-bar" style="height:0.0%">');
+    expect(html).toContain('class="fp-slot"><span class="fp-bar" style="height:0.0%">');
     expect(html).toContain('aria-label="Punctuation fingerprint: comma 67%, period 33%');
   });
 
   test('a fingerprint uses one scale for every book', () => {
     const half = fingerprintHTML(markShares(marks(',.')));
-    expect(half).toContain('title="comma: 50%"><span class="fp-bar" style="height:100.0%">');
+    expect(half).toContain('<span class="fp-bar" style="height:100.0%">');
   });
 
   test('through-book rows skip marks the book never uses', () => {

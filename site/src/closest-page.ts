@@ -12,13 +12,16 @@ const editDistance = (a: string, b: string): number => {
 };
 
 /** The candidate path nearest `missed`, or null when nothing is close enough to be a typo. */
-export function closestPath(missed: string, candidates: string[]): string | null {
-  const wanted = missed.replace(/^\/+/, '').toLowerCase();
+export const closestPath = (missed: string, candidates: string[]): string | null =>
+  closestMatch(missed.replace(/^\/+/, '').toLowerCase(), candidates);
+
+/** The candidate nearest `wanted`, or null when nothing is close enough to be a typo. */
+export function closestMatch(wanted: string, candidates: Iterable<string>): string | null {
   let best: string | null = null;
   let bestDistance = Infinity;
-  for (const path of candidates) {
-    const distance = editDistance(wanted, path);
-    if (distance < bestDistance) [best, bestDistance] = [path, distance];
+  for (const candidate of candidates) {
+    const distance = editDistance(wanted, candidate);
+    if (distance < bestDistance) [best, bestDistance] = [candidate, distance];
   }
   return bestDistance <= Math.max(2, Math.floor(wanted.length / 4)) ? best : null;
 }

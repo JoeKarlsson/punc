@@ -530,10 +530,10 @@ export function correlationWords(rho: number): string {
 export function nextMarkTableHTML(grid: number[][]): string {
   const head = TRACKED_MARKS.map(({ mark, name }) => `<th scope="col"><abbr title="${escapeHTML(name)}">${escapeHTML(mark)}</abbr></th>`).join('');
   const rows = TRACKED_MARKS.map(({ mark, name }, i) => {
-    const cells = grid[i]!.map((share, j) => {
+    const cells = grid[i]!.map(share => {
       const level = Math.min(5, Math.floor(Math.sqrt(share) * 8));
       const pct = Math.round(share * 100);
-      return `<td class="next-${level}" title="${escapeHTML(`After a ${name}, the next mark is a ${TRACKED_MARKS[j]!.name} ${pct}% of the time`)}">${pct >= 1 ? pct : ''}</td>`;
+      return `<td class="next-${level}">${pct >= 1 ? pct : ''}</td>`;
     }).join('');
     return `<tr><th scope="row"><abbr title="${escapeHTML(name)}">${escapeHTML(mark)}</abbr></th>${cells}</tr>`;
   }).join('');
@@ -632,7 +632,7 @@ export function authorDetailHTML(author: string, books: BookNumbers[], guessed: 
   const rows = dated
     .map(b => {
       const name = guessedFor(b, guessed);
-      return `<li>${square(name === author)}<a href="books/${b.slug}/">${escapeHTML(b.title)}</a> <span class="author-book-year">${escapeHTML(yearText(b))}${name === author ? '' : `, taken for ${escapeHTML(name)}`}</span></li>`;
+      return `<li>${square(name === author)}<span><a href="books/${b.slug}/">${escapeHTML(b.title)}</a> <span class="author-book-year">${escapeHTML(yearText(b))}${name === author ? '' : `, taken for ${escapeHTML(name)}`}</span></span></li>`;
     })
     .join('');
   return `<h4 class="author-detail-name">${escapeHTML(author)}</h4>
@@ -681,12 +681,12 @@ export function bookAuthorHTML(
   const several = authorBooks.length > 1;
   const center = averageShares(authorBooks.map(b => b.shares));
   const closer = authorBooks.filter(b => fingerprintDistance(b.shares, center) < fingerprintDistance(book.shares, center)).length;
-  const verdict = guess === undefined ? '' : ` Held out and guessed from its marks alone, the shelf ${guess.guessed === author ? `names ${author} as its author` : `takes it for ${guess.guessed}`}.`;
+  const verdict = guess === undefined ? '' : ` Guessed from its marks alone, with this book left out of the averages, Punc's test ${guess.guessed === author ? `names ${author} as its author` : `picks ${guess.guessed}`}.`;
   const note = several
     ? `${authorBooks.length} books by ${author} are on the shelf. Its fingerprint is the ${ordinal(closer + 1)} closest of the ${authorBooks.length} to their average.${verdict}`
     : `It's the only book by ${author} on the shelf.`;
   const nearest = closestAuthor(author, prints);
-  const nearestLine = `Of the ${prints.size - 1} other authors on the shelf, ${escapeHTML(author)}'s punctuation is closest to <a href="numbers.html?author=${encodeURIComponent(nearest)}#authors">${escapeHTML(nearest)}</a>'s.`;
+  const nearestLine = `Of the ${(prints.size - 1).toLocaleString('en-US')} other authors on the shelf, ${escapeHTML(author)}'s punctuation is closest to <a href="numbers.html?author=${encodeURIComponent(nearest)}#authors">${escapeHTML(nearest)}</a>'s.`;
   const head = `<th scope="col">This book</th>${several ? `<th scope="col">${escapeHTML(author)}'s average</th>` : ''}<th scope="col">Every book's median</th>`;
   const rows = TABLE_METRICS.map(
     key =>

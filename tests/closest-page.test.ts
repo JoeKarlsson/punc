@@ -1,4 +1,4 @@
-import { closestPath } from '../site/src/closest-page';
+import { closestMatch, closestPath } from '../site/src/closest-page';
 
 describe('closestPath', () => {
   const paths = ['about.html', 'numbers.html', 'read.html', 'books/moby-dick/', 'books/emma/', 'books/frankenstein/'];
@@ -12,5 +12,12 @@ describe('closestPath', () => {
   it('offers nothing when no page is close', () => {
     expect(closestPath('/wp-admin/setup.php', paths)).toBeNull();
     expect(closestPath('/books/ulysses/', paths)).toBeNull();
+  });
+});
+
+describe('closestMatch', () => {
+  it('finds the word a search typo meant', () => {
+    expect(closestMatch('frankenstien', ['frankenstein', 'prometheus', 'shelley'])).toBe('frankenstein');
+    expect(closestMatch('zzzzzzzz', ['frankenstein', 'prometheus'])).toBeNull();
   });
 });

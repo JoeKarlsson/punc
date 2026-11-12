@@ -40,7 +40,7 @@ export function cardHTML(book: ShelfBook, i: number): string {
         <span class="poster-marks" aria-hidden="true">${escapeHTML(book.sample)}</span>
         <span class="cover-label"><span class="cover-title">${escapeHTML(book.title)}</span><span class="cover-author">${escapeHTML(book.byline)}</span></span>
       </a>
-      <p class="cover-meta">${fmt(book.words)} words removed, ${fmt(book.marks)} marks left</p>
+      <p class="cover-meta">${fmt(book.marks)} marks left</p>
       ${fingerprintHTML(book.shares)}
     </li>`;
 }

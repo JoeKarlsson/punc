@@ -16,13 +16,15 @@
   document.head.appendChild(s);
 
   if (document.body.dataset.notFound) window.plausible('404', { props: { path: location.pathname } });
-  var report = function (message) {
-    window.plausible('JS Error', { props: { message: String(message).slice(0, 200), path: location.pathname } });
+  var report = function (message, source) {
+    window.plausible('JS Error', {
+      props: { message: String(message).slice(0, 200), source: source, path: location.pathname }
+    });
   };
   window.addEventListener('error', function (e) {
-    report(e.message);
+    report(e.message, e.filename + ':' + e.lineno);
   });
   window.addEventListener('unhandledrejection', function (e) {
-    report(e.reason && e.reason.message ? e.reason.message : e.reason);
+    report(e.reason && e.reason.message ? e.reason.message : e.reason, 'promise');
   });
 })();

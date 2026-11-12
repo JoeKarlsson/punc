@@ -509,10 +509,9 @@ export function popularityDots(books: BookNumbers[], key: MetricKey, axisMax: nu
 // The measures in the table of every book's numbers, after the year.
 export const TABLE_METRICS: MetricKey[] = ['semicolon', 'comma', 'colon', 'exclaim', 'question', 'wps', 'dialogue'];
 
-// That table's rows, by title; the map's two measures close each row.
+// That table's rows, in the order given; the map's two measures close each row.
 export function numbersTableRows(books: BookNumbers[]): string {
-  return [...books]
-    .sort((a, b) => a.title.localeCompare(b.title))
+  return books
     .map(b => `<tr><th scope="row"><a href="books/${b.slug}/">${escapeHTML(b.title)}</a>, ${escapeHTML(b.author)}</th><td>${escapeHTML(b.yearLabel ?? '')}</td>${TABLE_METRICS.map(key => `<td>${formatValue(key, b[key])}</td>`).join('')}<td>${b.pausesPerStop.toFixed(1)}</td><td>${(b.loudness * 100).toFixed(1)}%</td></tr>`)
     .join('');
 }

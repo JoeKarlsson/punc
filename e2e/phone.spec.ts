@@ -54,8 +54,10 @@ test('a phone turns the pages one at a time, since it shows one', async ({ page 
   await page.getByRole('button', { name: 'Turn' }).tap();
   await expect(page.locator('#folio-left')).toHaveText(/^2 of \d+$/);
   await expect(page.locator('#page-range')).toHaveAttribute('aria-valuetext', /^Page 2 of \d+$/);
-  // The top of the page is back on screen after the turn
-  expect((await page.locator('.spread').boundingBox())!.y).toBeGreaterThanOrEqual(0);
+  // The top of the page is back on screen after the turn. scrollIntoView lines it up
+  // with the top, and WebKit rounds the scroll position, so it can land a fraction
+  // of a pixel above 0.
+  expect((await page.locator('.spread').boundingBox())!.y).toBeGreaterThan(-1);
 });
 
 test('form fields are big enough that Safari does not zoom in on them', async ({ page }) => {

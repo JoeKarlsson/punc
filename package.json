@@ -76,7 +76,7 @@
     "@types/node": "^26.6.6",
     "@types/pdfkit": "^0.17.7",
     "@types/through2": "^5.0.0",
-    "@typescript-eslint/eslint-plugin": "^8.0.0",
+    "@typescript-eslint/eslint-plugin": "^8.72.2",
     "@typescript-eslint/parser": "^8.0.0",
     "esbuild": "^0.28.2",
     "eslint": "^10.14.0",

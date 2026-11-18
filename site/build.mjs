@@ -562,6 +562,7 @@ const numbersBody = (await fragment('numbers.html'))
   // The map is drawn in the browser from numbers.json, with these labelled.
   .replace('<!--MAPLABELS-->', mapLabels.join(' '))
   .replace('<!--TABLEHEAD-->', N.TABLE_METRICS.map(key => `<th scope="col">${N.metric(key).label}</th>`).join(''));
+const numbersSources = ['site/pages/numbers.html', 'site/figures'];
 await writePage({
   path: 'numbers.html',
   nav: 'numbers',
@@ -569,7 +570,7 @@ await writePage({
   description: `Punc took the words out of ${fmt(books.length)} books. Semicolons nearly vanished, sentences got shorter, and the marks alone name the author ${percentOf(hits, guesses.length)} of the time.`,
   body: numbersBody,
   script: 'numbers-page.js',
-  sources: ['site/pages/numbers.html', 'site/figures'],
+  sources: numbersSources,
   structuredData: {
     '@type': 'Dataset',
     name: 'Punc: the punctuation of famous books',
@@ -577,7 +578,7 @@ await writePage({
     url: `${SITE_URL}numbers.html`,
     creator: AUTHOR,
     isBasedOn: { '@type': 'WebSite', name: 'Project Gutenberg', url: 'https://www.gutenberg.org/' },
-    dateModified: fetched,
+    dateModified: lastmodFor(numbersSources),
     distribution: { '@type': 'DataDownload', encodingFormat: 'application/json', contentUrl: `${SITE_URL}numbers.json` },
   },
 });

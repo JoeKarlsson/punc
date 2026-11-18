@@ -373,6 +373,19 @@ test('the numbers page filters by genre, switches career measures and compares a
   await expect(page.locator('#compare-out .compare-detail').nth(1)).toHaveText('Herman Melville, 1851');
 });
 
+test('Tab moves past the chart dots, and hovering a dot still shows its tooltip', async ({ page }) => {
+  await page.goto('numbers.html');
+  await expect(page.locator('#time .chart-dot').first()).toBeAttached();
+  await page.locator('#genre-pick').focus();
+  for (let i = 0; i < 5; i++) {
+    await page.keyboard.press('Tab');
+    expect(await page.evaluate(() => document.activeElement?.classList.contains('chart-dot'))).toBe(false);
+  }
+  const dot = page.locator('#time .chart-dot:not(.chart-dot-out)').first();
+  await dot.hover({ force: true });
+  await expect(dot.locator('xpath=ancestor::figure').locator('.map-tip')).toBeVisible();
+});
+
 test('the old map address lands on the map on the numbers page', async ({ page }) => {
   await page.goto('map.html');
   await expect(page).toHaveURL(/numbers\.html#map$/);

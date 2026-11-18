@@ -341,7 +341,7 @@ for (const book of books) {
       .replace('<!--POSTER-->', poster)
       .replace('<!--AUTHOR-->', authorSection(book))
       .replace('<article id="book" class="book" hidden>', '<article id="book" class="book">')
-      .replace('<h1 id="book-title" class="book-title"></h1>', `<h1 id="book-title" class="book-title">${escapeHTML(book.title)}</h1>`)
+      .replace('<h1 id="book-title" class="book-title"></h1>', `<h1 id="book-title" class="book-title${book.title.length > 40 || book.title.split(/[\s\-—]+/).some(w => w.length > 14) ? ' book-title-long' : ''}">${escapeHTML(book.title)}</h1>`)
       .replace('<p id="book-byline" class="book-byline"></p>', `<p id="book-byline" class="book-byline">${escapeHTML(book.byline)}</p>`)
       .replace('<dd id="stat-marks"></dd>', `<dd id="stat-marks">${fmt(book.marks)}</dd>`)
       .replace('<dd id="stat-wps"></dd>', `<dd id="stat-wps">${book.wps ? book.wps.toFixed(1) : 'n/a'}</dd>`)
@@ -436,8 +436,10 @@ const ranked = shelfNumbers.filter(b => b.rank !== null);
 const links = N.METRICS.map(({ key, label }) => ({ key, label, rho: N.spearman(ranked.map(b => b.rank), ranked.map(b => b[key])) }));
 const strongest = [...links].sort((a, b) => Math.abs(b.rho) - Math.abs(a.rho))[0];
 const popularityClaim = Math.abs(strongest.rho) < 0.1 ? 'Popular books punctuate like the rest.' : Math.abs(strongest.rho) < 0.3 ? 'Popular books punctuate almost like the rest.' : 'Popular books punctuate a little differently.';
-const popularity = `Across the ${fmt(ranked.length)} ranked books, the closest link between download rank and any measure is for ${strongest.label.toLowerCase()}: a rank correlation of ${strongest.rho.toFixed(2)}, where 0 is no link and 1 or -1 a perfect one.`;
-const rankLinks = links.map(({ label, rho }) => `      <li>${label}: ${N.correlationWords(rho)} (${rho.toFixed(2)})</li>`).join('\n');
+// A real minus sign, not a hyphen
+const signed = n => n.toFixed(2).replace('-', '−');
+const popularity = `Across the ${fmt(ranked.length)} ranked books, the closest link between download rank and any measure is for ${strongest.label.toLowerCase()}: a rank correlation of ${signed(strongest.rho)}, where 0 is no link and 1 or −1 a perfect one.`;
+const rankLinks = links.map(({ label, rho }) => `      <li>${label}: ${N.correlationWords(rho)} (${signed(rho)})</li>`).join('\n');
 
 const recordBooks = shelfNumbers.filter(b => b.words >= 2000);
 const recordList = [

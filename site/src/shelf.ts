@@ -131,6 +131,7 @@ async function setUpShelf(): Promise<void> {
     const onPage = shown.slice(start, start + pageSize).map((c, i) => draw(c, start + i));
     // The first page as built needs no redraw.
     if (onPage.length !== list.children.length || onPage.some((el, i) => list.children[i] !== el)) list.replaceChildren(...onPage);
+    list.dataset['paged'] = '';
     const fmt = (n: number) => n.toLocaleString('en-US');
     const matching = shown.length === cards.length ? `${fmt(cards.length)} books` : `${fmt(shown.length)} matching books (${fmt(cards.length)} on the shelf)`;
     count.textContent = onPage.length ? `Showing ${start + 1}–${start + onPage.length} of ${matching}` : `Showing 0 of ${fmt(cards.length)} books`;

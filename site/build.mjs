@@ -10,6 +10,7 @@ import { join } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { gunzipSync } from 'node:zlib';
 import { createHash } from 'node:crypto';
+import { execFileSync } from 'node:child_process';
 
 const SITE = 'site';
 const OUT = 'site-dist';
@@ -61,6 +62,24 @@ const catalog = JSON.parse(await readFile(join(SITE, 'catalog.json'), 'utf8'));
 // The day site/scripts/fetch-books.mjs last fetched the shelf.
 const fetched = (await readFile(join(SITE, 'fetched.txt'), 'utf8')).trim();
 if (!/^\d{4}-\d{2}-\d{2}$/.test(fetched)) throw new Error(`site/fetched.txt should be a YYYY-MM-DD date, not "${fetched}"`);
+
+// A page's sitemap lastmod is the later of the fetch date and the last commit to
+// its sources: the templates every page shares plus its own page fragment. A
+// shallow clone only knows its newest commit, so it can't date them.
+const PAGE_TEMPLATES = ['site/build.mjs', 'site/src', 'site/catalog.json'];
+const git = (...args) => execFileSync('git', args, { encoding: 'utf8' }).trim();
+const shallowClone = git('rev-parse', '--is-shallow-repository') === 'true';
+if (shallowClone) console.warn('Shallow git clone: every sitemap lastmod is the fetch date. Deploy from a full clone (fetch-depth: 0).');
+const lastmodBySources = new Map();
+function lastmodFor(sources) {
+  const files = [...PAGE_TEMPLATES, ...sources];
+  const key = files.join('\n');
+  if (!lastmodBySources.has(key)) {
+    const committed = shallowClone ? '' : git('log', '-1', '--format=%cs', '--', ...files);
+    lastmodBySources.set(key, committed > fetched ? committed : fetched);
+  }
+  return lastmodBySources.get(key);
+}
 const books = [];
 // For the numbers page: each book's measures, the clusters of touching marks
 // across the shelf, and each book's "which mark comes next" grid.
@@ -153,7 +172,7 @@ const sitemapURLs = [];
 
 // notFound: GitHub Pages serves 404.html at any missing path, so its links
 // resolve from the site root, and it stays out of search and the sitemap.
-async function writePage({ path, nav, title, socialTitle, description, body, script, depth = 0, dataset = {}, image = 'og.png', imageAlt, structuredData, notFound = false }) {
+async function writePage({ path, nav, title, socialTitle, description, body, script, depth = 0, dataset = {}, image = 'og.png', imageAlt, structuredData, notFound = false, sources = [] }) {
   const url = SITE_URL + path.replace(/index\.html$/, '');
   const root = '../'.repeat(depth);
   const navHTML = NAV.map(n => `<a href="${n.href}"${n.key === nav ? ' aria-current="page"' : ''}>${n.label}</a>`).join('');
@@ -162,7 +181,7 @@ async function writePage({ path, nav, title, socialTitle, description, body, scr
   const jsonLD = structuredData
     ? `<script type="application/ld+json">${JSON.stringify({ '@context': 'https://schema.org', ...structuredData }).replace(/</g, '\\u003c')}</script>\n`
     : '';
-  if (!notFound) sitemapURLs.push(url);
+  if (!notFound) sitemapURLs.push({ url, lastmod: lastmodFor(sources) });
   const alt = imageAlt ?? 'A ransom note cut from pink and white paper asks: What does a book look like without words?';
   const html = `<!doctype html>
 <html lang="en">
@@ -268,6 +287,7 @@ await writePage({
   description: `${fmt(books.length)} famous books with every word taken out and only the punctuation left. Browse the shelf or bring your own text.`,
   body: indexBody,
   script: 'shelf.js',
+  sources: ['site/pages/index.html'],
   structuredData: { ...WEBSITE, description: 'Famous books with every word taken out and only the punctuation left.', author: AUTHOR },
 });
 
@@ -282,6 +302,7 @@ await writePage({
     // Its h1 is "Read your own"; site/src/reader.ts makes the title the h1 once a book is open.
     .replace('<h1 id="book-title" class="book-title"></h1>', '<h2 id="book-title" class="book-title"></h2>'),
   script: 'reader.js',
+  sources: ['site/pages/read.html'],
 });
 
 // Each book's closest fingerprint on the shelf, named under its own.
@@ -346,6 +367,7 @@ for (const book of books) {
         sameAs: `https://www.gutenberg.org/ebooks/${book.id}`,
       },
     },
+    sources: ['site/pages/read.html'],
     // The head is written in at build time, so search engines get a real h1
     // and nothing below it jumps when the script fills in the rest.
     body: readBody
@@ -544,6 +566,7 @@ await writePage({
   description: `Punc took the words out of ${fmt(books.length)} books. Semicolons nearly vanished, sentences got shorter, and the marks alone name the author ${percentOf(hits, guesses.length)} of the time.`,
   body: numbersBody,
   script: 'numbers-page.js',
+  sources: ['site/pages/numbers.html'],
   structuredData: {
     '@type': 'Dataset',
     name: 'Punc: the punctuation of famous books',
@@ -583,6 +606,7 @@ await writePage({
   description: 'The artist statement behind Punc, how it works, and where the books come from.',
   body: await fragment('about.html'),
   script: 'page.js',
+  sources: ['site/pages/about.html'],
 });
 
 await writePage({
@@ -639,7 +663,7 @@ await writePage({
 // domain, so GitHub Pages serves them at the root.
 await writeFile(
   join(OUT, 'sitemap.xml'),
-  `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${sitemapURLs.map(u => `  <url><loc>${u}</loc><lastmod>${fetched}</lastmod></url>`).join('\n')}\n</urlset>\n`
+  `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${sitemapURLs.map(({ url, lastmod }) => `  <url><loc>${url}</loc><lastmod>${lastmod}</lastmod></url>`).join('\n')}\n</urlset>\n`
 );
 
 if (missingShareImages.length) {

@@ -395,7 +395,8 @@ const firstAndLast = (points: TrendPoint[]) => {
   const last = points.at(-1);
   return first && last && first !== last ? { first, last } : undefined;
 };
-export const spanText = (p: TrendPoint) => `${p.from}–${p.to - 1}`;
+// A word joiner after the dash keeps the range on one line.
+export const spanText = (p: TrendPoint) => `${p.from}–\u2060${p.to - 1}`;
 
 // "10.1 semicolons per 1,000 words in 1775–1799, 1.8 in 1950–1974": the
 // medians of the first and last 25-year spans with enough books.
@@ -694,7 +695,7 @@ export function bookAuthorHTML(
   // One book: the closest author's fingerprint, to set beside the book's own.
   const print = several
     ? `<h3 class="author-name">${escapeHTML(author)}'s average fingerprint</h3>${fingerprintHTML(center, 'fingerprint fingerprint-large')}`
-    : `<h3 class="author-name">${escapeHTML(nearest)}'s average fingerprint</h3>${fingerprintHTML(prints.get(nearest)!, 'fingerprint fingerprint-large')}`;
+    : `<h3 class="author-name">Closest author: ${escapeHTML(nearest)}</h3>${fingerprintHTML(prints.get(nearest)!, 'fingerprint fingerprint-large')}`;
   const shelfBooks = byYear(authorBooks)
     .map(b => {
       const title = b === book ? `<span class="author-book-this" aria-current="page">${escapeHTML(b.title)}</span>` : `<a href="books/${b.slug}/">${escapeHTML(b.title)}</a>`;
@@ -709,7 +710,7 @@ export function bookAuthorHTML(
         ${print}
         ${guess === undefined ? '' : `<p class="view-note"><a href="numbers.html?author=${encodeURIComponent(author)}#authors">${escapeHTML(author)} on the numbers page</a></p>`}
       </div>
-      <table class="compare-table"><caption>Marks per 1,000 words, except words per sentence and dialogue (the share of words inside quotation marks).</caption><thead><tr><td></td>${head}</tr></thead><tbody>${rows}</tbody></table>
+      <div class="numbers-table-wrap"><table class="compare-table"><caption>Marks per 1,000 words, except words per sentence and dialogue (the share of words inside quotation marks).</caption><thead><tr><td></td>${head}</tr></thead><tbody>${rows}</tbody></table></div>
     </div>
     ${several ? `<ul class="author-books">${shelfBooks}</ul>` : ''}
   </section>`;

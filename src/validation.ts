@@ -28,15 +28,14 @@ export function validateOptions(
 
   // Merge custom mapping with default mapping to ensure all keys are present
   const defaultMap = defaultMapping();
-  const customMapping = options.mapping || {};
+  const customMapping: Partial<PunctuationCount> = options.mapping || {};
 
   // Only include keys that exist in the default mapping
   const filteredCustomMapping: Partial<PunctuationCount> = {};
   for (const key in customMapping) {
-    if (key in defaultMap) {
-      filteredCustomMapping[key as keyof PunctuationCount] = (
-        customMapping as any
-      )[key];
+    const value = customMapping[key as keyof PunctuationCount];
+    if (key in defaultMap && value !== undefined) {
+      filteredCustomMapping[key as keyof PunctuationCount] = value;
     }
   }
 

@@ -19,6 +19,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
+        with:
+          # The sitemap's lastmod dates come from git history. Trees only, no
+          # old file contents (the full history is about 850 MB).
+          fetch-depth: 0
+          filter: blob:none
       - uses: actions/setup-node@v7
         with:
           node-version: 'lts/*'

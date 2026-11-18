@@ -1,5 +1,6 @@
 import AxeBuilder from '@axe-core/playwright';
 import { expect, test, type Page } from '@playwright/test';
+import { execFileSync } from 'node:child_process';
 import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import { dirname, join, normalize } from 'node:path';
 
@@ -623,4 +624,9 @@ test('every built page has complete metadata, and every internal link and asset 
   expect(repeats('description')).toEqual([]);
   const sitemap = [...readFileSync(join(OUT, 'sitemap.xml'), 'utf8').matchAll(/<loc>([^<]+)<\/loc>/g)].map(m => m[1]).sort();
   expect(sitemap).toEqual(indexable.map(p => p.url).sort());
+
+  // A page's lastmod is never older than the last commit to its own fragment.
+  const aboutLastmod = readFileSync(join(OUT, 'sitemap.xml'), 'utf8').match(/about\.html<\/loc><lastmod>([^<]+)</)?.[1];
+  const aboutCommitted = execFileSync('git', ['log', '-1', '--format=%cs', '--', 'site/pages/about.html'], { encoding: 'utf8' }).trim();
+  expect(aboutLastmod! >= aboutCommitted).toBe(true);
 });

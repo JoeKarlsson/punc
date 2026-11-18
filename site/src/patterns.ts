@@ -26,7 +26,7 @@ const PAUSES = new Set([',', ';', ':', '-']);
 const STOPS = new Set(['.', '?', '!']);
 const LOUD = new Set(['?', '!']);
 
-const escapeHTML = (s: string) =>
+export const escapeHTML = (s: string) =>
   s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 const percent = (share: number) => `${(share * 100).toFixed(share < 0.01 ? 1 : 0)}%`;
 

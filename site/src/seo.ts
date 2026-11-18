@@ -1,8 +1,6 @@
 // Page titles and the A to Z list of books, for search engines and readers
 // who want every book on one page. Run by site/build.mjs.
-
-const escapeHTML = (s: string) =>
-  s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+import { escapeHTML } from './patterns';
 
 // Search results show about 60 characters of a title; past that the site name goes first.
 const TITLE_LIMIT = 60;

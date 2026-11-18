@@ -3,6 +3,7 @@
 // screen; `size` is the layout's width and height, and `screen` the canvas's
 // CSS size, which can be wider or taller than it is square. At zoom 1 the
 // whole layout fits the canvas's shorter side.
+import type { SpiralLayout } from '../../src/layout';
 
 export interface View {
   zoom: number;
@@ -54,4 +55,37 @@ export function zoomViewAt(view: View, factor: number, cssX: number, cssY: numbe
 export function panView(view: View, dxCss: number, dyCss: number, screen: Screen, bounds: ViewBounds): View {
   const units = unitsPerPixel(view.zoom, screen, bounds.size);
   return clampView({ ...view, centerX: view.centerX - dxCss * units, centerY: view.centerY - dyCss * units }, bounds, screen);
+}
+
+// The mark nearest (x, y) within `reach` layout units, or -1. A spiral's
+// radius only grows along the book, and a mark within reach of the point has a
+// radius within reach of the point's, so a binary search finds the first ring
+// worth checking instead of scanning every mark.
+export function nearestMarkIndex(layout: SpiralLayout, x: number, y: number, reach: number): number {
+  const { points, cx, cy } = layout;
+  const radius = (i: number) => Math.hypot(points[i]!.x - cx, points[i]!.y - cy);
+  const target = Math.hypot(x - cx, y - cy);
+  let lo = 0;
+  let hi = points.length;
+  while (lo < hi) {
+    const mid = (lo + hi) >> 1;
+    if (radius(mid) < target - reach) lo = mid + 1;
+    else hi = mid;
+  }
+  let best = -1;
+  let bestDist = reach * reach;
+  for (let i = lo; i < points.length && radius(i) <= target + reach; i++) {
+    const d = (points[i]!.x - x) ** 2 + (points[i]!.y - y) ** 2;
+    if (d < bestDist) {
+      bestDist = d;
+      best = i;
+    }
+  }
+  return best;
+}
+
+// Safari, and every iOS browser, which all run on WebKit: Chrome's user agent says
+// AppleWebKit too, but also Chrome/ (CriOS and FxiOS on iOS are WebKit underneath).
+export function paintsSpiralOnMainThread(userAgent: string): boolean {
+  return /AppleWebKit/.test(userAgent) && !/Chrome\//.test(userAgent);
 }

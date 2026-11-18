@@ -178,7 +178,7 @@ ${notFound ? '<meta name="robots" content="noindex">' : `<link rel="canonical" h
 <meta name="darkreader-lock">
 <meta name="theme-color" content="#000000">
 <meta name="author" content="Joe Karlsson">
-<link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png">
+${path === 'index.html' ? '<meta name="google-site-verification" content="QRPrUDjca6IhevyDBOqQCygKZqp45Xyrr2HZooS1LSE">\n<meta name="msvalidate.01" content="BA95135B22E369C003B007BEE5ECC2F2">\n' : ''}<link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="manifest" href="site.webmanifest">

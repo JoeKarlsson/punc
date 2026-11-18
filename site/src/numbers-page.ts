@@ -22,6 +22,7 @@ import { normalizeForSearch } from './paging';
 import { mapSVG } from './patterns';
 import { initFigures } from './figures';
 import { initShare } from './share';
+import { track } from './track';
 
 const need = <T extends Element>(selector: string, within: ParentNode = document): T => {
   const el = within.querySelector<T>(selector);
@@ -188,6 +189,18 @@ function findAuthor(shelf: BookNumbers[] | null): void {
 const escapeText = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 
 genrePick.addEventListener('change', showGenre);
+
+// One Numbers Explore event per control per visit, the first time it's used.
+const explored = new Set<string>();
+const exploreOnce = (control: string) => {
+  if (explored.has(control)) return;
+  explored.add(control);
+  track('Numbers Explore', { control });
+};
+genrePick.addEventListener('change', () => exploreOnce('genre'));
+for (const pick of [pickA, pickB]) pick.addEventListener('change', () => exploreOnce('compare'));
+careerPick.addEventListener('change', () => exploreOnce('career'));
+table.addEventListener('toggle', () => table.open && exploreOnce('table'));
 for (const pick of picks)
   pick.addEventListener('click', () => {
     pickAuthor(pick, loadedShelf);

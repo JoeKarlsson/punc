@@ -68,7 +68,9 @@ if (!/^\d{4}-\d{2}-\d{2}$/.test(fetched)) throw new Error(`site/fetched.txt shou
 // page fragment and figures. A shallow clone only knows its newest commit, so it
 // can't date them.
 const PAGE_TEMPLATES = ['site/build.mjs', 'site/src', 'src', 'site/catalog.json'];
-const git = (...args) => execFileSync('git', args, { encoding: 'utf8' }).trim();
+// The Playwright container (CI screenshots, npm run test:visual) runs as a user that
+// doesn't own the checkout, which git refuses to read unless told it's safe.
+const git = (...args) => execFileSync('git', ['-c', `safe.directory=${process.cwd()}`, ...args], { encoding: 'utf8' }).trim();
 const shallowClone = git('rev-parse', '--is-shallow-repository') === 'true';
 if (shallowClone) console.warn('Shallow git clone: every sitemap lastmod is the fetch date. Deploy from a full clone (fetch-depth: 0).');
 const lastmodBySources = new Map();

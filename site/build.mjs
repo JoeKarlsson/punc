@@ -19,7 +19,7 @@ await rm(OUT, { recursive: true, force: true });
 await mkdir(join(OUT, 'assets'), { recursive: true });
 
 await build({
-  entryPoints: [join(SITE, 'src/reader.ts'), join(SITE, 'src/shelf.ts'), join(SITE, 'src/page.ts'), join(SITE, 'src/numbers-page.ts'), join(SITE, 'src/analyze-worker.ts')],
+  entryPoints: [join(SITE, 'src/reader.ts'), join(SITE, 'src/shelf.ts'), join(SITE, 'src/page.ts'), join(SITE, 'src/numbers-page.ts'), join(SITE, 'src/analyze-worker.ts'), join(SITE, 'src/spiral-worker.ts')],
   bundle: true,
   format: 'esm',
   target: 'es2020',

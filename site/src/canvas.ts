@@ -1,7 +1,8 @@
 // Canvas renderers for the reader. Canvas, not SVG, because a novel has tens
 // of thousands of marks. Spiral geometry is the library's spiralLayout.
 import { spiralLayout, type SpiralLayout } from '../../src/layout';
-import { panView, zoomViewAt, type Screen, type View, type ViewBounds } from './view';
+import { nearestMarkIndex, paintsSpiralOnMainThread, panView, zoomViewAt, type Screen, type View, type ViewBounds } from './view';
+import type { SpiralJob, SpiralPainted } from './spiral-worker';
 
 // Colors come from the tokens in styles.css, so the canvases can't drift from the page.
 function token(name: string): string {
@@ -39,10 +40,18 @@ const SPIRAL_SIZE = 1400;
 const MIN_ZOOM = 1;
 const MAX_ZOOM = 60;
 
-function paintSpiral(
-  ctx: CanvasRenderingContext2D,
+export interface SpiralColors {
+  ink: string;
+  paper: string;
+  pink: string;
+}
+
+// Also run by spiral-worker.ts, which has no document to read colors from.
+export function paintSpiral(
+  ctx: CanvasRenderingContext2D | OffscreenCanvasRenderingContext2D,
   marks: string[],
   layout: SpiralLayout,
+  { ink, paper, pink }: SpiralColors,
   // Pixels per layout unit, and where the layout origin lands, in device pixels
   scale: number,
   offsetX: number,
@@ -51,13 +60,12 @@ function paintSpiral(
   height: number
 ): void {
   ctx.setTransform(1, 0, 0, 1, 0, 0);
-  ctx.fillStyle = colors().ink;
+  ctx.fillStyle = ink;
   ctx.fillRect(0, 0, width, height);
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
   ctx.font = `${layout.fontSize.toFixed(2)}px Fraunces, Georgia, serif`;
   const margin = layout.fontSize * scale;
-  const { paper, pink } = colors();
   marks.forEach((mark, i) => {
     const { x, y, angleDeg } = layout.points[i]!;
     const px = x * scale + offsetX;
@@ -99,27 +107,65 @@ export function createSpiralExplorer(
   // The whole book is the slowest picture to paint (every mark is on screen), so keep a copy
   // to put back on Reset and when the view is shown again.
   const wholeBookCopy = document.createElement('canvas');
+  // Sharp frames are painted in a worker, so a long book never blocks input (the whole of
+  // The Anatomy of Melancholy froze Chrome for 3 s). Until one arrives, what's on screen
+  // is stretched to the new view as a stand-in, through the `onScreen` copy. Safari paints
+  // on the main thread: it already draws there without blocking, and its worker canvas
+  // took over a minute for the same book (paintsSpiralOnMainThread).
+  const onScreen = document.createElement('canvas');
+  const onScreenCtx = onScreen.getContext('2d');
+  if (!onScreenCtx) throw new Error("This browser couldn't open a 2D canvas");
+  const painter = paintsSpiralOnMainThread(navigator.userAgent)
+    ? null
+    : new Worker(new URL(`spiral-worker.js${new URL(import.meta.url).search}`, import.meta.url), { type: 'module' });
+  painter?.postMessage({ kind: 'book', marks, size: SPIRAL_SIZE, colors: colors() } satisfies SpiralJob);
+  painter?.addEventListener('error', e => {
+    throw new Error(`Couldn't draw the spiral: ${e.message}`);
+  });
+  // The view the newest paint request is for; the worker skips older ones
+  let requestedView: View | null = null;
+  // The view the canvas shows, sharp or stretched; null when it shows nothing yet
+  let shownView: View | null = null;
+  let paintRun = 0;
   const sameView = (a: View, b: View) => a.zoom === b.zoom && a.centerX === b.centerX && a.centerY === b.centerY;
 
   const screen = (): Screen => ({ width: canvas.clientWidth, height: canvas.clientHeight });
   const dpr = () => Math.min(window.devicePixelRatio || 1, 2);
+  // Device pixels per layout unit, and where the layout origin lands
+  const placement = (v: View, width: number, height: number) => {
+    const scale = (Math.min(width, height) / SPIRAL_SIZE) * v.zoom;
+    return { scale, offsetX: width / 2 - v.centerX * scale, offsetY: height / 2 - v.centerY * scale };
+  };
 
   // How far through the book the mark nearest the view's center is
   const percentAtCenter = (): number | null => {
-    const { zoom, centerX, centerY } = view;
-    if (zoom < 2) return null;
-    let best = -1;
-    let bestDist = Infinity;
-    layout.points.forEach((p, i) => {
-      const d = (p.x - centerX) ** 2 + (p.y - centerY) ** 2;
-      if (d < bestDist) {
-        bestDist = d;
-        best = i;
-      }
-    });
-    const reach = (layout.fontSize * 4) ** 2;
-    return best >= 0 && bestDist < reach ? (best / Math.max(marks.length - 1, 1)) * 100 : null;
+    if (view.zoom < 2) return null;
+    const best = nearestMarkIndex(layout, view.centerX, view.centerY, layout.fontSize * 4);
+    return best >= 0 ? (best / Math.max(marks.length - 1, 1)) * 100 : null;
   };
+
+  const paintSharp = (painter: Worker, v: View, width: number, height: number) => {
+    const id = ++paintRun;
+    requestedView = v;
+    painter.postMessage({ kind: 'paint', id, ...placement(v, width, height), width, height } satisfies SpiralJob);
+  };
+  painter?.addEventListener('message', (e: MessageEvent<SpiralPainted>) => {
+    const { id, bitmap } = e.data;
+    const v = requestedView;
+    // A newer view or a resize has taken over: this picture is out of date.
+    if (id !== paintRun || !v || bitmap.width !== canvas.width || bitmap.height !== canvas.height) {
+      bitmap.close();
+      return;
+    }
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.drawImage(bitmap, 0, 0);
+    if (sameView(v, wholeBook)) {
+      wholeBookCopy.width = bitmap.width;
+      wholeBookCopy.height = bitmap.height;
+      wholeBookCopy.getContext('2d')?.drawImage(bitmap, 0, 0);
+    }
+    bitmap.close();
+  });
 
   const render = () => {
     frame = 0;
@@ -129,22 +175,46 @@ export function createSpiralExplorer(
     const width = Math.round(cssWidth * dpr());
     const height = Math.round(cssHeight * dpr());
     if (canvas.width !== width || canvas.height !== height) {
+      // Resizing clears the canvas, so there's nothing left to stretch.
       canvas.width = width;
       canvas.height = height;
+      shownView = null;
     }
-    const whole = sameView(view, wholeBook);
-    if (whole && wholeBookCopy.width === width && wholeBookCopy.height === height) {
-      ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    if (sameView(view, wholeBook) && wholeBookCopy.width === width && wholeBookCopy.height === height) {
+      paintRun++;
       ctx.drawImage(wholeBookCopy, 0, 0);
-    } else {
-      const scale = (Math.min(width, height) / SPIRAL_SIZE) * view.zoom;
-      paintSpiral(ctx, marks, layout, scale, width / 2 - view.centerX * scale, height / 2 - view.centerY * scale, width, height);
-      if (whole) {
+    } else if (!painter) {
+      const { scale, offsetX, offsetY } = placement(view, width, height);
+      paintSpiral(ctx, marks, layout, colors(), scale, offsetX, offsetY, width, height);
+      if (sameView(view, wholeBook)) {
         wholeBookCopy.width = width;
         wholeBookCopy.height = height;
         wholeBookCopy.getContext('2d')?.drawImage(canvas, 0, 0);
       }
+    } else {
+      const stretchFrom = shownView;
+      if (stretchFrom) {
+        if (onScreen.width !== width || onScreen.height !== height) {
+          onScreen.width = width;
+          onScreen.height = height;
+        }
+        onScreenCtx.drawImage(canvas, 0, 0);
+      }
+      ctx.fillStyle = colors().ink;
+      ctx.fillRect(0, 0, width, height);
+      if (stretchFrom) {
+        // Line the old picture up with the new view.
+        const before = placement(stretchFrom, width, height);
+        const after = placement(view, width, height);
+        const k = after.scale / before.scale;
+        ctx.setTransform(k, 0, 0, k, after.offsetX - before.offsetX * k, after.offsetY - before.offsetY * k);
+        ctx.drawImage(onScreen, 0, 0);
+        ctx.setTransform(1, 0, 0, 1, 0, 0);
+      }
+      paintSharp(painter, view, width, height);
     }
+    shownView = view;
     onChange(view.zoom, percentAtCenter());
   };
   const schedule = () => {
@@ -239,7 +309,7 @@ export function createSpiralExplorer(
       out.width = out.height = size;
       const outCtx = out.getContext('2d');
       if (!outCtx) throw new Error("This browser couldn't open a 2D canvas");
-      paintSpiral(outCtx, marks, layout, size / SPIRAL_SIZE, 0, 0, size, size);
+      paintSpiral(outCtx, marks, layout, colors(), size / SPIRAL_SIZE, 0, 0, size, size);
       return out;
     },
   };

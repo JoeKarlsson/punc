@@ -108,8 +108,11 @@ test('a shelf book opens on the score with its stats', async ({ page }) => {
   await expect(page.locator('#view-score')).toBeVisible();
   // The score canvas has been drawn at its real size.
   await expect.poll(() => page.locator('#score-canvas').evaluate(c => (c as HTMLCanvasElement).height)).toBeGreaterThan(300);
-  // A shelf book belongs to the shelf in the site nav, not to "Read your own".
-  await expect(page.locator('.site-header [aria-current="page"]')).toHaveText('The shelf');
+  // A book page isn't any of the nav's pages, so none is marked current.
+  await expect(page.locator('.site-header [aria-current]')).toHaveCount(0);
+  // The counts are in the HTML, and book pages have no upload box.
+  await expect(page.locator('#counts li').first()).toContainText('comma');
+  await expect(page.locator('#upload')).toHaveCount(0);
 });
 
 test('the score still draws when the web fonts are blocked', async ({ page }) => {
@@ -586,11 +589,9 @@ test('every built page has complete metadata, and every internal link and asset 
     expect(head, where).toContain('<meta name="color-scheme" content="only dark">');
     expect(head, where).toContain('<meta name="darkreader-lock">');
     expect(head, where).toContain('<meta name="referrer" content="strict-origin-when-cross-origin">');
-    // Exactly one h1 showing in the HTML itself, before any script runs. Book
-    // pages also carry the hidden upload box, and the read page the hidden
-    // book; the front page's h1 is a ransom note of separate words.
-    const shown = html.replace(/<(section|article)\b[^>]*\bhidden\b[^>]*>[\s\S]*?<\/\1>/g, '');
-    const h1s = [...shown.matchAll(/<h1([^>]*)>([\s\S]*?)<\/h1>/g)];
+    // Exactly one h1 in the HTML itself, before any script runs; the front
+    // page's h1 is a ransom note of separate words.
+    const h1s = [...html.matchAll(/<h1([^>]*)>([\s\S]*?)<\/h1>/g)];
     expect(h1s.length, `${where} h1 count`).toBe(1);
     expect(h1s[0]![1]!.match(/aria-label="([^"]+)"/)?.[1] ?? h1s[0]![2]!.replace(/<[^>]+>/g, '').trim(), `${where} h1`).toBeTruthy();
     // Counted as a reader sees it: &quot; is one character, not six.

@@ -108,6 +108,59 @@ export function throughBookHTML(series: number[][]): string {
   return `<ol class="through-book">${rows}</ol>${axis}`;
 }
 
+// Names for the Counts list; a mark without one is shown as itself.
+export const MARK_NAMES: Record<string, string> = {
+  '.': 'period',
+  ',': 'comma',
+  ';': 'semicolon',
+  ':': 'colon',
+  '?': 'question mark',
+  '!': 'exclamation mark',
+  '"': 'double quote',
+  "'": 'apostrophe or single quote',
+  '-': 'hyphen or dash',
+  '(': 'opening parenthesis',
+  ')': 'closing parenthesis',
+  '[': 'opening bracket',
+  ']': 'closing bracket',
+  '{': 'opening brace',
+  '}': 'closing brace',
+  '*': 'asterisk',
+  '&': 'ampersand',
+  '/': 'slash',
+  '\\': 'backslash',
+  '#': 'number sign',
+  '$': 'dollar sign',
+  '%': 'percent sign',
+  '+': 'plus sign',
+  '=': 'equals sign',
+  '<': 'less-than sign',
+  '>': 'greater-than sign',
+  '@': 'at sign',
+  '|': 'vertical bar',
+  '~': 'tilde',
+  '^': 'caret',
+  '`': 'backtick',
+  '§': 'section sign',
+  '¶': 'pilcrow',
+  '°': 'degree sign',
+  '£': 'pound sign',
+  '¡': 'inverted exclamation mark',
+  '¿': 'inverted question mark',
+};
+
+// The Counts view's list: every mark, most used first, each with a bar scaled
+// to the most used. Written into book pages at build time and redrawn for uploads.
+export function countsHTML(counts: Array<[string, number]>): string {
+  const max = counts[0]?.[1] ?? 1;
+  return counts
+    .map(
+      ([mark, count]) =>
+        `<li><span class="count-mark">${escapeHTML(mark)}</span><span class="count-name">${escapeHTML(`${MARK_NAMES[mark] ?? mark} ${count.toLocaleString('en-US')}`)}</span><span class="count-bar" style="width:${Math.max(0.5, (count / max) * 100).toFixed(1)}%"></span></li>`
+    )
+    .join('');
+}
+
 // An axis from 0 that ends on a round number, with at most `maxTicks` + 1
 // ticks however wide the data runs (an all-"?!" upload reaches 80%).
 export function niceAxis(dataMax: number, maxTicks = 8): { max: number; ticks: number[] } {

@@ -5,7 +5,7 @@
 //   npm run shelf:update -- --top 200
 import { execFileSync } from 'node:child_process';
 
-const SHELF_PATHS = ['site/catalog.json', 'site/books', 'site/covers', 'site/share', 'site/static'];
+const SHELF_PATHS = ['site/catalog.json', 'site/fetched.txt', 'site/books', 'site/covers', 'site/share', 'site/static'];
 const run = (command, args) => execFileSync(command, args, { stdio: 'inherit' });
 const output = (command, args) => execFileSync(command, args, { encoding: 'utf8' }).trim();
 

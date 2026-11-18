@@ -30,7 +30,7 @@ await build({
 // The same analysis the browser runs, bundled for Node so the numbers match.
 const analyzerPath = join(tmpdir(), `punc-site-analyze-${process.pid}.mjs`);
 await build({ entryPoints: [join(SITE, 'src/node-entry.ts')], bundle: true, platform: 'node', format: 'esm', outfile: analyzerPath });
-const { analyzeBook, cardHTML, fingerprintHTML, markShares, numbers: N, shelfPosition, SHELF_PAGE_SIZE } = await import(pathToFileURL(analyzerPath).href);
+const { analyzeBook, bookPageTitle, booksIndexHTML, cardHTML, countsHTML, fingerprintHTML, markShares, marksThroughBook, numbers: N, TRACKED_MARKS, shelfPosition, SHELF_PAGE_SIZE, throughBookHTML } = await import(pathToFileURL(analyzerPath).href);
 await rm(analyzerPath);
 
 // GitHub Pages can't send headers, so the policy rides in a meta tag, first in
@@ -58,6 +58,9 @@ const escapeHTML = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').r
 const fmt = n => n.toLocaleString('en-US');
 
 const catalog = JSON.parse(await readFile(join(SITE, 'catalog.json'), 'utf8'));
+// The day site/scripts/fetch-books.mjs last fetched the shelf.
+const fetched = (await readFile(join(SITE, 'fetched.txt'), 'utf8')).trim();
+if (!/^\d{4}-\d{2}-\d{2}$/.test(fetched)) throw new Error(`site/fetched.txt should be a YYYY-MM-DD date, not "${fetched}"`);
 const books = [];
 // For the numbers page: each book's measures, the clusters of touching marks
 // across the shelf, and each book's "which mark comes next" grid.
@@ -88,6 +91,9 @@ for (const meta of catalog) {
     shares: markShares(book.marks),
     fingerprintLarge: fingerprintHTML(markShares(book.marks), 'fingerprint fingerprint-large'),
     topMark: book.counts[0]?.[0] ?? '',
+    // Written into the book page, so the counts are in the HTML without the script.
+    countsList: countsHTML(book.counts),
+    throughBook: throughBookHTML(marksThroughBook(book.marks)),
     ...shelfPosition(book.marks),
   });
 }
@@ -211,6 +217,7 @@ ${notFound ? '' : shareLinks(url, socialTitle ?? title)}
 </main>
 <footer class="site-footer">
   <nav class="footer-links" aria-label="Elsewhere">
+    <a href="books/">Every book, A to Z</a>
     <a href="https://joekarlsson.com">joekarlsson.com</a>
     <a href="https://github.com/JoeKarlsson/punc">Source on GitHub</a>
   </nav>
@@ -256,7 +263,7 @@ const indexBody = (await fragment('index.html'))
 await writePage({
   path: 'index.html',
   nav: 'shelf',
-  title: 'Punc: what books look like without words',
+  title: 'Punc: famous books as punctuation only, without words',
   socialTitle: 'Punc: what does a book look like without words?',
   description: `${fmt(books.length)} famous books with every word taken out and only the punctuation left. Browse the shelf or bring your own text.`,
   body: indexBody,
@@ -271,7 +278,9 @@ await writePage({
   title: 'Read your own · Punc',
   description: 'Open a plain text file or paste some text and see it as punctuation only. It never leaves your browser.',
   // The upload box shows without waiting for the script, h1 and all.
-  body: readBody.replace('<!--POSTER-->', '').replace('<!--AUTHOR-->', '').replace('<section id="upload" class="upload" hidden>', '<section id="upload" class="upload">'),
+  body: readBody.replace('<!--POSTER-->', '').replace('<!--AUTHOR-->', '').replace('<section id="upload" class="upload" hidden>', '<section id="upload" class="upload">')
+    // Its h1 is "Read your own"; site/src/reader.ts makes the title the h1 once a book is open.
+    .replace('<h1 id="book-title" class="book-title"></h1>', '<h2 id="book-title" class="book-title"></h2>'),
   script: 'reader.js',
 });
 
@@ -315,8 +324,7 @@ for (const book of books) {
   await writePage({
     path: `books/${book.slug}/index.html`,
     depth: 2,
-    nav: 'shelf',
-    title: `${book.title} without words · Punc`,
+    title: bookPageTitle(book.title),
     socialTitle: `${book.title}, without words`,
     description,
     image: existsSync(join(SITE, shareImage)) ? shareImage : 'og.png',
@@ -327,6 +335,9 @@ for (const book of books) {
       url: `${SITE_URL}books/${book.slug}/`,
       description,
       isPartOf: WEBSITE,
+      inLanguage: 'en',
+      author: AUTHOR,
+      ...(existsSync(join(SITE, shareImage)) ? { primaryImageOfPage: { '@type': 'ImageObject', url: SITE_URL + shareImage, width: 1200, height: 630 } } : {}),
       about: {
         '@type': 'Book',
         name: book.title,
@@ -338,6 +349,8 @@ for (const book of books) {
     // The head is written in at build time, so search engines get a real h1
     // and nothing below it jumps when the script fills in the rest.
     body: readBody
+      // Book pages have no upload box.
+      .replace(/<section id="upload"[\s\S]*?<\/section>\n*/, '')
       .replace('<!--POSTER-->', poster)
       .replace('<!--AUTHOR-->', authorSection(book))
       .replace('<article id="book" class="book" hidden>', '<article id="book" class="book">')
@@ -346,6 +359,8 @@ for (const book of books) {
       .replace('<dd id="stat-marks"></dd>', `<dd id="stat-marks">${fmt(book.marks)}</dd>`)
       .replace('<dd id="stat-wps"></dd>', `<dd id="stat-wps">${book.wps ? book.wps.toFixed(1) : 'n/a'}</dd>`)
       .replace('<dd id="stat-top" class="serif-mark"></dd>', `<dd id="stat-top" class="serif-mark">${escapeHTML(book.topMark)}</dd>`)
+      .replace('<div id="through-book"></div>', `<div id="through-book">${book.throughBook}</div>`)
+      .replace('<ol id="counts" class="counts"></ol>', `<ol id="counts" class="counts">${book.countsList}</ol>`)
       .replace('<div id="book-fingerprint" class="book-fingerprint"></div>', `<div id="book-fingerprint" class="book-fingerprint">${book.fingerprintLarge}<p class="fp-caption">Its punctuation fingerprint: each mark's share, on the same scale as every book on the shelf.</p>${twinLine(book)}</div>`),
     script: 'reader.js',
     dataset: { slug: book.slug, title: book.title, byline: book.byline },
@@ -474,6 +489,7 @@ const [twinA, twinB] = twinPairs[0];
 const twinText = b => `<cite><a href="books/${b.slug}/">${escapeHTML(b.title)}</a></cite> (${escapeHTML(N.yearText(b))})`;
 const percent = rate => `${Math.round(rate * 100)}%`;
 
+const fetchedText = new Date(`${fetched}T12:00:00Z`).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' });
 const fill = {
   books: fmt(books.length),
   semicolons: escapeHTML(N.trendSentence(shelfNumbers, 'semicolon')),
@@ -497,6 +513,7 @@ const fill = {
   chance: percentOf(1, authors.length),
   popularity: escapeHTML(popularity),
   popularityClaim,
+  fetched: fetchedText,
 };
 const numbersBody = (await fragment('numbers.html'))
   .replace(/\{\{(\w+)\}\}/g, (_, name) => {
@@ -523,11 +540,20 @@ const numbersBody = (await fragment('numbers.html'))
 await writePage({
   path: 'numbers.html',
   nav: 'numbers',
-  title: 'The numbers · Punc',
-  socialTitle: 'Punc: the punctuation of famous books, by the numbers',
+  title: 'Punc: the punctuation of famous books, by the numbers',
   description: `Punc took the words out of ${fmt(books.length)} books. Semicolons nearly vanished, sentences got shorter, and the marks alone name the author ${percentOf(hits, guesses.length)} of the time.`,
   body: numbersBody,
   script: 'numbers-page.js',
+  structuredData: {
+    '@type': 'Dataset',
+    name: 'Punc: the punctuation of famous books',
+    description: `Punctuation counts for the ${fmt(books.length)} most downloaded Project Gutenberg books with a plain text: each mark's share, semicolons, commas, colons, dashes, question and exclamation marks per 1,000 words, words per sentence and the share of words in dialogue.`,
+    url: `${SITE_URL}numbers.html`,
+    creator: AUTHOR,
+    isBasedOn: { '@type': 'WebSite', name: 'Project Gutenberg', url: 'https://www.gutenberg.org/' },
+    dateModified: fetched,
+    distribution: { '@type': 'DataDownload', encodingFormat: 'application/json', contentUrl: `${SITE_URL}numbers.json` },
+  },
 });
 
 // The map moved to the numbers page; old links land on it there.
@@ -553,11 +579,47 @@ await writeFile(
 await writePage({
   path: 'about.html',
   nav: 'about',
-  title: 'About · Punc',
+  title: 'About Punc: how it strips books to punctuation',
   description: 'The artist statement behind Punc, how it works, and where the books come from.',
   body: await fragment('about.html'),
   script: 'page.js',
 });
+
+await writePage({
+  path: 'books/index.html',
+  depth: 1,
+  title: 'Every book on the shelf, A to Z · Punc',
+  description: `All ${fmt(books.length)} books on Punc's shelf by title, each a link to its punctuation with every word taken out.`,
+  body: `<article class="az">
+  <h1 class="page-title">Every book, A to Z</h1>
+  <p class="lede">All ${fmt(books.length)} books on the shelf, filed by title without "The", "A" or "An". Each one opens as punctuation only.</p>
+${booksIndexHTML(books)}
+</article>`,
+  script: 'page.js',
+});
+
+const TRACKED_ORDER = TRACKED_MARKS.map(({ mark, name }) => `${mark} (${name})`).join(', ');
+// For AI tools that read llms.txt: what the site is and where its data lives.
+await writeFile(
+  join(OUT, 'llms.txt'),
+  `# Punc
+
+> Punc takes every word out of a book and leaves only the punctuation, in the order it was written. The shelf holds the ${fmt(books.length)} most downloaded Project Gutenberg books that have a plain text, fetched ${fetchedText}. It's an art project by Joe Karlsson.
+
+Punc counts every punctuation mark left after the letters and numbers are removed. Curly quotes and long dashes count as their plain ASCII marks. Words are counted only to give rates: most measures are marks per 1,000 words.
+
+## Pages
+
+- [The numbers](${SITE_URL}numbers.html): what the marks show across the shelf, over time, by genre and by author
+- [Every book, A to Z](${SITE_URL}books/): a page per book with its mark counts, its punctuation fingerprint and how its marks change through the book
+- [About](${SITE_URL}about.html): the artist statement and how Punc works
+- [Read your own](${SITE_URL}read.html): any text as punctuation only, in the browser
+
+## Data
+
+- [numbers.json](${SITE_URL}numbers.json): one object per book. slug, title, author, year (first published, or null), yearLabel (the year as shown), genres, rank (Gutenberg download rank), words; shares: each mark's share of all marks, in the order ${TRACKED_ORDER}; pausesPerStop: commas, semicolons, colons and dashes per sentence ending; loudness: the share of marks that are ? or !; ${N.METRICS.map(({ key, unit }) => `${key}: ${key === 'dialogue' ? 'the share, 0 to 1, of the words inside quotation marks' : unit}`).join('; ')}.
+`
+);
 
 await writePage({
   path: '404.html',
@@ -577,7 +639,7 @@ await writePage({
 // domain, so GitHub Pages serves them at the root.
 await writeFile(
   join(OUT, 'sitemap.xml'),
-  `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${sitemapURLs.map(u => `  <url><loc>${u}</loc></url>`).join('\n')}\n</urlset>\n`
+  `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${sitemapURLs.map(u => `  <url><loc>${u}</loc><lastmod>${fetched}</lastmod></url>`).join('\n')}\n</urlset>\n`
 );
 
 if (missingShareImages.length) {

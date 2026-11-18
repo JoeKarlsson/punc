@@ -3,7 +3,7 @@ import type { AnalyzeJob } from './analyze-worker';
 import { createScoreScroller, createSpiralExplorer, drawScore, downloadCanvas, type SpiralExplorer } from './canvas';
 import { initPosters } from './posters';
 import { initShare, setUpCopyButton } from './share';
-import { fingerprintHTML, mapSVG, markShares, marksThroughBook, shelfPosition, throughBookHTML, type MapPoint } from './patterns';
+import { countsHTML, fingerprintHTML, MARK_NAMES, mapSVG, markShares, marksThroughBook, shelfPosition, throughBookHTML, type MapPoint } from './patterns';
 import { afterFirstPaint, yieldToBrowser } from './first-paint';
 import { setUpMapTooltips } from './map-tooltips';
 
@@ -13,45 +13,6 @@ interface CatalogBook {
 
 const MAX_UPLOAD_BYTES = 30 * 1024 * 1024;
 
-const MARK_NAMES: Record<string, string> = {
-  '.': 'period',
-  ',': 'comma',
-  ';': 'semicolon',
-  ':': 'colon',
-  '?': 'question mark',
-  '!': 'exclamation mark',
-  '"': 'double quote',
-  "'": 'apostrophe or single quote',
-  '-': 'hyphen or dash',
-  '(': 'opening parenthesis',
-  ')': 'closing parenthesis',
-  '[': 'opening bracket',
-  ']': 'closing bracket',
-  '{': 'opening brace',
-  '}': 'closing brace',
-  '*': 'asterisk',
-  '&': 'ampersand',
-  '/': 'slash',
-  '\\': 'backslash',
-  '#': 'number sign',
-  '$': 'dollar sign',
-  '%': 'percent sign',
-  '+': 'plus sign',
-  '=': 'equals sign',
-  '<': 'less-than sign',
-  '>': 'greater-than sign',
-  '@': 'at sign',
-  '|': 'vertical bar',
-  '~': 'tilde',
-  '^': 'caret',
-  '`': 'backtick',
-  '§': 'section sign',
-  '¶': 'pilcrow',
-  '°': 'degree sign',
-  '£': 'pound sign',
-  '¡': 'inverted exclamation mark',
-  '¿': 'inverted question mark',
-};
 
 function byId<T extends HTMLElement>(id: string): T {
   const el = document.getElementById(id);
@@ -92,9 +53,19 @@ async function showBook(rawText: string, title: string, byline: string, fileStem
     return;
   }
   document.title = `${title} · Punc`;
-  byId('upload').hidden = true;
+  const upload = document.getElementById('upload');
+  if (upload) upload.hidden = true;
   byId('book').hidden = false;
-  const heading = byId('book-title');
+  // The read page ships the title as an empty h2, so its only h1 is "Read your
+  // own"; once that's hidden, the book's title becomes the page's h1.
+  let heading = byId('book-title');
+  if (heading.tagName !== 'H1') {
+    const h1 = document.createElement('h1');
+    h1.id = heading.id;
+    h1.className = heading.className;
+    heading.replaceWith(h1);
+    heading = h1;
+  }
   heading.textContent = title;
   // An upload hid the focused file input: say the book is ready and move focus to it.
   showStatus(shelfSlug ? '' : `${title}: ${book.marks.length.toLocaleString()} marks left.`);
@@ -109,7 +80,7 @@ async function showBook(rawText: string, title: string, byline: string, fileStem
   byId('stat-wps').textContent = book.wordsPerSentence ? book.wordsPerSentence.toFixed(1) : 'n/a';
   byId('stat-top').textContent = book.counts[0]?.[0] ?? '';
 
-  renderCounts(book);
+  byId('counts').innerHTML = countsHTML(book.counts);
   // A shelf book's twin is written in at build time; keep it through the redraw.
   const fingerprint = byId('book-fingerprint');
   const twin = fingerprint.querySelector('.fp-twin');
@@ -222,26 +193,6 @@ function describeCanvases(book: BookAnalysis): void {
   );
 }
 
-function renderCounts(book: BookAnalysis): void {
-  const list = byId<HTMLOListElement>('counts');
-  const max = book.counts[0]?.[1] ?? 1;
-  list.replaceChildren(
-    ...book.counts.map(([mark, count]) => {
-      const li = document.createElement('li');
-      const glyph = document.createElement('span');
-      glyph.className = 'count-mark';
-      glyph.textContent = mark;
-      const name = document.createElement('span');
-      name.className = 'count-name';
-      name.textContent = `${MARK_NAMES[mark] ?? mark} ${count.toLocaleString()}`;
-      const bar = document.createElement('span');
-      bar.className = 'count-bar';
-      bar.style.width = `${Math.max(0.5, (count / max) * 100)}%`;
-      li.append(glyph, name, bar);
-      return li;
-    })
-  );
-}
 
 function setUpPages(pages: string[]): void {
   const left = byId('page-left');
@@ -368,12 +319,12 @@ function setUpUpload(): void {
 
 initPosters();
 initShare();
-setUpUpload();
 const { slug, title, byline } = document.body.dataset;
 const oldLink = new URLSearchParams(location.search).get('b');
+// Book pages have no upload box; the read page does.
 if (slug && title && byline !== undefined) {
-  byId('upload').hidden = true;
   void loadFromShelf(slug, title, byline);
-} else if (oldLink) {
-  void redirectOldLink(oldLink);
+} else {
+  setUpUpload();
+  if (oldLink) void redirectOldLink(oldLink);
 }

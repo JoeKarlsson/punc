@@ -470,7 +470,12 @@ async function main() {
   await pruneOrphans('site/books', '.txt.gz', slugs);
   await pruneOrphans('site/covers', '.jpg', slugs);
   await pruneOrphans('site/share', '.png', slugs);
-  await writeFile('site/catalog.json', JSON.stringify(catalog, null, 2) + '\n');
+  const json = JSON.stringify(catalog, null, 2) + '\n';
+  // The build dates the numbers page, the sitemap and llms.txt from this; only a changed shelf moves it.
+  if (!existsSync('site/catalog.json') || (await readFile('site/catalog.json', 'utf8')) !== json) {
+    await writeFile('site/fetched.txt', new Date().toISOString().slice(0, 10) + '\n');
+  }
+  await writeFile('site/catalog.json', json);
   console.log(`Wrote ${catalog.length} books to site/catalog.json`);
 }
 

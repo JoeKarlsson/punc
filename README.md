@@ -23,7 +23,7 @@ Node.js 18 or newer.
 git clone https://github.com/JoeKarlsson/punc.git
 cd punc
 npm install
-npm run site:serve           # build the site and serve it at http://localhost:4173
+npm run site:serve           # build the site and serve it at http://localhost:4597
 ```
 
 Run the CLI on any plain text file:

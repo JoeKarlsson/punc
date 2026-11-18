@@ -6,6 +6,7 @@ import { initShare, setUpCopyButton } from './share';
 import { countsHTML, fingerprintHTML, MARK_NAMES, mapSVG, markShares, marksThroughBook, shelfPosition, throughBookHTML, type MapPoint } from './patterns';
 import { afterFirstPaint, yieldToBrowser } from './first-paint';
 import { setUpMapTooltips } from './map-tooltips';
+import { track } from './track';
 
 interface CatalogBook {
   slug: string;
@@ -131,6 +132,7 @@ async function showBook(rawText: string, title: string, byline: string, fileStem
   buttons.forEach(button => {
     button.addEventListener('click', () => {
       const view = button.dataset['view']!;
+      track('View Switch', { view });
       buttons.forEach(b => b.setAttribute('aria-pressed', String(b === button)));
       document.querySelectorAll<HTMLElement>('.view').forEach(v => {
         v.hidden = v.id !== `view-${view}`;
@@ -151,6 +153,8 @@ async function showBook(rawText: string, title: string, byline: string, fileStem
         drawScore(canvas, book.marks);
       } else canvas = byId<HTMLCanvasElement>(`${kind}-canvas`);
       downloadCanvas(canvas, `${fileStem}-${kind}.png`);
+      // A blob download, which Plausible's file-download tracking doesn't see
+      track('Image Download', { kind });
     });
   });
 
@@ -277,6 +281,7 @@ async function loadFile(file: File): Promise<void> {
     showStatus('That file is over 30 MB. Try a single book.');
     return;
   }
+  track('Own Text', { source: 'upload' });
   showStatus('Taking the words out…');
   const text = await file.text();
   const stem = file.name.replace(/\.[^.]+$/, '') || 'book';
@@ -288,6 +293,7 @@ function loadPasted(text: string): void {
     showStatus('Paste some text first.');
     return;
   }
+  track('Own Text', { source: 'paste' });
   showStatus('Taking the words out…');
   requestAnimationFrame(() => void showBook(text, 'Your text', 'Pasted in', 'pasted-text'));
 }

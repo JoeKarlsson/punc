@@ -166,9 +166,9 @@ function shareLinks(url, title) {
   ];
   const links = networks.map(
     ([label, href]) =>
-      `<a href="${escapeHTML(href)}" target="_blank" rel="noopener noreferrer" class="plausible-event-name=Share+Click plausible-event-network=${label.replace(/ /g, '+')}">${label}</a>`
+      `<a href="${escapeHTML(href)}" target="_blank" rel="noopener noreferrer" class="plausible-event-name=Share plausible-event-method=${label.toLowerCase().replace(/ /g, '-')}">${label}</a>`
   );
-  return `<p class="share">Share it on ${links.join(', ')}, or <button type="button" class="link-button copy-button" data-copy-link="${escapeHTML(url)}"><span class="copy-idle">copy the link</span><span class="copy-done" aria-hidden="true">Copied</span></button>.</p>`;
+  return `<p class="share">Share it on ${links.join(', ')}, or <button type="button" class="link-button copy-button plausible-event-name=Share plausible-event-method=copy" data-copy-link="${escapeHTML(url)}"><span class="copy-idle">copy the link</span><span class="copy-done" aria-hidden="true">Copied</span></button>.</p>`;
 }
 
 const sitemapURLs = [];

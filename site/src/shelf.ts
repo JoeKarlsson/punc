@@ -8,6 +8,7 @@ import { closestMatch } from './closest-page';
 import { afterFirstPaint } from './first-paint';
 import { initPosters } from './posters';
 import { initShare } from './share';
+import { track } from './track';
 import { normalizeForSearch, pageLinks, SHELF_PAGE_SIZE, SHELF_PAGE_SIZE_PHONE } from './paging';
 
 // A wide screen gets a bigger page of books, and the pager shows every page number.
@@ -136,6 +137,7 @@ async function setUpShelf(): Promise<void> {
     const matching = shown.length === cards.length ? `${fmt(cards.length)} books` : `${fmt(shown.length)} matching books (${fmt(cards.length)} on the shelf)`;
     count.textContent = onPage.length ? `Showing ${start + 1}–${start + onPage.length} of ${matching}` : `Showing 0 of ${fmt(cards.length)} books`;
     empty.hidden = shown.length > 0;
+    reportSearch(terms.join(' '), shown.length);
     const better = shown.length === 0 ? suggestion(terms) : null;
     suggest.hidden = better === null;
     if (better !== null) {
@@ -179,6 +181,19 @@ async function setUpShelf(): Promise<void> {
     const query = next.toString();
     history.replaceState(null, '', query ? `?${query}#shelf-heading` : location.pathname);
   };
+  // One Shelf Search event per search someone settles on (typing paused a
+  // second), not per keystroke; the words typed are never sent.
+  let searchTimer = 0;
+  let lastSearch = '';
+  function reportSearch(query: string, found: number): void {
+    clearTimeout(searchTimer);
+    if (!query) lastSearch = '';
+    if (!query || query === lastSearch) return;
+    searchTimer = window.setTimeout(() => {
+      lastSearch = query;
+      track('Shelf Search', { results: found === 0 ? 'none' : 'some' });
+    }, 1000);
+  }
   // A new search, genre or order starts again at the first page.
   const fromFirstPage = () => {
     page = 1;

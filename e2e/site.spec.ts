@@ -468,7 +468,8 @@ test('an uploaded file lands on the shelf map', async ({ page }) => {
 
 test('share links are tagged for analytics', async ({ page }) => {
   await page.goto('about.html');
-  await expect(page.locator('.share').getByRole('link', { name: 'Hacker News' })).toHaveClass(/plausible-event-name=Share\+Click plausible-event-network=Hacker\+News/);
+  await expect(page.locator('.share').getByRole('link', { name: 'Hacker News' })).toHaveClass(/plausible-event-name=Share plausible-event-method=hacker-news/);
+  await expect(page.locator('.share').getByRole('button', { name: 'copy the link' })).toHaveClass(/plausible-event-name=Share plausible-event-method=copy/);
 });
 
 test('the counts list every mark, most used first', async ({ page }) => {

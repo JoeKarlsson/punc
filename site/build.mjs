@@ -64,9 +64,10 @@ const fetched = (await readFile(join(SITE, 'fetched.txt'), 'utf8')).trim();
 if (!/^\d{4}-\d{2}-\d{2}$/.test(fetched)) throw new Error(`site/fetched.txt should be a YYYY-MM-DD date, not "${fetched}"`);
 
 // A page's sitemap lastmod is the later of the fetch date and the last commit to
-// its sources: the templates every page shares plus its own page fragment. A
-// shallow clone only knows its newest commit, so it can't date them.
-const PAGE_TEMPLATES = ['site/build.mjs', 'site/src', 'site/catalog.json'];
+// its sources: the templates and counting code every page shares plus its own
+// page fragment and figures. A shallow clone only knows its newest commit, so it
+// can't date them.
+const PAGE_TEMPLATES = ['site/build.mjs', 'site/src', 'src', 'site/catalog.json'];
 const git = (...args) => execFileSync('git', args, { encoding: 'utf8' }).trim();
 const shallowClone = git('rev-parse', '--is-shallow-repository') === 'true';
 if (shallowClone) console.warn('Shallow git clone: every sitemap lastmod is the fetch date. Deploy from a full clone (fetch-depth: 0).');
@@ -566,7 +567,7 @@ await writePage({
   description: `Punc took the words out of ${fmt(books.length)} books. Semicolons nearly vanished, sentences got shorter, and the marks alone name the author ${percentOf(hits, guesses.length)} of the time.`,
   body: numbersBody,
   script: 'numbers-page.js',
-  sources: ['site/pages/numbers.html'],
+  sources: ['site/pages/numbers.html', 'site/figures'],
   structuredData: {
     '@type': 'Dataset',
     name: 'Punc: the punctuation of famous books',
@@ -606,7 +607,7 @@ await writePage({
   description: 'The artist statement behind Punc, how it works, and where the books come from.',
   body: await fragment('about.html'),
   script: 'page.js',
-  sources: ['site/pages/about.html'],
+  sources: ['site/pages/about.html', 'site/figures'],
 });
 
 await writePage({

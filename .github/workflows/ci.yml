@@ -83,7 +83,7 @@ jobs:
     runs-on: ubuntu-latest
     # The same image npm run test:visual:update makes the baselines in
     container:
-      image: mcr.microsoft.com/playwright:v1.65.0-noble
+      image: mcr.microsoft.com/playwright:v1.65.1-noble
       options: --ipc=host
 
     steps:

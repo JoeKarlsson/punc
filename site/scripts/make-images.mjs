@@ -11,12 +11,14 @@ import { mkdir, readFile, rm, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { extname, join, normalize } from 'node:path';
 import { pathToFileURL } from 'node:url';
+import { quantizeShareCards, requirePngquant } from './quantize-share.mjs';
 
 const STATIC = 'site/static';
 const SHARE = 'site/share';
 const DIST = 'site-dist';
 const SHARE_BOOKS = ['frankenstein', 'pride-and-prejudice', 'moby-dick'];
 
+requirePngquant();
 const svg = await readFile(join(STATIC, 'favicon.svg'));
 for (const [name, size] of [['favicon-32.png', 32], ['apple-touch-icon.png', 180], ['icon-192.png', 192], ['icon-512.png', 512]]) {
   const png = new Resvg(svg, { fitTo: { mode: 'width', value: size } }).render().asPng();
@@ -132,6 +134,7 @@ try {
   }
   await page.close();
   await rm(join(DIST, '_share-book.html'));
+  await quantizeShareCards();
 
   for (const [file, width, height, bodyClass] of [['og.png', 1200, 630, ''], ['github-social.png', 1280, 640, 'github']]) {
     const page = await browser.newPage({ viewport: { width, height } });

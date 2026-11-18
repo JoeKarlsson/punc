@@ -6,15 +6,26 @@
 //   node site/scripts/quantize-share.mjs
 import { execFile, execFileSync } from 'node:child_process';
 import { availableParallelism } from 'node:os';
-import { readdir } from 'node:fs/promises';
+import { open, readdir } from 'node:fs/promises';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { promisify } from 'node:util';
 
 const SHARE = 'site/share';
-// pngquant's exit code when the quantized file would be bigger than the input,
-// as it is for a card that's already quantized. The card is left as it was.
+// pngquant's exit code when the quantized file would be bigger than the input.
 const SKIPPED_AS_LARGER = 98;
+// Byte 25 of a PNG is the IHDR color type; 3 means it already has a palette.
+const PALETTE_COLOR_TYPE = 3;
+
+async function hasPalette(path) {
+  const file = await open(path);
+  try {
+    const { buffer } = await file.read(Buffer.alloc(26), 0, 26, 0);
+    return buffer[25] === PALETTE_COLOR_TYPE;
+  } finally {
+    await file.close();
+  }
+}
 
 export function requirePngquant() {
   try {
@@ -25,6 +36,8 @@ export function requirePngquant() {
 }
 
 async function quantize(path) {
+  // Quantizing a palette card again only loses more color.
+  if (await hasPalette(path)) return;
   try {
     await promisify(execFile)('pngquant', ['--quality=70-95', '--speed', '1', '--strip', '--skip-if-larger', '--force', '--ext', '.png', path]);
   } catch (error) {

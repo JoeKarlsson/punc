@@ -17,7 +17,7 @@ export default defineConfig({
     toHaveScreenshot: { animations: 'disabled', caret: 'hide', maxDiffPixelRatio: 0.01 },
   },
   use: {
-    baseURL: 'http://localhost:4173/',
+    baseURL: 'http://localhost:4597/',
     trace: 'retain-on-failure',
   },
   projects: [
@@ -29,8 +29,8 @@ export default defineConfig({
   ],
   webServer: {
     command: 'npm run site:serve',
-    url: 'http://localhost:4173/',
-    reuseExistingServer: !process.env['CI'],
+    url: 'http://localhost:4597/',
+    reuseExistingServer: false,
     // The build analyzes every book on the shelf: about 2.5 minutes for 2000 on a laptop.
     timeout: 600_000,
   },

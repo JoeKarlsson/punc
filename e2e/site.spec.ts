@@ -45,6 +45,8 @@ test('the front page scanner reads a first page and leaves its marks lit', async
   await expect(page.locator('#scanner-stage .scan-word.read').first()).toBeAttached();
   await expect(page.locator('#scanner-stage .scan-mark.lit').first()).toHaveText(',');
   await expect(page.locator('.scanner-tags text').first()).toHaveText('comma #1');
+  // At the end, every mark on the page gathers into one line.
+  await expect(page.locator('.scanner-finale span')).toHaveCount(await page.locator('#scanner-stage .scan-mark').count(), { timeout: 30_000 });
 });
 
 test('the shelf searches by title or author, filters by genre, and sorts', async ({ page }) => {

@@ -376,6 +376,21 @@ main {
   font-size: 11px;
 }
 
+/* The ending: the page's marks gathered into one line */
+.scanner-finale {
+  position: absolute;
+  inset: 0;
+  padding: var(--space-4) var(--gutter);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-content: center;
+  gap: 0 0.12em;
+  color: var(--pink);
+  font-size: clamp(1.5rem, 1rem + 2vw, 2.5rem);
+  line-height: 1.2;
+}
+
 .scanner-caption {
   margin: var(--space-2) 0 0;
   color: var(--muted);

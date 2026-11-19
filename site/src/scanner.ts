@@ -43,7 +43,8 @@ export function scanTokens(passage: string): ScanToken[] {
 
 const SVG = 'http://www.w3.org/2000/svg';
 const STEP_MS = 45;
-const HOLD_MS = 3200;
+const HOLD_MS = 4200;
+const GATHER_MS = 1100;
 
 function svgEl(tag: string, attrs: Record<string, number | string>): SVGElement {
   const el = document.createElementNS(SVG, tag);
@@ -112,6 +113,8 @@ export function initScanner(): void {
       return span;
     });
     text.replaceChildren(...spans);
+    stage.querySelector('.scanner-finale')?.remove();
+    page.getAnimations().forEach(animation => animation.cancel());
     // A new page starts at the top at once, not with the lift's slide.
     page.style.transition = 'none';
     page.style.transform = '';
@@ -161,6 +164,33 @@ export function initScanner(): void {
     showReadout();
   };
 
+  // The ending: words and tags fade, and the marks fly from where they were
+  // into one line in reading order, laid out first so each knows where it lands.
+  const gather = () => {
+    const marks = spans.filter((_, i) => tokens[i]!.kind === 'mark');
+    const finale = document.createElement('div');
+    finale.className = 'scanner-finale';
+    const clones = marks.map(span => {
+      const clone = document.createElement('span');
+      clone.textContent = span.textContent;
+      return clone;
+    });
+    finale.append(...clones);
+    finale.style.bottom = `${readout.offsetHeight}px`;
+    stage.insertBefore(finale, readout);
+    page.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 600, fill: 'forwards' });
+    clones.forEach((clone, i) => {
+      const from = marks[i]!.getBoundingClientRect();
+      const to = clone.getBoundingClientRect();
+      const dx = from.left + from.width / 2 - (to.left + to.width / 2);
+      const dy = from.top + from.height / 2 - (to.top + to.height / 2);
+      clone.animate(
+        [{ transform: `translate(${dx}px, ${dy}px)` }, { transform: 'none' }],
+        { duration: GATHER_MS, delay: (i * 600) / clones.length, easing: 'cubic-bezier(0.65, 0, 0.35, 1)', fill: 'backwards' }
+      );
+    });
+  };
+
   const step = () => {
     timer = undefined;
     if (!visible) return;
@@ -173,11 +203,12 @@ export function initScanner(): void {
     const span = spans[at++];
     if (!token || !span) {
       cursor?.setAttribute('width', '0');
+      gather();
       timer = window.setTimeout(() => {
         index = (index + 1) % openings.length;
         load();
         step();
-      }, HOLD_MS);
+      }, GATHER_MS + 600 + HOLD_MS);
       return;
     }
     // Keep the reading point in view: lift the page when it nears the bottom.

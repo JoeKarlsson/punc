@@ -203,7 +203,8 @@ export function initScanner(): void {
     const span = spans[at++];
     if (!token || !span) {
       cursor?.setAttribute('width', '0');
-      gather();
+      // Scrolled away during the ending and back: it's already gathered.
+      if (!stage.querySelector('.scanner-finale')) gather();
       timer = window.setTimeout(() => {
         index = (index + 1) % openings.length;
         load();

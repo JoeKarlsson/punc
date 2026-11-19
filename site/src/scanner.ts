@@ -111,7 +111,11 @@ export function initScanner(): void {
       return span;
     });
     text.replaceChildren(...spans);
+    // A new page starts at the top at once, not with the lift's slide.
+    text.style.transition = 'none';
     text.style.transform = '';
+    void text.offsetHeight;
+    text.style.transition = '';
     shift = 0;
     tags.replaceChildren();
     at = 0;

@@ -278,7 +278,33 @@ const inlineFigures = async html => {
 };
 const fragment = async name => inlineFigures(await readFile(join(SITE, 'pages', name), 'utf8'));
 
+// The front page scanner (site/src/scanner.ts) reads these books' first pages,
+// each from the line given to about 1,200 characters, ending on a sentence.
+const SCANNER_OPENINGS = [
+  ['pride-and-prejudice', 'It is a truth universally'],
+  ['moby-dick', 'Call me Ishmael'],
+  ['ulysses', 'Stately, plump Buck Mulligan'],
+  ['tristram-shandy', 'I WISH either my father'],
+];
+const scannerOpenings = [];
+for (const [slug, firstWords] of SCANNER_OPENINGS) {
+  const book = books.find(b => b.slug === slug);
+  const text = gunzipSync(await readFile(join(SITE, 'books', `${slug}.txt.gz`))).toString('utf8');
+  const start = text.indexOf(firstWords);
+  if (!book || start < 0) throw new Error(`The scanner's opening for ${slug} ("${firstWords}") isn't on the shelf`);
+  const firstPage = text.slice(start, start + 1200);
+  const end = Math.max(...[...firstPage.matchAll(/(?<!\b(?:Mr|Mrs|Dr|St))[.?!][”"’]?(?=\s)/g)].map(m => m.index + m[0].length));
+  const passage = firstPage.slice(0, end).split(/\n\s*\n/)
+    // Skip stray lines with no words, like the lone "]" an illustration left in Pride and Prejudice
+    .filter(para => /\p{L}/u.test(para))
+    .map(para => para.replace(/\s+/g, ' ').trim())
+    .join('\n');
+  scannerOpenings.push({ slug, title: book.title, author: book.author, text: passage });
+}
+
 const indexBody = (await fragment('index.html'))
+  .replace('<!--SCANNEROPENINGS-->', () => JSON.stringify(scannerOpenings).replace(/</g, '\\u003c'))
+  .replace('<!--SCANNERTEXT-->', () => escapeHTML(scannerOpenings[0].text))
   // Only the first page is in the HTML; site/src/shelf.ts draws the rest from shelf.json.
   .replace('<!--SHELF-->', byRank.slice(0, SHELF_PAGE_SIZE).map((book, i) => cardHTML(shelfBook(book), i)).join('\n'))
   .replace('<!--GENRES-->', genres.map(g => `<option>${escapeHTML(g)}</option>`).join(''));

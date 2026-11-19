@@ -30,6 +30,8 @@ test('front page hero and a shelf card', async ({ page }) => {
 test('the front page on a 2560 pixel screen stays in its centered column', async ({ page }, testInfo) => {
   test.skip(testInfo.project.name !== 'visual-desktop', 'a wide screen is a desktop check');
   await page.setViewportSize({ width: 2560, height: 1440 });
+  // The scanner reads on a timer; reduced motion shows its finished page instead.
+  await page.emulateMedia({ reducedMotion: 'reduce' });
   await open(page, './');
   await expect(page.locator('#shelf .poster-art').first()).toBeVisible();
   await expect(page).toHaveScreenshot('front-2560.png');

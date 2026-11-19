@@ -296,14 +296,19 @@ main {
   border-block: 1px solid var(--surface-line);
 }
 
+.scanner-page {
+  position: relative;
+  transition: transform 500ms var(--ease-enter);
+}
+
 .scanner-text {
+  position: relative;
   margin: 0;
   padding: var(--space-5) var(--gutter) 0;
   font-size: clamp(1.5rem, 1rem + 2vw, 2.5rem);
   line-height: 1.38;
   font-weight: 340;
   white-space: pre-line;
-  transition: transform 500ms var(--ease-enter);
 }
 
 .scan-word {
@@ -318,12 +323,19 @@ main {
   color: var(--pink);
 }
 
+/* Behind the text, so the scan box sits under the word it's reading */
 .scanner-tags {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
+  overflow: visible;
   pointer-events: none;
+}
+
+.scanner-tags .scanner-cursor {
+  fill: var(--surface-line);
+  stroke: var(--pink);
 }
 
 .scanner-tags rect {
@@ -370,7 +382,7 @@ main {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .scanner-text,
+  .scanner-page,
   .scan-word {
     transition: none;
   }

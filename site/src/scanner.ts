@@ -42,9 +42,7 @@ export function scanTokens(passage: string): ScanToken[] {
 }
 
 const SVG = 'http://www.w3.org/2000/svg';
-const STEP_MS = 70;
-const TAG_DELAY_MS = 520;
-const TAG_LIFE_MS = 2400;
+const STEP_MS = 45;
 const HOLD_MS = 3200;
 
 function svgEl(tag: string, attrs: Record<string, number | string>): SVGElement {
@@ -66,6 +64,8 @@ export function initScanner(): void {
   const caption = document.getElementById('scanner-book');
   if (!data || !stage || !caption) return;
   const openings = JSON.parse(data.textContent ?? '[]') as Opening[];
+  // The text and its tags move together, so tags stay on their marks as the page lifts.
+  const page = stage.querySelector<HTMLElement>('.scanner-page')!;
   const text = stage.querySelector<HTMLElement>('.scanner-text')!;
   const tags = stage.querySelector<SVGSVGElement>('.scanner-tags')!;
   const readout = stage.querySelector<HTMLElement>('.scanner-readout')!;
@@ -76,18 +76,19 @@ export function initScanner(): void {
   let tokens: ScanToken[] = [];
   let at = 0;
   let shift = 0;
-  // Counts page lifts, so a tag waiting to be drawn knows its mark has moved
-  let lifts = 0;
   let previous: Box | undefined;
+  let cursor: SVGElement | undefined;
+  let underCursor: HTMLElement | undefined;
   let counts = new Map<string, number>();
   let total = 0;
   let timer: number | undefined;
   let visible = false;
 
+  // Measured against the page, which moves with the text, so a lift never moves a box.
   const boxOf = (span: HTMLElement): Box => {
     const r = span.getBoundingClientRect();
-    const s = stage.getBoundingClientRect();
-    return { x: r.left - s.left - 3, y: r.top - s.top + r.height * 0.12, w: r.width + 6, h: r.height * 0.8 };
+    const p = page.getBoundingClientRect();
+    return { x: r.left - p.left - 3, y: r.top - p.top + r.height * 0.12, w: r.width + 6, h: r.height * 0.8 };
   };
 
   const showReadout = () => {
@@ -112,12 +113,14 @@ export function initScanner(): void {
     });
     text.replaceChildren(...spans);
     // A new page starts at the top at once, not with the lift's slide.
-    text.style.transition = 'none';
-    text.style.transform = '';
-    void text.offsetHeight;
-    text.style.transition = '';
+    page.style.transition = 'none';
+    page.style.transform = '';
+    void page.offsetHeight;
+    page.style.transition = '';
     shift = 0;
-    tags.replaceChildren();
+    cursor = svgEl('rect', { class: 'scanner-cursor', width: 0, height: 0 });
+    tags.replaceChildren(cursor);
+    underCursor = undefined;
     at = 0;
     previous = undefined;
     counts = new Map();
@@ -129,42 +132,47 @@ export function initScanner(): void {
     showReadout();
   };
 
+  // Boxes a mark, names it, and strings it to the mark before, for good.
+  const light = (span: HTMLElement, mark: string) => {
+    span.classList.add('lit');
+    const n = (counts.get(mark) ?? 0) + 1;
+    counts.set(mark, n);
+    total++;
+    const box = boxOf(span);
+    const group = svgEl('g', {});
+    if (previous) group.append(svgEl('line', { x1: previous.x + previous.w / 2, y1: previous.y + previous.h, x2: box.x + box.w / 2, y2: box.y + box.h }));
+    group.append(svgEl('rect', { x: box.x, y: box.y, width: box.w, height: box.h }));
+    const name = svgEl('text', { x: box.x, y: box.y - 4 }) as SVGTextElement;
+    name.textContent = `${MARK_NAMES[mark] ?? mark} #${n}`;
+    group.append(name);
+    // Two marks side by side ("?”") would print their tags on top of each other.
+    if (previous && Math.abs(previous.y - box.y) < 4 && Math.abs(previous.x - box.x) < 90) name.setAttribute('y', String(box.y + box.h + 11));
+    previous = box;
+    tags.append(group);
+    name.setAttribute('x', String(Math.max(4, Math.min(box.x, page.clientWidth - name.getComputedTextLength() - 6))));
+  };
+
   // Reduced motion: the finished page, no reading.
   const finish = () => {
     tokens.forEach((token, i) => {
       if (token.kind === 'word') spans[i]!.classList.add('read');
-      if (token.kind === 'mark') {
-        spans[i]!.classList.add('lit');
-        counts.set(token.mark, (counts.get(token.mark) ?? 0) + 1);
-        total++;
-      }
+      if (token.kind === 'mark') light(spans[i]!, token.mark);
     });
     showReadout();
-  };
-
-  const tag = (span: HTMLElement, label: string) => {
-    const box = boxOf(span);
-    const group = svgEl('g', {});
-    group.append(svgEl('rect', { x: box.x, y: box.y, width: box.w, height: box.h }));
-    const name = svgEl('text', { x: box.x, y: box.y - 4 }) as SVGTextElement;
-    name.textContent = label;
-    group.append(name);
-    // Two marks side by side ("?”") would print their tags on top of each other.
-    if (previous && Math.abs(previous.y - box.y) < 4 && Math.abs(previous.x - box.x) < 90) name.setAttribute('y', String(box.y + box.h + 11));
-    if (previous) group.prepend(svgEl('line', { x1: previous.x + previous.w / 2, y1: previous.y + previous.h, x2: box.x + box.w / 2, y2: box.y + box.h }));
-    previous = box;
-    tags.append(group);
-    name.setAttribute('x', String(Math.max(4, Math.min(box.x, stage.clientWidth - name.getComputedTextLength() - 6))));
-    group.animate([{ opacity: 1 }, { opacity: 1, offset: 0.5 }, { opacity: 0 }], { duration: TAG_LIFE_MS, fill: 'forwards' }).finished.then(
-      () => group.remove(),
-      () => group.remove()
-    );
   };
 
   const step = () => {
     timer = undefined;
     if (!visible) return;
-    if (at >= tokens.length) {
+    // The word the scan box sat on goes dark as the box moves on.
+    underCursor?.classList.add('read');
+    underCursor = undefined;
+    // Skip spaces and breaks; they take no time to read.
+    while (at < tokens.length && (tokens[at]!.kind === 'space' || tokens[at]!.kind === 'break')) at++;
+    const token = tokens[at];
+    const span = spans[at++];
+    if (!token || !span) {
+      cursor?.setAttribute('width', '0');
       timer = window.setTimeout(() => {
         index = (index + 1) % openings.length;
         load();
@@ -172,34 +180,19 @@ export function initScanner(): void {
       }, HOLD_MS);
       return;
     }
-    // Skip spaces and breaks; they take no time to read.
-    while (at < tokens.length && (tokens[at]!.kind === 'space' || tokens[at]!.kind === 'break')) at++;
-    const token = tokens[at];
-    const span = spans[at++];
-    if (token && span) {
-      // Keep the reading point in view: lift the page when it nears the bottom.
-      const bottom = stage.getBoundingClientRect().bottom - readout.offsetHeight;
-      const over = span.getBoundingClientRect().bottom - (bottom - 24);
-      if (over > 0) {
-        shift -= over + stage.clientHeight * 0.3;
-        text.style.transform = `translateY(${shift}px)`;
-        tags.replaceChildren();
-        previous = undefined;
-        lifts++;
-      }
-      if (token.kind === 'word') span.classList.add('read');
-      else if (token.kind === 'mark') {
-        span.classList.add('lit');
-        const n = (counts.get(token.mark) ?? 0) + 1;
-        counts.set(token.mark, n);
-        total++;
-        showReadout();
-        const label = `${MARK_NAMES[token.mark] ?? token.mark} #${n}`;
-        // Wait for a page lift to settle before measuring where the mark is;
-        // a mark the page lifted away from after this gets no tag.
-        const lift = lifts;
-        window.setTimeout(() => lift === lifts && span.isConnected && tag(span, label), TAG_DELAY_MS);
-      }
+    // Keep the reading point in view: lift the page when it nears the bottom.
+    const bottom = stage.getBoundingClientRect().bottom - readout.offsetHeight;
+    const over = span.getBoundingClientRect().bottom - (bottom - 24);
+    if (over > 0) {
+      shift -= over + stage.clientHeight * 0.3;
+      page.style.transform = `translateY(${shift}px)`;
+    }
+    const box = boxOf(span);
+    for (const [key, value] of Object.entries({ x: box.x, y: box.y, width: box.w, height: box.h })) cursor?.setAttribute(key, String(value));
+    if (token.kind === 'word') underCursor = span;
+    else if (token.kind === 'mark') {
+      light(span, token.mark);
+      showReadout();
     }
     timer = window.setTimeout(step, STEP_MS);
   };

@@ -294,6 +294,7 @@ for (const [slug, firstWords] of SCANNER_OPENINGS) {
   if (!book || start < 0) throw new Error(`The scanner's opening for ${slug} ("${firstWords}") isn't on the shelf`);
   const firstPage = text.slice(start, start + 1200);
   const end = Math.max(...[...firstPage.matchAll(/(?<!\b(?:Mr|Mrs|Dr|St))[.?!][”"’]?(?=\s)/g)].map(m => m.index + m[0].length));
+  if (end < 0) throw new Error(`The scanner's opening for ${slug} has no sentence end in its first 1,200 characters`);
   const passage = firstPage.slice(0, end).split(/\n\s*\n/)
     // Skip stray lines with no words, like the lone "]" an illustration left in Pride and Prejudice
     .filter(para => /\p{L}/u.test(para))

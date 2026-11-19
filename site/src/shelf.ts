@@ -7,6 +7,7 @@ import { cardHTML, type ShelfBook } from './card';
 import { closestMatch } from './closest-page';
 import { afterFirstPaint } from './first-paint';
 import { initPosters } from './posters';
+import { initScanner } from './scanner';
 import { initShare } from './share';
 import { track } from './track';
 import { normalizeForSearch, pageLinks, SHELF_PAGE_SIZE, SHELF_PAGE_SIZE_PHONE } from './paging';
@@ -217,6 +218,7 @@ async function setUpShelf(): Promise<void> {
 
 initPosters();
 initShare();
+void afterFirstPaint().then(initScanner);
 setUpShelf().catch((error: unknown) => {
   byId('shelf-empty').textContent = "The rest of the shelf didn't load. Reload the page to try again.";
   byId('shelf-empty').hidden = false;

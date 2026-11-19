@@ -38,6 +38,15 @@ test('the front page opens on the shelf, most read first, a page at a time', asy
   await expect(page.locator('#book-title')).toHaveText('Pride and Prejudice');
 });
 
+test('the front page scanner reads a first page and leaves its marks lit', async ({ page }) => {
+  await page.goto('./');
+  await page.locator('#scanner-stage').scrollIntoViewIfNeeded();
+  await expect(page.locator('#scanner-book a')).toHaveAttribute('href', 'books/pride-and-prejudice/');
+  await expect(page.locator('#scanner-stage .scan-word.read').first()).toBeAttached();
+  await expect(page.locator('#scanner-stage .scan-mark.lit').first()).toHaveText(',');
+  await expect(page.locator('.scanner-tags text').first()).toHaveText('comma #1');
+});
+
 test('the shelf searches by title or author, filters by genre, and sorts', async ({ page }) => {
   await page.goto('./');
   const visible = page.locator('#shelf .cover:not([hidden])');

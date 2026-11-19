@@ -207,7 +207,8 @@ export function initScanner(): void {
   };
 
   load();
-  if (still.matches) finish();
+  // Tags are measured once, so wait for Fraunces: the fallback font sets the marks elsewhere.
+  if (still.matches) void document.fonts.ready.then(finish);
   new IntersectionObserver(entries => {
     visible = entries.some(entry => entry.isIntersecting);
     run();

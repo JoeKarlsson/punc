@@ -94,21 +94,26 @@ def bootstrap(books, marks, start=1700, draws=2000, seed=7):
     return values[int(0.025 * draws)], values[int(0.975 * draws)]
 
 
+def coded_marks(books_path, sample_path, second_path):
+    """The 100 coded 1700s marks with both coders' codes and whether the mark's book is a translation."""
+    by_slug = {b["slug"]: b for b in csv.DictReader(open(books_path))}
+    second_coder = json.load(open(second_path))
+    second, unsure = second_coder["set_a"], {int(n) for n in second_coder["unsure"]["set_a"]}
+    coded = []
+    for n, mark, code, prefix in sample_items(sample_path):
+        slug = book_for(prefix, by_slug)["slug"]
+        coded.append(dict(n=n, mark=mark, first=code == "GLUE", second=second[str(n)] == "GLUE",
+                          unsure=n in unsure, translated=slug in TRANSLATED_SAMPLE_BOOKS))
+    return coded
+
+
 def main(books_path, sample_path, second_path):
     books = load_books(books_path)
     # Check: books.csv reproduces the published base (47%) and weighted (38%) shares.
     assert round(share(books, 1, 1), 2) in (0.47, 0.48), share(books, 1, 1)
     assert round(share(books, 0.72, 0.58), 2) in (0.37, 0.38, 0.39), share(books, 0.72, 0.58)
 
-    by_slug = {b["slug"]: b for b in csv.DictReader(open(books_path))}
-    items = sample_items(sample_path)
-    second_coder = json.load(open(second_path))
-    second, unsure = second_coder["set_a"], {int(n) for n in second_coder["unsure"]["set_a"]}
-    coded = []
-    for n, mark, code, prefix in items:
-        slug = book_for(prefix, by_slug)["slug"]
-        coded.append(dict(n=n, mark=mark, first=code == "GLUE", second=second[str(n)] == "GLUE",
-                          unsure=n in unsure, translated=slug in TRANSLATED_SAMPLE_BOOKS))
+    coded = coded_marks(books_path, sample_path, second_path)
     english = [c for c in coded if not c["translated"]]
     print(f"Coded marks from translations: {len(coded) - len(english)} (items {[c['n'] for c in coded if c['translated']]})")
     rates = {}

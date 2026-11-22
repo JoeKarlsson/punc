@@ -62,3 +62,9 @@ Done from the NeedsNewWork and Left-for-Joe lists:
 - The PDF and arXiv LaTeX build (`build.sh`), Chicago author-date via citeproc.
 
 Still open: item 1 (a human coder: the page is ready, the coder isn't), 3 (editions pilot), 6-8 (larger sample, parsing, replication), Darmon page references, JCA's guidelines, the blog charts.
+
+## Round 4: draft 4 (kept), then fixes
+
+Scores: all sub-scores 3, **Overall 6** (no drop). Kept. Every new number matched its source.
+Fixed from its weaknesses: the main-estimate defense now says 40% is conservative with respect to translations (they carry later punctuation at the early end) and calls 45% the better estimate for English-original prose; abstract's 45% rests on 13 books, not 42; ranges (35-49%, 8-15 points, up to 12 from 1750); dialogue summary leads with the weighted figures and the abstract says "about a tenth"; era-specific glue rates added (41%, 25-53%; `era_rates.py`); stale interval cross-reference and Table 3 caption; 5.4-5.5 marked as original-analysis and catalog-flag based; snapshot date and shelf drift; Discussion scoped to these texts and to later editors.
+Not acted on (need Joe or new work): page references for Darmon2020 and Rudnicka2018/Westin2002; translation dates for the 19 eighteenth-century translations (keep period-era translations); 1800-1849 translation pass (Swiss Family Robinson is flagged 0); jackknife on the 13-book verified start; the human coder.

@@ -94,3 +94,9 @@ VO = `paper/verified-originals-output.md` (`verified_originals.py`); FT = `paper
 | Narration only weighted 45% (24-53) vs 42% | 1, 5.3 | FT "as is, narration only" |
 | 21 of 417 books 1900-49 mostly single quotes; narration P 16.5 -> 16.6; share stays 45% | 5.3 | FT "Single-quoted text" table and share table |
 | Apparatus changes share by 1 point from 1700, 4 from 1750 | 7 | FT base rows: 42 -> 41, 39 -> 35 |
+| Era-specific rates: 1900s 62% / 18% (37/60, 7/40); share 41% (25-53) | 5.1 | `era-rates-output.md` (`era_rates.py`) |
+| Other weighted variants 35-49% | Abstract, 1 | min FT apparatus from 1750 (35%), max FT narration strict (49%); era 41%, RA rows 39-47% |
+| Weighting lowers variants 8-15 points | 5.2 | RA and VO rows: 57->45 (12), 49->34 (15), 48->40 (8) |
+| Narration strict up to 12 points above base from 1750 | 5.2 | FT apparatus removed from 1750: 47 vs 35 |
+| Remaining decline shrinks by about a tenth without dialogue | Abstract | R: 7.4 vs 8.3 (11%) |
+| Snapshot 2026-11-10, 30-day downloads | 3 | HA; books.csv snapshot date |

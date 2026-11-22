@@ -1,0 +1,29 @@
+cff-version: 1.2.0
+message: 'If you use this code or data, please cite the paper.'
+title: 'Punc: books stripped to their punctuation'
+type: software
+authors:
+  - family-names: Karlsson
+    given-names: Joe
+    website: 'https://www.joekarlsson.com'
+  - family-names: Farias
+    given-names: Ray
+repository-code: 'https://github.com/JoeKarlsson/punc'
+url: 'https://punc.joekarlsson.com/'
+license: MIT
+keywords:
+  - sentence length
+  - punctuation
+  - semicolon
+  - historical linguistics
+  - Project Gutenberg
+  - cultural analytics
+preferred-citation:
+  type: unpublished
+  title: 'How Much of the Decline in English Sentence Length Is Punctuation? Evidence from Dated Project Gutenberg Books, 1600–1974'
+  authors:
+    - family-names: Karlsson
+      given-names: Joe
+  year: 2026
+  notes: Preprint
+  url: 'https://www.joekarlsson.com/papers/sentence-length-punctuation/'

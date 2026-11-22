@@ -1,0 +1,33 @@
+{
+	"title": "Punc: books stripped to their punctuation",
+	"description": "The code, per-book data and coded samples behind the preprint \"How Much of the Decline in English Sentence Length Is Punctuation? Evidence from Dated Project Gutenberg Books, 1600-1974\", and the Punc site that shows a book as only its punctuation.",
+	"upload_type": "software",
+	"creators": [
+		{
+			"name": "Karlsson, Joe"
+		},
+		{
+			"name": "Farias, Ray"
+		}
+	],
+	"license": "MIT",
+	"keywords": [
+		"sentence length",
+		"punctuation",
+		"semicolon",
+		"historical linguistics",
+		"Project Gutenberg",
+		"cultural analytics"
+	],
+	"related_identifiers": [
+		{
+			"identifier": "https://www.joekarlsson.com/papers/sentence-length-punctuation/",
+			"relation": "isSupplementTo",
+			"resource_type": "publication-preprint"
+		},
+		{
+			"identifier": "https://punc.joekarlsson.com/",
+			"relation": "isSupplementedBy"
+		}
+	]
+}

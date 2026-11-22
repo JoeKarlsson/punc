@@ -1,0 +1,62 @@
+slug,title,author,year,catalog_translated_flag,verdict,evidence
+opticks,Opticks,Isaac Newton,1704,1,original,"Title page: 'By Sir ISAAC NEWTON, Knt. LONDON: Printed for WILLIAM INNYS ... MDCCXXX'; written in English (catalog flag 1 is wrong)"
+theodicy,Theodicy,Gottfried Wilhelm Leibniz,1710,1,translation,'Translated by E.M. Huggard from C.J. Gerhardt's Edition'; 'Translation of: Essais de Theodicee'
+the-life-and-adventures-of-robinson-crusoe,The Life and Adventures of Robinson Crusoe,Daniel Defoe,1719,0,original,Title page names an English-writing author; no translator or 'translated' line in the opening 400 lines
+the-fortunes-and-misfortunes-of-the-famous-moll-flanders,The Fortunes and Misfortunes of the Famous Moll Flanders,Daniel Defoe,1722,0,original,Title page names an English-writing author; no translator or 'translated' line in the opening 400 lines
+a-general-history-of-the-pyrates,A General History of the Pyrates,Charles Johnson,1724,0,original,Title page names an English-writing author; no translator or 'translated' line in the opening 400 lines
+gullivers-travels,Gulliver's Travels,Jonathan Swift,1726,0,original,Title page names an English-writing author; no translator or 'translated' line in the opening 400 lines
+a-modest-proposal,A Modest Proposal,Jonathan Swift,1729,0,original,Title page names an English-writing author; no translator or 'translated' line in the opening 400 lines
+manon-lescaut,Manon Lescaut,abbé Prévost,1731,0,translation,No translator named in the text; Prevost wrote it in French (Histoire du chevalier des Grieux et de Manon Lescaut)
+an-essay-on-man,An Essay on Man,Alexander Pope,1733,1,original,Pope's English poem; 'translator' appears only about his Homer (catalog flag 1 is wrong)
+a-treatise-of-human-nature,A Treatise of Human Nature,David Hume,1739,0,original,Title page names an English-writing author; no translator or 'translated' line in the opening 400 lines
+pamela-or-virtue-rewarded,"Pamela, or Virtue Rewarded",Samuel Richardson,1740,0,original,Title page names an English-writing author; no translator or 'translated' line in the opening 400 lines
+a-journey-to-the-world-under-ground,A Journey to the World Under-ground,Ludvig Holberg,1741,1,translation,Title page: 'Translated from the ORIGINAL' (Holberg's Latin Nicolai Klimii iter subterraneum)
+the-lovers-assistant,The Lovers Assistant,Henry Fielding,1747,1,translation,Text not on disk; Fielding's English version of Ovid's Latin Remedia Amoris (already excluded from the coded rates)
+an-enquiry-concerning-human-understanding,An Enquiry Concerning Human Understanding,David Hume,1748,0,original,Title page names an English-writing author; no translator or 'translated' line in the opening 400 lines
+memoirs-of-fanny-hill,Memoirs of Fanny Hill,John Cleland,1748,0,original,Title page names an English-writing author; no translator or 'translated' line in the opening 400 lines
+the-adventures-of-roderick-random,The Adventures of Roderick Random,T. Smollett,1748,0,original,Title page names an English-writing author; no translator or 'translated' line in the opening 400 lines
+tom-jones,Tom Jones,Henry Fielding,1749,0,original,Title page names an English-writing author; no translator or 'translated' line in the opening 400 lines
+ferdinand-count-fathom,Ferdinand Count Fathom,T. Smollett,1753,0,original,Title page names an English-writing author; no translator or 'translated' line in the opening 400 lines
+a-discourse-upon-the-origin-and-the-foundation-of-the-inequality-among-mankind,A Discourse Upon the Origin and the Foundation of the Inequality Among Mankind,Jean-Jacques Rousseau,1755,0,translation,No translator named; Rousseau wrote it in French (Discours sur l'origine de l'inegalite)
+franklins-way-to-wealth,Franklin's Way to Wealth,Benjamin Franklin,1758,0,original,Title page names an English-writing author; no translator or 'translated' line in the opening 400 lines
+candide,Candide,Voltaire,1759,0,translation,"Modern Library edition, no translator named in the opening; Voltaire wrote it in French"
+tristram-shandy,Tristram Shandy,Laurence Sterne,1759,0,original,Title page names an English-writing author; no translator or 'translated' line in the opening 400 lines
+eloisa,Eloisa,Jean-Jacques Rousseau,1761,1,translation,Title page: 'Translated from the French'
+emile,Emile,Jean-Jacques Rousseau,1762,1,translation,'Translated by Barbara Foxley'
+the-social-contract-discourses,The Social Contract & Discourses,Jean-Jacques Rousseau,1762,1,translation,'Translated with Introduction by G.D.H. Cole'
+the-castle-of-otranto,The Castle of Otranto,Horace Walpole,1764,1,original,Walpole's English novel; the 'translated by William Marshal' claim is the original's fiction (catalog flag 1 is wrong)
+the-vicar-of-wakefield,The Vicar of Wakefield,Oliver Goldsmith,1766,0,original,Title page names an English-writing author; no translator or 'translated' line in the opening 400 lines
+the-expedition-of-humphry-clinker,The Expedition of Humphry Clinker,T. Smollett,1771,0,original,Title page names an English-writing author; no translator or 'translated' line in the opening 400 lines
+she-stoops-to-conquer,She Stoops to Conquer,Oliver Goldsmith,1773,0,original,Title page names an English-writing author; no translator or 'translated' line in the opening 400 lines
+an-historical-account-of-all-the-voyages-round-the-world-performed-by-english-navigators-vol-4-of-4,"An Historical Account of All the Voyages Round the World, Performed by English Navigators, Vol. 4 of 4",David Henry,1774,0,original,Title page names an English-writing author; no translator or 'translated' line in the opening 400 lines
+the-sorrows-of-young-werther,The Sorrows of Young Werther,Johann Wolfgang von Goethe,1774,1,translation,'Translated by R.D. Boylan'
+common-sense,Common Sense,Thomas Paine,1776,0,original,Title page names an English-writing author; no translator or 'translated' line in the opening 400 lines
+history-of-the-decline-and-fall-of-the-roman-empire,History of the Decline and Fall of the Roman Empire,Edward Gibbon,1776,0,original,Title page names an English-writing author; no translator or 'translated' line in the opening 400 lines
+the-declaration-of-independence-of-the-united-states-of-america,The Declaration of Independence of the United States of America,Thomas Jefferson,1776,0,original,Title page names an English-writing author; no translator or 'translated' line in the opening 400 lines
+the-wealth-of-nations,The Wealth of Nations,Adam Smith,1776,0,original,Title page names an English-writing author; no translator or 'translated' line in the opening 400 lines
+evelina-or-the-history-of-a-young-ladys-entrance-into-the-world,"Evelina, Or, the History of a Young Lady's Entrance into the World",Fanny Burney,1778,0,original,Title page names an English-writing author; no translator or 'translated' line in the opening 400 lines
+dialogues-concerning-natural-religion,Dialogues Concerning Natural Religion,David Hume,1779,0,original,Title page names an English-writing author; no translator or 'translated' line in the opening 400 lines
+the-critique-of-pure-reason,The Critique of Pure Reason,Immanuel Kant,1781,1,translation,'Translated by J. M. D. Meiklejohn'
+the-confessions-of-jean-jacques-rousseau,The Confessions of Jean Jacques Rousseau,Jean-Jacques Rousseau,1782,0,translation,"Aldus Society edition, no translator named in the opening; Rousseau wrote it in French"
+kants-prolegomena-to-any-future-metaphysics,Kant's Prolegomena to Any Future Metaphysics,Immanuel Kant,1783,1,translation,'EDITED IN ENGLISH BY DR. PAUL CARUS'; 'TRANSLATION COPYRIGHTED'
+fundamental-principles-of-the-metaphysic-of-morals,Fundamental Principles of the Metaphysic of Morals,Immanuel Kant,1785,1,translation,'translated by Thomas Kingsmill Abbott'
+the-critique-of-practical-reason,The Critique of Practical Reason,Immanuel Kant,1788,1,translation,'translated by Thomas Kingsmill Abbott'
+the-federalist-papers,The Federalist Papers,Alexander Hamilton,1788,0,original,Title page names an English-writing author; no translator or 'translated' line in the opening 400 lines
+the-interesting-narrative-of-the-life-of-olaudah-equiano-or-gustavus-vassa-the-african,"The Interesting Narrative of the Life of Olaudah Equiano, Or Gustavus Vassa, The African",Olaudah Equiano,1789,0,original,Title page names an English-writing author; no translator or 'translated' line in the opening 400 lines
+kants-critique-of-judgement,Kant's Critique of Judgement,Immanuel Kant,1790,1,translation,'TRANSLATED WITH INTRODUCTION AND NOTES BY J. H. BERNARD'
+love-and-freindship,Love and Freindship,Jane Austen,1790,0,original,Title page names an English-writing author; no translator or 'translated' line in the opening 400 lines
+the-marriage-of-heaven-and-hell,The Marriage of Heaven and Hell,William Blake,1790,0,original,Title page names an English-writing author; no translator or 'translated' line in the opening 400 lines
+autobiography-of-benjamin-franklin,Autobiography of Benjamin Franklin,Benjamin Franklin,1791,0,original,Title page names an English-writing author; no translator or 'translated' line in the opening 400 lines
+boswells-life-of-johnson,Boswell's Life of Johnson,James Boswell,1791,0,original,Title page names an English-writing author; no translator or 'translated' line in the opening 400 lines
+a-vindication-of-the-rights-of-woman,A Vindication of the Rights of Woman,Mary Wollstonecraft,1792,1,original,'BY MARY WOLLSTONECRAFT'; written in English (catalog flag 1 is wrong)
+songs-of-innocence-and-of-experience,Songs of Innocence and of Experience,William Blake,1794,0,original,Title page names an English-writing author; no translator or 'translated' line in the opening 400 lines
+the-mysteries-of-udolpho,The Mysteries of Udolpho,Ann Ward Radcliffe,1794,0,original,Title page names an English-writing author; no translator or 'translated' line in the opening 400 lines
+erotica-romana,Erotica Romana,Johann Wolfgang von Goethe,1795,0,translation,Goethe's German Roemische Elegien in English verse (no translator named in the opening)
+perpetual-peace,Perpetual Peace,Immanuel Kant,1795,1,translation,'TRANSLATED WITH INTRODUCTION'; 'the only complete translation into English'
+flower-fruit-and-thorn-pieces,"Flower, Fruit, and Thorn Pieces",Jean Paul,1796,1,translation,Text not on disk; Jean Paul's German Siebenkaes in English translation
+the-monk,The Monk,M. G. Lewis,1796,1,original,"'by M. G. Lewis, Esq. M.P.'; English novel with a few translated ballads inside (catalog flag 1 is wrong)"
+an-essay-on-the-principle-of-population,An Essay on the Principle of Population,T. R. Malthus,1798,0,original,Title page names an English-writing author; no translator or 'translated' line in the opening 400 lines
+lyrical-ballads-with-a-few-other-poems-1798,"Lyrical Ballads, With a Few Other Poems (1798)",William Wordsworth,1798,0,original,Title page names an English-writing author; no translator or 'translated' line in the opening 400 lines
+maria,Maria,Mary Wollstonecraft,1798,1,original,'by MARY WOLLSTONECRAFT ... After the edition of 1798'; written in English (catalog flag 1 is wrong)
+the-love-letters-of-mary-wollstonecraft-to-gilbert-imlay,The Love Letters of Mary Wollstonecraft to Gilbert Imlay,Mary Wollstonecraft,1798,0,original,Title page names an English-writing author; no translator or 'translated' line in the opening 400 lines
+the-rime-of-the-ancient-mariner,The Rime of the Ancient Mariner,Samuel Taylor Coleridge,1798,0,original,Title page names an English-writing author; no translator or 'translated' line in the opening 400 lines

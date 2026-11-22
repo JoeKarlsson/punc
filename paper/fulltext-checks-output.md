@@ -73,11 +73,11 @@ Weighted: each semicolon and colon counts at its English-original glue rate (36/
 
 On all 938 deduplicated books (books.csv), the weighted base share is 40%; on the 883 with a local text it is 42%.
 
-## Single-quote dialogue
+## Single-quoted text
 
-A book's quote style is whichever closing quote (after . , ! ? or a dash, or a single quote after a word and before punctuation) is more common, when there are at least 2 per 1,000 words. Narration only removes text in double quotes; the single-quote row also removes text between an opening single quote (not an elision like 'tis or 'em) and the next closing one in its paragraph.
+A book's quote style is whichever closing quote (after . , ! ? or a dash, or a single quote after a word and before punctuation) is more common, when there are at least 2 per 1,000 words. Narration only removes text in double quotes; the single-quote row also removes text between an opening single quote (not an elision like 'tis or 'em) and the next closing one in its paragraph. This catches scare quotes as well as speech: philosophy books such as Pragmatism count as single-quote books through quoted terms.
 
-| Period | Books | Mostly double quotes | Mostly single quotes | Little dialogue | Median words in single-quote dialogue (single-quote books) | Narration P, double only | Narration P, single too |
+| Period | Books | Mostly double quotes | Mostly single quotes | Little dialogue | Median words in single quotes (single-quote books) | Narration P, double only | Narration P, single too |
 |---|---:|---:|---:|---:|---:|---:|---:|
 | 1700-1749 | 16 | 6 | 2 | 8 | 18% | 34.0 | 34.0 |
 | 1750-1799 | 43 | 17 | 5 | 21 | 48% | 26.7 | 27.3 |
@@ -85,7 +85,7 @@ A book's quote style is whichever closing quote (after . , ! ? or a dash, or a s
 | 1850-1899 | 268 | 193 | 23 | 52 | 36% | 20.1 | 20.4 |
 | 1900-1949 | 417 | 346 | 21 | 50 | 31% | 16.5 | 16.6 |
 
-1900-1949 single-quote books: ancient-britain-and-the-invasions-of-julius-caesar, de-profundis, just-so-stories, minute-mysteries, my-antonia, peter-and-wendy, pragmatism, roman-stoicism, shadows-in-the-moonlight, shadows-in-zamboula, the-cruise-of-the-nona, the-golden-journey-of-mr-paradyne, the-hour-of-the-dragon, the-man-upstairs-and-other-stories, the-olive-fairy-book, the-people-of-the-black-circle, the-problems-of-philosophy, the-tale-of-peter-rabbit, the-valley-of-eyes-unseen, the-witch-cult-in-western-europe, verses.
+1900-1949 books mostly in single quotes: ancient-britain-and-the-invasions-of-julius-caesar, de-profundis, just-so-stories, minute-mysteries, my-antonia, peter-and-wendy, pragmatism, roman-stoicism, shadows-in-the-moonlight, shadows-in-zamboula, the-cruise-of-the-nona, the-golden-journey-of-mr-paradyne, the-hour-of-the-dragon, the-man-upstairs-and-other-stories, the-olive-fairy-book, the-people-of-the-black-circle, the-problems-of-philosophy, the-tale-of-peter-rabbit, the-valley-of-eyes-unseen, the-witch-cult-in-western-europe, verses.
 
 ## Rows more than 3 points from the as-is weighted base
 

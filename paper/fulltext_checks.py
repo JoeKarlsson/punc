@@ -258,11 +258,11 @@ def main(books_path, sample_path, texts_dir):
     out(f"\nOn all {len(deduped)} deduplicated books (books.csv), the weighted base share is {csv_share(deduped, *GLUE):.0%}; "
         f"on the {len(books)} with a local text it is {results[('raw', 'base', 1700)]:.0%}.\n")
 
-    out("## Single-quote dialogue\n")
+    out("## Single-quoted text\n")
     out("A book's quote style is whichever closing quote (after . , ! ? or a dash, or a single quote after a word and before punctuation) is "
         "more common, when there are at least 2 per 1,000 words. Narration only removes text in double quotes; the single-quote row also "
-        "removes text between an opening single quote (not an elision like 'tis or 'em) and the next closing one in its paragraph.\n")
-    out("| Period | Books | Mostly double quotes | Mostly single quotes | Little dialogue | Median words in single-quote dialogue (single-quote books) | Narration P, double only | Narration P, single too |")
+        "removes text between an opening single quote (not an elision like 'tis or 'em) and the next closing one in its paragraph. This catches scare quotes as well as speech: philosophy books such as Pragmatism count as single-quote books through quoted terms.\n")
+    out("| Period | Books | Mostly double quotes | Mostly single quotes | Little dialogue | Median words in single quotes (single-quote books) | Narration P, double only | Narration P, single too |")
     out("|---|---:|---:|---:|---:|---:|---:|---:|")
     for p in (1700, 1750, 1800, 1850, 1900):
         g = [b["raw"] for b in books if period(b["year"]) == p]
@@ -275,7 +275,7 @@ def main(books_path, sample_path, texts_dir):
             f"| {statistics.median(VARIANTS['narration only, single quotes too'](m, 1, 1)[0] for m in g):.1f} |")
     singles_1900 = sorted((b for b in books if period(b["year"]) == 1900 and b["raw"]["sq_close"] > b["raw"]["dq_close"]
                            and b["raw"]["sq_close"] >= 2 * b["raw"]["all"]["words"] / 1000), key=lambda b: b["slug"])
-    out("\n1900-1949 single-quote books: " + ", ".join(b["slug"] for b in singles_1900) + ".")
+    out("\n1900-1949 books mostly in single quotes: " + ", ".join(b["slug"] for b in singles_1900) + ".")
 
     moved = [(k, v) for k, v in results.items() if abs(v - results[("raw", "base", 1700)]) > 0.03]
     out("\n## Rows more than 3 points from the as-is weighted base\n")

@@ -30365,17 +30365,6 @@
     "cover": true
   },
   {
-    "id": 302,
-    "slug": "the-fibonacci-number-series",
-    "title": "The Fibonacci Number Series",
-    "author": "Michael Husted",
-    "genres": [],
-    "published": null,
-    "publishedSort": null,
-    "rank": 2363,
-    "cover": true
-  },
-  {
     "id": 61364,
     "slug": "crystallizing-public-opinion",
     "title": "Crystallizing Public Opinion",
@@ -30385,7 +30374,7 @@
     ],
     "published": "1923",
     "publishedSort": 1923,
-    "rank": 2364,
+    "rank": 2363,
     "cover": true
   },
   {
@@ -30398,7 +30387,7 @@
     ],
     "published": null,
     "publishedSort": null,
-    "rank": 2365,
+    "rank": 2364,
     "cover": true
   },
   {
@@ -30411,7 +30400,7 @@
     ],
     "published": null,
     "publishedSort": null,
-    "rank": 2366,
+    "rank": 2365,
     "cover": true
   },
   {
@@ -30422,7 +30411,7 @@
     "genres": [],
     "published": null,
     "publishedSort": null,
-    "rank": 2367,
+    "rank": 2366,
     "cover": true
   },
   {
@@ -30435,7 +30424,7 @@
     ],
     "published": null,
     "publishedSort": null,
-    "rank": 2368,
+    "rank": 2367,
     "cover": true
   },
   {
@@ -30448,7 +30437,7 @@
     ],
     "published": null,
     "publishedSort": null,
-    "rank": 2369,
+    "rank": 2368,
     "cover": true
   },
   {
@@ -30461,7 +30450,7 @@
     ],
     "published": null,
     "publishedSort": null,
-    "rank": 2370,
+    "rank": 2369,
     "cover": true
   },
   {
@@ -30475,7 +30464,7 @@
     ],
     "published": "1914",
     "publishedSort": 1914,
-    "rank": 2371,
+    "rank": 2370,
     "cover": true
   },
   {
@@ -30486,7 +30475,7 @@
     "genres": [],
     "published": null,
     "publishedSort": null,
-    "rank": 2372,
+    "rank": 2371,
     "cover": true
   },
   {
@@ -30501,7 +30490,7 @@
     ],
     "published": "1901",
     "publishedSort": 1901,
-    "rank": 2373,
+    "rank": 2372,
     "cover": true
   },
   {
@@ -30512,7 +30501,7 @@
     "genres": [],
     "published": "1905",
     "publishedSort": 1905,
-    "rank": 2374,
+    "rank": 2373,
     "cover": true
   },
   {
@@ -30526,7 +30515,7 @@
     ],
     "published": null,
     "publishedSort": null,
-    "rank": 2375,
+    "rank": 2374,
     "cover": true
   },
   {
@@ -30539,7 +30528,7 @@
     ],
     "published": null,
     "publishedSort": null,
-    "rank": 2376,
+    "rank": 2375,
     "cover": true
   },
   {
@@ -30553,7 +30542,7 @@
     ],
     "published": "1903",
     "publishedSort": 1903,
-    "rank": 2377,
+    "rank": 2376,
     "cover": true
   },
   {
@@ -30566,7 +30555,7 @@
     ],
     "published": null,
     "publishedSort": null,
-    "rank": 2378,
+    "rank": 2377,
     "cover": true
   },
   {
@@ -30580,7 +30569,7 @@
     ],
     "published": "1920",
     "publishedSort": 1920,
-    "rank": 2379,
+    "rank": 2378,
     "cover": true
   },
   {
@@ -30593,20 +30582,7 @@
     ],
     "published": null,
     "publishedSort": null,
-    "rank": 2380,
-    "cover": true
-  },
-  {
-    "id": 47529,
-    "slug": "oliver-twist-vol-1-of-3",
-    "title": "Oliver Twist, Vol. 1 (of 3)",
-    "author": "Charles Dickens",
-    "genres": [
-      "Novels"
-    ],
-    "published": null,
-    "publishedSort": null,
-    "rank": 2381,
+    "rank": 2379,
     "cover": true
   },
   {
@@ -30620,7 +30596,7 @@
     ],
     "published": null,
     "publishedSort": null,
-    "rank": 2382,
+    "rank": 2380,
     "cover": true
   },
   {
@@ -30633,7 +30609,7 @@
     ],
     "published": null,
     "publishedSort": null,
-    "rank": 2383,
+    "rank": 2381,
     "cover": true
   },
   {
@@ -30644,7 +30620,7 @@
     "genres": [],
     "published": null,
     "publishedSort": null,
-    "rank": 2384,
+    "rank": 2382,
     "cover": true
   },
   {
@@ -30658,7 +30634,7 @@
     ],
     "published": "1919",
     "publishedSort": 1919,
-    "rank": 2385,
+    "rank": 2383,
     "cover": true
   },
   {
@@ -30671,7 +30647,7 @@
     ],
     "published": null,
     "publishedSort": null,
-    "rank": 2386,
+    "rank": 2384,
     "cover": true
   },
   {
@@ -30684,7 +30660,7 @@
     ],
     "published": null,
     "publishedSort": null,
-    "rank": 2387,
+    "rank": 2385,
     "cover": true
   },
   {
@@ -30697,7 +30673,7 @@
     ],
     "published": null,
     "publishedSort": null,
-    "rank": 2388,
+    "rank": 2386,
     "cover": true
   },
   {
@@ -30710,7 +30686,7 @@
     ],
     "published": null,
     "publishedSort": null,
-    "rank": 2389,
+    "rank": 2387,
     "cover": true
   },
   {
@@ -30724,7 +30700,7 @@
     ],
     "published": null,
     "publishedSort": null,
-    "rank": 2390,
+    "rank": 2388,
     "cover": true
   },
   {
@@ -30735,7 +30711,7 @@
     "genres": [],
     "published": null,
     "publishedSort": null,
-    "rank": 2391,
+    "rank": 2389,
     "cover": true
   },
   {
@@ -30748,7 +30724,7 @@
     ],
     "published": null,
     "publishedSort": null,
-    "rank": 2392,
+    "rank": 2390,
     "cover": true
   },
   {
@@ -30759,7 +30735,7 @@
     "genres": [],
     "published": "1798",
     "publishedSort": 1798,
-    "rank": 2393,
+    "rank": 2391,
     "cover": true
   },
   {
@@ -30773,7 +30749,7 @@
     ],
     "published": "1886",
     "publishedSort": 1886,
-    "rank": 2394,
+    "rank": 2392,
     "cover": true
   },
   {
@@ -30784,7 +30760,7 @@
     "genres": [],
     "published": null,
     "publishedSort": null,
-    "rank": 2395,
+    "rank": 2393,
     "cover": true
   },
   {
@@ -30795,7 +30771,7 @@
     "genres": [],
     "published": null,
     "publishedSort": null,
-    "rank": 2396,
+    "rank": 2394,
     "cover": true
   },
   {
@@ -30808,7 +30784,7 @@
     ],
     "published": null,
     "publishedSort": null,
-    "rank": 2397,
+    "rank": 2395,
     "cover": true
   },
   {
@@ -30823,7 +30799,7 @@
     ],
     "published": null,
     "publishedSort": null,
-    "rank": 2398,
+    "rank": 2396,
     "cover": true
   },
   {
@@ -30837,7 +30813,7 @@
     ],
     "published": null,
     "publishedSort": null,
-    "rank": 2399,
+    "rank": 2397,
     "cover": true
   },
   {
@@ -30850,7 +30826,7 @@
     ],
     "published": "1100",
     "publishedSort": 1100,
-    "rank": 2400,
+    "rank": 2398,
     "cover": true
   },
   {
@@ -30863,7 +30839,7 @@
     ],
     "published": null,
     "publishedSort": null,
-    "rank": 2401,
+    "rank": 2399,
     "cover": true
   },
   {
@@ -30876,7 +30852,7 @@
     ],
     "published": null,
     "publishedSort": null,
-    "rank": 2402,
+    "rank": 2400,
     "cover": true
   },
   {
@@ -30889,7 +30865,7 @@
     ],
     "published": null,
     "publishedSort": null,
-    "rank": 2403,
+    "rank": 2401,
     "cover": true
   },
   {
@@ -30902,7 +30878,7 @@
     ],
     "published": null,
     "publishedSort": null,
-    "rank": 2404,
+    "rank": 2402,
     "cover": true
   },
   {
@@ -30913,7 +30889,7 @@
     "genres": [],
     "published": null,
     "publishedSort": null,
-    "rank": 2405,
+    "rank": 2403,
     "cover": true
   },
   {
@@ -30927,7 +30903,7 @@
     ],
     "published": null,
     "publishedSort": null,
-    "rank": 2406,
+    "rank": 2404,
     "cover": true
   },
   {
@@ -30940,7 +30916,7 @@
     ],
     "published": "1915",
     "publishedSort": 1915,
-    "rank": 2407,
+    "rank": 2405,
     "cover": true
   },
   {
@@ -30953,7 +30929,7 @@
     ],
     "published": "1881",
     "publishedSort": 1881,
-    "rank": 2408,
+    "rank": 2406,
     "cover": true
   },
   {
@@ -30967,7 +30943,7 @@
     ],
     "published": null,
     "publishedSort": null,
-    "rank": 2409,
+    "rank": 2407,
     "cover": true
   },
   {
@@ -30981,7 +30957,7 @@
     ],
     "published": "1905",
     "publishedSort": 1905,
-    "rank": 2410,
+    "rank": 2408,
     "cover": true
   },
   {
@@ -30994,7 +30970,7 @@
     ],
     "published": null,
     "publishedSort": null,
-    "rank": 2411,
+    "rank": 2409,
     "cover": true
   },
   {
@@ -31007,7 +30983,7 @@
     ],
     "published": null,
     "publishedSort": null,
-    "rank": 2412,
+    "rank": 2410,
     "cover": true
   },
   {
@@ -31021,7 +30997,7 @@
     ],
     "published": null,
     "publishedSort": null,
-    "rank": 2413,
+    "rank": 2411,
     "cover": true
   },
   {
@@ -31032,7 +31008,7 @@
     "genres": [],
     "published": null,
     "publishedSort": null,
-    "rank": 2414,
+    "rank": 2412,
     "cover": true
   },
   {
@@ -31045,7 +31021,7 @@
     ],
     "published": null,
     "publishedSort": null,
-    "rank": 2415,
+    "rank": 2413,
     "cover": true
   },
   {
@@ -31056,7 +31032,7 @@
     "genres": [],
     "published": null,
     "publishedSort": null,
-    "rank": 2416,
+    "rank": 2414,
     "cover": true
   },
   {
@@ -31070,7 +31046,7 @@
     ],
     "published": null,
     "publishedSort": null,
-    "rank": 2417,
+    "rank": 2415,
     "cover": true
   },
   {
@@ -31084,7 +31060,7 @@
     ],
     "published": null,
     "publishedSort": null,
-    "rank": 2418,
+    "rank": 2416,
     "cover": true
   },
   {
@@ -31097,7 +31073,7 @@
     ],
     "published": "1925",
     "publishedSort": 1925,
-    "rank": 2419,
+    "rank": 2417,
     "cover": true
   },
   {
@@ -31108,7 +31084,7 @@
     "genres": [],
     "published": "1901",
     "publishedSort": 1901,
-    "rank": 2420,
+    "rank": 2418,
     "cover": true
   },
   {
@@ -31121,7 +31097,7 @@
     ],
     "published": null,
     "publishedSort": null,
-    "rank": 2421,
+    "rank": 2419,
     "cover": true
   },
   {
@@ -31135,7 +31111,7 @@
     ],
     "published": null,
     "publishedSort": null,
-    "rank": 2422,
+    "rank": 2420,
     "cover": true
   },
   {
@@ -31148,7 +31124,7 @@
     ],
     "published": "1922",
     "publishedSort": 1922,
-    "rank": 2423,
+    "rank": 2421,
     "cover": true
   },
   {
@@ -31162,7 +31138,7 @@
     ],
     "published": null,
     "publishedSort": null,
-    "rank": 2424,
+    "rank": 2422,
     "cover": true
   },
   {
@@ -31175,7 +31151,7 @@
     ],
     "published": null,
     "publishedSort": null,
-    "rank": 2425,
+    "rank": 2423,
     "cover": true
   },
   {
@@ -31189,7 +31165,7 @@
     ],
     "published": null,
     "publishedSort": null,
-    "rank": 2426,
+    "rank": 2424,
     "cover": true
   },
   {
@@ -31203,7 +31179,7 @@
     ],
     "published": null,
     "publishedSort": null,
-    "rank": 2427,
+    "rank": 2425,
     "cover": true
   },
   {
@@ -31216,7 +31192,7 @@
     ],
     "published": null,
     "publishedSort": null,
-    "rank": 2428,
+    "rank": 2426,
     "cover": true
   },
   {
@@ -31230,7 +31206,7 @@
     ],
     "published": "1884",
     "publishedSort": 1884,
-    "rank": 2429,
+    "rank": 2427,
     "cover": true
   },
   {
@@ -31243,7 +31219,7 @@
     ],
     "published": null,
     "publishedSort": null,
-    "rank": 2430,
+    "rank": 2428,
     "cover": true
   },
   {
@@ -31257,7 +31233,7 @@
     ],
     "published": null,
     "publishedSort": null,
-    "rank": 2431,
+    "rank": 2429,
     "cover": true
   },
   {
@@ -31268,7 +31244,7 @@
     "genres": [],
     "published": null,
     "publishedSort": null,
-    "rank": 2432,
+    "rank": 2430,
     "cover": true
   },
   {
@@ -31279,7 +31255,7 @@
     "genres": [],
     "published": null,
     "publishedSort": null,
-    "rank": 2433,
+    "rank": 2431,
     "cover": true
   },
   {
@@ -31293,7 +31269,7 @@
     ],
     "published": null,
     "publishedSort": null,
-    "rank": 2434,
+    "rank": 2432,
     "cover": true
   },
   {
@@ -31304,7 +31280,7 @@
     "genres": [],
     "published": null,
     "publishedSort": null,
-    "rank": 2435,
+    "rank": 2433,
     "cover": true
   },
   {
@@ -31317,7 +31293,7 @@
     ],
     "published": null,
     "publishedSort": null,
-    "rank": 2436,
+    "rank": 2434,
     "cover": true
   },
   {
@@ -31330,7 +31306,7 @@
     ],
     "published": null,
     "publishedSort": null,
-    "rank": 2437,
+    "rank": 2435,
     "cover": true
   },
   {
@@ -31345,7 +31321,7 @@
     ],
     "published": null,
     "publishedSort": null,
-    "rank": 2438,
+    "rank": 2436,
     "cover": true
   },
   {
@@ -31358,7 +31334,7 @@
     ],
     "published": null,
     "publishedSort": null,
-    "rank": 2439,
+    "rank": 2437,
     "cover": true
   },
   {
@@ -31369,7 +31345,7 @@
     "genres": [],
     "published": null,
     "publishedSort": null,
-    "rank": 2440,
+    "rank": 2438,
     "cover": true
   },
   {
@@ -31383,7 +31359,7 @@
     ],
     "published": null,
     "publishedSort": null,
-    "rank": 2441,
+    "rank": 2439,
     "cover": true
   },
   {
@@ -31396,7 +31372,7 @@
     ],
     "published": null,
     "publishedSort": null,
-    "rank": 2442,
+    "rank": 2440,
     "cover": true
   },
   {
@@ -31409,7 +31385,7 @@
     ],
     "published": null,
     "publishedSort": null,
-    "rank": 2443,
+    "rank": 2441,
     "cover": true
   },
   {
@@ -31420,7 +31396,7 @@
     "genres": [],
     "published": null,
     "publishedSort": null,
-    "rank": 2444,
+    "rank": 2442,
     "cover": true
   },
   {
@@ -31431,7 +31407,7 @@
     "genres": [],
     "published": null,
     "publishedSort": null,
-    "rank": 2445,
+    "rank": 2443,
     "cover": true
   },
   {
@@ -31445,7 +31421,7 @@
     ],
     "published": null,
     "publishedSort": null,
-    "rank": 2446,
+    "rank": 2444,
     "cover": true
   },
   {
@@ -31456,7 +31432,7 @@
     "genres": [],
     "published": null,
     "publishedSort": null,
-    "rank": 2447,
+    "rank": 2445,
     "cover": true
   },
   {
@@ -31469,7 +31445,7 @@
     ],
     "published": "1857",
     "publishedSort": 1857,
-    "rank": 2448,
+    "rank": 2446,
     "cover": true
   },
   {
@@ -31484,7 +31460,7 @@
     ],
     "published": null,
     "publishedSort": null,
-    "rank": 2449,
+    "rank": 2447,
     "cover": true
   },
   {
@@ -31498,7 +31474,7 @@
     ],
     "published": null,
     "publishedSort": null,
-    "rank": 2450,
+    "rank": 2448,
     "cover": true
   },
   {
@@ -31511,7 +31487,7 @@
     ],
     "published": null,
     "publishedSort": null,
-    "rank": 2451,
+    "rank": 2449,
     "cover": true
   },
   {
@@ -31522,7 +31498,7 @@
     "genres": [],
     "published": null,
     "publishedSort": null,
-    "rank": 2452,
+    "rank": 2450,
     "cover": true
   },
   {
@@ -31536,7 +31512,7 @@
     ],
     "published": "1936",
     "publishedSort": 1936,
-    "rank": 2453,
+    "rank": 2451,
     "cover": true
   },
   {
@@ -31551,7 +31527,7 @@
     ],
     "published": "1899",
     "publishedSort": 1899,
-    "rank": 2454,
+    "rank": 2452,
     "cover": true
   },
   {
@@ -31565,7 +31541,7 @@
     ],
     "published": null,
     "publishedSort": null,
-    "rank": 2455,
+    "rank": 2453,
     "cover": true
   },
   {
@@ -31578,7 +31554,7 @@
     ],
     "published": null,
     "publishedSort": null,
-    "rank": 2456,
+    "rank": 2454,
     "cover": true
   },
   {
@@ -31591,7 +31567,7 @@
     ],
     "published": null,
     "publishedSort": null,
-    "rank": 2457,
+    "rank": 2455,
     "cover": true
   },
   {
@@ -31605,7 +31581,7 @@
     ],
     "published": null,
     "publishedSort": null,
-    "rank": 2458,
+    "rank": 2456,
     "cover": true
   },
   {
@@ -31619,7 +31595,7 @@
     ],
     "published": null,
     "publishedSort": null,
-    "rank": 2459,
+    "rank": 2457,
     "cover": true
   },
   {
@@ -31633,7 +31609,7 @@
     ],
     "published": null,
     "publishedSort": null,
-    "rank": 2460,
+    "rank": 2458,
     "cover": true
   },
   {
@@ -31646,7 +31622,7 @@
     ],
     "published": null,
     "publishedSort": null,
-    "rank": 2461,
+    "rank": 2459,
     "cover": true
   },
   {
@@ -31661,20 +31637,7 @@
     ],
     "published": null,
     "publishedSort": null,
-    "rank": 2462,
-    "cover": true
-  },
-  {
-    "id": 39270,
-    "slug": "the-life-and-opinions-of-tristram-shandy-gentleman",
-    "title": "The Life and Opinions of Tristram Shandy, Gentleman",
-    "author": "Laurence Sterne",
-    "genres": [
-      "Novels"
-    ],
-    "published": null,
-    "publishedSort": null,
-    "rank": 2463,
+    "rank": 2460,
     "cover": true
   },
   {
@@ -31687,7 +31650,7 @@
     ],
     "published": null,
     "publishedSort": null,
-    "rank": 2464,
+    "rank": 2461,
     "cover": true
   },
   {
@@ -31698,7 +31661,7 @@
     "genres": [],
     "published": null,
     "publishedSort": null,
-    "rank": 2465,
+    "rank": 2462,
     "cover": true
   },
   {
@@ -31712,7 +31675,7 @@
     ],
     "published": null,
     "publishedSort": null,
-    "rank": 2466,
+    "rank": 2463,
     "cover": true
   },
   {
@@ -31725,7 +31688,7 @@
     ],
     "published": null,
     "publishedSort": null,
-    "rank": 2467,
+    "rank": 2464,
     "cover": true
   },
   {
@@ -31736,7 +31699,7 @@
     "genres": [],
     "published": null,
     "publishedSort": null,
-    "rank": 2468,
+    "rank": 2465,
     "cover": true
   },
   {
@@ -31749,7 +31712,7 @@
     ],
     "published": null,
     "publishedSort": null,
-    "rank": 2469,
+    "rank": 2466,
     "cover": true
   },
   {
@@ -31760,7 +31723,7 @@
     "genres": [],
     "published": null,
     "publishedSort": null,
-    "rank": 2470,
+    "rank": 2467,
     "cover": true
   },
   {
@@ -31773,7 +31736,7 @@
     ],
     "published": null,
     "publishedSort": null,
-    "rank": 2471,
+    "rank": 2468,
     "cover": true
   },
   {
@@ -31786,7 +31749,7 @@
     ],
     "published": null,
     "publishedSort": null,
-    "rank": 2472,
+    "rank": 2469,
     "cover": true
   },
   {
@@ -31801,7 +31764,7 @@
     ],
     "published": null,
     "publishedSort": null,
-    "rank": 2473,
+    "rank": 2470,
     "cover": true
   },
   {
@@ -31814,7 +31777,7 @@
     ],
     "published": "1907",
     "publishedSort": 1907,
-    "rank": 2474,
+    "rank": 2471,
     "cover": true
   },
   {
@@ -31827,7 +31790,7 @@
     ],
     "published": "1885",
     "publishedSort": 1885,
-    "rank": 2475,
+    "rank": 2472,
     "cover": true
   },
   {
@@ -31841,7 +31804,7 @@
     ],
     "published": "1671",
     "publishedSort": 1671,
-    "rank": 2476,
+    "rank": 2473,
     "cover": true
   },
   {
@@ -31854,7 +31817,7 @@
     ],
     "published": null,
     "publishedSort": null,
-    "rank": 2477,
+    "rank": 2474,
     "cover": true
   },
   {
@@ -31867,21 +31830,7 @@
     ],
     "published": null,
     "publishedSort": null,
-    "rank": 2478,
-    "cover": true
-  },
-  {
-    "id": 7100,
-    "slug": "adventures-of-huckleberry-finn-chapters-01-to-05",
-    "title": "Adventures of Huckleberry Finn, Chapters 01 to 05",
-    "author": "Mark Twain",
-    "genres": [
-      "Novels",
-      "Adventure"
-    ],
-    "published": null,
-    "publishedSort": null,
-    "rank": 2479,
+    "rank": 2475,
     "cover": true
   },
   {
@@ -31892,7 +31841,7 @@
     "genres": [],
     "published": null,
     "publishedSort": null,
-    "rank": 2480,
+    "rank": 2476,
     "cover": true
   },
   {
@@ -31905,7 +31854,7 @@
     ],
     "published": null,
     "publishedSort": null,
-    "rank": 2481,
+    "rank": 2477,
     "cover": true
   },
   {
@@ -31918,7 +31867,7 @@
     ],
     "published": null,
     "publishedSort": null,
-    "rank": 2482,
+    "rank": 2478,
     "cover": true
   },
   {
@@ -31933,7 +31882,7 @@
     ],
     "published": null,
     "publishedSort": null,
-    "rank": 2483,
+    "rank": 2479,
     "cover": true
   },
   {
@@ -31946,7 +31895,7 @@
     ],
     "published": null,
     "publishedSort": null,
-    "rank": 2484,
+    "rank": 2480,
     "cover": true
   },
   {
@@ -31959,7 +31908,7 @@
     ],
     "published": null,
     "publishedSort": null,
-    "rank": 2485,
+    "rank": 2481,
     "cover": true
   },
   {
@@ -31970,7 +31919,7 @@
     "genres": [],
     "published": null,
     "publishedSort": null,
-    "rank": 2486,
+    "rank": 2482,
     "cover": true
   },
   {
@@ -31983,7 +31932,7 @@
     ],
     "published": null,
     "publishedSort": null,
-    "rank": 2487,
+    "rank": 2483,
     "cover": true
   },
   {
@@ -31996,7 +31945,7 @@
     ],
     "published": null,
     "publishedSort": null,
-    "rank": 2488,
+    "rank": 2484,
     "cover": true
   },
   {
@@ -32009,7 +31958,7 @@
     ],
     "published": null,
     "publishedSort": null,
-    "rank": 2489,
+    "rank": 2485,
     "cover": true
   },
   {
@@ -32020,7 +31969,7 @@
     "genres": [],
     "published": null,
     "publishedSort": null,
-    "rank": 2490,
+    "rank": 2486,
     "cover": true
   },
   {
@@ -32033,7 +31982,7 @@
     ],
     "published": null,
     "publishedSort": null,
-    "rank": 2491,
+    "rank": 2487,
     "cover": true
   },
   {
@@ -32046,7 +31995,7 @@
     ],
     "published": null,
     "publishedSort": null,
-    "rank": 2492,
+    "rank": 2488,
     "cover": true
   },
   {
@@ -32060,7 +32009,7 @@
     ],
     "published": "1896",
     "publishedSort": 1896,
-    "rank": 2493,
+    "rank": 2489,
     "cover": true
   },
   {
@@ -32074,7 +32023,7 @@
     ],
     "published": null,
     "publishedSort": null,
-    "rank": 2494,
+    "rank": 2490,
     "cover": true
   },
   {
@@ -32087,7 +32036,7 @@
     ],
     "published": null,
     "publishedSort": null,
-    "rank": 2495,
+    "rank": 2491,
     "cover": true
   },
   {
@@ -32100,7 +32049,7 @@
     ],
     "published": null,
     "publishedSort": null,
-    "rank": 2496,
+    "rank": 2492,
     "cover": true
   },
   {
@@ -32113,7 +32062,7 @@
     ],
     "published": "1857",
     "publishedSort": 1857,
-    "rank": 2497,
+    "rank": 2493,
     "cover": true
   },
   {
@@ -32126,7 +32075,7 @@
     ],
     "published": null,
     "publishedSort": null,
-    "rank": 2498,
+    "rank": 2494,
     "cover": true
   },
   {
@@ -32139,7 +32088,7 @@
     ],
     "published": null,
     "publishedSort": null,
-    "rank": 2499,
+    "rank": 2495,
     "cover": true
   },
   {
@@ -32152,6 +32101,59 @@
     ],
     "published": null,
     "publishedSort": null,
+    "rank": 2496,
+    "cover": true
+  },
+  {
+    "id": 51355,
+    "slug": "the-iliads-of-homer",
+    "title": "The Iliads of Homer",
+    "author": "Homer",
+    "genres": [
+      "Poetry"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 2497,
+    "cover": true
+  },
+  {
+    "id": 2715,
+    "slug": "the-real-thing-and-other-tales",
+    "title": "The Real Thing and Other Tales",
+    "author": "Henry James",
+    "genres": [
+      "Short stories"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 2498,
+    "cover": true
+  },
+  {
+    "id": 28587,
+    "slug": "the-roman-history-of-ammianus-marcellinus",
+    "title": "The Roman History of Ammianus Marcellinus",
+    "author": "Ammianus Marcellinus",
+    "genres": [
+      "History and lives"
+    ],
+    "published": null,
+    "publishedSort": null,
+    "rank": 2499,
+    "cover": true
+  },
+  {
+    "id": 70271,
+    "slug": "when-we-were-very-young",
+    "title": "When We Were Very Young",
+    "author": "A. A. Milne",
+    "genres": [
+      "Poetry",
+      "Children's"
+    ],
+    "published": "1924",
+    "publishedSort": 1924,
     "rank": 2500,
     "cover": true
   }

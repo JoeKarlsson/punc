@@ -7,6 +7,9 @@ author:
     orcid: ""  # 0000-0000-0000-0000 once registered
 date: November 22, 2026
 version: Preprint, draft 4
+# PDF document properties (the structured author list above doesn't fill them).
+author-meta: Joe Karlsson
+title-meta: "How Much of the Decline in English Sentence Length Is Punctuation? Evidence from Dated Project Gutenberg Books, 1600–1974"
 keywords: [sentence length, punctuation, semicolon, historical linguistics, Project Gutenberg, cultural analytics]
 doi: ""  # Zenodo or arXiv DOI once deposited
 repository: https://github.com/JoeKarlsson/punc

@@ -22,6 +22,9 @@ export interface ShelfBook {
   // markShares() of the whole book, for the fingerprint
   shares: number[];
   cover: boolean;
+  // Modern books only (HathiTrust counts, site/src/modern-page.ts): how well
+  // known it is, 1 first. They have no sample, shares or cover.
+  modern?: number;
 }
 
 const TILTS = [-1.6, 0.9, -0.6, 1.8, -1.1, 0.4, -1.9, 1.3, -0.3];
@@ -33,6 +36,14 @@ const fmt = (n: number) => n.toLocaleString('en-US');
 // i picks the card's tilt, so neighbours lean different ways. The first row can be on the
 // first screen, so it isn't lazy.
 export function cardHTML(book: ShelfBook, i: number): string {
+  if (book.modern !== undefined) {
+    return `<li class="cover poster cover-modern" style="--tilt:${TILTS[i % TILTS.length]}deg" data-slug="${book.slug}">
+      <a href="books/${book.slug}/">
+        <span class="cover-label"><span class="cover-title">${escapeHTML(book.title)}</span><span class="cover-author">${escapeHTML(book.byline)}</span></span>
+      </a>
+      <p class="cover-meta">${book.wps.toFixed(1)} words a sentence</p>
+    </li>`;
+  }
   const poster = book.cover ? `<img data-poster src="covers/${book.slug}.jpg" alt=""${i < 4 ? '' : ' loading="lazy"'} decoding="async">` : '';
   return `<li class="cover poster" style="--tilt:${TILTS[i % TILTS.length]}deg" data-slug="${book.slug}">
       <a href="books/${book.slug}/">

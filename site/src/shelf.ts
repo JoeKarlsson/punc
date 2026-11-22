@@ -23,7 +23,8 @@ interface Card {
   el: HTMLElement | undefined;
 }
 
-const rankOf = (c: Card) => c.book.rank ?? Infinity;
+// Modern books come after every Gutenberg book, in their own order.
+const rankOf = (c: Card) => c.book.rank ?? (c.book.modern === undefined ? Infinity : 1e6 + c.book.modern);
 const SORTS: Record<string, (a: Card, b: Card) => number> = {
   popular: (a, b) => rankOf(a) - rankOf(b),
   title: (a, b) => a.book.title.localeCompare(b.book.title),
@@ -124,7 +125,8 @@ async function setUpShelf(): Promise<void> {
   const apply = () => {
     const terms = normalizeForSearch(search.value).split(' ').filter(Boolean);
     const shown = cards
-      .filter(c => terms.every(t => c.text.includes(t)) && (!genre.value || c.book.genres.includes(genre.value)))
+      // Modern books show under their own genre, or in a search; not on the plain shelf.
+      .filter(c => terms.every(t => c.text.includes(t)) && (genre.value ? c.book.genres.includes(genre.value) : c.book.modern === undefined || terms.length > 0))
       .sort(SORTS[sort.value] ?? SORTS['popular']);
     const pageSize = wideScreen.matches ? SHELF_PAGE_SIZE : SHELF_PAGE_SIZE_PHONE;
     const pageCount = Math.max(1, Math.ceil(shown.length / pageSize));
@@ -135,7 +137,7 @@ async function setUpShelf(): Promise<void> {
     if (onPage.length !== list.children.length || onPage.some((el, i) => list.children[i] !== el)) list.replaceChildren(...onPage);
     list.dataset['paged'] = '';
     const fmt = (n: number) => n.toLocaleString('en-US');
-    const matching = shown.length === cards.length ? `${fmt(cards.length)} books` : `${fmt(shown.length)} matching books (${fmt(cards.length)} on the shelf)`;
+    const matching = !terms.length && !genre.value ? `${fmt(shown.length)} books` : `${fmt(shown.length)} matching books (${fmt(cards.length)} on the shelf)`;
     count.textContent = onPage.length ? `Showing ${start + 1}–${start + onPage.length} of ${matching}` : `Showing 0 of ${fmt(cards.length)} books`;
     empty.hidden = shown.length > 0;
     reportSearch(terms.join(' '), shown.length);

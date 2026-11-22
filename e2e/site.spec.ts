@@ -5,8 +5,9 @@ import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import { dirname, join, normalize } from 'node:path';
 
 const catalog = JSON.parse(readFileSync('site/catalog.json', 'utf8')) as Array<{ slug: string; title: string; author: string; genres: string[]; rank: number | null; published: string | null; publishedSort: number | null }>;
-// How many shelf books a one-word search finds in a title or author.
-const shelfMatches = (word: string) => catalog.filter(b => `${b.title} ${b.author}`.toLowerCase().includes(word)).length;
+const modern = JSON.parse(readFileSync('site/modern.json', 'utf8')) as Array<{ slug: string; title: string; author: string; year: number }>;
+// How many shelf books a one-word search finds in a title or author; a search finds modern books too.
+const shelfMatches = (word: string) => [...catalog, ...modern].filter(b => `${b.title} ${b.author}`.toLowerCase().includes(word)).length;
 
 // Fail any test that throws in the page or trips the Content-Security-Policy.
 test.beforeEach(({ page }) => {
@@ -62,8 +63,8 @@ test('the shelf searches by title or author, filters by genre, and sorts', async
 
   await page.getByLabel('Genre').selectOption('');
   await page.getByLabel('Sort').selectOption('short-sentences');
-  const shelf = (await (await page.request.get('shelf.json')).json()) as Array<{ slug: string; wps: number }>;
-  const shortest = [...shelf].sort((a, b) => a.wps - b.wps).slice(0, 72).map(b => b.slug);
+  const shelf = (await (await page.request.get('shelf.json')).json()) as Array<{ slug: string; wps: number; modern?: number }>;
+  const shortest = shelf.filter(b => b.modern === undefined).sort((a, b) => a.wps - b.wps).slice(0, 72).map(b => b.slug);
   await expect.poll(() => visible.evaluateAll(els => els.map(el => (el as HTMLElement).dataset['slug']))).toEqual(shortest);
 
   await page.getByLabel('Sort').selectOption('oldest');
@@ -348,6 +349,36 @@ test('a book page shows its fingerprint, how its marks change, and describes its
   await expect(rows.first().locator('rect')).toHaveCount(10);
 });
 
+test('modern books show under their own filter and in a search, not on the plain shelf', async ({ page }) => {
+  await page.goto('./');
+  const visible = page.locator('#shelf .cover:not([hidden])');
+  await expect(page.locator('#shelf .cover-modern')).toHaveCount(0);
+  await page.getByLabel('Genre').selectOption('modern');
+  await expect(visible).toHaveCount(72);
+  await expect(page.locator('#shelf .cover-modern')).toHaveCount(72);
+  await expect(visible.first()).toContainText(modern[0]!.title);
+  await expect(page.locator('#shelf-count')).toContainText(`of ${modern.length.toLocaleString('en-US')} matching books`);
+
+  await page.getByLabel('Genre').selectOption('');
+  await page.getByLabel('Search').fill('orwell');
+  await expect(visible).toHaveCount(shelfMatches('orwell'));
+  await expect(page.locator('#shelf .cover-modern', { hasText: 'Nineteen Eighty-Four' })).toBeVisible();
+});
+
+test('a modern book page shows its HathiTrust counts, credits HathiTrust, and has no views that need the text', async ({ page }) => {
+  await page.goto('books/nineteen-eighty-four/');
+  await expect(page.locator('h1')).toHaveText('Nineteen Eighty-Four');
+  await expect(page.locator('#book-byline')).toHaveText('George Orwell, 1949');
+  await expect(page.locator('#stat-wps')).toHaveText(/^\d+\.\d$/);
+  await expect(page.locator('.compare-table tbody tr')).toHaveCount(5);
+  await expect(page.locator('.tb-bars')).toHaveCount(5);
+  await expect(page.locator('#counts li')).toHaveCount(5);
+  await expect(page.locator('.modern-others a', { hasText: 'Animal Farm' })).toHaveAttribute('href', /books\/animal-farm\/$/);
+  await expect(page.locator('.book-poster')).toHaveAttribute('href', /^https:\/\/hdl\.handle\.net\/2027\//);
+  await expect(page.locator('.modern-credit')).toContainText('CC BY 4.0');
+  await expect(page.locator('[data-view], #score, #spiral-canvas')).toHaveCount(0);
+});
+
 test('every shelf card has a fingerprint', async ({ page }) => {
   await page.goto('./');
   await expect(page.locator('#shelf .cover .fingerprint')).toHaveCount(72);
@@ -534,7 +565,7 @@ async function expectNoAxeViolations(page: Page, where: string) {
 test('every page type passes axe (WCAG 2.2 AA)', async ({ page }) => {
   // The shelf is hundreds of cards; axe needs longer than the default on CI.
   test.slow();
-  for (const path of ['./', 'read.html', 'numbers.html', 'about.html', '404.html']) {
+  for (const path of ['./', 'read.html', 'numbers.html', 'about.html', '404.html', 'books/nineteen-eighty-four/']) {
     await page.goto(path);
     await page.waitForLoadState('networkidle');
     await expectNoAxeViolations(page, path);

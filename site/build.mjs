@@ -31,7 +31,7 @@ await build({
 // The browser's own code, bundled for Node so the pages match what it draws.
 const analyzerPath = join(tmpdir(), `punc-site-analyze-${process.pid}.mjs`);
 await build({ entryPoints: [join(SITE, 'src/node-entry.ts')], bundle: true, platform: 'node', format: 'esm', outfile: analyzerPath });
-const { bookPageTitle, booksIndexHTML, cardHTML, countsHTML, fingerprintHTML, markShares, marksThroughBook, numbers: N, TRACKED_MARKS, shelfPosition, SHELF_PAGE_SIZE, throughBookHTML } = await import(pathToFileURL(analyzerPath).href);
+const { bookPageTitle, booksIndexHTML, cardHTML, countsHTML, fingerprintHTML, markShares, marksThroughBook, modernMarkCount, modernMedians, modernNumbers, modernPageHTML, numbers: N, TRACKED_MARKS, shelfPosition, SHELF_PAGE_SIZE, throughBookHTML } = await import(pathToFileURL(analyzerPath).href);
 await rm(analyzerPath);
 
 // GitHub Pages can't send headers, so the policy rides in a meta tag, first in
@@ -59,6 +59,9 @@ const escapeHTML = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').r
 const fmt = n => n.toLocaleString('en-US');
 
 const catalog = JSON.parse(await readFile(join(SITE, 'catalog.json'), 'utf8'));
+// Novels first published 1930 on, from HathiTrust counts (site/scripts/import-modern.mjs).
+const modern = JSON.parse(await readFile(join(SITE, 'modern.json'), 'utf8'));
+const modernShelfNumbers = modern.map(modernNumbers);
 // The day site/scripts/fetch-books.mjs last fetched the shelf.
 const fetched = (await readFile(join(SITE, 'fetched.txt'), 'utf8')).trim();
 if (!/^\d{4}-\d{2}-\d{2}$/.test(fetched)) throw new Error(`site/fetched.txt should be a YYYY-MM-DD date, not "${fetched}"`);
@@ -129,7 +132,25 @@ const genres = [...new Set(books.flatMap(b => b.genres))].sort();
 // can't show more.
 const shelfBook = ({ slug, title, author, byline, authorSort, genres, rank, publishedSort, words, marks, wps, density, sample, shares, cover }) =>
   ({ slug, title, author, byline, authorSort, genres, rank, publishedSort, words, marks, wps: Number(wps.toFixed(2)), density: Number(density.toFixed(2)), sample, shares: shares.map(s => Number(s.toFixed(4))), cover });
-await writeFile(join(OUT, 'shelf.json'), JSON.stringify(byRank.map(shelfBook)));
+const modernShelfBook = book => ({
+  slug: book.slug,
+  title: book.title,
+  author: book.author,
+  byline: `${book.author}, ${book.year}`,
+  authorSort: book.author.split(' ').at(-1),
+  genres: ['modern'],
+  rank: null,
+  modern: book.rank,
+  publishedSort: book.year,
+  words: book.words,
+  marks: modernMarkCount(book),
+  wps: book.wps,
+  density: Number(((modernMarkCount(book) / book.words) * 100).toFixed(2)),
+  sample: '',
+  shares: [],
+  cover: false,
+});
+await writeFile(join(OUT, 'shelf.json'), JSON.stringify([...byRank.map(shelfBook), ...modern.map(modernShelfBook)]));
 
 // Book pages and uploads draw themselves on the shelf map from this.
 // The numbers page compares books and authors from this.
@@ -245,7 +266,7 @@ ${notFound ? '' : shareLinks(url, socialTitle ?? title)}
     <a href="https://joekarlsson.com">joekarlsson.com</a>
     <a href="https://github.com/JoeKarlsson/punc">Source on GitHub</a>
   </nav>
-  <p>Punc is an art project by Joe Karlsson. Shelf books and covers from Project Gutenberg.</p>
+  <p>Punc is an art project by Joe Karlsson. Shelf books and covers from Project Gutenberg; counts for books from 1930 on from the HathiTrust Research Center's Extracted Features (CC BY 4.0).</p>
 </footer>
 <script type="module" src="assets/${script}?v=${version}"></script>
 </body>
@@ -292,7 +313,7 @@ const indexBody = (await fragment('index.html'))
   .replace('<!--SCANNERTEXT-->', () => escapeHTML(scannerOpenings[0].text))
   // Only the first page is in the HTML; site/src/shelf.ts draws the rest from shelf.json.
   .replace('<!--SHELF-->', byRank.slice(0, SHELF_PAGE_SIZE).map((book, i) => cardHTML(shelfBook(book), i)).join('\n'))
-  .replace('<!--GENRES-->', genres.map(g => `<option>${escapeHTML(g)}</option>`).join(''));
+  .replace('<!--GENRES-->', `${genres.map(g => `<option>${escapeHTML(g)}</option>`).join('')}<option value="modern">From 1930 on (counts only)</option>`);
 await writePage({
   path: 'index.html',
   nav: 'shelf',
@@ -403,6 +424,43 @@ for (const book of books) {
   });
 }
 
+// Modern book pages: counts only, so no reader.js (site/src/modern-page.ts).
+const modernContext = { modernMedians: modernMedians(modernShelfNumbers), gutenbergMedians: medians };
+const byAuthor = new Map();
+for (const b of [...books.map(g => ({ slug: g.slug, title: g.title, author: g.author, year: g.publishedSort })), ...modern]) {
+  byAuthor.set(b.author, [...(byAuthor.get(b.author) ?? []), b]);
+}
+for (const book of modern) {
+  const otherBooks = byAuthor.get(book.author)
+    .filter(b => b.slug !== book.slug)
+    .sort((a, b) => (a.year ?? Infinity) - (b.year ?? Infinity));
+  const numbers = modernNumbers(book);
+  const said = `${book.author}'s ${book.title} (${book.year}): ${book.wps.toFixed(1)} words to a sentence and ${numbers.semicolon.toFixed(1)} semicolons per 1,000 words`;
+  const description = [`${said}, counted from HathiTrust.`, `${said}.`, `The punctuation of ${book.title}, counted from HathiTrust.`].find(d => d.length <= 160)
+    ?? `The punctuation of ${book.title.slice(0, 120).replace(/\s+\S*$/, '')}…`;
+  await writePage({
+    path: `books/${book.slug}/index.html`,
+    depth: 2,
+    // With the year: some modern titles are an older book's too (Endymion, Keats and Dan Simmons).
+    title: bookPageTitle(`${book.title} (${book.year})`),
+    socialTitle: `The punctuation of ${book.title}`,
+    description,
+    structuredData: {
+      '@type': 'WebPage',
+      name: `The punctuation of ${book.title}`,
+      url: `${SITE_URL}books/${book.slug}/`,
+      description,
+      isPartOf: WEBSITE,
+      inLanguage: 'en',
+      author: AUTHOR,
+      about: { '@type': 'Book', name: book.title, author: { '@type': 'Person', name: book.author }, datePublished: String(book.year) },
+    },
+    sources: ['site/modern.json'],
+    body: modernPageHTML(book, { ...modernContext, otherBooks }),
+    script: 'page.js',
+  });
+}
+
 // Label the two books at each extreme and the four most read; the rest are
 // hover-only, or the middle of the map turns into a pile of text.
 const mapLabels = [
@@ -414,10 +472,12 @@ const mapLabels = [
 // The numbers page. The measures and charts are in site/src/numbers.ts.
 const percentOf = (n, total) => `${Math.round((n / total) * 100)}%`;
 const timelineMetrics = ['semicolon', 'comma', 'wps', 'question', 'exclaim', 'dialogue'];
+// The measures HathiTrust's counts get right (exclamation marks only roughly).
+const MODERN_TIMELINE_METRICS = ['semicolon', 'comma', 'wps', 'question'];
 const timelines = timelineMetrics
   .map(key => `      <figure class="chart">
         <figcaption><strong>${N.metric(key).label}</strong>: ${escapeHTML(N.trendSentence(shelfNumbers, key))}${key === 'wps' ? '. Dotted: counting ; and : as stops too' : ''}</figcaption>
-        ${N.timelineSVG(shelfNumbers, key, genres)}
+        ${N.timelineSVG(shelfNumbers, key, genres, MODERN_TIMELINE_METRICS.includes(key) ? modernShelfNumbers : [])}
         <p class="map-tip" hidden></p>
       </figure>`)
   .join('\n');
@@ -528,6 +588,7 @@ const percent = rate => `${Math.round(rate * 100)}%`;
 const fetchedText = new Date(`${fetched}T12:00:00Z`).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' });
 const fill = {
   books: fmt(books.length),
+  modernBooks: fmt(modern.length),
   semicolons: escapeHTML(N.trendSentence(shelfNumbers, 'semicolon')),
   firstSpan: N.spanText(shrink.first),
   lastSpan: N.spanText(shrink.last),
@@ -628,11 +689,11 @@ await writePage({
   path: 'books/index.html',
   depth: 1,
   title: 'Every book on the shelf, A to Z · Punc',
-  description: `All ${fmt(books.length)} books on Punc's shelf by title, each a link to its punctuation with every word taken out.`,
+  description: `All ${fmt(books.length + modern.length)} books on Punc's shelf by title, each a link to its punctuation with every word taken out.`,
   body: `<article class="az">
   <h1 class="page-title">Every book, A to Z</h1>
-  <p class="lede">All ${fmt(books.length)} books on the shelf, filed by title without "The", "A" or "An". Each one opens as punctuation only.</p>
-${booksIndexHTML(books)}
+  <p class="lede">All ${fmt(books.length + modern.length)} books on the shelf, filed by title without "The", "A" or "An": ${fmt(books.length)} from Project Gutenberg, which open as punctuation only, and ${fmt(modern.length)} novels from 1930 on, counted from HathiTrust.</p>
+${booksIndexHTML([...books, ...modern])}
 </article>`,
   script: 'page.js',
 });
@@ -651,6 +712,7 @@ Punc counts every punctuation mark left after the letters and numbers are remove
 
 - [The numbers](${SITE_URL}numbers.html): what the marks show across the shelf, over time, by genre and by author
 - [Every book, A to Z](${SITE_URL}books/): a page per book with its mark counts, its punctuation fingerprint and how its marks change through the book
+- Modern books: ${fmt(modern.length)} novels first published 1930 on, from HathiTrust's page-by-page token counts (the HathiTrust Research Center's Extracted Features, CC BY 4.0), not the text. Their pages give only commas, periods, semicolons, question and exclamation marks and words per sentence
 - [About](${SITE_URL}about.html): the artist statement and how Punc works
 - [Read your own](${SITE_URL}read.html): any text as punctuation only, in the browser
 
@@ -684,4 +746,4 @@ await writeFile(
 if (missingShareImages.length) {
   console.warn(`No share card for ${missingShareImages.join(', ')}; those pages share og.png. Run node site/scripts/make-images.mjs after this build.`);
 }
-console.log(`Built ${books.length} books into ${OUT}/`);
+console.log(`Built ${books.length} books and ${modern.length} modern books into ${OUT}/`);

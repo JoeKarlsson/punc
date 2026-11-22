@@ -151,10 +151,10 @@ export interface TrendPoint {
 
 // The median of a measure in each `step`-year span from `from` to `to`, for
 // spans with at least `minBooks` books.
-export function trend(books: BookNumbers[], key: MetricKey, from: number, to: number, step = 25, minBooks = 3): TrendPoint[] {
+export function trend(books: Array<{ year: number | null } & Partial<Record<MetricKey, number>>>, key: MetricKey, from: number, to: number, step = 25, minBooks = 3): TrendPoint[] {
   const points: TrendPoint[] = [];
   for (let start = from; start < to; start += step) {
-    const inSpan = books.filter(b => b.year !== null && b.year >= start && b.year < start + step).map(b => b[key]);
+    const inSpan = books.filter(b => b.year !== null && b.year >= start && b.year < start + step && b[key] !== undefined).map(b => b[key]!);
     if (inSpan.length >= minBooks) points.push({ from: start, to: start + step, books: inSpan.length, value: median(inSpan) });
   }
   return points;
@@ -342,12 +342,18 @@ const tickText = (key: MetricKey, v: number) => (key === 'dialogue' ? `${v}%` : 
 
 export const TIMELINE_FROM = 1600;
 export const TIMELINE_TO = 1975;
+// The charts run on past the Gutenberg books' last span, for the modern line.
+const CHART_TO = 2010;
+// Modern books (HathiTrust counts) get a line per decade: there are hundreds a decade.
+export const MODERN_FROM = 1930;
+const MODERN_STEP = 10;
+const MODERN_MIN_BOOKS = 20;
 
 const linePath = (points: Array<[number, number]>) => points.map(([x, y], i) => `${i ? 'L' : 'M'}${r1(x)} ${r1(y)}`).join('');
 
 const TIMELINE = { W: 520, H: 300, L: 48, R: 14, T: 14, B: 34 };
 const timelineBooks = (books: BookNumbers[]) => books.filter(b => b.year !== null && b.year >= TIMELINE_FROM && b.year < TIMELINE_TO);
-const timelineX = (year: number) => TIMELINE.L + ((year - TIMELINE_FROM) / (TIMELINE_TO - TIMELINE_FROM)) * (TIMELINE.W - TIMELINE.L - TIMELINE.R);
+const timelineX = (year: number) => TIMELINE.L + ((year - TIMELINE_FROM) / (CHART_TO - TIMELINE_FROM)) * (TIMELINE.W - TIMELINE.L - TIMELINE.R);
 // A value's height in a chart frame; values over the axis top sit on it.
 const valueY = (frame: { H: number; T: number; B: number }, key: MetricKey, axisMax: number) => (v: number) =>
   frame.H - frame.B - (Math.min(scaled(key, v), axisMax) / axisMax) * (frame.H - frame.T - frame.B);
@@ -356,7 +362,8 @@ const valueY = (frame: { H: number; T: number; B: number }, key: MetricKey, axis
 // each genre, hidden until the genre picker shows it. The dots, one per dated
 // book from TIMELINE_FROM on, are drawn in the browser (timelineDots) into the
 // empty .chart-dots group, which carries the measure and the axis top.
-export function timelineSVG(books: BookNumbers[], key: MetricKey, genres: string[]): string {
+// modern: the modern shelf's books, drawn as their own line when they have the measure.
+export function timelineSVG(books: BookNumbers[], key: MetricKey, genres: string[], modern: Array<{ year: number } & Partial<Record<MetricKey, number>>> = []): string {
   const { W, H, L, R } = TIMELINE;
   const dated = timelineBooks(books);
   const axis = axisFor(dated.map(b => b[key]), key);
@@ -364,7 +371,7 @@ export function timelineSVG(books: BookNumbers[], key: MetricKey, genres: string
   const tickY = (v: number) => y(key === 'dialogue' ? v / 100 : v);
   const grid = [
     ...axis.ticks.map(v => `<line class="chart-grid" x1="${L}" x2="${W - R}" y1="${r1(tickY(v))}" y2="${r1(tickY(v))}"/><text class="chart-tick" x="${L - 8}" y="${r1(tickY(v) + 5)}" text-anchor="end">${tickText(key, v)}</text>`),
-    ...[1600, 1700, 1800, 1900].map(year => `<text class="chart-tick" x="${r1(timelineX(year))}" y="${H - 10}" text-anchor="middle">${year}</text>`),
+    ...[1600, 1700, 1800, 1900, 2000].map(year => `<text class="chart-tick" x="${r1(timelineX(year))}" y="${H - 10}" text-anchor="middle">${year}</text>`),
   ].join('');
   // Every book's line needs five books in a span, so the thin 1600s don't
   // swing it; a genre's needs three, or most genres would have no line.
@@ -375,8 +382,13 @@ export function timelineSVG(books: BookNumbers[], key: MetricKey, genres: string
   const genreLines = genres.map(g => line(dated.filter(b => b.genres.includes(g)), 'chart-line chart-line-genre', g)).join('');
   // Sentence length also gets a dotted line counting ; and : as stops.
   const clauseLine = key === 'wps' ? line(asClauses(dated), 'chart-line chart-line-clause') : '';
+  const modernPoints = trend(modern, key, MODERN_FROM, CHART_TO, MODERN_STEP, MODERN_MIN_BOOKS);
+  const modernPath = linePath(modernPoints.map(p => [timelineX((p.from + p.to) / 2), y(p.value)]));
+  // An ink outline keeps the pink line apart from the pink dots it crosses.
+  const modernLine = modernPoints.length > 1 ? `<path class="chart-line chart-line-modern-outline" d="${modernPath}"/><path class="chart-line chart-line-modern" d="${modernPath}"/>` : '';
+  const modernLabel = modernLine ? `; the modern shelf, by decade: ${formatValue(key, modernPoints[0]!.value)} in the ${modernPoints[0]!.from}s, ${formatValue(key, modernPoints.at(-1)!.value)} in the ${modernPoints.at(-1)!.from}s` : '';
   const m = metric(key);
-  return `<svg class="chart-svg" viewBox="0 0 ${W} ${H}" role="img" aria-label="${escapeHTML(`${m.label} over time, ${dated.length} books from ${TIMELINE_FROM} on: ${trendSentence(books, key)}`)}">${grid}<g class="chart-dots" data-metric="${key}" data-max="${axis.max}"></g>${clauseLine}${line(dated, 'chart-line chart-line-all')}${genreLines}</svg>`;
+  return `<svg class="chart-svg" viewBox="0 0 ${W} ${H}" role="img" aria-label="${escapeHTML(`${m.label} over time, ${dated.length} books from ${TIMELINE_FROM} on: ${trendSentence(books, key)}${modernLabel}`)}">${grid}<g class="chart-dots" data-metric="${key}" data-max="${axis.max}"></g>${clauseLine}${line(dated, 'chart-line chart-line-all')}${modernLine}${genreLines}</svg>`;
 }
 
 export function timelineDots(books: BookNumbers[], key: MetricKey, axisMax: number): string {

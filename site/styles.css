@@ -2066,6 +2066,17 @@ code {
   }
 }
 
+/* The modern shelf has no dots, only its median for each decade from 1930. */
+.chart-line-modern {
+  stroke: var(--pink);
+  stroke-width: 4;
+}
+
+.chart-line-modern-outline {
+  stroke: var(--ink);
+  stroke-width: 9;
+}
+
 .chart-line-clause {
   stroke: var(--paper);
   stroke-width: 2.5;
@@ -2588,9 +2599,9 @@ code {
   contain-intrinsic-size: auto var(--section-height, 1400px);
 }
 #found { --section-height: 990px; }
-#time { --section-height: 4180px; }
+#time { --section-height: 4400px; }
 #genres { --section-height: 930px; }
-#authors { --section-height: 2430px; }
+#authors { --section-height: 2230px; }
 #compare { --section-height: 740px; }
 #twins { --section-height: 1560px; }
 #grammar { --section-height: 680px; }
@@ -2600,11 +2611,11 @@ code {
 
 @media (max-width: 720px) {
   #found { --section-height: 1200px; }
-  #time { --section-height: 4760px; }
+  #time { --section-height: 5030px; }
   #genres { --section-height: 2580px; }
-  #authors { --section-height: 3980px; }
+  #authors { --section-height: 3920px; }
   #compare { --section-height: 1130px; }
-  #twins { --section-height: 1650px; }
+  #twins { --section-height: 1590px; }
   #grammar { --section-height: 1980px; }
   #popularity { --section-height: 900px; }
   #records { --section-height: 2960px; }
@@ -2678,4 +2689,71 @@ code {
   break-inside: avoid;
   margin-bottom: var(--space-2);
   color: var(--muted);
+}
+
+/* Modern books (HathiTrust counts, no text): a printed cover instead of a
+   dithered scan, since their real covers are in copyright. */
+.cover-modern a,
+.type-cover {
+  background: var(--pink) repeating-linear-gradient(45deg, transparent 0 3px, rgb(0 0 0 / 0.16) 3px 4px);
+}
+
+.type-cover {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-2);
+  padding: 22% 9% 9%;
+}
+
+.type-cover-title {
+  background: var(--ink);
+  color: var(--paper);
+  font-family: var(--poster);
+  font-size: clamp(1rem, 2.6vw, 2.3rem);
+  line-height: 1.05;
+  text-transform: uppercase;
+  overflow-wrap: anywhere;
+  padding: 0.2em 0.35em 0.15em;
+  transform: rotate(-1.5deg);
+}
+
+.type-cover-author {
+  background: var(--chalk);
+  color: var(--ink);
+  font-family: var(--book);
+  font-weight: 600;
+  font-size: clamp(0.8rem, 1.4vw, 1.1rem);
+  padding: 0 0.4em;
+  transform: rotate(1deg);
+}
+
+.modern-note {
+  grid-area: fp;
+  max-width: 34em;
+  margin: var(--space-3) 0 0;
+  color: var(--muted);
+}
+
+.modern-others {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  columns: 16em;
+}
+
+.modern-others li {
+  margin-bottom: var(--space-1);
+}
+
+.modern-others .author-book-year {
+  margin-left: 0.5em;
+  color: var(--muted);
+}
+
+.modern-credit {
+  color: var(--muted);
+  font-size: 0.9rem;
 }

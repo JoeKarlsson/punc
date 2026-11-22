@@ -2884,9 +2884,7 @@ code {
 }
 
 .modern-note {
-  grid-area: fp;
   max-width: 34em;
-  margin: var(--space-3) 0 0;
   color: var(--muted);
 }
 

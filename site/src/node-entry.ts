@@ -6,4 +6,4 @@ export { bookPageTitle, booksIndexHTML } from './seo';
 export { SHELF_PAGE_SIZE } from './paging';
 export { cardHTML } from './card';
 export * as numbers from './numbers';
-export { modernMarkCount, modernMedians, modernNumbers, modernPageHTML } from './modern-page';
+export { modernMarkCount, modernMedians, modernNumbers, modernPageHTML, modernShares } from './modern-page';

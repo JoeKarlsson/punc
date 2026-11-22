@@ -31,7 +31,7 @@ await build({
 // The browser's own code, bundled for Node so the pages match what it draws.
 const analyzerPath = join(tmpdir(), `punc-site-analyze-${process.pid}.mjs`);
 await build({ entryPoints: [join(SITE, 'src/node-entry.ts')], bundle: true, platform: 'node', format: 'esm', outfile: analyzerPath });
-const { bookPageTitle, booksIndexHTML, cardHTML, countsHTML, fingerprintHTML, markShares, marksThroughBook, modernMarkCount, modernMedians, modernNumbers, modernPageHTML, numbers: N, TRACKED_MARKS, shelfPosition, SHELF_PAGE_SIZE, throughBookHTML } = await import(pathToFileURL(analyzerPath).href);
+const { bookPageTitle, booksIndexHTML, cardHTML, countsHTML, fingerprintHTML, markShares, marksThroughBook, modernMarkCount, modernMedians, modernNumbers, modernPageHTML, modernShares, numbers: N, TRACKED_MARKS, shelfPosition, SHELF_PAGE_SIZE, throughBookHTML } = await import(pathToFileURL(analyzerPath).href);
 await rm(analyzerPath);
 
 // GitHub Pages can't send headers, so the policy rides in a meta tag, first in
@@ -147,7 +147,7 @@ const modernShelfBook = book => ({
   wps: book.wps,
   density: Number(((modernMarkCount(book) / book.words) * 100).toFixed(2)),
   sample: '',
-  shares: [],
+  shares: modernShares(book).map(v => Number(v.toFixed(4))),
   cover: false,
 });
 await writeFile(join(OUT, 'shelf.json'), JSON.stringify([...byRank.map(shelfBook), ...modern.map(modernShelfBook)]));
@@ -725,7 +725,7 @@ Punc counts every punctuation mark left after the letters and numbers are remove
 
 - [The numbers](${SITE_URL}numbers.html): what the marks show across the shelf, over time, by genre and by author
 - [Every book, A to Z](${SITE_URL}books/): a page per book with its mark counts, its punctuation fingerprint and how its marks change through the book
-- Modern books: ${fmt(modern.length)} novels first published 1930 on, from HathiTrust's page-by-page token counts (the HathiTrust Research Center's Extracted Features, CC BY 4.0), not the text. Their pages give only commas, periods, semicolons, question and exclamation marks and words per sentence
+- Modern books: ${fmt(modern.length)} novels first published 1930 on, from HathiTrust's page-by-page token counts (the HathiTrust Research Center's Extracted Features, CC BY 4.0), not the text. Their pages give each mark's count and share and words per sentence; dashes run about a fifth high
 - [About](${SITE_URL}about.html): the artist statement and how Punc works
 - [Read your own](${SITE_URL}read.html): any text as punctuation only, in the browser
 

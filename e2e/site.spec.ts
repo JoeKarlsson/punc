@@ -357,7 +357,7 @@ test('modern books show under their own filter and in a search, not on the plain
   await expect(page.locator('#shelf .cover-modern')).toHaveCount(0);
   await page.getByLabel('Genre').selectOption('modern');
   await expect(visible).toHaveCount(72);
-  await expect(page.locator('#shelf .cover-modern')).toHaveCount(72);
+  await expect(page.locator('#shelf .cover-modern .fingerprint')).toHaveCount(72);
   await expect(visible.first()).toContainText(modern[0]!.title);
   await expect(page.locator('#shelf-count')).toContainText(`of ${modern.length.toLocaleString('en-US')} matching books`);
 
@@ -367,14 +367,15 @@ test('modern books show under their own filter and in a search, not on the plain
   await expect(page.locator('#shelf .cover-modern', { hasText: 'Nineteen Eighty-Four' })).toBeVisible();
 });
 
-test('a modern book page shows its HathiTrust counts, credits HathiTrust, and has no views that need the text', async ({ page }) => {
+test('a modern book page shows its HathiTrust counts and fingerprint, credits HathiTrust, and has no views that need the text', async ({ page }) => {
   await page.goto('books/nineteen-eighty-four/');
   await expect(page.locator('h1')).toHaveText('Nineteen Eighty-Four');
   await expect(page.locator('#book-byline')).toHaveText('George Orwell, 1949');
   await expect(page.locator('#stat-wps')).toHaveText(/^\d+\.\d$/);
-  await expect(page.locator('.compare-table tbody tr')).toHaveCount(5);
-  await expect(page.locator('.tb-bars')).toHaveCount(5);
-  await expect(page.locator('#counts li')).toHaveCount(5);
+  await expect(page.locator('.book-fingerprint .fingerprint .fp-slot')).toHaveCount(10);
+  await expect(page.locator('.compare-table tbody tr')).toHaveCount(6);
+  await expect(page.locator('.tb-bars')).toHaveCount(10);
+  await expect(page.locator('#counts li')).toHaveCount(10);
   await expect(page.locator('.modern-others a', { hasText: 'Animal Farm' })).toHaveAttribute('href', /books\/animal-farm\/$/);
   await expect(page.locator('.book-poster')).toHaveAttribute('href', /^https:\/\/hdl\.handle\.net\/2027\//);
   await expect(page.locator('.modern-credit')).toContainText('CC BY 4.0');

@@ -23,7 +23,7 @@ export interface ShelfBook {
   shares: number[];
   cover: boolean;
   // Modern books only (HathiTrust counts, site/src/modern-page.ts): how well
-  // known it is, 1 first. They have no sample, shares or cover.
+  // known it is, 1 first. They have no sample or cover.
   modern?: number;
 }
 
@@ -42,6 +42,7 @@ export function cardHTML(book: ShelfBook, i: number): string {
         <span class="cover-label"><span class="cover-title">${escapeHTML(book.title)}</span><span class="cover-author">${escapeHTML(book.byline)}</span></span>
       </a>
       <p class="cover-meta">${book.wps.toFixed(1)} words a sentence</p>
+      ${fingerprintHTML(book.shares)}
     </li>`;
   }
   const poster = book.cover ? `<img data-poster src="covers/${book.slug}.jpg" alt=""${i < 4 ? '' : ' loading="lazy"'} decoding="async">` : '';

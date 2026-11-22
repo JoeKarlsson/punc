@@ -1,8 +1,8 @@
 // A modern book's page and shelf numbers, from its HathiTrust counts in
-// site/modern.json (site/src/modern.ts). It has only the marks the counts get
-// right, so no score, spiral, pages view, fingerprint, twin or map spot.
-import { MODERN_MARKS } from './modern';
-import { countsHTML, TRACKED_MARKS, throughBookHTML } from './patterns';
+// site/modern.json (site/src/modern.ts). Counts have no order, so no score,
+// spiral or pages view; and the error in a fingerprint from a scan is often
+// more than the gap to a book's closest twin, so no twin or map spot either.
+import { countsHTML, fingerprintHTML, TRACKED_MARKS, throughBookHTML } from './patterns';
 
 export interface ModernBook {
   slug: string;
@@ -16,16 +16,17 @@ export interface ModernBook {
   rank: number;
   words: number;
   wps: number;
-  // In MODERN_MARKS order, for the whole book and for each tenth of its pages
+  // In TRACKED_MARKS order, for the whole book and for each tenth of its pages
   counts: number[];
   tenths: number[][];
 }
 
 // The measures a modern book shares with the Gutenberg shelf (numbers.ts MetricKey).
-export type ModernMetric = 'semicolon' | 'comma' | 'question' | 'exclaim' | 'wps';
+export type ModernMetric = 'semicolon' | 'comma' | 'colon' | 'question' | 'exclaim' | 'wps';
 const MODERN_METRICS: Array<{ key: ModernMetric; label: string }> = [
   { key: 'semicolon', label: 'Semicolons' },
   { key: 'comma', label: 'Commas' },
+  { key: 'colon', label: 'Colons' },
   { key: 'exclaim', label: 'Exclamation marks' },
   { key: 'question', label: 'Question marks' },
   { key: 'wps', label: 'Words per sentence' },
@@ -34,8 +35,8 @@ const MODERN_METRICS: Array<{ key: ModernMetric; label: string }> = [
 export type ModernNumbers = Record<ModernMetric, number> & { slug: string; year: number };
 
 export function modernNumbers(book: ModernBook): ModernNumbers {
-  const per1000 = (mark: (typeof MODERN_MARKS)[number]) => (book.counts[MODERN_MARKS.indexOf(mark)]! / book.words) * 1000;
-  return { slug: book.slug, year: book.year, semicolon: per1000(';'), comma: per1000(','), question: per1000('?'), exclaim: per1000('!'), wps: book.wps };
+  const per1000 = (mark: string) => (book.counts[TRACKED_MARKS.findIndex(t => t.mark === mark)]! / book.words) * 1000;
+  return { slug: book.slug, year: book.year, semicolon: per1000(';'), comma: per1000(','), colon: per1000(':'), question: per1000('?'), exclaim: per1000('!'), wps: book.wps };
 }
 
 const median = (values: number[]) => {
@@ -51,16 +52,16 @@ const escapeHTML = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;')
 const fmt = (n: number) => n.toLocaleString('en-US');
 
 export const modernMarkCount = (book: ModernBook) => book.counts.reduce((a, b) => a + b, 0);
-const modernTopMark = (book: ModernBook) => MODERN_MARKS[book.counts.indexOf(Math.max(...book.counts))]!;
+const modernTopMark = (book: ModernBook) => TRACKED_MARKS[book.counts.indexOf(Math.max(...book.counts))]!.mark;
+const shares = (counts: number[]) => counts.map(n => n / Math.max(counts.reduce((a, b) => a + b, 0), 1));
+// What markShares gives a Gutenberg book, for the fingerprint.
+export const modernShares = (book: ModernBook) => shares(book.counts);
 
-// Each tracked mark's share of the counted marks in each tenth; marks the
-// counts don't have stay at zero, and throughBookHTML leaves their rows out.
-function modernThroughBook(book: ModernBook): number[][] {
-  return TRACKED_MARKS.map(({ mark }) => {
-    const m = MODERN_MARKS.indexOf(mark as (typeof MODERN_MARKS)[number]);
-    return book.tenths.map(tenth => (m < 0 ? 0 : tenth[m]! / Math.max(tenth.reduce((a, b) => a + b, 0), 1)));
-  });
-}
+// Each mark's share of the marks in each tenth, as marksThroughBook gives.
+const modernThroughBook = (book: ModernBook): number[][] => {
+  const byTenth = book.tenths.map(shares);
+  return TRACKED_MARKS.map((_, m) => byTenth.map(tenth => tenth[m]!));
+};
 
 const HATHITRUST_DATASET = 'https://wiki.htrc.illinois.edu/display/COM/HTRC+Derived+Datasets';
 const hathiTrustRecord = (htid: string) => `https://hdl.handle.net/2027/${htid}`;
@@ -83,7 +84,7 @@ export function modernPageHTML(book: ModernBook, context: ModernPageContext): st
   const rows = MODERN_METRICS.map(
     ({ key, label }) => `<tr><th scope="row">${label}</th><td>${value(numbers[key])}</td><td>${value(context.modernMedians[key])}</td><td>${value(context.gutenbergMedians[key])}</td></tr>`
   ).join('');
-  const counts = MODERN_MARKS.map((mark, i) => [mark, book.counts[i]!] as [string, number]).sort((a, b) => b[1] - a[1]);
+  const counts = TRACKED_MARKS.map(({ mark }, i) => [mark, book.counts[i]!] as [string, number]).filter(([, n]) => n > 0).sort((a, b) => b[1] - a[1]);
   const others = context.otherBooks
     .map(b => `<li><a href="books/${b.slug}/">${escapeHTML(b.title)}</a>${b.year ? `<span class="author-book-year">${b.year}</span>` : ''}</li>`)
     .join('');
@@ -98,7 +99,8 @@ export function modernPageHTML(book: ModernBook, context: ModernPageContext): st
       <div><dt>words a sentence</dt><dd id="stat-wps">${value(book.wps)}</dd></div>
       <div><dt>most used mark</dt><dd id="stat-top" class="serif-mark">${escapeHTML(modernTopMark(book))}</dd></div>
     </dl>
-    <p class="modern-note">Counted from <a href="${HATHITRUST_DATASET}">HathiTrust's page-by-page counts</a> of the ${book.edition} edition, without the text. So this book has only the five marks those counts get right (commas, periods, semicolons, question marks and exclamation marks), and no score, spiral or pages view.</p>
+    <div id="book-fingerprint" class="book-fingerprint">${fingerprintHTML(modernShares(book), 'fingerprint fingerprint-large')}<p class="fp-caption">Its punctuation fingerprint: each mark's share, on the same scale as every book on the shelf.</p>
+    <p class="modern-note">Counted from <a href="${HATHITRUST_DATASET}">HathiTrust's page-by-page counts</a> of the ${book.edition} edition, without the text, so there's no score, spiral or pages view. Dashes and hyphens come out about a fifth higher than in a Gutenberg text of the same book.</p></div>
   </header>
 
   <section class="book-author" aria-labelledby="modern-numbers-heading">

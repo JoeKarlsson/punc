@@ -23,7 +23,7 @@ const DEFAULT_TOP = 2000;
 // Books kept on the shelf even when they drop out of the top list
 const EXTRA_IDS = ['1079', '12242', '67138'];
 // Other editions of books already on the shelf under a different title, or parts of them
-const REPEAT_EDITIONS = new Set(['2489', '15877', '55317', '2009', '41537', '1728', '50742', '5314', '27200', '25525', '39270', '7100', '47529']);
+const REPEAT_EDITIONS = new Set(['2489', '15877', '55317', '2009', '41537', '1728', '50742', '5314', '27200', '25525', '39270', '7100', '47529', '48320', '17157', '47530']);
 // Not prose: The Fibonacci Number Series is a list of numbers, off the map's scale
 const NOT_PROSE = new Set(['302']);
 const SKIP_SHELVES = /Encyclopedias|Dictionaries|Reference|Language & Communication/;

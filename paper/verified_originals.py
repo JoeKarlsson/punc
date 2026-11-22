@@ -22,15 +22,16 @@ def main(books_path, sample_path, status_path):
     print(f"Catalog translation flag disagrees with the title page for {len(flag_wrong)} books: {', '.join(flag_wrong)}")
 
     by_slug = {b["slug"]: b for b in csv.DictReader(open(books_path))}
-    marks, newly_translated = [], []
+    marks, old_marks, newly_translated = [], [], []
     for n, mark, code, prefix in sample_items(sample_path):
         slug = book_for(prefix, by_slug)["slug"]
+        if slug not in TRANSLATED_SAMPLE_BOOKS:
+            old_marks.append((mark, code == "GLUE"))
         if status.get(slug) == "translation" and slug not in TRANSLATED_SAMPLE_BOOKS:
             newly_translated.append((n, slug))
         if status.get(slug) != "translation":
             marks.append((mark, code == "GLUE"))
-    old = glue_rates([(m, c == "GLUE") for n, m, c, p in sample_items(sample_path)
-                      if book_for(p, by_slug)["slug"] not in TRANSLATED_SAMPLE_BOOKS])
+    old = glue_rates(old_marks)
     new = glue_rates(marks)
     print(f"Coded marks from books now found to be translations, beyond the 18 already excluded: {newly_translated or 'none'}")
     print(f"Glue rates: {len(marks)} marks, ; {new[0]:.2f} : {new[1]:.2f} (before: ; {old[0]:.2f} : {old[1]:.2f})")

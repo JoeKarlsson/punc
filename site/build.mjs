@@ -141,6 +141,8 @@ await cp(join(SITE, 'static'), OUT, { recursive: true });
 // Per-book share cards, rendered by site/scripts/make-images.mjs
 await cp(join(SITE, 'share'), join(OUT, 'share'), { recursive: true });
 await cp(join(SITE, 'styles.css'), join(OUT, 'styles.css'));
+// The research paper built from this shelf (paper/build.sh), linked from About and Numbers.
+await cp(join('paper', 'paper.pdf'), join(OUT, 'paper.pdf'));
 
 const crayonFilter = `<svg class="defs" aria-hidden="true" focusable="false"><filter id="crayon" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency="1.2" numOctaves="2" seed="3" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="2.5" result="d"/><feTurbulence type="fractalNoise" baseFrequency="2.2" seed="8" result="g"/><feColorMatrix in="g" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -1.6 1.5" result="holes"/><feComposite in="d" in2="holes" operator="in"/></filter></svg>`;
 

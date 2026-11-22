@@ -1,6 +1,6 @@
 # Punc research: number ledger (2026-11-10)
 
-Data: the 1,959-book shelf of 2026-11-10, frozen in books.csv (the last commit with that shelf is 5a2b926; the commit originally recorded here, 66982de, is not in the repository's history) (site-dist/numbers.json and site-dist/books/*.txt.gz) and Gutenberg's pg_catalog.csv downloaded 2026-11-10. See README.md for how to rerun each script. Medians of per-book values; bootstrap = 1,000-2,000 resamples of books within each period.
+Data: the 1,959-book shelf of 2026-11-10, frozen in books.csv (the analysis ran at commit 9474f28, recorded here as 66982de before the 2026-11-22 history rewrite that removed the book texts, so it no longer builds; the last commit with that shelf that does is 5a2b926) (site-dist/numbers.json and site-dist/books/*.txt.gz) and Gutenberg's pg_catalog.csv downloaded 2026-11-10. See README.md for how to rerun each script. Medians of per-book values; bootstrap = 1,000-2,000 resamples of books within each period.
 
 ## Sentence length (sentence_units.py, robustness.py, weighted_and_translations.py)
 

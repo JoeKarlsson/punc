@@ -1,6 +1,6 @@
 # Claims ledger
 
-Every number in `draft.md`, with its source. `R` = `analysis/RESULTS.md` (ledger of 2026-11-10, Punc commit 66982de). `T1` = output of `python3 paper/corpus_table.py analysis/books.csv`. `blog` = the published post, where the number was computed in the original analysis session but isn't in R.
+Every number in `draft.md`, with its source. `R` = `analysis/RESULTS.md` (ledger of 2026-11-10, Punc commit 9474f28, which was 66982de before the 2026-11-22 history rewrite). `T1` = output of `python3 paper/corpus_table.py analysis/books.csv`. `blog` = the published post, where the number was computed in the original analysis session but isn't in R.
 
 | Number | Where in draft | Source |
 |---|---|---|

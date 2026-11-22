@@ -11,7 +11,7 @@ cd analysis
 curl -O https://www.gutenberg.org/cache/epub/feeds/pg_catalog.csv   # translators and author birth years
 ```
 
-The post used Punc at commit `66982de` and the Gutenberg catalog downloaded 2026-11-10.
+The post used Punc at commit `9474f28` (`66982de` before the 2026-11-22 history rewrite, which removed the book texts, so it no longer builds; rebuild the same 1,959-book shelf at `5a2b926`) and the Gutenberg catalog downloaded 2026-11-10.
 
 | Script | What it does |
 |---|---|

@@ -2,6 +2,7 @@ cff-version: 1.2.0
 message: 'If you use this code or data, please cite the paper.'
 title: 'Punc: books stripped to their punctuation'
 type: software
+doi: 10.5281/zenodo.24450403
 authors:
   - family-names: Karlsson
     given-names: Joe

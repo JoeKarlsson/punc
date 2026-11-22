@@ -520,30 +520,42 @@ test('a book page shares its own card and describes the book for search engines'
   expect(data.about).toMatchObject({ '@type': 'Book', name: 'Frankenstein', author: { name: 'Mary Shelley' } });
 });
 
+// The map's dots and the table's rows repeat one template per book; checking
+// 50 of each keeps the scans from growing with the shelf.
+async function expectNoAxeViolations(page: Page, where: string) {
+  const { violations } = await new AxeBuilder({ page })
+    .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'])
+    .exclude('svg a:nth-of-type(n+51)')
+    .exclude('.map-table tbody tr:nth-child(n+51)')
+    .analyze();
+  expect(violations.map(v => `${v.id}: ${v.nodes.map(n => n.target.join(' ')).join(', ')}`), where).toEqual([]);
+}
+
 test('every page type passes axe (WCAG 2.2 AA)', async ({ page }) => {
   // The shelf is hundreds of cards; axe needs longer than the default on CI.
   test.slow();
-  const scan = async (where: string) => {
-    const { violations } = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa']).analyze();
-    expect(violations.map(v => `${v.id}: ${v.nodes.map(n => n.target.join(' ')).join(', ')}`), where).toEqual([]);
-  };
   for (const path of ['./', 'read.html', 'numbers.html', 'about.html', '404.html']) {
     await page.goto(path);
     await page.waitForLoadState('networkidle');
-    await scan(path);
+    await expectNoAxeViolations(page, path);
   }
   await openBook(page, 'frankenstein');
   for (const view of ['score', 'spiral', 'pages', 'counts']) {
     await page.click(`[data-view=${view}]`);
-    await scan(`book, ${view}`);
+    await expectNoAxeViolations(page, `book, ${view}`);
   }
+});
+
+test('the numbers page passes axe at phone width with the full table open', async ({ page }) => {
+  // Every book is a table row and a map dot, so axe needs longer than the default on CI.
+  test.slow();
   // On a phone the map and the full table scroll sideways in their own frames.
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('numbers.html');
   await page.waitForLoadState('networkidle');
   await page.getByText("Every book's numbers as a table").click();
   await expect(page.locator('.map-table tbody tr')).toHaveCount(catalog.length);
-  await scan('numbers.html at phone width');
+  await expectNoAxeViolations(page, 'numbers.html at phone width');
 });
 
 test('the main pages share one header: same nav, same title size and the same space above it', async ({ page }) => {

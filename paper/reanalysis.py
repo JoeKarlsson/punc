@@ -180,17 +180,31 @@ def main(books_path, sample_path, second_path):
     by_author = {}
     for b in english_deduped:
         by_author.setdefault(b["author"], []).append(b)
-    slopes = []
+    slopes, careers = [], []
     for author, group in by_author.items():
         years = [b["year"] for b in group]
         if len(group) >= 5 and max(years) - min(years) >= 20 and author != "Various":
             fit = statistics.linear_regression(years, [float(b["semicolons_per_1000"]) for b in group])
             slopes.append((author, fit.slope * 10))
+            careers.append((author, len(group), min(years), max(years),
+                            fit.intercept + fit.slope * min(years), fit.intercept + fit.slope * max(years), fit.slope * 10))
     rng = random.Random(13)
     medians = sorted(statistics.median(rng.choices([s for _, s in slopes], k=len(slopes))) for _ in range(2000))
     print(f"\nCareer slopes, English originals, duplicates removed ({len(slopes)} authors with 5+ dated books over 20+ years): "
           f"median {statistics.median(s for _, s in slopes):+.2f} semicolons per 1,000 per decade (95% {medians[int(0.025 * 2000)]:+.2f} to {medians[int(0.975 * 2000)]:+.2f}); "
           f"{sum(s < 0 for _, s in slopes)} fall, {sum(s > 0 for _, s in slopes)} rise")
+
+    print("Careers (the blog's careers chart): author | books | first | last | fitted first | fitted last | per decade")
+    for c in sorted(careers, key=lambda c: c[2]):
+        print(f"  {c[0]} | {c[1]} | {c[2]} | {c[3]} | {c[4]:.1f} | {c[5]:.1f} | {c[6]:+.2f}")
+
+    # 25-year medians, duplicates removed (the blog's semicolons chart). Periods with 20+ books are quoted.
+    print("\n25-year medians, duplicates removed: period | books | semicolons per 1,000 | commas per 1,000")
+    for p in range(1600, 1975, 25):
+        g = [b for b in deduped if p <= b["year"] < p + 25]
+        if g:
+            print(f"  {p}-{min(p + 24, 1974)} | {len(g)} | {statistics.median(float(b['semicolons_per_1000']) for b in g):.1f} "
+                  f"| {statistics.median(float(b['commas_per_1000']) for b in g):.1f}")
 
     # Prose only (no plays or poetry), duplicates removed: is 1700-1749 still the peak?
     print("\nProse-only words between periods by period (books):",

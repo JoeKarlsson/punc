@@ -1,0 +1,485 @@
+{
+ "hand_coded": {
+  "note": "82 English-original marks from the 1700s sample (paper/reanalysis.py coded_marks, first coder)",
+  "codes": [
+   {
+    "n": 2,
+    "mark": ";",
+    "glue": true
+   },
+   {
+    "n": 3,
+    "mark": ";",
+    "glue": true
+   },
+   {
+    "n": 4,
+    "mark": ";",
+    "glue": true
+   },
+   {
+    "n": 5,
+    "mark": ";",
+    "glue": true
+   },
+   {
+    "n": 6,
+    "mark": ";",
+    "glue": true
+   },
+   {
+    "n": 7,
+    "mark": ";",
+    "glue": true
+   },
+   {
+    "n": 8,
+    "mark": ";",
+    "glue": true
+   },
+   {
+    "n": 9,
+    "mark": ";",
+    "glue": false
+   },
+   {
+    "n": 10,
+    "mark": ";",
+    "glue": false
+   },
+   {
+    "n": 11,
+    "mark": ";",
+    "glue": true
+   },
+   {
+    "n": 12,
+    "mark": ";",
+    "glue": true
+   },
+   {
+    "n": 13,
+    "mark": ";",
+    "glue": true
+   },
+   {
+    "n": 14,
+    "mark": ";",
+    "glue": false
+   },
+   {
+    "n": 15,
+    "mark": ";",
+    "glue": true
+   },
+   {
+    "n": 17,
+    "mark": ";",
+    "glue": false
+   },
+   {
+    "n": 18,
+    "mark": ";",
+    "glue": true
+   },
+   {
+    "n": 19,
+    "mark": ";",
+    "glue": true
+   },
+   {
+    "n": 20,
+    "mark": ";",
+    "glue": false
+   },
+   {
+    "n": 21,
+    "mark": ";",
+    "glue": true
+   },
+   {
+    "n": 22,
+    "mark": ";",
+    "glue": true
+   },
+   {
+    "n": 23,
+    "mark": ";",
+    "glue": true
+   },
+   {
+    "n": 24,
+    "mark": ";",
+    "glue": true
+   },
+   {
+    "n": 25,
+    "mark": ";",
+    "glue": false
+   },
+   {
+    "n": 26,
+    "mark": ";",
+    "glue": true
+   },
+   {
+    "n": 28,
+    "mark": ";",
+    "glue": true
+   },
+   {
+    "n": 29,
+    "mark": ";",
+    "glue": true
+   },
+   {
+    "n": 30,
+    "mark": ";",
+    "glue": true
+   },
+   {
+    "n": 32,
+    "mark": ";",
+    "glue": true
+   },
+   {
+    "n": 33,
+    "mark": ";",
+    "glue": false
+   },
+   {
+    "n": 34,
+    "mark": ";",
+    "glue": true
+   },
+   {
+    "n": 35,
+    "mark": ";",
+    "glue": true
+   },
+   {
+    "n": 36,
+    "mark": ";",
+    "glue": false
+   },
+   {
+    "n": 39,
+    "mark": ";",
+    "glue": false
+   },
+   {
+    "n": 40,
+    "mark": ";",
+    "glue": false
+   },
+   {
+    "n": 41,
+    "mark": ";",
+    "glue": true
+   },
+   {
+    "n": 42,
+    "mark": ";",
+    "glue": true
+   },
+   {
+    "n": 43,
+    "mark": ";",
+    "glue": true
+   },
+   {
+    "n": 44,
+    "mark": ";",
+    "glue": true
+   },
+   {
+    "n": 45,
+    "mark": ";",
+    "glue": true
+   },
+   {
+    "n": 46,
+    "mark": ";",
+    "glue": true
+   },
+   {
+    "n": 49,
+    "mark": ";",
+    "glue": true
+   },
+   {
+    "n": 50,
+    "mark": ";",
+    "glue": true
+   },
+   {
+    "n": 51,
+    "mark": ";",
+    "glue": true
+   },
+   {
+    "n": 52,
+    "mark": ";",
+    "glue": false
+   },
+   {
+    "n": 54,
+    "mark": ";",
+    "glue": false
+   },
+   {
+    "n": 55,
+    "mark": ";",
+    "glue": true
+   },
+   {
+    "n": 56,
+    "mark": ";",
+    "glue": false
+   },
+   {
+    "n": 57,
+    "mark": ";",
+    "glue": true
+   },
+   {
+    "n": 59,
+    "mark": ";",
+    "glue": true
+   },
+   {
+    "n": 60,
+    "mark": ";",
+    "glue": false
+   },
+   {
+    "n": 61,
+    "mark": ":",
+    "glue": false
+   },
+   {
+    "n": 62,
+    "mark": ":",
+    "glue": false
+   },
+   {
+    "n": 63,
+    "mark": ":",
+    "glue": false
+   },
+   {
+    "n": 64,
+    "mark": ":",
+    "glue": false
+   },
+   {
+    "n": 65,
+    "mark": ":",
+    "glue": true
+   },
+   {
+    "n": 66,
+    "mark": ":",
+    "glue": false
+   },
+   {
+    "n": 67,
+    "mark": ":",
+    "glue": false
+   },
+   {
+    "n": 68,
+    "mark": ":",
+    "glue": true
+   },
+   {
+    "n": 69,
+    "mark": ":",
+    "glue": true
+   },
+   {
+    "n": 71,
+    "mark": ":",
+    "glue": true
+   },
+   {
+    "n": 72,
+    "mark": ":",
+    "glue": true
+   },
+   {
+    "n": 73,
+    "mark": ":",
+    "glue": true
+   },
+   {
+    "n": 74,
+    "mark": ":",
+    "glue": false
+   },
+   {
+    "n": 77,
+    "mark": ":",
+    "glue": true
+   },
+   {
+    "n": 78,
+    "mark": ":",
+    "glue": true
+   },
+   {
+    "n": 79,
+    "mark": ":",
+    "glue": false
+   },
+   {
+    "n": 81,
+    "mark": ":",
+    "glue": true
+   },
+   {
+    "n": 82,
+    "mark": ":",
+    "glue": true
+   },
+   {
+    "n": 84,
+    "mark": ":",
+    "glue": true
+   },
+   {
+    "n": 85,
+    "mark": ":",
+    "glue": true
+   },
+   {
+    "n": 86,
+    "mark": ":",
+    "glue": true
+   },
+   {
+    "n": 89,
+    "mark": ":",
+    "glue": false
+   },
+   {
+    "n": 90,
+    "mark": ":",
+    "glue": true
+   },
+   {
+    "n": 91,
+    "mark": ":",
+    "glue": true
+   },
+   {
+    "n": 92,
+    "mark": ":",
+    "glue": false
+   },
+   {
+    "n": 93,
+    "mark": ":",
+    "glue": true
+   },
+   {
+    "n": 94,
+    "mark": ":",
+    "glue": true
+   },
+   {
+    "n": 95,
+    "mark": ":",
+    "glue": true
+   },
+   {
+    "n": 96,
+    "mark": ":",
+    "glue": false
+   },
+   {
+    "n": 97,
+    "mark": ":",
+    "glue": true
+   },
+   {
+    "n": 99,
+    "mark": ":",
+    "glue": false
+   },
+   {
+    "n": 100,
+    "mark": ":",
+    "glue": false
+   }
+  ]
+ },
+ "every_count": [
+  {
+   "label": "Measured from 1750-99",
+   "est": 39,
+   "lo": 29,
+   "hi": 56
+  },
+  {
+   "label": "The second coder's rates",
+   "est": 39,
+   "lo": 22,
+   "hi": 49
+  },
+  {
+   "label": "Dashes count as stops too",
+   "est": 39,
+   "lo": 20,
+   "hi": 50
+  },
+  {
+   "label": "Main estimate, all books",
+   "est": 40,
+   "lo": 24,
+   "hi": 51
+  },
+  {
+   "label": "Plays and poetry removed",
+   "est": 41,
+   "lo": 26,
+   "hi": 50
+  },
+  {
+   "label": "Each era's own glue rates",
+   "est": 41,
+   "lo": 25,
+   "hi": 53
+  },
+  {
+   "label": "Editors' notes removed",
+   "est": 41,
+   "lo": 27,
+   "hi": 50
+  },
+  {
+   "label": "Strict sentence splitter",
+   "est": 43,
+   "lo": 28,
+   "hi": 53
+  },
+  {
+   "label": "English originals (title pages)",
+   "est": 45,
+   "lo": 29,
+   "hi": 53
+  },
+  {
+   "label": "Narration only",
+   "est": 45,
+   "lo": 24,
+   "hi": 53
+  },
+  {
+   "label": "Every ; and : counted as a stop",
+   "est": 48,
+   "lo": 33,
+   "hi": 61
+  }
+ ]
+}

@@ -1,18 +1,14 @@
-"""Write the draft's References section: the lines of references.md for sources the draft cites.
+"""Check that every citation in the draft ([@Key], @Key, [-@Key]) is a verified source in the citation map.
+Pandoc's citeproc builds the reference list from the cited keys, so nothing uncited is listed.
 
-Usage: python3 cited_references.py draft.md citation_map.json references.md
+Usage: python3 cited_references.py draft.md citation_map.json
 """
 import json
 import re
 import sys
 
-draft_path, map_path, refs_path = sys.argv[1:4]
-draft = open(draft_path).read()
-citation_map = json.load(open(map_path))
-cited = {k for k in citation_map if re.search(rf"\b{k}\b", draft.split("## References")[0])}
-lines = [line for line in open(refs_path) if line.startswith("- ")]
-kept = [line for line in lines if any(citation_map[k]["title"] in line for k in cited)]
-assert len(kept) == len(cited), f"{len(kept)} reference lines for {len(cited)} cited keys"
-body, _ = draft.split("## References")
-open(draft_path, "w").write(body + "## References\n\n" + "".join(kept))
-print(f"{len(kept)} references")
+draft_path, map_path = sys.argv[1:3]
+cited = set(re.findall(r"@([A-Za-z]+\d{4})\b", open(draft_path).read()))
+missing = cited - set(json.load(open(map_path)))
+assert not missing, f"cited but not in the citation map: {sorted(missing)}"
+print(f"{len(cited)} cited sources, all in the citation map")

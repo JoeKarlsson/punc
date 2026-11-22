@@ -2083,7 +2083,9 @@ code {
   stroke-dasharray: 1 6;
 }
 
-.genre-picked .chart-line-clause {
+.genre-picked .chart-line-clause,
+.genre-picked .chart-line-modern,
+.genre-picked .chart-line-modern-outline {
   display: none;
 }
 

@@ -23,11 +23,11 @@ export interface ModernBook {
 
 // The measures a modern book shares with the Gutenberg shelf (numbers.ts MetricKey).
 export type ModernMetric = 'semicolon' | 'comma' | 'question' | 'exclaim' | 'wps';
-export const MODERN_METRICS: Array<{ key: ModernMetric; label: string; mark?: (typeof MODERN_MARKS)[number] }> = [
-  { key: 'semicolon', label: 'Semicolons', mark: ';' },
-  { key: 'comma', label: 'Commas', mark: ',' },
-  { key: 'exclaim', label: 'Exclamation marks', mark: '!' },
-  { key: 'question', label: 'Question marks', mark: '?' },
+const MODERN_METRICS: Array<{ key: ModernMetric; label: string }> = [
+  { key: 'semicolon', label: 'Semicolons' },
+  { key: 'comma', label: 'Commas' },
+  { key: 'exclaim', label: 'Exclamation marks' },
+  { key: 'question', label: 'Question marks' },
   { key: 'wps', label: 'Words per sentence' },
 ];
 
@@ -51,19 +51,19 @@ const escapeHTML = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;')
 const fmt = (n: number) => n.toLocaleString('en-US');
 
 export const modernMarkCount = (book: ModernBook) => book.counts.reduce((a, b) => a + b, 0);
-export const modernTopMark = (book: ModernBook) => MODERN_MARKS[book.counts.indexOf(Math.max(...book.counts))]!;
+const modernTopMark = (book: ModernBook) => MODERN_MARKS[book.counts.indexOf(Math.max(...book.counts))]!;
 
 // Each tracked mark's share of the counted marks in each tenth; marks the
 // counts don't have stay at zero, and throughBookHTML leaves their rows out.
-export function modernThroughBook(book: ModernBook): number[][] {
+function modernThroughBook(book: ModernBook): number[][] {
   return TRACKED_MARKS.map(({ mark }) => {
     const m = MODERN_MARKS.indexOf(mark as (typeof MODERN_MARKS)[number]);
     return book.tenths.map(tenth => (m < 0 ? 0 : tenth[m]! / Math.max(tenth.reduce((a, b) => a + b, 0), 1)));
   });
 }
 
-export const HATHITRUST_DATASET = 'https://wiki.htrc.illinois.edu/display/COM/HTRC+Derived+Datasets';
-export const hathiTrustRecord = (htid: string) => `https://hdl.handle.net/2027/${htid}`;
+const HATHITRUST_DATASET = 'https://wiki.htrc.illinois.edu/display/COM/HTRC+Derived+Datasets';
+const hathiTrustRecord = (htid: string) => `https://hdl.handle.net/2027/${htid}`;
 
 export interface ModernPageContext {
   modernMedians: Record<ModernMetric, number>;

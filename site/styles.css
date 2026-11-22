@@ -2587,27 +2587,27 @@ code {
   content-visibility: auto;
   contain-intrinsic-size: auto var(--section-height, 1400px);
 }
-#found { --section-height: 680px; }
-#time { --section-height: 3800px; }
-#genres { --section-height: 900px; }
-#authors { --section-height: 1800px; }
-#compare { --section-height: 730px; }
-#twins { --section-height: 1200px; }
-#grammar { --section-height: 660px; }
-#popularity { --section-height: 740px; }
-#records { --section-height: 1500px; }
-#map { --section-height: 620px; }
+#found { --section-height: 990px; }
+#time { --section-height: 4180px; }
+#genres { --section-height: 930px; }
+#authors { --section-height: 2430px; }
+#compare { --section-height: 740px; }
+#twins { --section-height: 1560px; }
+#grammar { --section-height: 680px; }
+#popularity { --section-height: 770px; }
+#records { --section-height: 1550px; }
+#map { --section-height: 560px; }
 
 @media (max-width: 720px) {
-  #found { --section-height: 1000px; }
-  #time { --section-height: 4700px; }
-  #genres { --section-height: 2550px; }
-  #authors { --section-height: 3550px; }
-  #compare { --section-height: 1120px; }
-  #twins { --section-height: 1620px; }
-  #grammar { --section-height: 1950px; }
-  #popularity { --section-height: 960px; }
-  #records { --section-height: 2930px; }
+  #found { --section-height: 1200px; }
+  #time { --section-height: 4760px; }
+  #genres { --section-height: 2580px; }
+  #authors { --section-height: 3980px; }
+  #compare { --section-height: 1130px; }
+  #twins { --section-height: 1650px; }
+  #grammar { --section-height: 1980px; }
+  #popularity { --section-height: 900px; }
+  #records { --section-height: 2960px; }
   #map { --section-height: 790px; }
 }
 

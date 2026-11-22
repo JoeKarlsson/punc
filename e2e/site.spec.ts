@@ -558,6 +558,22 @@ test('the numbers page passes axe at phone width with the full table open', asyn
   await expectNoAxeViolations(page, 'numbers.html at phone width');
 });
 
+test("each numbers section holds about its drawn height before it's drawn, so the page doesn't jump", async ({ page }) => {
+  for (const width of [1280, 390]) {
+    await page.setViewportSize({ width, height: 900 });
+    await page.goto('numbers.html');
+    await page.waitForLoadState('networkidle');
+    const heights = await page.evaluate(() => [...document.querySelectorAll<HTMLElement>('.numbers-section')].map(section => {
+      section.style.contentVisibility = 'visible';
+      return { id: section.id, drawn: section.getBoundingClientRect().height, placeholder: parseFloat(getComputedStyle(section).getPropertyValue('--section-height')) };
+    }));
+    // A shelf refresh changes these; update --section-height in styles.css to the drawn heights.
+    for (const { id, drawn, placeholder } of heights) {
+      expect(Math.abs(drawn - placeholder) / drawn, `#${id} at ${width}px is ${Math.round(drawn)}px drawn, ${placeholder}px held`).toBeLessThan(0.1);
+    }
+  }
+});
+
 test('the main pages share one header: same nav, same title size and the same space above it', async ({ page }) => {
   const measure = async (path: string) => {
     await page.goto(path);

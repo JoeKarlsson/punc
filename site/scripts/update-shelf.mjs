@@ -20,10 +20,11 @@ run('node', ['site/scripts/make-images.mjs']);
 run('npm', ['run', 'check']);
 
 run('git', ['add', '--all', '--', ...SHELF_PATHS]);
-if (!output('git', ['diff', '--cached', '--name-only'])) {
+// Only the shelf's paths: another session in this checkout may have its own files staged.
+if (!output('git', ['diff', '--cached', '--name-only', '--', ...SHELF_PATHS])) {
   console.log('The shelf is already up to date; nothing to commit.');
 } else {
   const count = JSON.parse(output('git', ['show', ':site/catalog.json'])).length;
-  run('git', ['commit', '-m', `chore: Shelf refresh from Gutenberg's most downloaded books, ${count} on the shelf`]);
+  run('git', ['commit', '-m', `chore: Shelf refresh from Gutenberg's most downloaded books, ${count} on the shelf`, '--', ...SHELF_PATHS]);
   run('git', ['push']);
 }

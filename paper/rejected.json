@@ -1,0 +1,83 @@
+[
+  {
+    "title": "Smith, An Inquiry into the Nature and Causes of the Wealth of Nations, vol. 2",
+    "year": 1776,
+    "author": "Smith",
+    "cluster": "named",
+    "why": "First-edition punctuation differs from Gutenberg's text (editions limitation).",
+    "kind": "web",
+    "url": "https://archive.org/details/inquiryintonatur02smit_0",
+    "reason": "title not found on https://archive.org/details/inquiryintonatur02smit_0"
+  },
+  {
+    "title": "Pause and Effect: An Introduction to the History of Punctuation in the West",
+    "year": 1992,
+    "author": "Parkes",
+    "cluster": "context",
+    "why": "Standard history of punctuation, including the shift from rhetorical to grammatical punctuation.",
+    "kind": "web",
+    "seen_at": "https://openlibrary.org/search.json?title=Pause+and+Effect&author=Parkes&fields=title%2Cauthor_name%2Cfirst_publish_year&limit=3",
+    "reason": "title not found on https://openlibrary.org/search.json?title=Pause+and+Effect&author=Parkes&fields=title%2Cauthor_name%2Cfirst_publish_year&limit=3"
+  },
+  {
+    "title": "Semicolon: The Past, Present, and Future of a Misunderstood Mark",
+    "year": 2019,
+    "author": "Watson",
+    "cluster": "context",
+    "why": "Cultural history of the semicolon and its prescriptive rules.",
+    "kind": "web",
+    "seen_at": "https://openlibrary.org/search.json?title=Semicolon&author=Watson&fields=title%2Cauthor_name%2Cfirst_publish_year&limit=3",
+    "reason": "title not found on https://openlibrary.org/search.json?title=Semicolon&author=Watson&fields=title%2Cauthor_name%2Cfirst_publish_year&limit=3"
+  },
+  {
+    "title": "Distant Horizons: Digital Evidence and Literary Change",
+    "year": 2019,
+    "author": "Underwood",
+    "cluster": "context",
+    "why": "Large-scale measurement of literary change over two centuries.",
+    "kind": "web",
+    "seen_at": "https://openlibrary.org/search.json?title=Distant+Horizons&author=Underwood&fields=title%2Cauthor_name%2Cfirst_publish_year&limit=3",
+    "reason": "title not found on https://openlibrary.org/search.json?title=Distant+Horizons&author=Underwood&fields=title%2Cauthor_name%2Cfirst_publish_year&limit=3"
+  },
+  {
+    "title": "The Evolution of English Prose, 1700-1800: Style, Politeness, and Print Culture",
+    "year": 1998,
+    "author": "McIntosh",
+    "cluster": "context",
+    "why": "Eighteenth-century prose became more bookish and elaborate late in the century.",
+    "kind": "web",
+    "seen_at": "https://openlibrary.org/search.json?title=The+Evolution+of+English+Prose%2C+1700-1800&author=McIntosh&fields=title%2Cauthor_name%2Cfirst_publish_year&limit=3",
+    "reason": "title not found on https://openlibrary.org/search.json?title=The+Evolution+of+English+Prose%2C+1700-1800&author=McIntosh&fields=title%2Cauthor_name%2Cfirst_publish_year&limit=3"
+  },
+  {
+    "title": "Inference and Disputed Authorship: The Federalist",
+    "year": 1964,
+    "author": "Mosteller",
+    "cluster": "R3",
+    "why": "Function-word rates for authorship attribution.",
+    "kind": "web",
+    "seen_at": "https://openlibrary.org/search.json?title=Inference+and+Disputed+Authorship&author=Mosteller&fields=title%2Cauthor_name%2Cfirst_publish_year&limit=3",
+    "reason": "title not found on https://openlibrary.org/search.json?title=Inference+and+Disputed+Authorship&author=Mosteller&fields=title%2Cauthor_name%2Cfirst_publish_year&limit=3"
+  },
+  {
+    "title": "Dependency length minimization in the history of scientific English",
+    "year": 2025,
+    "author": "Talamo",
+    "cluster": "R1",
+    "kind": "web",
+    "url": "https://preview.aclanthology.org/mtsummit-25-ingestion/2025.depling-1.2.pdf",
+    "why": "Royal Society Corpus 1665-1996: average dependency length falls toward the 19th century, then rises in the 20th; the decline is not monotonic across registers.",
+    "reason": "https://preview.aclanthology.org/mtsummit-25-ingestion/2025.depling-1.2.pdf returned 404"
+  },
+  {
+    "title": "The Evolution of English Prose",
+    "year": 1998,
+    "author": "McIntosh",
+    "cluster": "context",
+    "why": "Eighteenth-century prose became more bookish and elaborate late in the century.",
+    "kind": "web",
+    "seen_at": "https://openlibrary.org/search.json?title=The+Evolution+of+English+Prose%2C+1700-1800&author=McIntosh&fields=title%2Cauthor_name%2Cfirst_publish_year&limit=3",
+    "full_title": "The Evolution of English Prose, 1700-1800: Style, Politeness, and Print Culture",
+    "reason": "title not found on https://openlibrary.org/search.json?title=The+Evolution+of+English+Prose%2C+1700-1800&author=McIntosh&fields=title%2Cauthor_name%2Cfirst_publish_year&limit=3"
+  }
+]

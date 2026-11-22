@@ -1,0 +1,736 @@
+{
+  "Sherman1893": {
+    "title": "Analytics of Literature: A Manual for the Objective Study of English Prose and Poetry",
+    "authors": [
+      "Sherman"
+    ],
+    "year": 1893,
+    "venue": "",
+    "type": "web",
+    "doi": null,
+    "url": "https://archive.org/details/analyticsofliter00sheruoft",
+    "abstract": "",
+    "cited_by": null,
+    "source": "web",
+    "match": "title found on https://archive.org/details/analyticsofliter00sheruoft",
+    "retrieved": "2026-11-21",
+    "cluster": "context",
+    "why": "Early hand counts of words per sentence (Hooker 41.4 vs Macaulay 22.5); origin of the decline claim.",
+    "query_title": "Analytics of Literature: A Manual for the Objective Study of English Prose and Poetry"
+  },
+  "Bruthiaux1995": {
+    "title": "The Rise and Fall of the Semicolon: English Punctuation Theory and English Teaching Practice",
+    "authors": [
+      "P. Bruthiaux"
+    ],
+    "year": 1995,
+    "venue": "Applied Linguistics",
+    "type": "article",
+    "doi": "10.1093/applin/16.1.1",
+    "url": "https://doi.org/10.1093/applin/16.1.1",
+    "abstract": "Descriptions of English punctuation in modern instruction manuals offer elaborate descriptions of the properties of each mark in the system, but rarely note their relative frequency As a result, analysts tend to overstate the role of intermediate marks In response, this study reviews the four hundred year evolution of semicolon use in one genre of English It presents evidence that after flourishing in the seventeenth and eighteenth centuries, the semicolon may have become a marginal component of the English punctuation system In order for this evolution to be reflected in teaching practice, both writers and instructors need to rely not on conventionalized theories but on descriptions of punctuation practice in naturally-occurnng texts",
+    "cited_by": 20,
+    "source": "openalex",
+    "match": "title 1.00 similar",
+    "cluster": "context",
+    "why": "400 years of semicolon use; steepest drop in the mid-19th century.",
+    "query_title": "The rise and fall of the semicolon: English punctuation theory and English teaching practice"
+  },
+  "Gerlach2020": {
+    "title": "A Standardized Project Gutenberg Corpus for Statistical Analysis of Natural Language and Quantitative Linguistics",
+    "authors": [
+      "Martin Gerlach",
+      "Francesc Font-Clos"
+    ],
+    "year": 2020,
+    "venue": "Entropy",
+    "type": "article",
+    "doi": "10.3390/e22010126",
+    "url": "https://doi.org/10.3390/e22010126",
+    "abstract": "The use of Project Gutenberg (PG) as a text corpus has been extremely popular in statistical analysis of language for more than 25 years. However, in contrast to other major linguistic datasets of similar importance, no consensual full version of PG exists to date. In fact, most PG studies so far either consider only a small number of manually selected books, leading to potential biased subsets, or employ vastly different pre-processing strategies (often specified in insufficient details), raising concerns regarding the reproducibility of published results. In order to address these shortcomings, here we present the Standardized Project Gutenberg Corpus (SPGC), an open science approach to a curated version of the complete PG data containing more than 50,000 books and more than 3 × 10 9 word-tokens. Using different sources of annotated metadata, we not only provide a broad characterization of the content of PG, but also show different examples highlighting the potential of SPGC for investigating language variability across time, subjects, and authors. We publish our methodology in detail, the code to download and process the data, as well as the obtained corpus itself on three different levels of granularity (raw text, timeseries of word tokens, and counts of words). In this way, we provide a reproducible, pre-processed, full-size version of Project Gutenberg as a new scientific resource for corpus linguistics, natural language processing, and information retrieval.",
+    "cited_by": 171,
+    "source": "openalex",
+    "match": "title 1.00 similar",
+    "cluster": "context",
+    "why": "Project Gutenberg as a research corpus; reproducibility concerns with ad hoc subsets.",
+    "query_title": "A Standardized Project Gutenberg Corpus for Statistical Analysis of Natural Language and Quantitative Linguistics"
+  },
+  "Michel2010": {
+    "title": "Quantitative Analysis of Culture Using Millions of Digitized Books",
+    "authors": [
+      "Jean-Baptiste Michel",
+      "Yuan Kui Shen",
+      "Aviva Presser Aiden",
+      "Adrian Veres",
+      "Matthew K. Gray",
+      "The Google Books Team",
+      "Joseph P. Pickett",
+      "Dale Hoiberg",
+      "Dan Clancy",
+      "Peter Norvig",
+      "Jon Orwant",
+      "Steven A. Pinker",
+      "Martin A. Nowak",
+      "Erez Lieberman Aiden"
+    ],
+    "year": 2010,
+    "venue": "Science",
+    "type": "article",
+    "doi": "10.1126/science.1199644",
+    "url": "https://doi.org/10.1126/science.1199644",
+    "abstract": "We constructed a corpus of digitized texts containing about 4% of all books ever printed. Analysis of this corpus enables us to investigate cultural trends quantitatively. We survey the vast terrain of 'culturomics,' focusing on linguistic and cultural phenomena that were reflected in the English language between 1800 and 2000. We show how this approach can provide insights about fields as diverse as lexicography, the evolution of grammar, collective memory, the adoption of technology, the pursuit of fame, censorship, and historical epidemiology. Culturomics extends the boundaries of rigorous quantitative inquiry to a wide array of new phenomena spanning the social sciences and the humanities.",
+    "cited_by": 3854,
+    "source": "openalex",
+    "match": "title 1.00 similar",
+    "cluster": "context",
+    "why": "Culturomics: diachronic frequency trends from Google Books, the basis of Ngram-style claims.",
+    "query_title": "Quantitative Analysis of Culture Using Millions of Digitized Books"
+  },
+  "Rudnicka2018": {
+    "title": "Variation of sentence length across time and genre: Influence on syntactic usage in English",
+    "authors": [
+      "Karolina Rudnicka"
+    ],
+    "year": 2018,
+    "venue": "Studies in corpus linguistics",
+    "type": "book-chapter",
+    "doi": "10.1075/scl.85.10rud",
+    "url": "https://doi.org/10.1075/scl.85.10rud",
+    "abstract": "The goal of this paper is threefold: (i) to present some practical aspects of using the full-text version of the Corpus of Historical American English (COHA), the largest diachronic multi-genre corpus of the English language, in the investigation of a linguistic trend of change; (ii) to test a widely held assumption that sentence length in written English has been steadily decreasing over the past few centuries; (iii) to point to a possible link between changes in sentence length and changes in English syntactic usage. The empirical proof of concept for (iii) is provided by the decline in the frequency of the non-finite purpose subordinator in order to . Sentence length, genre and the likelihood of occurrence of in order to are shown to be interrelated.",
+    "cited_by": 41,
+    "source": "openalex",
+    "match": "title 1.00 similar",
+    "cluster": "R1",
+    "why": "COHA study of the sentence-length decline; reviews punctuation objection; semicolon decrease 1810-1900.",
+    "query_title": "Variation of sentence length across time and genre"
+  },
+  "Westin2002": {
+    "title": "Language Change in English Newspaper Editorials",
+    "authors": [
+      "Ingrid Westin"
+    ],
+    "year": 2002,
+    "venue": "BRILL",
+    "type": "monograph",
+    "doi": "10.1163/9789004334007",
+    "url": "https://doi.org/10.1163/9789004334007",
+    "abstract": "This work is a corpus-based study of the language of English up-market (“quality”) newspaper editorials, covering the period 1900–1993. CENE, the Corpus of English Newspaper Editorials, was compiled for the purposes of this study and comprises editorials from the Daily Telegraph, the Guardian, and The Times chosen to represent periods at ten-year intervals. The language of the editorials was investigated with regard to features that previous research had proved to be markers of such types of discourse as might be of interest to an investigation of the development of the language of newspaper editorials. To begin with, sets of features associated with the empirically defined dimensions of linguistic variation presented in Biber (1988) were compared across decades and newspapers; these dimensions included personal involvement and information density, narrative discourse, argumentative discourse, abstract discourse, and explicit reference. However, since the study showed that the features within each set often developed in diverging directions, the old sets were broken up and new ones formed on the basis of change and continuity as well as of shared linguistic/stylistic functions, specific for newspaper editorials, among the features involved. It then became apparent that, during the 20th century, the language of the editorials developed towards greater information density and lexical specificity and diversity but at the same time towards greater informality, in so far as the use of conversational features increased. The narrative quality of the editorials at the beginning of the century gradually decreased whereas their reporting and argumentative functions remained the same over the years. When the features were compared across the newspapers analyzed, a clear distinction was noticed between The Times and the Guardian. The language of the Guardian was the most informal and the most narrative while that of The Times was the least so. The information density was the highest inThe Times and the lowest in the Guardian. In these respects, the Daily Telegraph took an intermediate position. The editorials of the Guardian were more argumentative than those of both the Daily Telegraph and The Times. As regards lexical specificity and diversity as well as sentence complexity, the Daily Telegraph scored the highest and The Times the lowest while the results obtained for the Guardian were in between the two.",
+    "cited_by": 37,
+    "source": "crossref",
+    "match": "title 1.00 similar",
+    "cluster": "R1",
+    "why": "Counting sentences with and without semicolons/colons as ends gave nearly the same trend in 20th-century editorials.",
+    "query_title": "Language Change in English Newspaper Editorials"
+  },
+  "Biber1989": {
+    "title": "Drift and the Evolution of English Style: A History of Three Genres",
+    "authors": [
+      "Douglas Biber",
+      "Edward Finegan"
+    ],
+    "year": 1989,
+    "venue": "Language",
+    "type": "article",
+    "doi": "10.2307/415220",
+    "url": "https://doi.org/10.2307/415220",
+    "abstract": "The present study uses a multidimensional approach to trace the historical evolution of written genres of English. We briefly present a model of stylistic variation developed in our previous work, focusing on three empirically defined dimensions of linguistic variation that are associated with differences among ‘literate’ and ‘oral’ varieties: ‘Informational versus Involved Production’; ‘Elaborated versus Situation-Dependent Reference’; and ‘Abstract versus Nonabstract Style’. We then show how fiction, essays, and letters have evolved over the last four centuries with respect to these dimensions. Although they have evolved at different rates and to different extents, we show that all three genres have undergone a general pattern of ‘drift’ towards more oral styles—more involved, less elaborated, and less abstract. We discuss several possible functional and attitudinal influences on the observed patterns of drift; these include the rise of popular literacy and mass schooling, the demands of scientific and expository purposes, and conscious aesthetic preferences. In so doing, we extend Sapir's notion of drift to include the evolution of genres and the influence of nonstructural underlying motivations.",
+    "cited_by": 541,
+    "source": "openalex",
+    "match": "title 1.00 similar",
+    "cluster": "R1",
+    "why": "Multidimensional drift of English registers from the 17th to 20th century; 18th century literate peak.",
+    "query_title": "Drift and the evolution of English style: A history of three genres"
+  },
+  "Biber2009": {
+    "title": "Register, Genre, and Style",
+    "authors": [
+      "Douglas Biber",
+      "Susan Conrad"
+    ],
+    "year": 2009,
+    "venue": "Cambridge University Press eBooks",
+    "type": "book",
+    "doi": "10.1017/cbo9780511814358",
+    "url": "https://doi.org/10.1017/cbo9780511814358",
+    "abstract": "This book describes the most important kinds of texts in English and introduces the methodological techniques used to analyse them. Three analytical approaches are introduced and compared, describing a wide range of texts from the perspectives of register, genre and style. The primary focus of the book is on the analysis of registers. Part 1 introduces an analytical framework for studying registers, genre conventions, and styles. Part 2 provides detailed descriptions of particular text varieties in English, including spoken interpersonal varieties (conversation, university office hours, service encounters), written varieties (newspapers, academic prose, fiction), and emerging electronic varieties (e-mail, internet forums, text messages). Finally, Part 3 introduces advanced analytical approaches using corpora, and discusses theoretical concerns, such as the place of register studies in linguistics, and practical applications of register analysis. Each chapter ends with three types of activities: reflection and review activities, analysis activities, and larger project ideas.",
+    "cited_by": 2601,
+    "source": "openalex",
+    "match": "title 1.00 similar",
+    "cluster": "R1",
+    "why": "Notes much more extensive use of colons and semicolons in earlier historical periods.",
+    "query_title": "Register, Genre, and Style"
+  },
+  "Biber2015": {
+    "title": "Grammatical Complexity in Academic English: Linguistic Change in Writing",
+    "authors": [
+      "Douglas Biber",
+      "Bethany Gray"
+    ],
+    "year": 2015,
+    "venue": "Cambridge University Press eBooks",
+    "type": "book",
+    "doi": "10.1017/cbo9780511920776",
+    "url": "https://doi.org/10.1017/cbo9780511920776",
+    "abstract": "Grammatical Complexity in Academic English uses corpus-based analyses to challenge a number of dominant stereotypes and assumptions within linguistics. Biber and Gray tackle the nature of grammatical complexity, demonstrating that embedded phrasal structures are as important as embedded dependent clauses. The authors also overturn ingrained assumptions about linguistic change, showing that grammatical change occurs in writing as well as speech. This work establishes that academic writing is structurally compressed (rather than elaborated); that it is often not explicit in the expression of meaning; and that scientific academic writing has been the locus of some of the most important grammatical changes in English over the past 200 years (rather than being conservative and resistant to change). Supported throughout with textual evidence, this work is essential reading for discourse analysts, sociolinguists, applied linguists, as well as descriptive linguists and historical linguists.",
+    "cited_by": 505,
+    "source": "openalex",
+    "match": "title 1.00 similar",
+    "cluster": "R1",
+    "why": "Historical change in clausal vs phrasal complexity in written English.",
+    "query_title": "Grammatical Complexity in Academic English: Linguistic Change in Writing"
+  },
+  "Fahnestock2011": {
+    "title": "Rhetorical Style: The Uses of Language in Persuasion",
+    "authors": [
+      "Jeanne Fahnestock"
+    ],
+    "year": 2011,
+    "venue": "Oxford University Press eBooks",
+    "type": "book",
+    "doi": "10.1093/acprof:oso/9780199764129.001.0001",
+    "url": "https://doi.org/10.1093/acprof:oso/9780199764129.001.0001",
+    "abstract": "Rhetorical Style promotes a renewed appreciation of the persuasive potential of the English language by demonstrating how language choices argue. It combines advice about effective style from the rhetorical tradition with insights from stylistics and discourse analysis to provide a full spectrum of methods for text analysis. Using examples from political speeches, nonfiction works, and newspaper reports, it emphasizes the continuing relevance of rhetorical principles of stylistic analysis and their usefulness in understanding effective arguments. Rhetorical Style is comprehensive in its coverage. Part I reviews the historical layers of English, its methods of word formation, its registers and varieties. Part II covers sentence basics in a brief and accessible way, noting how sentence forms serve persuasion, especially those optimal “iconic” forms that epitomize their content. The interactive dimension of texts is covered in part III in accounts of how speakers, audiences, other voices, and even situations and occasions can be selectively presented to serve an arguer's purposes. Finally, part IV goes beyond the sentence level to passage construction, explaining how a coherent string of sentences can build into a sustained argument. The final chapter explains Amplification, the tour de force rhetorical performance that draws on features from all the levels. Throughout, the explanations and the examples from actual texts provide evidence linking language choices to argument forms and persuasive purposes. Rhetorical insights into how language argues have survived for centuries. Rhetorical Style was written to give these enduring principles wider circulation.",
+    "cited_by": 408,
+    "source": "openalex",
+    "match": "title 1.00 similar",
+    "cluster": "R1",
+    "why": "Suggests the sentence-length trend may be a by-product of changing punctuation conventions.",
+    "query_title": "Rhetorical Style: The Uses of Language in Persuasion"
+  },
+  "Oliver2025": {
+    "title": "The triumph of logical English",
+    "authors": [
+      "Oliver"
+    ],
+    "year": 2025,
+    "venue": "",
+    "type": "web",
+    "doi": null,
+    "url": "https://worksinprogress.co/issue/the-logical-triumph-of-english/",
+    "abstract": "",
+    "cited_by": null,
+    "source": "web",
+    "match": "title found on https://worksinprogress.co/issue/the-logical-triumph-of-english/",
+    "retrieved": "2026-11-21",
+    "cluster": "R1",
+    "why": "Recent argument that most sentence-length data should be taken with a pinch of salt because of punctuation.",
+    "query_title": "The triumph of logical English"
+  },
+  "Darmon2020": {
+    "title": "Pull out all the stops: Textual analysis via punctuation sequences",
+    "authors": [
+      "Alexandra N. M. Darmon",
+      "Marya Bazzi",
+      "SAM D. HOWISON",
+      "Mason Alexander Porter"
+    ],
+    "year": 2020,
+    "venue": "European Journal of Applied Mathematics",
+    "type": "article",
+    "doi": "10.1017/s0956792520000157",
+    "url": "https://doi.org/10.1017/s0956792520000157",
+    "abstract": "Whether enjoying the lucid prose of a favourite author or slogging through some other writer’s cumbersome, heavy-set prattle (full of parentheses, em dashes, compound adjectives, and Oxford commas), readers will notice stylistic signatures not only in word choice and grammar but also in punctuation itself. Indeed, visual sequences of punctuation from different authors produce marvellously different (and visually striking) sequences. Punctuation is a largely overlooked stylistic feature in stylometry, the quantitative analysis of written text. In this paper, we examine punctuation sequences in a corpus of literary documents and ask the following questions: Are the properties of such sequences a distinctive feature of different authors? Is it possible to distinguish literary genres based on their punctuation sequences? Do the punctuation styles of authors evolve over time? Are we on to something interesting in trying to do stylometry without words, or are we full of sound and fury (signifying nothing)? In our investigation, we examine a large corpus of documents from Project Gutenberg (a digital library with many possible editorial influences). We extract punctuation sequences from each document in our corpus and record the number of words that separate punctuation marks. Using such information about punctuation-usage patterns, we attempt both author and genre recognition, and we also examine the evolution of punctuation usage over time. Our efforts at author recognition are particularly successful. Among the features that we consider, the one that seems to carry the most explanatory power is an empirical approximation of the joint probability of the successive occurrence of two punctuation marks. In our conclusions, we suggest several directions for future work, including the application of similar analyses for investigating translations and other types of categorical time series.",
+    "cited_by": 14,
+    "source": "openalex",
+    "match": "title 1.00 similar",
+    "cluster": "R2",
+    "why": "Punctuation sequences for authorship (62-72%) and genre; semicolons fell less noticeably in their Gutenberg sample.",
+    "query_title": "Pull out all the stops: Textual analysis via punctuation sequences"
+  },
+  "Stanisz2023": {
+    "title": "Universal versus system-specific features of punctuation usage patterns in major Western languages",
+    "authors": [
+      "Tomasz Stanisz",
+      "Stanisław Drożdż",
+      "Jarosław Kwapień"
+    ],
+    "year": 2023,
+    "venue": "Chaos Solitons & Fractals",
+    "type": "article",
+    "doi": "10.1016/j.chaos.2023.113183",
+    "url": "https://doi.org/10.1016/j.chaos.2023.113183",
+    "abstract": "",
+    "cited_by": 18,
+    "source": "openalex",
+    "match": "title 1.00 similar",
+    "cluster": "R2",
+    "why": "Distances between punctuation marks follow a discrete Weibull distribution; language-specific parameters.",
+    "query_title": "Universal versus system-specific features of punctuation usage patterns in major Western languages"
+  },
+  "Babbel2025": {
+    "title": "Is the semicolon dying? Research reveals usage in British English books plummets",
+    "authors": [
+      "Babbel"
+    ],
+    "year": 2025,
+    "venue": "",
+    "type": "web",
+    "doi": null,
+    "url": "https://www.babbel.com/press/en-gb/releases/semicolon",
+    "abstract": "",
+    "cited_by": null,
+    "source": "web",
+    "match": "title found on https://www.babbel.com/press/en-gb/releases/semicolon",
+    "retrieved": "2026-11-21",
+    "cluster": "R2",
+    "why": "Ngram-based claim: one semicolon per 90 words in 1781.",
+    "query_title": "Is the semicolon dying? Research reveals usage in British English books plummets"
+  },
+  "Burrows2002": {
+    "title": "'Delta': a Measure of Stylistic Difference and a Guide to Likely Authorship",
+    "authors": [
+      "J. F. Burrows"
+    ],
+    "year": 2002,
+    "venue": "Literary and Linguistic Computing",
+    "type": "article",
+    "doi": "10.1093/llc/17.3.267",
+    "url": "https://doi.org/10.1093/llc/17.3.267",
+    "abstract": "This paper is a companion to my ‘Questions of authorship: attribution and beyond’, in which I sketched a new way of using the relative frequencies of the very common words for comparing written texts and testing their likely authorship. The main emphasis of that paper was not on the new procedure but on the broader consequences of our increasing sophistication in making such comparisons and the increasing (although never absolute) reliability of our inferences about authorship. My present objects, accordingly, are to give a more complete account of the procedure itself; to report the outcome of an extensive set of trials; and to consider the strengths and limitations of the new procedure. The procedure offers a simple but comparatively accurate addition to our current methods of distinguishing the most likely author of texts exceeding about 1,500 words in length. It is of even greater value as a method of reducing the field of likely candidates for texts of as little as 100 words in length. Not unexpectedly, it works least well with texts of a genre uncharacteristic of their author and, in one case, with texts far separated in time across a long literary career. Its possible use for other classificatory tasks has not yet been investigated.",
+    "cited_by": 933,
+    "source": "openalex",
+    "match": "title 1.00 similar",
+    "cluster": "R3",
+    "why": "Standard stylometric distance on most frequent words.",
+    "query_title": "'Delta': a Measure of Stylistic Difference and a Guide to Likely Authorship"
+  },
+  "Stamatatos2008": {
+    "title": "A survey of modern authorship attribution methods",
+    "authors": [
+      "Efstathios Stamatatos"
+    ],
+    "year": 2008,
+    "venue": "Journal of the American Society for Information Science and Technology",
+    "type": "article",
+    "doi": "10.1002/asi.21001",
+    "url": "https://doi.org/10.1002/asi.21001",
+    "abstract": "Authorship attribution supported by statistical or computational methods has a long history starting from the 19th century and is marked by the seminal study of Mosteller and Wallace (1964) on the authorship of the disputed “Federalist Papers.” During the last decade, this scientific field has been developed substantially, taking advantage of research advances in areas such as machine learning, information retrieval, and natural language processing. The plethora of available electronic texts (e.g., e‐mail messages, online forum messages, blogs, source code, etc.) indicates a wide variety of applications of this technology, provided it is able to handle short and noisy text from multiple candidate authors. In this article, a survey of recent advances of the automated approaches to attributing authorship is presented, examining their characteristics for both text representation and text classification. The focus of this survey is on computational requirements and settings rather than on linguistic or literary issues. We also discuss evaluation methodologies and criteria for authorship attribution studies and list open questions that will attract future work in this area.",
+    "cited_by": 1614,
+    "source": "openalex",
+    "match": "title 1.00 similar",
+    "cluster": "R3",
+    "why": "Survey including punctuation and character-level features.",
+    "query_title": "A survey of modern authorship attribution methods"
+  },
+  "Underwood2022": {
+    "title": "Cohort Succession Explains Most Change in Literary Culture",
+    "authors": [
+      "Ted Underwood",
+      "Kevin Kiley",
+      "Wenyi Shang",
+      "Stephen Vaisey"
+    ],
+    "year": 2022,
+    "venue": "Sociological Science",
+    "type": "article",
+    "doi": "10.15195/v9.a8",
+    "url": "https://doi.org/10.15195/v9.a8",
+    "abstract": "Many aspects of behavior are guided by dispositions that are relatively durable once formed. Political opinions and phonology, for instance, change largely through cohort succession. But evidence for cohort effects has been scarce in artistic and intellectual history; researchers in those fields more commonly explain change as an immediate response to recent innovations and events. We test these conflicting theories of change in a corpus of 10,830 works of fiction from 1880 to 1999 and find that slightly more than half (54.7 percent) of the variance explained by time is explained better by an author’s year of birth than by a book’s year of publication. Writing practices do change across an author’s career. But the pace of change declines steeply with age. This finding suggests that existing histories of literary culture have a large blind spot: the early experiences that form cohorts are pivotal but leave few traces in the historical record.",
+    "cited_by": 90,
+    "source": "openalex",
+    "match": "title 1.00 similar",
+    "cluster": "R3",
+    "why": "Birth year explains more of literary change than publication year.",
+    "query_title": "Cohort succession explains most change in literary culture"
+  },
+  "Ryder1965": {
+    "title": "The Cohort as a Concept in the Study of Social Change",
+    "authors": [
+      "Norman B. Ryder"
+    ],
+    "year": 1965,
+    "venue": "American Sociological Review",
+    "type": "article",
+    "doi": "10.2307/2090964",
+    "url": "https://doi.org/10.2307/2090964",
+    "abstract": "",
+    "cited_by": 2807,
+    "source": "openalex",
+    "match": "title 1.00 similar",
+    "cluster": "R3",
+    "why": "Cohort replacement as a mechanism of social change.",
+    "query_title": "The cohort as a concept in the study of social change"
+  },
+  "Muzny2017": {
+    "title": "Dialogism in the novel: A computational model of the dialogic nature of narration and quotations",
+    "authors": [
+      "Grace Muzny",
+      "Mark Algee‐Hewitt",
+      "Dan Jurafsky"
+    ],
+    "year": 2017,
+    "venue": "Digital Scholarship in the Humanities",
+    "type": "article",
+    "doi": "10.1093/llc/fqx031",
+    "url": "https://doi.org/10.1093/llc/fqx031",
+    "abstract": "Understanding how spoken language is represented in novels over time is a key question in the Digital Humanities. We propose a new metric for characterizing spoken dialogue in the novel, called dialogism, that instantiates Bakhtin’s claim that all texts are fundamentally dialogic. This measurement uses abstract grammatical features in a span of text (such as the use of pronouns, mood, or subordinate clause structure) to measure the extent to which the span is dialogic, i.e. exhibits the grammatical structures common to natural spoken dialogue. We use this metric to explore the dialogism of 1,100 largely canonical English novels over 230 years. We combine quantitative and qualitative investigation of the dialogic properties of both dialogue and narration to show novel stylistic properties of literary innovation during three periods: the late 18th century, the turn of the 19th century, and the mid-20th century. We find that during these moments, certain authors reject literary conventions by changing the dynamic between the narrative and dialogue portions of the texts. Our analysis shows that these changed dynamics are behind rises in persuasive writing, reflections of psychological processes, and the use of dialogue as an increasingly important driver of the novel as a whole. These results show that computational models that characterize style grammatically, generalizing across time and genre, can lead to literary and methodological insights.",
+    "cited_by": 28,
+    "source": "openalex",
+    "match": "title 1.00 similar",
+    "cluster": "R3",
+    "why": "Quotation rates rise in 1,100 novels over time.",
+    "query_title": "Dialogism in the novel: A computational model of the dialogic nature of narration and quotations"
+  },
+  "Allison2013": {
+    "title": "Style at the Scale of the Sentence",
+    "authors": [
+      "Allison"
+    ],
+    "year": 2013,
+    "venue": "",
+    "type": "web",
+    "doi": null,
+    "url": "https://litlab.stanford.edu/LiteraryLabPamphlet5.pdf",
+    "abstract": "",
+    "cited_by": null,
+    "source": "web",
+    "match": "title found on https://litlab.stanford.edu/LiteraryLabPamphlet5.pdf",
+    "retrieved": "2026-11-21",
+    "cluster": "R3",
+    "why": "Literary Lab Pamphlet 5: sentence-level style measurement and its disagreements.",
+    "query_title": "Style at the Scale of the Sentence"
+  },
+  "Vrandecic2014": {
+    "title": "Wikidata: a free collaborative knowledgebase",
+    "authors": [
+      "Denny Vrandečić",
+      "Markus Krötzsch"
+    ],
+    "year": 2014,
+    "venue": "Communications of the ACM",
+    "type": "article",
+    "doi": "10.1145/2629489",
+    "url": "https://doi.org/10.1145/2629489",
+    "abstract": "This collaboratively edited knowledgebase provides a common source of data for Wikipedia, and everyone else.",
+    "cited_by": 5355,
+    "source": "openalex",
+    "match": "title 1.00 similar",
+    "cluster": "tools",
+    "why": "Source of first-publication dates.",
+    "query_title": "Wikidata: a free collaborative knowledgebase"
+  },
+  "Efron1979": {
+    "title": "Bootstrap Methods: Another Look at the Jackknife",
+    "authors": [
+      "Bradley Efron"
+    ],
+    "year": 1979,
+    "venue": "The Annals of Statistics",
+    "type": "article",
+    "doi": "10.1214/aos/1176344552",
+    "url": "https://doi.org/10.1214/aos/1176344552",
+    "abstract": "We discuss the following problem: given a random sample $\\mathbf{X} = (X_1, X_2, \\cdots, X_n)$ from an unknown probability distribution $F$, estimate the sampling distribution of some prespecified random variable $R(\\mathbf{X}, F)$, on the basis of the observed data $\\mathbf{x}$. (Standard jackknife theory gives an approximate mean and variance in the case $R(\\mathbf{X}, F) = \\theta(\\hat{F}) - \\theta(F), \\theta$ some parameter of interest.) A general method, called the \"bootstrap,\" is introduced, and shown to work satisfactorily on a variety of estimation problems. The jackknife is shown to be a linear approximation method for the bootstrap. The exposition proceeds by a series of examples: variance of the sample median, error rates in a linear discriminant analysis, ratio estimation, estimating regression parameters, etc.",
+    "cited_by": 22092,
+    "source": "openalex",
+    "match": "title 1.00 similar",
+    "cluster": "tools",
+    "why": "Bootstrap intervals.",
+    "query_title": "Bootstrap methods: Another look at the jackknife"
+  },
+  "Cohen1960": {
+    "title": "A Coefficient of Agreement for Nominal Scales",
+    "authors": [
+      "Jacob Cohen"
+    ],
+    "year": 1960,
+    "venue": "Educational and Psychological Measurement",
+    "type": "article",
+    "doi": "10.1177/001316446002000104",
+    "url": "https://doi.org/10.1177/001316446002000104",
+    "abstract": "",
+    "cited_by": 52071,
+    "source": "openalex",
+    "match": "title 1.00 similar",
+    "cluster": "tools",
+    "why": "Cohen's kappa for intercoder agreement.",
+    "query_title": "A coefficient of agreement for nominal scales"
+  },
+  "Gilardi2023": {
+    "title": "ChatGPT outperforms crowd workers for text-annotation tasks",
+    "authors": [
+      "Fabrizio Gilardi",
+      "Meysam Alizadeh",
+      "Maël Kubli"
+    ],
+    "year": 2023,
+    "venue": "Proceedings of the National Academy of Sciences",
+    "type": "article",
+    "doi": "10.1073/pnas.2305016120",
+    "url": "https://doi.org/10.1073/pnas.2305016120",
+    "abstract": "Many NLP applications require manual text annotations for a variety of tasks, notably to train classifiers or evaluate the performance of unsupervised models. Depending on the size and degree of complexity, the tasks may be conducted by crowd workers on platforms such as MTurk as well as trained annotators, such as research assistants. Using four samples of tweets and news articles ( n = 6,183), we show that ChatGPT outperforms crowd workers for several annotation tasks, including relevance, stance, topics, and frame detection. Across the four datasets, the zero-shot accuracy of ChatGPT exceeds that of crowd workers by about 25 percentage points on average, while ChatGPT’s intercoder agreement exceeds that of both crowd workers and trained annotators for all tasks. Moreover, the per-annotation cost of ChatGPT is less than $0.003—about thirty times cheaper than MTurk. These results demonstrate the potential of large language models to drastically increase the efficiency of text classification.",
+    "cited_by": 2676,
+    "source": "openalex",
+    "match": "title 1.00 similar",
+    "cluster": "tools",
+    "why": "LLM annotation can match or beat crowd coders; supports cautious use of LLM coding.",
+    "query_title": "ChatGPT outperforms crowd workers for text-annotation tasks"
+  },
+  "Tornberg2023": {
+    "title": "ChatGPT-4 outperforms experts and crowd workers in annotating political Twitter messages with zero-shot learning",
+    "authors": [
+      "Törnberg"
+    ],
+    "year": 2023,
+    "venue": "",
+    "type": "web",
+    "doi": null,
+    "url": "https://arxiv.org/abs/2304.06588",
+    "abstract": "",
+    "cited_by": null,
+    "source": "web",
+    "match": "title found on https://arxiv.org/abs/2304.06588",
+    "retrieved": "2026-11-21",
+    "cluster": "tools",
+    "why": "LLM annotation reliability vs expert coders.",
+    "query_title": "ChatGPT-4 outperforms experts and crowd workers in annotating political Twitter messages with zero-shot learning"
+  },
+  "Domain2026": {
+    "title": "Public Domain Day 2026",
+    "authors": [
+      "Duke Center for the Study of the Public Domain"
+    ],
+    "year": 2026,
+    "venue": "",
+    "type": "web",
+    "doi": null,
+    "url": "https://cspd.law.duke.edu/publicdomainday/2026",
+    "abstract": "",
+    "cited_by": null,
+    "source": "web",
+    "match": "title found on https://cspd.law.duke.edu/publicdomainday/2026",
+    "retrieved": "2026-11-21",
+    "cluster": "named",
+    "why": "US public domain cutoff explains the shortage of post-1930 books.",
+    "query_title": "Public Domain Day 2026"
+  },
+  "Lewis1894": {
+    "title": "The History of the English Paragraph",
+    "authors": [
+      "Lewis"
+    ],
+    "year": 1894,
+    "venue": "",
+    "type": "web",
+    "doi": null,
+    "url": "https://archive.org/stream/historyenglishp00lewigoog/historyenglishp00lewigoog_djvu.txt",
+    "abstract": "",
+    "cited_by": null,
+    "source": "web",
+    "match": "title found on https://archive.org/stream/historyenglishp00lewigoog/historyenglishp00lewigoog_djvu.txt",
+    "retrieved": "2026-11-21",
+    "cluster": "context",
+    "why": "Claim that the English sentence decreased in average length at least one-half in three hundred years.",
+    "query_title": "The History of the English Paragraph"
+  },
+  "Kulig2016": {
+    "title": "In narrative texts punctuation marks obey the same statistics as words",
+    "authors": [
+      "Andrzej Kulig",
+      "Jarosław Kwapień",
+      "Tomasz Stanisz",
+      "Stanisław Drożdż"
+    ],
+    "year": 2016,
+    "venue": "Information Sciences",
+    "type": "article",
+    "doi": "10.1016/j.ins.2016.09.051",
+    "url": "https://doi.org/10.1016/j.ins.2016.09.051",
+    "abstract": "",
+    "cited_by": 42,
+    "source": "openalex",
+    "match": "title 1.00 similar",
+    "cluster": "R2",
+    "why": "Punctuation marks behave statistically like words (Zipf).",
+    "query_title": "In narrative texts punctuation marks obey the same statistics as words"
+  },
+  "Smith1776": {
+    "title": "An inquiry into the nature and causes of the wealth of nations",
+    "authors": [
+      "Smith"
+    ],
+    "year": 1776,
+    "venue": "",
+    "type": "web",
+    "doi": null,
+    "url": "https://archive.org/details/inquiryintonatur02smit_0",
+    "abstract": "",
+    "cited_by": null,
+    "source": "web",
+    "match": "title found on https://archive.org/details/inquiryintonatur02smit_0",
+    "retrieved": "2026-11-22",
+    "cluster": "named",
+    "why": "First-edition punctuation differs from Gutenberg's text (editions limitation).",
+    "query_title": "An inquiry into the nature and causes of the wealth of nations"
+  },
+  "Nunberg1990": {
+    "title": "The Linguistics of Punctuation",
+    "authors": [
+      "Nunberg"
+    ],
+    "year": 1990,
+    "venue": "",
+    "type": "web",
+    "doi": null,
+    "url": "",
+    "abstract": "",
+    "cited_by": null,
+    "source": "web",
+    "match": "title found on https://openlibrary.org/search.json?title=The+Linguistics+of+Punctuation&author=Nunberg&fields=title%2Cauthor_name%2Cfirst_publish_year&limit=3",
+    "retrieved": null,
+    "cluster": "context",
+    "why": "Text-grammar account of punctuation; semicolon and colon as clause-level delimiters.",
+    "query_title": "The Linguistics of Punctuation"
+  },
+  "Greg1950": {
+    "title": "The Rationale of Copy-Text",
+    "authors": [
+      "Greg"
+    ],
+    "year": 1950,
+    "venue": "Studies in Bibliography 3, 19-36",
+    "type": "web",
+    "doi": null,
+    "url": "",
+    "abstract": "",
+    "cited_by": null,
+    "source": "web",
+    "match": "title found on https://en.wikipedia.org/wiki/W._W._Greg",
+    "retrieved": null,
+    "cluster": "context",
+    "why": "Distinction between substantives and accidentals (punctuation, spelling): printers and editors routinely altered punctuation.",
+    "query_title": "The Rationale of Copy-Text"
+  },
+  "Hunt1965": {
+    "title": "Grammatical Structures Written at Three Grade Levels",
+    "authors": [
+      "Hunt"
+    ],
+    "year": 1965,
+    "venue": "",
+    "type": "web",
+    "doi": null,
+    "url": "",
+    "abstract": "",
+    "cited_by": null,
+    "source": "web",
+    "match": "title found on https://openlibrary.org/search.json?title=Grammatical+Structures+Written+at+Three+Grade+Levels&author=Hunt&fields=title%2Cauthor_name%2Cfirst_publish_year&limit=3",
+    "retrieved": null,
+    "cluster": "R1",
+    "why": "Defines the T-unit, an alternative to the orthographic sentence.",
+    "query_title": "Grammatical Structures Written at Three Grade Levels"
+  },
+  "Rougeux2016": {
+    "title": "Between the Words",
+    "authors": [
+      "Rougeux"
+    ],
+    "year": 2016,
+    "venue": "",
+    "type": "web",
+    "doi": null,
+    "url": "",
+    "abstract": "",
+    "cited_by": null,
+    "source": "web",
+    "match": "title found on https://www.lewiscarroll.org/2017/06/20/alice-in-punktuation/",
+    "retrieved": null,
+    "cluster": "R3",
+    "why": "Punctuation-only posters of classic texts; precursor.",
+    "query_title": "Between the Words"
+  },
+  "Parkes1992": {
+    "title": "Pause and Effect",
+    "authors": [
+      "Parkes"
+    ],
+    "year": 1992,
+    "venue": "",
+    "type": "web",
+    "doi": null,
+    "url": "",
+    "abstract": "",
+    "cited_by": null,
+    "source": "web",
+    "match": "title found on https://openlibrary.org/search.json?title=Pause+and+Effect&author=Parkes&fields=title%2Cauthor_name%2Cfirst_publish_year&limit=3",
+    "retrieved": null,
+    "cluster": "context",
+    "why": "Standard history of punctuation, including the shift from rhetorical to grammatical punctuation.",
+    "query_title": "Pause and Effect"
+  },
+  "Watson2019": {
+    "title": "Semicolon",
+    "authors": [
+      "Watson"
+    ],
+    "year": 2019,
+    "venue": "",
+    "type": "web",
+    "doi": null,
+    "url": "",
+    "abstract": "",
+    "cited_by": null,
+    "source": "web",
+    "match": "title found on https://openlibrary.org/search.json?title=Semicolon&author=Watson&fields=title%2Cauthor_name%2Cfirst_publish_year&limit=3",
+    "retrieved": null,
+    "cluster": "context",
+    "why": "Cultural history of the semicolon and its prescriptive rules.",
+    "query_title": "Semicolon"
+  },
+  "Underwood2019": {
+    "title": "Distant Horizons",
+    "authors": [
+      "Underwood"
+    ],
+    "year": 2019,
+    "venue": "",
+    "type": "web",
+    "doi": null,
+    "url": "",
+    "abstract": "",
+    "cited_by": null,
+    "source": "web",
+    "match": "title found on https://openlibrary.org/search.json?title=Distant+Horizons&author=Underwood&fields=title%2Cauthor_name%2Cfirst_publish_year&limit=3",
+    "retrieved": null,
+    "cluster": "context",
+    "why": "Large-scale measurement of literary change over two centuries.",
+    "query_title": "Distant Horizons"
+  },
+  "Mosteller1964": {
+    "title": "Inference and Disputed Authorship",
+    "authors": [
+      "Mosteller"
+    ],
+    "year": 1964,
+    "venue": "",
+    "type": "web",
+    "doi": null,
+    "url": "",
+    "abstract": "",
+    "cited_by": null,
+    "source": "web",
+    "match": "title found on https://openlibrary.org/search.json?title=Inference+and+Disputed+Authorship&author=Mosteller&fields=title%2Cauthor_name%2Cfirst_publish_year&limit=3",
+    "retrieved": null,
+    "cluster": "R3",
+    "why": "Function-word rates for authorship attribution.",
+    "query_title": "Inference and Disputed Authorship"
+  },
+  "Liberman2022": {
+    "title": "Historical trends in English sentence length and syntactic complexity",
+    "authors": [
+      "Liberman"
+    ],
+    "year": 2022,
+    "venue": "Talk, SHEL 12 (Studies in the History of the English Language)",
+    "type": "web",
+    "doi": null,
+    "url": "https://languagelog.ldc.upenn.edu/myl/LibermanSHEL12.pdf",
+    "abstract": "",
+    "cited_by": null,
+    "source": "web",
+    "match": "title found on https://languagelog.ldc.upenn.edu/myl/LibermanSHEL12.pdf",
+    "retrieved": "2026-11-22",
+    "cluster": "R1",
+    "why": "SHEL 12 talk questioning historical sentence-length trends; suggests part of the trend is a shift in punctuation practice.",
+    "query_title": "Historical trends in English sentence length and syntactic complexity"
+  }
+}

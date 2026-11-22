@@ -1,0 +1,40 @@
+## References
+
+- Allison (2013). [Style at the Scale of the Sentence](https://litlab.stanford.edu/LiteraryLabPamphlet5.pdf). Retrieved 2026-11-21.
+- Babbel (2025). [Is the semicolon dying? Research reveals usage in British English books plummets](https://www.babbel.com/press/en-gb/releases/semicolon). Retrieved 2026-11-21.
+- Biber, D. and Conrad, S. (2009). Register, Genre, and Style. _Cambridge University Press eBooks_. [doi:10.1017/cbo9780511814358](https://doi.org/10.1017/cbo9780511814358)
+- Biber, D. and Finegan, E. (1989). Drift and the Evolution of English Style: A History of Three Genres. _Language_. [doi:10.2307/415220](https://doi.org/10.2307/415220)
+- Biber, D. and Gray, B. (2015). Grammatical Complexity in Academic English: Linguistic Change in Writing. _Cambridge University Press eBooks_. [doi:10.1017/cbo9780511920776](https://doi.org/10.1017/cbo9780511920776)
+- Bruthiaux, P. (1995). The Rise and Fall of the Semicolon: English Punctuation Theory and English Teaching Practice. _Applied Linguistics_. [doi:10.1093/applin/16.1.1](https://doi.org/10.1093/applin/16.1.1)
+- Burrows, J. F. (2002). 'Delta': a Measure of Stylistic Difference and a Guide to Likely Authorship. _Literary and Linguistic Computing_. [doi:10.1093/llc/17.3.267](https://doi.org/10.1093/llc/17.3.267)
+- Cohen, J. (1960). A Coefficient of Agreement for Nominal Scales. _Educational and Psychological Measurement_. [doi:10.1177/001316446002000104](https://doi.org/10.1177/001316446002000104)
+- Darmon, A. N. M. et al. (2020). Pull out all the stops: Textual analysis via punctuation sequences. _European Journal of Applied Mathematics_. [doi:10.1017/s0956792520000157](https://doi.org/10.1017/s0956792520000157)
+- Domain, D. C. f. t. S. o. t. P. (2026). [Public Domain Day 2026](https://cspd.law.duke.edu/publicdomainday/2026). Retrieved 2026-11-21.
+- Efron, B. (1979). Bootstrap Methods: Another Look at the Jackknife. _The Annals of Statistics_. [doi:10.1214/aos/1176344552](https://doi.org/10.1214/aos/1176344552)
+- Fahnestock, J. (2011). Rhetorical Style: The Uses of Language in Persuasion. _Oxford University Press eBooks_. [doi:10.1093/acprof:oso/9780199764129.001.0001](https://doi.org/10.1093/acprof:oso/9780199764129.001.0001)
+- Gerlach, M. and Font-Clos, F. (2020). A Standardized Project Gutenberg Corpus for Statistical Analysis of Natural Language and Quantitative Linguistics. _Entropy_. [doi:10.3390/e22010126](https://doi.org/10.3390/e22010126)
+- Gilardi, F., Alizadeh, M. and Kubli, M. (2023). ChatGPT outperforms crowd workers for text-annotation tasks. _Proceedings of the National Academy of Sciences_. [doi:10.1073/pnas.2305016120](https://doi.org/10.1073/pnas.2305016120)
+- Greg (1950). The Rationale of Copy-Text. _Studies in Bibliography 3, 19-36_.
+- Hunt (1965). Grammatical Structures Written at Three Grade Levels.
+- Kulig, A. et al. (2016). In narrative texts punctuation marks obey the same statistics as words. _Information Sciences_. [doi:10.1016/j.ins.2016.09.051](https://doi.org/10.1016/j.ins.2016.09.051)
+- Lewis (1894). [The History of the English Paragraph](https://archive.org/stream/historyenglishp00lewigoog/historyenglishp00lewigoog_djvu.txt). Retrieved 2026-11-21.
+- Liberman (2022). [Historical trends in English sentence length and syntactic complexity](https://languagelog.ldc.upenn.edu/myl/LibermanSHEL12.pdf). _Talk, SHEL 12 (Studies in the History of the English Language)_. Retrieved 2026-11-22.
+- Michel, J. et al. (2010). Quantitative Analysis of Culture Using Millions of Digitized Books. _Science_. [doi:10.1126/science.1199644](https://doi.org/10.1126/science.1199644)
+- Mosteller (1964). Inference and Disputed Authorship.
+- Muzny, G., Algee‐Hewitt, M. and Jurafsky, D. (2017). Dialogism in the novel: A computational model of the dialogic nature of narration and quotations. _Digital Scholarship in the Humanities_. [doi:10.1093/llc/fqx031](https://doi.org/10.1093/llc/fqx031)
+- Nunberg (1990). The Linguistics of Punctuation.
+- Oliver (2025). [The triumph of logical English](https://worksinprogress.co/issue/the-logical-triumph-of-english/). Retrieved 2026-11-21.
+- Parkes (1992). Pause and Effect.
+- Rougeux (2016). Between the Words.
+- Rudnicka, K. (2018). Variation of sentence length across time and genre: Influence on syntactic usage in English. _Studies in corpus linguistics_. [doi:10.1075/scl.85.10rud](https://doi.org/10.1075/scl.85.10rud)
+- Ryder, N. B. (1965). The Cohort as a Concept in the Study of Social Change. _American Sociological Review_. [doi:10.2307/2090964](https://doi.org/10.2307/2090964)
+- Sherman (1893). [Analytics of Literature: A Manual for the Objective Study of English Prose and Poetry](https://archive.org/details/analyticsofliter00sheruoft). Retrieved 2026-11-21.
+- Smith (1776). [An inquiry into the nature and causes of the wealth of nations](https://archive.org/details/inquiryintonatur02smit_0). Retrieved 2026-11-22.
+- Stamatatos, E. (2008). A survey of modern authorship attribution methods. _Journal of the American Society for Information Science and Technology_. [doi:10.1002/asi.21001](https://doi.org/10.1002/asi.21001)
+- Stanisz, T., Drożdż, S. and Kwapień, J. (2023). Universal versus system-specific features of punctuation usage patterns in major Western languages. _Chaos Solitons & Fractals_. [doi:10.1016/j.chaos.2023.113183](https://doi.org/10.1016/j.chaos.2023.113183)
+- Törnberg (2023). [ChatGPT-4 outperforms experts and crowd workers in annotating political Twitter messages with zero-shot learning](https://arxiv.org/abs/2304.06588). Retrieved 2026-11-21.
+- Underwood (2019). Distant Horizons.
+- Underwood, T. et al. (2022). Cohort Succession Explains Most Change in Literary Culture. _Sociological Science_. [doi:10.15195/v9.a8](https://doi.org/10.15195/v9.a8)
+- Vrandečić, D. and Krötzsch, M. (2014). Wikidata: a free collaborative knowledgebase. _Communications of the ACM_. [doi:10.1145/2629489](https://doi.org/10.1145/2629489)
+- Watson (2019). Semicolon.
+- Westin, I. (2002). Language Change in English Newspaper Editorials. _BRILL_. [doi:10.1163/9789004334007](https://doi.org/10.1163/9789004334007)

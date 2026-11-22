@@ -1,0 +1,347 @@
+[
+  {
+    "title": "Analytics of Literature: A Manual for the Objective Study of English Prose and Poetry",
+    "year": 1893,
+    "author": "Sherman",
+    "cluster": "context",
+    "why": "Early hand counts of words per sentence (Hooker 41.4 vs Macaulay 22.5); origin of the decline claim.",
+    "kind": "web",
+    "url": "https://archive.org/details/analyticsofliter00sheruoft"
+  },
+  {
+    "title": "The History of the English Paragraph",
+    "year": 1894,
+    "author": "Lewis",
+    "cluster": "context",
+    "why": "Claim that the English sentence decreased in average length at least one-half in three hundred years.",
+    "kind": "web",
+    "url": "https://archive.org/stream/historyenglishp00lewigoog/historyenglishp00lewigoog_djvu.txt"
+  },
+  {
+    "title": "Pause and Effect",
+    "year": 1992,
+    "author": "Parkes",
+    "cluster": "context",
+    "why": "Standard history of punctuation, including the shift from rhetorical to grammatical punctuation.",
+    "kind": "web",
+    "seen_at": "https://openlibrary.org/search.json?title=Pause+and+Effect&author=Parkes&fields=title%2Cauthor_name%2Cfirst_publish_year&limit=3",
+    "full_title": "Pause and Effect: An Introduction to the History of Punctuation in the West"
+  },
+  {
+    "title": "The rise and fall of the semicolon: English punctuation theory and English teaching practice",
+    "year": 1995,
+    "author": "Bruthiaux",
+    "cluster": "context",
+    "why": "400 years of semicolon use; steepest drop in the mid-19th century.",
+    "doi": "10.1093/applin/16.1.1"
+  },
+  {
+    "title": "The Linguistics of Punctuation",
+    "year": 1990,
+    "author": "Nunberg",
+    "cluster": "context",
+    "why": "Text-grammar account of punctuation; semicolon and colon as clause-level delimiters.",
+    "kind": "web",
+    "seen_at": "https://openlibrary.org/search.json?title=The+Linguistics+of+Punctuation&author=Nunberg&fields=title%2Cauthor_name%2Cfirst_publish_year&limit=3"
+  },
+  {
+    "title": "Semicolon",
+    "year": 2019,
+    "author": "Watson",
+    "cluster": "context",
+    "why": "Cultural history of the semicolon and its prescriptive rules.",
+    "kind": "web",
+    "seen_at": "https://openlibrary.org/search.json?title=Semicolon&author=Watson&fields=title%2Cauthor_name%2Cfirst_publish_year&limit=3",
+    "full_title": "Semicolon: The Past, Present, and Future of a Misunderstood Mark"
+  },
+  {
+    "title": "The Rationale of Copy-Text",
+    "year": 1950,
+    "author": "Greg",
+    "cluster": "context",
+    "why": "Distinction between substantives and accidentals (punctuation, spelling): printers and editors routinely altered punctuation.",
+    "kind": "web",
+    "venue": "Studies in Bibliography 3, 19-36",
+    "seen_at": "https://en.wikipedia.org/wiki/W._W._Greg"
+  },
+  {
+    "title": "A Standardized Project Gutenberg Corpus for Statistical Analysis of Natural Language and Quantitative Linguistics",
+    "year": 2020,
+    "author": "Gerlach",
+    "cluster": "context",
+    "why": "Project Gutenberg as a research corpus; reproducibility concerns with ad hoc subsets.",
+    "doi": "10.3390/e22010126"
+  },
+  {
+    "title": "Distant Horizons",
+    "year": 2019,
+    "author": "Underwood",
+    "cluster": "context",
+    "why": "Large-scale measurement of literary change over two centuries.",
+    "kind": "web",
+    "seen_at": "https://openlibrary.org/search.json?title=Distant+Horizons&author=Underwood&fields=title%2Cauthor_name%2Cfirst_publish_year&limit=3",
+    "full_title": "Distant Horizons: Digital Evidence and Literary Change"
+  },
+  {
+    "title": "Quantitative Analysis of Culture Using Millions of Digitized Books",
+    "year": 2011,
+    "author": "Michel",
+    "cluster": "context",
+    "why": "Culturomics: diachronic frequency trends from Google Books, the basis of Ngram-style claims.",
+    "doi": "10.1126/science.1199644"
+  },
+  {
+    "title": "The Evolution of English Prose",
+    "year": 1998,
+    "author": "McIntosh",
+    "cluster": "context",
+    "why": "Eighteenth-century prose became more bookish and elaborate late in the century.",
+    "kind": "web",
+    "seen_at": "https://openlibrary.org/search.json?title=The+Evolution+of+English+Prose%2C+1700-1800&author=McIntosh&fields=title%2Cauthor_name%2Cfirst_publish_year&limit=3",
+    "full_title": "The Evolution of English Prose, 1700-1800: Style, Politeness, and Print Culture"
+  },
+  {
+    "title": "Variation of sentence length across time and genre",
+    "year": 2018,
+    "author": "Rudnicka",
+    "cluster": "R1",
+    "why": "COHA study of the sentence-length decline; reviews punctuation objection; semicolon decrease 1810-1900.",
+    "doi": "10.1075/scl.85.10rud"
+  },
+  {
+    "title": "Language Change in English Newspaper Editorials",
+    "year": 2002,
+    "author": "Westin",
+    "cluster": "R1",
+    "why": "Counting sentences with and without semicolons/colons as ends gave nearly the same trend in 20th-century editorials."
+  },
+  {
+    "title": "Drift and the evolution of English style: A history of three genres",
+    "year": 1989,
+    "author": "Biber",
+    "cluster": "R1",
+    "why": "Multidimensional drift of English registers from the 17th to 20th century; 18th century literate peak.",
+    "doi": "10.2307/415220"
+  },
+  {
+    "title": "Register, Genre, and Style",
+    "year": 2009,
+    "author": "Biber",
+    "cluster": "R1",
+    "why": "Notes much more extensive use of colons and semicolons in earlier historical periods.",
+    "doi": "10.1017/CBO9780511814358"
+  },
+  {
+    "title": "Grammatical Complexity in Academic English: Linguistic Change in Writing",
+    "year": 2016,
+    "author": "Biber",
+    "cluster": "R1",
+    "why": "Historical change in clausal vs phrasal complexity in written English.",
+    "doi": "10.1017/CBO9780511920776"
+  },
+  {
+    "title": "Grammatical Structures Written at Three Grade Levels",
+    "year": 1965,
+    "author": "Hunt",
+    "cluster": "R1",
+    "why": "Defines the T-unit, an alternative to the orthographic sentence.",
+    "kind": "web",
+    "seen_at": "https://openlibrary.org/search.json?title=Grammatical+Structures+Written+at+Three+Grade+Levels&author=Hunt&fields=title%2Cauthor_name%2Cfirst_publish_year&limit=3"
+  },
+  {
+    "title": "Rhetorical Style: The Uses of Language in Persuasion",
+    "year": 2011,
+    "author": "Fahnestock",
+    "cluster": "R1",
+    "why": "Suggests the sentence-length trend may be a by-product of changing punctuation conventions.",
+    "doi": "10.1093/acprof:oso/9780199764129.001.0001"
+  },
+  {
+    "title": "The triumph of logical English",
+    "year": 2025,
+    "author": "Oliver",
+    "cluster": "R1",
+    "why": "Recent argument that most sentence-length data should be taken with a pinch of salt because of punctuation.",
+    "kind": "web",
+    "url": "https://worksinprogress.co/issue/the-logical-triumph-of-english/"
+  },
+  {
+    "title": "Pull out all the stops: Textual analysis via punctuation sequences",
+    "year": 2021,
+    "author": "Darmon",
+    "cluster": "R2",
+    "why": "Punctuation sequences for authorship (62-72%) and genre; semicolons fell less noticeably in their Gutenberg sample.",
+    "doi": "10.1017/S0956792520000157"
+  },
+  {
+    "title": "Universal versus system-specific features of punctuation usage patterns in major Western languages",
+    "year": 2023,
+    "author": "Stanisz",
+    "cluster": "R2",
+    "why": "Distances between punctuation marks follow a discrete Weibull distribution; language-specific parameters.",
+    "doi": "10.1016/j.chaos.2023.113183"
+  },
+  {
+    "title": "In narrative texts punctuation marks obey the same statistics as words",
+    "year": 2017,
+    "author": "Kulig",
+    "cluster": "R2",
+    "why": "Punctuation marks behave statistically like words (Zipf).",
+    "doi": "10.1016/j.ins.2016.09.051"
+  },
+  {
+    "title": "Is the semicolon dying? Research reveals usage in British English books plummets",
+    "year": 2025,
+    "author": "Babbel",
+    "cluster": "R2",
+    "why": "Ngram-based claim: one semicolon per 90 words in 1781.",
+    "kind": "web",
+    "url": "https://www.babbel.com/press/en-gb/releases/semicolon"
+  },
+  {
+    "title": "Inference and Disputed Authorship",
+    "year": 1964,
+    "author": "Mosteller",
+    "cluster": "R3",
+    "why": "Function-word rates for authorship attribution.",
+    "kind": "web",
+    "seen_at": "https://openlibrary.org/search.json?title=Inference+and+Disputed+Authorship&author=Mosteller&fields=title%2Cauthor_name%2Cfirst_publish_year&limit=3",
+    "full_title": "Inference and Disputed Authorship: The Federalist"
+  },
+  {
+    "title": "'Delta': a Measure of Stylistic Difference and a Guide to Likely Authorship",
+    "year": 2002,
+    "author": "Burrows",
+    "cluster": "R3",
+    "why": "Standard stylometric distance on most frequent words.",
+    "doi": "10.1093/llc/17.3.267"
+  },
+  {
+    "title": "A survey of modern authorship attribution methods",
+    "year": 2009,
+    "author": "Stamatatos",
+    "cluster": "R3",
+    "why": "Survey including punctuation and character-level features.",
+    "doi": "10.1002/asi.21001"
+  },
+  {
+    "title": "Cohort succession explains most change in literary culture",
+    "year": 2022,
+    "author": "Underwood",
+    "cluster": "R3",
+    "why": "Birth year explains more of literary change than publication year.",
+    "doi": "10.15195/v9.a8"
+  },
+  {
+    "title": "The cohort as a concept in the study of social change",
+    "year": 1965,
+    "author": "Ryder",
+    "cluster": "R3",
+    "why": "Cohort replacement as a mechanism of social change.",
+    "doi": "10.2307/2090964"
+  },
+  {
+    "title": "Dialogism in the novel: A computational model of the dialogic nature of narration and quotations",
+    "year": 2017,
+    "author": "Muzny",
+    "cluster": "R3",
+    "why": "Quotation rates rise in 1,100 novels over time.",
+    "doi": "10.1093/llc/fqx031"
+  },
+  {
+    "title": "Style at the Scale of the Sentence",
+    "year": 2013,
+    "author": "Allison",
+    "cluster": "R3",
+    "why": "Literary Lab Pamphlet 5: sentence-level style measurement and its disagreements.",
+    "kind": "web",
+    "url": "https://litlab.stanford.edu/LiteraryLabPamphlet5.pdf"
+  },
+  {
+    "title": "Punctuation in novels",
+    "year": 2016,
+    "author": "Calhoun",
+    "cluster": "R3",
+    "why": "Punctuation-only visualization of novels; precursor to Punc.",
+    "kind": "web",
+    "seen_at": "https://readmedium.com/punctuation-in-novels-8f316d542ec4"
+  },
+  {
+    "title": "Between the Words",
+    "year": 2016,
+    "author": "Rougeux",
+    "cluster": "R3",
+    "why": "Punctuation-only posters of classic texts; precursor.",
+    "kind": "web",
+    "seen_at": "https://www.lewiscarroll.org/2017/06/20/alice-in-punktuation/"
+  },
+  {
+    "title": "Wikidata: a free collaborative knowledgebase",
+    "year": 2014,
+    "author": "Vrandečić",
+    "cluster": "tools",
+    "why": "Source of first-publication dates.",
+    "doi": "10.1145/2629489"
+  },
+  {
+    "title": "Bootstrap methods: Another look at the jackknife",
+    "year": 1979,
+    "author": "Efron",
+    "cluster": "tools",
+    "why": "Bootstrap intervals.",
+    "doi": "10.1214/aos/1176344552"
+  },
+  {
+    "title": "A coefficient of agreement for nominal scales",
+    "year": 1960,
+    "author": "Cohen",
+    "cluster": "tools",
+    "why": "Cohen's kappa for intercoder agreement.",
+    "doi": "10.1177/001316446002000104"
+  },
+  {
+    "title": "ChatGPT outperforms crowd workers for text-annotation tasks",
+    "year": 2023,
+    "author": "Gilardi",
+    "cluster": "tools",
+    "why": "LLM annotation can match or beat crowd coders; supports cautious use of LLM coding.",
+    "doi": "10.1073/pnas.2305016120"
+  },
+  {
+    "title": "ChatGPT-4 outperforms experts and crowd workers in annotating political Twitter messages with zero-shot learning",
+    "year": 2023,
+    "author": "Törnberg",
+    "cluster": "tools",
+    "why": "LLM annotation reliability vs expert coders.",
+    "kind": "web",
+    "url": "https://arxiv.org/abs/2304.06588"
+  },
+  {
+    "title": "An inquiry into the nature and causes of the wealth of nations",
+    "year": 1776,
+    "author": "Smith",
+    "cluster": "named",
+    "why": "First-edition punctuation differs from Gutenberg's text (editions limitation).",
+    "kind": "web",
+    "url": "https://archive.org/details/inquiryintonatur02smit_0"
+  },
+  {
+    "title": "Public Domain Day 2026",
+    "year": 2026,
+    "author": "Duke Center for the Study of the Public Domain",
+    "cluster": "named",
+    "why": "US public domain cutoff explains the shortage of post-1930 books.",
+    "kind": "web",
+    "url": "https://cspd.law.duke.edu/publicdomainday/2026"
+  },
+  {
+    "title": "Historical trends in English sentence length and syntactic complexity",
+    "year": 2022,
+    "author": "Liberman",
+    "cluster": "R1",
+    "kind": "web",
+    "url": "https://languagelog.ldc.upenn.edu/myl/LibermanSHEL12.pdf",
+    "why": "SHEL 12 talk questioning historical sentence-length trends; suggests part of the trend is a shift in punctuation practice.",
+    "venue": "Talk, SHEL 12 (Studies in the History of the English Language)"
+  }
+]

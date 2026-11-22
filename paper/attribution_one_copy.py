@@ -4,7 +4,8 @@ Volumes of one work and second editions match each other almost by construction,
 inflate the leave-one-out score. This keeps the most-downloaded copy of each work per author
 (titles matched as in reanalysis.py, ignoring year) and reruns analysis/attribution.py's test.
 
-Usage (from the repo root, after npm run site:build):
+Usage (from the repo root, after npm run site:build at commit 5a2b926, the last 1,959-book shelf;
+the live shelf has since grown, so the check against 241 of 708 fails on a newer build):
   python3 paper/attribution_one_copy.py site-dist/numbers.json [analysis/books.csv]
 With books.csv it also prints the genre-shuffled baseline, English originals only, where Dickens's books
 went and the leave-one-mark-out scores, for the full shelf and one copy per work.

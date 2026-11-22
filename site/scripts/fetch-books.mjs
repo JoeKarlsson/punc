@@ -2,7 +2,8 @@
 // books of the last 30 days (counts from Gutenberg's RDF feed; robots.txt
 // rules out its search pages) plus EXTRA_IDS, joined with Gutenberg's catalog
 // CSV. Downloads each plain text (header and license footer stripped,
-// gzipped) to site/books/<slug>.txt.gz and its cover to
+// gzipped) to texts/<slug>.txt.gz, which stays on this machine (gitignored;
+// site/scripts/analyze-books.mjs turns it into the marks the site ships), and its cover to
 // site/covers/<slug>.jpg, skipping files already on disk, deletes the files of
 // books that left the shelf, then writes site/catalog.json. Usually run by
 // site/scripts/update-shelf.mjs; on its own:
@@ -378,7 +379,7 @@ async function main() {
   const topArg = process.argv.indexOf('--top');
   const top = topArg === -1 ? DEFAULT_TOP : Number(process.argv[topArg + 1]);
   if (!Number.isInteger(top) || top < 1) throw new Error(`--top needs a whole number, got ${process.argv[topArg + 1]}`);
-  await mkdir('site/books', { recursive: true });
+  await mkdir('texts', { recursive: true });
   await mkdir('site/covers', { recursive: true });
   const ranked = await rankedByDownloads();
   if (ranked.length < 10000) throw new Error(`Download counts look wrong: ${ranked.length} books`);
@@ -414,7 +415,7 @@ async function main() {
     if (rankOf.size < top) rankOf.set(id, rankOf.size + 1);
     const author = AUTHORS[id] ?? parseAuthor(authors);
 
-    const textPath = `site/books/${slug}.txt.gz`;
+    const textPath = `texts/${slug}.txt.gz`;
     if (!existsSync(textPath)) {
       let raw;
       try {
@@ -467,7 +468,7 @@ async function main() {
   if (undated.length) console.warn(`${undated.length} books have no year (add them to PUBLISHED): ${undated.map(b => `${b.id} ${b.title}`).join('; ')}`);
 
   const slugs = new Set(catalog.map(b => b.slug));
-  await pruneOrphans('site/books', '.txt.gz', slugs);
+  await pruneOrphans('texts', '.txt.gz', slugs);
   await pruneOrphans('site/covers', '.jpg', slugs);
   await pruneOrphans('site/share', '.png', slugs);
   const json = JSON.stringify(catalog, null, 2) + '\n';

@@ -1,11 +1,11 @@
 // The bulk importer: refreshes the shelf with Gutenberg's top books, analyzes
-// them in the site build, renders their share cards, runs the checks, then
+// each once into site/marks/ (the texts stay local, in texts/), builds, renders their share cards, runs the checks, then
 // commits the shelf files and pushes, which deploys the site.
 //   npm run shelf:update             (top 2000)
 //   npm run shelf:update -- --top 200
 import { execFileSync } from 'node:child_process';
 
-const SHELF_PATHS = ['site/catalog.json', 'site/fetched.txt', 'site/books', 'site/covers', 'site/share', 'site/static'];
+const SHELF_PATHS = ['site/catalog.json', 'site/fetched.txt', 'site/marks', 'site/scanner-openings.json', 'site/covers', 'site/share', 'site/static'];
 const run = (command, args) => execFileSync(command, args, { stdio: 'inherit' });
 const output = (command, args) => execFileSync(command, args, { encoding: 'utf8' }).trim();
 
@@ -14,6 +14,7 @@ const top = topArg === -1 ? [] : ['--top', process.argv[topArg + 1]];
 
 run('git', ['pull', '--ff-only']);
 run('node', ['site/scripts/fetch-books.mjs', ...top]);
+run('node', ['site/scripts/analyze-books.mjs']);
 run('npm', ['run', 'site:build']);
 run('node', ['site/scripts/make-images.mjs']);
 run('npm', ['run', 'check']);

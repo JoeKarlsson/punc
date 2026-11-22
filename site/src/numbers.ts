@@ -103,7 +103,7 @@ export function dialogueShare(text: string): number {
 }
 
 export function bookNumbers(
-  analysis: { text: string; marks: string[]; wordCount: number; wordsPerSentence: number },
+  analysis: { marks: string[]; wordCount: number; wordsPerSentence: number; dashes: number; dialogue: number },
   meta: BookMeta
 ): BookNumbers {
   const counts = new Map<string, number>();
@@ -124,12 +124,12 @@ export function bookNumbers(
     semicolon: per1000(counts.get(';') ?? 0),
     comma: per1000(counts.get(',') ?? 0),
     colon: per1000(counts.get(':') ?? 0),
-    dash: per1000(countDashes(analysis.text)),
+    dash: per1000(analysis.dashes),
     exclaim: per1000(counts.get('!') ?? 0),
     question: per1000(counts.get('?') ?? 0),
     marks: per1000(analysis.marks.length),
     wps: analysis.wordsPerSentence,
-    dialogue: dialogueShare(analysis.text),
+    dialogue: analysis.dialogue,
   };
 }
 

@@ -1,5 +1,6 @@
 import type { BookAnalysis } from './analyze';
 import type { AnalyzeJob } from './analyze-worker';
+import { unpackPage, type ShelfMarks } from './shelf-marks';
 import { createScoreScroller, createSpiralExplorer, drawScore, downloadCanvas, type SpiralExplorer } from './canvas';
 import { initPosters } from './posters';
 import { initShare, setUpCopyButton } from './share';
@@ -47,12 +48,10 @@ function titleFromFilename(name: string): string {
 
 // views
 
-async function showBook(rawText: string, title: string, byline: string, fileStem: string, shelfSlug?: string): Promise<void> {
-  const book = await inWorker<BookAnalysis>({ kind: 'analyze', text: rawText });
-  if (book.marks.length === 0) {
-    showStatus('No punctuation in that file. Is it plain text?');
-    return;
-  }
+// What the views draw: a shelf book's precomputed marks, or an upload's analysis.
+type ShownBook = Pick<BookAnalysis, 'marks' | 'counts' | 'wordsPerSentence'>;
+
+async function showBook(book: ShownBook, loadPages: () => Promise<string[]>, title: string, byline: string, fileStem: string, shelfSlug?: string): Promise<void> {
   document.title = `${title} · Punc`;
   const upload = document.getElementById('upload');
   if (upload) upload.hidden = true;
@@ -107,7 +106,7 @@ async function showBook(rawText: string, title: string, byline: string, fileStem
     }
     // Erasing the whole book into pages is slow, so it waits until someone opens Pages.
     if (view === 'pages') {
-      setUpPages(await inWorker<string[]>({ kind: 'pages', text: book.text }));
+      setUpPages(await loadPages());
       return;
     }
     // Canvas text uses whatever font is loaded at draw time. A blocked or failed font
@@ -168,7 +167,7 @@ async function showBook(rawText: string, title: string, byline: string, fileStem
 
 // The shelf map with this book picked out: a shelf book in its own spot, an
 // uploaded file wherever its punctuation puts it.
-async function drawOnMap(book: BookAnalysis, title: string, shelfSlug?: string): Promise<void> {
+async function drawOnMap(book: ShownBook, title: string, shelfSlug?: string): Promise<void> {
   const root = document.body.dataset['root'] ?? '';
   const res = await fetch(`${root}books.json`);
   if (!res.ok) throw new Error(`Couldn't load the shelf for the map (${res.status})`);
@@ -180,7 +179,7 @@ async function drawOnMap(book: BookAnalysis, title: string, shelfSlug?: string):
 }
 
 // Canvases are pictures to a screen reader; say what's in them.
-function describeCanvases(book: BookAnalysis): void {
+function describeCanvases(book: ShownBook): void {
   const total = book.marks.length;
   const top = book.counts
     .slice(0, 3)
@@ -243,27 +242,28 @@ function setUpPages(pages: string[]): void {
 
 // loading
 
-// Shelf texts are stored gzipped. Hosts that send them with Content-Encoding
+// Shelf marks are stored gzipped. Hosts that send them with Content-Encoding
 // have already unpacked them, so check for the gzip magic bytes first.
-async function fetchBookText(slug: string): Promise<string> {
-  const res = await fetch(`${document.body.dataset['root'] ?? ''}books/${slug}.txt.gz`);
+async function fetchShelfMarks(slug: string): Promise<ShelfMarks> {
+  const res = await fetch(`${document.body.dataset['root'] ?? ''}marks/${slug}.json.gz`);
   if (!res.ok) throw new Error(`Couldn't load the book (${res.status})`);
   const bytes = new Uint8Array(await res.arrayBuffer());
-  if (bytes[0] !== 0x1f || bytes[1] !== 0x8b) return new TextDecoder().decode(bytes);
+  if (bytes[0] !== 0x1f || bytes[1] !== 0x8b) return JSON.parse(new TextDecoder().decode(bytes)) as ShelfMarks;
   const stream = new Blob([bytes]).stream().pipeThrough(new DecompressionStream('gzip'));
-  return new Response(stream).text();
+  return (await new Response(stream).json()) as ShelfMarks;
 }
 
 // The page already has the book's title and stats from the build, so there's
 // no loading message: one above them would push the page down and back.
 async function loadFromShelf(slug: string, title: string, byline: string): Promise<void> {
-  // The page already shows the book from its build, so the 160 KB book text
-  // waits for that first paint. Fetched earlier, it competed with the fonts and
+  // The page already shows the book from its build, so its marks wait for
+  // that first paint. Fetched earlier, it competed with the fonts and
   // CSS on a slow phone, and Lighthouse's mobile simulation counted it in the
   // page's LCP whenever it finished first (performance 0.84-0.91 instead of 0.99).
   await afterFirstPaint();
-  const text = await fetchBookText(slug);
-  await showBook(text, title, byline, slug, slug);
+  const record = await fetchShelfMarks(slug);
+  const book = { ...record, marks: Array.from(record.marks) };
+  await showBook(book, async () => record.pages.map(unpackPage), title, byline, slug, slug);
 }
 
 // Old links were read.html?b=<slug>; each book has its own page now.
@@ -276,6 +276,16 @@ async function redirectOldLink(slug: string): Promise<void> {
   showStatus(`There's no "${slug}" on the shelf.`);
 }
 
+// Uploads and pasted text are analyzed here, in a worker; shelf books come analyzed.
+async function showOwnText(rawText: string, title: string, byline: string, fileStem: string): Promise<void> {
+  const book = await inWorker<BookAnalysis>({ kind: 'analyze', text: rawText });
+  if (book.marks.length === 0) {
+    showStatus('No punctuation in that file. Is it plain text?');
+    return;
+  }
+  await showBook(book, () => inWorker<string[]>({ kind: 'pages', text: book.text }), title, byline, fileStem);
+}
+
 async function loadFile(file: File): Promise<void> {
   if (file.size > MAX_UPLOAD_BYTES) {
     showStatus('That file is over 30 MB. Try a single book.');
@@ -285,7 +295,7 @@ async function loadFile(file: File): Promise<void> {
   showStatus('Taking the words out…');
   const text = await file.text();
   const stem = file.name.replace(/\.[^.]+$/, '') || 'book';
-  requestAnimationFrame(() => void showBook(text, titleFromFilename(file.name), 'Your file', stem));
+  requestAnimationFrame(() => void showOwnText(text, titleFromFilename(file.name), 'Your file', stem));
 }
 
 function loadPasted(text: string): void {
@@ -295,7 +305,7 @@ function loadPasted(text: string): void {
   }
   track('Own Text', { source: 'paste' });
   showStatus('Taking the words out…');
-  requestAnimationFrame(() => void showBook(text, 'Your text', 'Pasted in', 'pasted-text'));
+  requestAnimationFrame(() => void showOwnText(text, 'Your text', 'Pasted in', 'pasted-text'));
 }
 
 function setUpUpload(): void {

@@ -60,3 +60,6 @@ site-dist/
 playwright-report/
 test-results/
 .lighthouseci/
+
+# Shelf book texts: local only, never committed (site/scripts/analyze-books.mjs ships their marks)
+texts/

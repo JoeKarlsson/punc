@@ -1,5 +1,5 @@
 """100 random semicolons and colons from English-original prose books dated 1900-1949 (seed 1900).
-python3 sample_marks_1900s.py measures2.json <site-dist/books> > sample-1900s.txt"""
+python3 sample_marks_1900s.py measures2.json <texts> > sample-1900s.txt"""
 import sys, json, gzip, random, re
 M = json.load(open(sys.argv[1])); d = sys.argv[2]
 pool = [s for s, r in M.items() if r['year'] and 1900 <= r['year'] < 1950 and not r['translated2'] and not {'Plays', 'Poetry'} & set(r['genres'])]

@@ -1,6 +1,6 @@
-// Book analysis for the site, used in the browser (reader.ts) and at build
-// time (site/build.mjs, for the shelf covers). Counting is the library's own
-// analyzeText, so the site and the CLI agree.
+// Book analysis for the site, used in the browser for uploads (reader.ts) and
+// once per shelf book by the importer (shelf-marks.ts). Counting is the
+// library's own analyzeText, so the site and the CLI agree.
 
 export { foldTypography };
 import { analyzeText, countWords, foldTypography, wordsPerSentence } from '../../src/text';

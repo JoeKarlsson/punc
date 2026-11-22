@@ -28,10 +28,10 @@ await build({
   outdir: join(OUT, 'assets'),
 });
 
-// The same analysis the browser runs, bundled for Node so the numbers match.
+// The browser's own code, bundled for Node so the pages match what it draws.
 const analyzerPath = join(tmpdir(), `punc-site-analyze-${process.pid}.mjs`);
 await build({ entryPoints: [join(SITE, 'src/node-entry.ts')], bundle: true, platform: 'node', format: 'esm', outfile: analyzerPath });
-const { analyzeBook, bookPageTitle, booksIndexHTML, cardHTML, countsHTML, fingerprintHTML, markShares, marksThroughBook, numbers: N, TRACKED_MARKS, shelfPosition, SHELF_PAGE_SIZE, throughBookHTML } = await import(pathToFileURL(analyzerPath).href);
+const { bookPageTitle, booksIndexHTML, cardHTML, countsHTML, fingerprintHTML, markShares, marksThroughBook, numbers: N, TRACKED_MARKS, shelfPosition, SHELF_PAGE_SIZE, throughBookHTML } = await import(pathToFileURL(analyzerPath).href);
 await rm(analyzerPath);
 
 // GitHub Pages can't send headers, so the policy rides in a meta tag, first in
@@ -90,11 +90,12 @@ const shelfNumbers = [];
 const clusters = new Map();
 const nextMarkGrids = [];
 for (const meta of catalog) {
-  const textPath = join(SITE, 'books', `${meta.slug}.txt.gz`);
-  if (!existsSync(textPath)) throw new Error(`${textPath} is missing; run site/scripts/fetch-books.mjs`);
-  const book = analyzeBook(gunzipSync(await readFile(textPath)).toString('utf8'));
+  const marksPath = join(SITE, 'marks', `${meta.slug}.json.gz`);
+  if (!existsSync(marksPath)) throw new Error(`${marksPath} is missing; run site/scripts/analyze-books.mjs`);
+  const record = JSON.parse(gunzipSync(await readFile(marksPath)).toString('utf8'));
+  const book = { ...record, marks: Array.from(record.marks) };
   shelfNumbers.push(N.bookNumbers(book, meta));
-  for (const [cluster, count] of N.touchingClusters(book.text)) {
+  for (const [cluster, count] of book.clusters) {
     const seen = clusters.get(cluster) ?? { count: 0, books: 0 };
     clusters.set(cluster, { count: seen.count + count, books: seen.books + 1 });
   }
@@ -134,8 +135,7 @@ await writeFile(join(OUT, 'shelf.json'), JSON.stringify(byRank.map(shelfBook)));
 // The numbers page compares books and authors from this.
 await writeFile(join(OUT, 'numbers.json'), JSON.stringify(shelfNumbers.map(N.forBrowser)));
 await writeFile(join(OUT, 'books.json'), JSON.stringify(books.map(({ slug, title, author, pausesPerStop, loudness }) => ({ slug, title, author, pausesPerStop, loudness }))));
-await mkdir(join(OUT, 'books'), { recursive: true });
-for (const book of books) await cp(join(SITE, 'books', `${book.slug}.txt.gz`), join(OUT, 'books', `${book.slug}.txt.gz`));
+await cp(join(SITE, 'marks'), join(OUT, 'marks'), { recursive: true });
 await cp(join(SITE, 'covers'), join(OUT, 'covers'), { recursive: true });
 await cp(join(SITE, 'static'), OUT, { recursive: true });
 // Per-book share cards, rendered by site/scripts/make-images.mjs
@@ -278,30 +278,12 @@ const inlineFigures = async html => {
 };
 const fragment = async name => inlineFigures(await readFile(join(SITE, 'pages', name), 'utf8'));
 
-// The front page scanner (site/src/scanner.ts) reads these books' first pages,
-// each from the line given to about 1,200 characters, ending on a sentence.
-const SCANNER_OPENINGS = [
-  ['pride-and-prejudice', 'It is a truth universally'],
-  ['moby-dick', 'Call me Ishmael'],
-  ['ulysses', 'Stately, plump Buck Mulligan'],
-  ['tristram-shandy', 'I WISH either my father'],
-];
-const scannerOpenings = [];
-for (const [slug, firstWords] of SCANNER_OPENINGS) {
+// The front page scanner's openings, cut by site/scripts/analyze-books.mjs.
+const scannerOpenings = JSON.parse(await readFile(join(SITE, 'scanner-openings.json'), 'utf8')).map(({ slug, text }) => {
   const book = books.find(b => b.slug === slug);
-  const text = gunzipSync(await readFile(join(SITE, 'books', `${slug}.txt.gz`))).toString('utf8');
-  const start = text.indexOf(firstWords);
-  if (!book || start < 0) throw new Error(`The scanner's opening for ${slug} ("${firstWords}") isn't on the shelf`);
-  const firstPage = text.slice(start, start + 1200);
-  const end = Math.max(...[...firstPage.matchAll(/(?<!\b(?:Mr|Mrs|Dr|St))[.?!][”"’]?(?=\s)/g)].map(m => m.index + m[0].length));
-  if (end < 0) throw new Error(`The scanner's opening for ${slug} has no sentence end in its first 1,200 characters`);
-  const passage = firstPage.slice(0, end).split(/\n\s*\n/)
-    // Skip stray lines with no words, like the lone "]" an illustration left in Pride and Prejudice
-    .filter(para => /\p{L}/u.test(para))
-    .map(para => para.replace(/\s+/g, ' ').trim())
-    .join('\n');
-  scannerOpenings.push({ slug, title: book.title, author: book.author, text: passage });
-}
+  if (!book) throw new Error(`The scanner's opening book ${slug} isn't on the shelf`);
+  return { slug, title: book.title, author: book.author, text };
+});
 
 const indexBody = (await fragment('index.html'))
   .replace('<!--SCANNEROPENINGS-->', () => JSON.stringify(scannerOpenings).replace(/</g, '\\u003c'))

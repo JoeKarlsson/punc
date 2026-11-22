@@ -23,12 +23,12 @@ import { tmpdir } from 'os';
 import { join } from 'path';
 import { gunzipSync } from 'zlib';
 
-// Full-length books for the literature tests, unpacked from the website's
-// shelf (site/books/*.txt.gz) into a temp folder, so they run everywhere.
+// Full-length books for the literature tests (public domain, kept gzipped in
+// tests/books), unpacked into a temp folder.
 const LIT_DIR = mkdtempSync(join(tmpdir(), 'punc-lit-'));
 function shelfBook(slug: string): string {
   const path = join(LIT_DIR, `${slug}.txt`);
-  writeFileSync(path, gunzipSync(readFileSync(`site/books/${slug}.txt.gz`)));
+  writeFileSync(path, gunzipSync(readFileSync(`tests/books/${slug}.txt.gz`)));
   return path;
 }
 const HEMINGWAY = shelfBook('the-sun-also-rises');

@@ -1,6 +1,9 @@
 import { analyzeText, countWords, wordsPerSentence } from '../src/text';
 import { spiralLayout } from '../src/layout';
 import { analyzeBook, erasedPages, foldTypography } from '../site/src/analyze';
+import { shelfMarks, unpackPage } from '../site/src/shelf-marks';
+import { readFileSync } from 'fs';
+import { gunzipSync } from 'zlib';
 
 describe('analyzeText', () => {
   test('records each mapped mark with its offset after whitespace collapses', () => {
@@ -43,6 +46,15 @@ describe('site analysis', () => {
 
   test('erasedPages still pages a long run with no marks', () => {
     expect(erasedPages('word '.repeat(100), 50).length).toBeGreaterThan(5);
+  });
+
+  test('a shelf book ships no words, and its packed pages unpack to the erased pages', () => {
+    const text = gunzipSync(readFileSync('tests/books/the-sun-also-rises.txt.gz')).toString('utf8');
+    const book = analyzeBook(text);
+    const record = shelfMarks(text);
+    expect(record.marks + record.pages.join('')).not.toMatch(/[A-Za-z]/);
+    expect(record.pages.map(unpackPage)).toEqual(erasedPages(book.text));
+    expect(Array.from(record.marks)).toEqual(book.marks);
   });
 });
 

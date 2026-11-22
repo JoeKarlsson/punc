@@ -400,13 +400,16 @@ export function timelineDots(books: BookNumbers[], key: MetricKey, axisMax: numb
     .join('');
 }
 
-// The modern shelf's dots: faint, with no genre, from MODERN_FROM to the chart's end.
+// The modern shelf's dots, from MODERN_FROM to the chart's end: thousands of
+// them, faint and overlapping, so one path (a round-capped dot per book) rather
+// than an element each, which made the page stall; no tooltips.
 export function modernTimelineDots(books: BookNumbers[], key: MetricKey, axisMax: number): string {
   const y = valueY(TIMELINE, key, axisMax);
-  return books
+  const dots = books
     .filter(b => b.year !== null && b.year >= MODERN_FROM && b.year < CHART_TO)
-    .map(b => `<circle class="chart-dot chart-dot-modern" cx="${r1(timelineX(b.year!))}" cy="${r1(y(b[key]))}" r="2" data-tip="${escapeHTML(bookTip(b, key))}"/>`)
+    .map(b => `M${r1(timelineX(b.year!))} ${r1(y(b[key]))}h0`)
     .join('');
+  return `<path class="chart-dots-modern" d="${dots}"/>`;
 }
 
 // The first and last 25-year spans with at least this many books are the ones

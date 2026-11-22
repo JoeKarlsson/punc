@@ -2221,13 +2221,16 @@ code {
 
 /* The modern shelf: thousands of books in eighty years, so its dots are faint
    and its median for each decade is a thick pink line over them. */
-.chart-dot-modern {
-  fill: var(--chalk);
-  stroke: none;
+.chart-dots-modern {
+  fill: none;
+  stroke: var(--chalk);
+  stroke-width: 4;
+  stroke-linecap: round;
   opacity: 0.16;
+  pointer-events: none;
 }
 
-.genre-picked .chart-dot-modern {
+.genre-picked .chart-dots-modern {
   display: none;
 }
 

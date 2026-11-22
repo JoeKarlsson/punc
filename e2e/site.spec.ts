@@ -417,8 +417,9 @@ test('the numbers page filters by genre, switches career measures and compares a
   await expect(charts).toHaveCount(6);
   const dated = await charts.first().locator('.chart-dot').count();
   expect(dated).toBeGreaterThan(300);
-  // A faint dot for each modern book on the charts with the modern line.
-  await expect(charts.first().locator('.chart-dot-modern')).toHaveCount(modern.filter(b => b.year < 2010).length);
+  // A faint dot for each modern book on the charts with the modern line, all in one path.
+  const modernDots = await charts.first().locator('.chart-dots-modern').getAttribute('d');
+  expect(modernDots!.match(/M/g)).toHaveLength(modern.filter(b => b.year < 2010).length);
   await page.selectOption('#genre-pick', 'Plays');
   await expect(page.locator('#genre-key')).toContainText('plays books');
   expect(await charts.first().locator('.chart-dot:not(.chart-dot-out)').count()).toBeLessThan(dated);

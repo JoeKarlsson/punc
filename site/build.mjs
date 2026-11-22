@@ -160,8 +160,16 @@ await writeFile(join(OUT, 'shelf.json'), JSON.stringify(shelfOrder));
 // Book pages and uploads draw themselves on the shelf map from this.
 // The numbers page compares books and authors from this.
 await writeFile(join(OUT, 'numbers.json'), JSON.stringify(shelfNumbers.map(N.forBrowser)));
-// NaN (a measure a modern book doesn't have) is written as null.
-await writeFile(join(OUT, 'modern-numbers.json'), JSON.stringify(modernShelfNumbers.map(N.forBrowser)));
+// Without what every modern book has the same, which numbers-page.ts puts back:
+// it's thousands of books, parsed while the page loads.
+const SAME_FOR_EVERY_MODERN_BOOK = ['yearLabel', 'genres', 'rank', 'dialogue', 'pausesPerStop', 'loudness'];
+await writeFile(
+  join(OUT, 'modern-numbers.json'),
+  JSON.stringify(modernShelfNumbers.map(b => {
+    const slim = Object.fromEntries(Object.entries(N.forBrowser(b)).filter(([k]) => !SAME_FOR_EVERY_MODERN_BOOK.includes(k)));
+    return { ...slim, shares: b.shares.map(v => Number(v.toFixed(3))) };
+  }))
+);
 await writeFile(join(OUT, 'books.json'), JSON.stringify(books.map(({ slug, title, author, pausesPerStop, loudness }) => ({ slug, title, author, pausesPerStop, loudness }))));
 await cp(join(SITE, 'marks'), join(OUT, 'marks'), { recursive: true });
 await cp(join(SITE, 'covers'), join(OUT, 'covers'), { recursive: true });

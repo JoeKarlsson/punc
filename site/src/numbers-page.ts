@@ -136,7 +136,11 @@ async function drawBooks([shelf, modern]: [BookNumbers[], BookNumbers[]]): Promi
   const byTitle = [...shelf, ...modern].sort((a, b) => a.title.localeCompare(b.title));
   for (const pick of [pickA, pickB]) {
     const books = need<HTMLOptGroupElement>('optgroup[label="Books"]', pick);
-    books.append(...byTitle.map(b => new Option(`${b.title}, ${b.author}`, `book:${b.slug}`)));
+    // Thousands of options: a share at a time, so the page keeps answering taps.
+    for (let i = 0; i < byTitle.length; i += 1000) {
+      books.append(...byTitle.slice(i, i + 1000).map(b => new Option(`${b.title}, ${b.author}`, `book:${b.slug}`)));
+      await yieldToBrowser();
+    }
     pick.addEventListener('change', () => (out.innerHTML = compareHTML(profileFor(pickA.value, shelf), profileFor(pickB.value, shelf))));
   }
 
@@ -233,11 +237,11 @@ const loadJSON = async (file: string) => {
   if (!response.ok) throw new Error(`${file}: ${response.status}`);
   return response.json() as Promise<BookNumbers[]>;
 };
-// JSON has no NaN: a measure a modern book doesn't have arrives as null.
-const MISSING: Array<keyof BookNumbers> = ['dialogue', 'pausesPerStop', 'loudness'];
-const withMissing = (books: BookNumbers[]) => books.map(b => ({ ...b, ...Object.fromEntries(MISSING.map(k => [k, b[k] ?? NaN])) }));
+// modern-numbers.json leaves out what every modern book has the same (build.mjs).
+const asModern = (books: BookNumbers[]) =>
+  books.map(b => ({ ...b, yearLabel: String(b.year), genres: [], rank: null, dialogue: NaN, pausesPerStop: NaN, loudness: NaN }));
 afterFirstPaint()
-  .then(() => Promise.all([loadJSON('numbers.json'), loadJSON('modern-numbers.json').then(withMissing)]))
+  .then(() => Promise.all([loadJSON('numbers.json'), loadJSON('modern-numbers.json').then(asModern)]))
   .then(drawBooks)
   .catch((error: unknown) => {
     genreKey.textContent = "The books couldn't load, so the charts show only their median lines. Reload the page to try again.";

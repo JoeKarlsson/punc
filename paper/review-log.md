@@ -51,3 +51,14 @@ Stale pre-deduplication counts in Methods and Limitations, Darmon2020 attributed
 - How many books were added to the shelf by hand, and in which periods.
 - JCA's author guidelines (word limit, citation style, required statements): the site refuses automated fetches. Reference entries need a formatting pass to that style (some book entries lack publishers).
 - The published blog post's numbers (38%, "38-58%", "954 books", 43 of 60 / 23 of 40) predate the duplicate and translation fixes. The headline "about 40%" still holds.
+
+## Follow-up checks (draft 3 -> draft 4, 2026-11-22)
+
+Done from the NeedsNewWork and Left-for-Joe lists:
+- Item 2, translation status: title pages of all 61 books 1700-1799 read (`translation-status.csv`). 19 translations, 42 originals; the catalog flag was wrong for 11. Share on verified originals 45% (29-53%). The main estimate stays on all books, since 1900-1949 isn't verified.
+- Items 4 and 5, full texts: apparatus stripped by rule; strict splitter, dashes, narration and single-quote variants rerun weighted and deduplicated (`fulltext_checks.py`, Table 4). All weighted full-text variants 35-49%. 55 books have left the shelf since books.csv, so these use 883.
+- Figure 1 (`figure1.py`), hand-added books (none analyzed only by hand: `hand-added.md`).
+- A blind coding page and scorer for a human coder (`paper/coding/`).
+- The PDF and arXiv LaTeX build (`build.sh`), Chicago author-date via citeproc.
+
+Still open: item 1 (a human coder: the page is ready, the coder isn't), 3 (editions pilot), 6-8 (larger sample, parsing, replication), Darmon page references, JCA's guidelines, the blog charts.

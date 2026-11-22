@@ -72,3 +72,25 @@ Every number in `draft.md`, with its source. `R` = `analysis/RESULTS.md` (ledger
 | Dashes 43% (34-58), narration 54% (35-63) | 5.2 | analysis/chart-data.json, lines 580-619 |
 | Spearman weighted S -0.25; 1900-49 -0.05/-0.06 | 3 | RA "Spearman correlation" |
 | Careers: 13 authors, 7 fall, 6 rise, median -0.06 (-0.80 to +0.47) | 5.5 | RA "Career slopes" |
+
+## Added in draft 4 (follow-up checks)
+
+VO = `paper/verified-originals-output.md` (`verified_originals.py`); FT = `paper/fulltext-checks-output.md` (`fulltext_checks.py`); TS = `paper/translation-status.csv`; HA = `paper/hand-added.md`.
+
+| Number | Where in draft | Source |
+|---|---|---|
+| Three books listed by hand, all in the top 2,000 | 3 | HA (EXTRA_IDS; ranks 436, 357, 768) |
+| 61 books 1700-1799: 19 translations, 42 originals; catalog flag wrong for 11 | 3, 5.2 | VO "Verdicts", "disagrees ... for 11 books"; TS |
+| Translators: Kant 6, Rousseau 5, Goethe 2, Leibniz, Prévost, Holberg, Voltaire, Jean Paul, Fielding/Ovid 1 each | 3 | TS verdict column |
+| Verified originals 45% (29-53), unweighted 57% (45-62), 13/445 books | Abstract, 1, 5.2, 7 | VO table row 2 |
+| Verified originals from 1750: 34% (21-75), unweighted 49% (34-95), 29/445 | 5.2 | VO table row 3 |
+| Verified originals 1700-1749 median P 35.1 (13 books) | 5.2 | VO "Words between periods, verified originals 1700-1749" |
+| Weighted variants 34-49% | Abstract, 1 | min VO row 3 (34%), max FT narration strict (49%) |
+| Weighted variants in Table 3: 34-47% | 5.2 | RA and VO weighted columns |
+| 883 of 938 books with a local text; 55 gone; base 42% (26-51) | 1, 5.2, 5.3 | FT header and "as is, base" row |
+| Apparatus: median 0.1% (1700-49), 0.2% (1900-49) of words; 1600-49 P 16.2 -> 22.2 | 5.2 | FT "Apparatus removed" and "Words between periods" tables |
+| Table 4 (12 rows, weighted, as is / apparatus removed) | 5.2 | FT share table, weighted column |
+| Full-text weighted variants 35-49%; narration strict 6-7 points above base; unweighted 48-62% | 5.2 | FT share table |
+| Narration only weighted 45% (24-53) vs 42% | 1, 5.3 | FT "as is, narration only" |
+| 21 of 417 books 1900-49 mostly single quotes; narration P 16.5 -> 16.6; share stays 45% | 5.3 | FT "Single-quoted text" table and share table |
+| Apparatus changes share by 1 point from 1700, 4 from 1750 | 7 | FT base rows: 42 -> 41, 39 -> 35 |

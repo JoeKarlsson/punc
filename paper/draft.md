@@ -1,11 +1,11 @@
 ---
 target: Journal of Cultural Analytics (article); arXiv preprint (cs.CL)
-status: draft 3, 2026-11-22 (after review rounds 1-3)
+status: draft 4, 2026-11-22 (after review rounds 1-3 and the follow-up checks)
 ---
 
 ## Abstract
 
-English sentences are said to have shortened by half since the Elizabethans, and linguists have long suspected that part of the decline is a change in punctuation: writers who once joined clauses with semicolons and colons began ending them with periods. This paper measures how large that part is. In Project Gutenberg books with a known first-publication date, after removing duplicate works, the median number of words between sentence-final marks (. ? !) falls from 31.1 in 1700-1749 to 14.5 in 1900-1949. A sample of 100 eighteenth-century semicolons and colons was coded for whether each joins two clauses that could stand as sentences; on the 82 marks from English originals, 72% of semicolons and 59% of colons do. Counting each mark as a stop at that rate, the median falls from 23.6 to 13.6 words, so 40% of the decline disappears (95% interval 24-51%, resampling both books and coded marks). Weighted variants that drop plays and poetry, flagged translations, or start at 1750 give 39-47%. Removing quoted speech leaves the remaining decline almost unchanged. The semicolon falls from a median of 10.1 to 1.8 per 1,000 words between 1775-1799 and 1950-1974; publication year and author birth year fit that fall equally well and cannot be separated here. The coding was done by a large language model and checked by a second, blind model run; a human coder is the main outstanding check. Code, per-book data and coded samples are public.
+English sentences are said to have shortened by half since the Elizabethans, and linguists have long suspected that part of the decline is a change in punctuation: writers who once joined clauses with semicolons and colons began ending them with periods. This paper measures how large that part is. In Project Gutenberg books with a known first-publication date, after removing duplicate works, the median number of words between sentence-final marks (. ? !) falls from 31.1 in 1700-1749 to 14.5 in 1900-1949. A sample of 100 eighteenth-century semicolons and colons was coded for whether each joins two clauses that could stand as sentences; on the 82 marks from English originals, 72% of semicolons and 59% of colons do. Counting each mark as a stop at that rate, the median falls from 23.6 to 13.6 words, so 40% of the decline disappears (95% interval 24-51%, resampling both books and coded marks). Restricted to the 42 eighteenth-century books whose title pages show them to be English originals, the share is 45% (29-53%). Weighted variants that drop plays and poetry, start at 1750, strip editorial apparatus, use a stricter sentence splitter or count narration only give 34-49%. Removing quoted speech leaves the remaining decline almost unchanged. The semicolon falls from a median of 10.1 to 1.8 per 1,000 words between 1775-1799 and 1950-1974; publication year and author birth year fit that fall equally well and cannot be separated here. The coding was done by a large language model and checked by a second, blind model run; a human coder is the main outstanding check. Code, per-book data and coded samples are public.
 
 ## 1. Introduction
 
@@ -19,8 +19,8 @@ The corpus is Punc, an art project that strips the words from books and keeps th
 
 In brief:
 
-1. About 40% of the decline from 1700-1749 to 1900-1949 is punctuation (95% interval 24-51%; 38-47% across weighted variants).
-2. The rest is not dialogue. Narration with every quoted passage removed falls by 7.4 words between stops, against 8.3 for the full text.
+1. About 40% of the decline from 1700-1749 to 1900-1949 is punctuation (95% interval 24-51%; 34-49% across weighted variants; 45% on eighteenth-century books verified as English originals).
+2. The rest is not dialogue. Narration with every quoted passage removed falls by 7.4 words between stops, against 8.3 for the full text, and the weighted share on narration alone is 45%, against 42% for the full texts of the same books.
 3. The semicolon falls from 10.1 to 1.8 per 1,000 words between 1775-1799 and 1950-1974, steepest after 1825. Publication year and author birth year fit this equally well.
 
 All analyses were chosen after the data were available; none was pre-registered. Section 4 lists the choices made after the first results were seen, including the corrections made after review.
@@ -39,7 +39,7 @@ All analyses were chosen after the data were available; none was pre-registered.
 
 ## 3. Data
 
-**Corpus.** Punc's shelf holds Project Gutenberg's 2,000 most-downloaded English books as of November 2026, minus dictionaries, encyclopedias, books with no plain text and some repeat editions, plus a few books added by hand: 1,959 books. Gutenberg's license header and footer are removed at the `*** START` and `*** END` lines; editorial matter inside the text (modern prefaces, editors' footnotes and glossaries) is not removed (Section 7). @Gerlach2020 warns that studies built on hand-picked Gutenberg subsets risk bias and are hard to reproduce; this subset is defined by a public ranking on a stated date, and the book list is published with the data.
+**Corpus.** Punc's shelf holds Project Gutenberg's 2,000 most-downloaded English books as of November 2026, minus dictionaries, encyclopedias, books with no plain text and some repeat editions, plus three books listed by hand, all of which were in the top 2,000 anyway (`paper/hand-added.md`): 1,959 books. Gutenberg's license header and footer are removed at the `*** START` and `*** END` lines; editorial matter inside the text (modern prefaces, editors' footnotes and glossaries) is kept in the main analysis and removed by rule as a check (Section 5.2). @Gerlach2020 warns that studies built on hand-picked Gutenberg subsets risk bias and are hard to reproduce; this subset is defined by a public ranking on a stated date, and the book list is published with the data.
 
 **Duplicate works.** Among the dated books, 16 were duplicates of 13 works: a second edition of the same work (*Gulliver's Travels*, *The Wealth of Nations*, Franklin's *Autobiography*, *On the Origin of Species*, *The Adventures of Sherlock Holmes*, Emerson's *Essays*, *The Practice of the Presence of God*) or a further volume of one work (*Don Quixote*, David Henry's 1774 *Historical Account of All the Voyages Round the World*, *The Magic Ring* and others). Each work is kept once, as its most-downloaded copy (`paper/reanalysis.py`). This leaves 938 books dated 1600-1974, removing 1 book from 1700-1749 and 4 from 1750-1799. Table 1 shows the corpus before deduplication; Table 2 and every share in Section 5.1 and 5.2 use the deduplicated corpus. The rule matches only books with the same author and year, so volumes published in different years (such as *Don Quixote* Part II, 1615) are kept.
 
@@ -60,11 +60,13 @@ Table 1. Dated books by 50-year period, before deduplication. Translated: flagge
 | 1900-1949 | 445 | 11% | 2% | 2% | 43% | 68,343 | 645 |
 | 1950-1974 | 25 | 4% | 0% | 0% | 32% | 48,511 | 621 |
 
+**Translation status, 1700-1799.** Because the flag is unreliable, the title page of each of the 61 deduplicated books dated 1700-1799 was read (`paper/translation-status.csv`; two books no longer on disk were judged by the author's language). 19 are translations: six by Kant, five by Rousseau, two by Goethe, and one each by Leibniz, Prévost, Holberg, Voltaire and Jean Paul, plus Fielding's version of Ovid. The other 42 are English originals. The catalog flag disagreed with the title page for 11 of the 61. Books from 1800 on were not checked this way.
+
 **Selection.** The shelf reflects what readers download now, not what was printed then. If readers today prefer eighteenth-century books that read like modern ones, the early periods would understate their sentence length. Within 1700-1799 (61 deduplicated books), the Spearman correlation between download rank and words between periods is -0.26, and with weighted words between stops -0.25: the more-downloaded books (lower rank numbers) have longer sentences. Within 1900-1949 both are -0.05 or -0.06. Rank and the semicolon rate are uncorrelated in both (+0.04). So the shelf does not make the eighteenth century look more modern. If the same pattern holds below the top 2,000, it may overstate eighteenth-century sentence length instead; because P and the weighted S move together, the effect on the share is likely smaller than on either series, but with 61 books this is not settled.
 
 ## 4. Methods
 
-**Counting.** Curly quotes and long dashes are folded into their plain forms. Punc ends a sentence at any run of `.`, `?` or `!`. Rates are per 1,000 words. Dialogue is the share of words inside double quotation marks. A stricter splitter, used as a check, does not end sentences at abbreviations such as "Mr.", initials, ellipses or dialogue tags (`"Help!" he cried`).
+**Counting.** Curly quotes and long dashes are folded into their plain forms. Punc ends a sentence at any run of `.`, `?` or `!`. Rates are per 1,000 words. Dialogue is the share of words inside double quotation marks. A stricter splitter, used as a check, does not end sentences at abbreviations such as "Mr.", initials, ellipses or dialogue tags (`"Help!" he cried`). A second narration count also removes text in single quotation marks. Another check removes editorial apparatus by rule: bracketed editorial notes and footnote markers, footnote paragraphs, transcribers' and producers' notes, introductions, prefaces and memoirs headed or credited as an editor's or translator's, and notes, indexes and glossaries at the end of a book (`paper/fulltext_checks.py`).
 
 **Two units.** For each book, *words between periods* (P) is words divided by sentence-final marks, and *words between stops* (S) is words divided by sentence-final marks plus semicolons and colons.
 
@@ -78,7 +80,7 @@ Table 1. Dated books by 50-year period, before deduplication. Translated: flagge
 
 **Generations.** Semicolons per 1,000 words are regressed by least squares on publication year and author birth year (from Gutenberg's catalog) for 748 English-original books dated 1750-1974 whose author was 15 to 90 at publication.
 
-**Decisions made after seeing results.** The analysis began with the unweighted share. The weighting, the second coder, the 1900-1949 sample, the stricter splitter, the narration-only counts and the author-resampled intervals were added after the first estimate. After review, duplicate works were removed, the glue rates were recomputed without the marks from translations, the coded marks were added to the bootstrap, and the weighted versions of the variants were computed. The headline estimate moved from 38% (28-48%) to 40% (24-51%).
+**Decisions made after seeing results.** The analysis began with the unweighted share. The weighting, the second coder, the 1900-1949 sample, the stricter splitter, the narration-only counts and the author-resampled intervals were added after the first estimate. After review, duplicate works were removed, the glue rates were recomputed without the marks from translations, the coded marks were added to the bootstrap, and the weighted versions of the variants were computed. The headline estimate moved from 38% (28-48%) to 40% (24-51%). A second round then verified the translation status of the 1700-1799 books from their title pages, removed editorial apparatus, and recomputed the full-text variants weighted and deduplicated; none of these moved the main estimate, which is kept on all deduplicated books so that translations are treated the same way at both ends of the comparison.
 
 ## 5. Results
 
@@ -111,7 +113,7 @@ The 1900-1949 sample shows the marks partly changing jobs. Semicolons still most
 
 Table 3 gives the share under the variants that the per-book table supports, unweighted and weighted, with duplicates removed and intervals from resampling books and coded marks.
 
-Table 3. The punctuation share by variant, duplicates removed (`paper/reanalysis.py`).
+Table 3. The punctuation share by variant, duplicates removed (`paper/reanalysis.py`; the verified-originals rows from `paper/verified_originals.py`).
 
 | Variant | Books (start/end) | Unweighted | Weighted |
 |---|---|---:|---:|
@@ -120,16 +122,39 @@ Table 3. The punctuation share by variant, duplicates removed (`paper/reanalysis
 | Translation flag removed | 12/395 | 59% (51-64) | 47% (37-53) |
 | From 1750-1799 | 44/445 | 50% (39-74) | 39% (29-56) |
 | All books, no deduplication | 18/445 | 47% (39-60) | 38% (29-50) |
+| Verified English originals, 1700-1799 | 13/445 | 57% (45-62) | 45% (29-53) |
+| Verified English originals, from 1750-1799 | 29/445 | 49% (34-95) | 34% (21-75) |
 
-The weighted variants range from 38% to 47%. Counting semicolons alone at their glue rate, with colons ignored, gives 37% (18-47%); this is a decomposition rather than a variant, since colons that join clauses are part of the change. Weighting lowers each variant by 8 to 12 points, because the unweighted share counts marks that join nothing. The translation-flag variant is the highest, but the flag both misses translations and removes English originals (Table 1), so it does not isolate the effect of translation.
+The weighted variants in Table 3 range from 34% to 47%. Counting semicolons alone at their glue rate, with colons ignored, gives 37% (18-47%); this is a decomposition rather than a variant, since colons that join clauses are part of the change. Weighting lowers each variant by 8 to 12 points, because the unweighted share counts marks that join nothing. The translation-flag variant is high, but the flag both misses translations and removes English originals (Table 1). On the books verified as English originals the share is 45% (29-53%); among them the median P in 1700-1749 is 35.1 words (13 books), against 31.1 for all 17. Starting at 1750 with verified originals gives 34%, with an interval (21-75%) too wide to read. The 1900-1949 books were not verified, so these rows remove translations at one end only, and the main estimate keeps all books.
 
-The original analysis also computed variants that need the full texts, unweighted and before deduplication, with intervals from resampling books only: a strict sentence splitter 52% (40-63), dashes counted as stops 43% (34-58), narration only 54% (35-63), strict narration 58%, fiction only 48%, English originals without plays or poetry 51%, and nonfiction alone 66%, from a 1700-1749 baseline of 6 books. Colons alone account for 13 points. If the weighting acts on these as it does in Table 3, it would be expected to lower each by roughly 8-12 points; that has not been computed.
+The variants that need the full texts were rerun weighted and deduplicated (`paper/fulltext_checks.py`). 55 of the 938 books have left Punc's shelf since the per-book table was made, so these use the 883 that remain, on which the weighted base share is 42% (26-51%) rather than 40%. Removing editorial apparatus changes little in the periods compared: the median book with anything removed loses 0.1% of its words in 1700-1749 and 0.2% in 1900-1949. The largest change is in 1600-1649, outside the comparison, where P rises from 16.2 to 22.2.
+
+Table 4. Weighted punctuation share for the full-text variants, duplicates removed, 883 books (16 in 1700-1749, 43 in 1750-1799, 417 in 1900-1949). Intervals: 1,000 draws resampling books and coded marks.
+
+| Variant | Start | As is | Apparatus removed |
+|---|---|---:|---:|
+| Base | 1700-1749 | 42% (26-51) | 41% (27-50) |
+| Strict splitter | 1700-1749 | 43% (28-53) | 43% (29-53) |
+| Dashes counted as stops | 1700-1749 | 39% (20-50) | 39% (22-51) |
+| Narration only | 1700-1749 | 45% (24-53) | 45% (26-54) |
+| Narration only, strict splitter | 1700-1749 | 49% (26-57) | 48% (28-57) |
+| Narration only, single quotes removed too | 1700-1749 | 45% (25-54) | 45% (26-54) |
+| Base | 1750-1799 | 39% (26-59) | 35% (26-58) |
+| Strict splitter | 1750-1799 | 45% (27-61) | 43% (27-61) |
+| Dashes counted as stops | 1750-1799 | 43% (28-73) | 39% (27-70) |
+| Narration only | 1750-1799 | 39% (19-66) | 36% (16-67) |
+| Narration only, strict splitter | 1750-1799 | 46% (28-69) | 47% (28-70) |
+| Narration only, single quotes removed too | 1750-1799 | 40% (23-69) | 41% (20-71) |
+
+Every weighted full-text variant falls between 35% and 49%. The narration-only counts with the strict splitter are the highest, 6-7 points above the base. Unweighted, the same rows run from 48% to 62%.
 
 ### 5.3 The remaining decline is not dialogue
 
 The share of words inside quotation marks rises from 5% in 1775-1799 to 26% in 1800-1824 and then stays between 19% and 34% through 1974. Question marks rise from 1.9 to 5.3 per 1,000 words between 1775-1799 and 1950-1974. With every quoted passage removed, median words between stops in narration still fall from 21.9 (1700-1749) to 14.5 (1900-1949), a fall of 7.4 words against 8.3 for the full text (both unweighted, before deduplication). On these figures, removing dialogue accounts for roughly a tenth of the decline in words between stops.
 
-Two biases pull in opposite directions. Many eighteenth-century novels do not mark speech with quotation marks, which leaves short spoken lines in the early narration and understates narration's fall. Many British books of 1900-1949 use single quotation marks, which leaves dialogue in the late narration and overstates its fall. The net direction is unknown.
+Weighted and deduplicated, the share on narration alone is 45% (24-53%), against 42% for the full texts of the same 883 books (Table 4).
+
+Two biases pull in opposite directions. Many eighteenth-century novels do not mark speech with quotation marks, which leaves short spoken lines in the early narration and understates narration's fall. Many British books of 1900-1949 use single quotation marks, which leaves dialogue in the late narration and overstates its fall. The second is small: 21 of 417 books from 1900-1949 mostly use single quotes, and removing single-quoted text as well moves narration's median P in that period from 16.5 to 16.6 and leaves the weighted narration share at 45%. The single-quote rule also removes scare quotes, which is why philosophy books such as *Pragmatism* are among the 21. The first bias is not measured.
 
 ### 5.4 The semicolon's decline
 
@@ -154,20 +179,20 @@ Who moved the periods is a separate question. The career slopes, which cannot ex
 ## 7. Limitations
 
 - **Editions.** Gutenberg texts are often later editions, and editors change punctuation. Gutenberg's *Wealth of Nations* reads "hurtful to the landlord; it is frequently hurtful to the tenant; and it is always hurtful to the community," where the 1776 first edition has a period after "landlord" and a comma after "tenant" [@Smith1776]. That semicolon is item 5 of the coded sample. In this one documented case the later edition added a semicolon where the original had a period, which would raise early semicolon counts and inflate the punctuation share. Its size and direction across the corpus are unknown.
-- **Translations dated by the original.** A translation keeps the original's year but carries a translator's punctuation, often from a much later century. The translation flag is unreliable in both directions (Table 1), so translations cannot be cleanly removed, and their effect on the share is unknown.
-- **Editorial apparatus.** Modern prefaces, editors' footnotes and glossaries are counted as period text; the coded sample includes some (an editor's footnote in Franklin, a glossary in *Gulliver's Travels*).
-- **Model coding.** Both coders are runs of one model family; the first knew the hypothesis and the result; the 1900s sample has a single coder. A human coder, ideally a historical linguist, coding both samples blind is the most important check this paper lacks.
+- **Translations dated by the original.** A translation keeps the original's year but carries a translator's punctuation, often from a much later century. The catalog flag is unreliable in both directions (Table 1). The 1700-1799 books were checked against their title pages, and removing their translations raises the share to 45%; books from 1800 on were not checked, so translations remain at the 1900-1949 end.
+- **Editorial apparatus.** Modern prefaces, editors' footnotes and glossaries are counted as period text in the main analysis, and the coded sample includes some (an editor's footnote in Franklin, a glossary in *Gulliver's Travels*). Removing them by rule changes the share by one point from 1700 and four from 1750 (Table 4), but rules miss notes set inline without markers.
+- **Model coding.** Both coders are runs of one model family; the first knew the hypothesis and the result; the 1900s sample has a single coder. A human coder, ideally a historical linguist, coding both samples blind is the most important check this paper lacks. A blind coding page and a scorer for that are published in `paper/coding/`.
 - **One glue rate for all books.** Each mark's rate comes from a pooled sample of 82 marks; it does not vary by book, author or genre.
 - **Small early periods.** After deduplication, the 50-year periods before 1800 have 12 to 44 books, and the intervals are wide.
 - **Start period.** 1700-1749 is the peak of P for the whole shelf but not for prose alone, where the 10 books from 1600-1649 run longer.
 - **No recent books.** Only 67 dated books appeared after 1930.
 - **Half the shelf is undated.** 1,073 of 1,959 books have a first-publication year; whether undated books differ is untested.
 - **Today's taste.** The shelf is chosen by current download counts (Section 3).
-- **Dialogue means double quotes.** Single-quote dialogue and plays are undercounted (Section 5.3).
+- **Dialogue.** Narration-only counts remove double- and single-quoted text; speech that eighteenth-century novels leave unmarked, and the speech in plays, stays in (Section 5.3).
 - **Correlation only.** Nothing here establishes why writers or printers changed.
 
 ## 8. Data and code availability
 
-Punc's counting code (TypeScript) and site are at https://github.com/JoeKarlsson/punc. The Python analysis scripts (standard library only), the per-book table (`analysis/books.csv`), both coded samples, the second coder's prompt and a ledger of every number from the original analysis (`analysis/RESULTS.md`) are in the repository's `analysis/` folder. The deduplication, the recomputed glue rates and Table 3 come from `paper/reanalysis.py` (its output is `paper/reanalysis-output.md`), and Table 1 from `paper/corpus_table.py`. The analysis used Punc at commit 66982de and Gutenberg's catalog downloaded 2026-11-10. A Zenodo deposit with a DOI will accompany submission.
+Punc's counting code (TypeScript) and site are at https://github.com/JoeKarlsson/punc. The Python analysis scripts (standard library only), the per-book table (`analysis/books.csv`), both coded samples, the second coder's prompt and a ledger of every number from the original analysis (`analysis/RESULTS.md`) are in the repository's `analysis/` folder. The deduplication, the recomputed glue rates and Table 3 come from `paper/reanalysis.py` (its output is `paper/reanalysis-output.md`), and Table 1 from `paper/corpus_table.py`. The verified translation status and its shares are in `paper/translation-status.csv` and `paper/verified_originals.py`; Table 4 and the single-quote counts come from `paper/fulltext_checks.py`; Figure 1 from `paper/figure1.py`. The analysis used Punc at commit 66982de and Gutenberg's catalog downloaded 2026-11-10. A Zenodo deposit with a DOI will accompany submission.
 
 ## References {-}

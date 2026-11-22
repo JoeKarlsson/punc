@@ -30,6 +30,6 @@ header-includes: |
   \usepackage{etoolbox}
   \AtBeginEnvironment{longtable}{\small\setlength{\tabcolsep}{4pt}}
   \usepackage{needspace}
-  \ifPDFTeX\DeclareUnicodeCharacter{2212}{\textminus}\fi % arXiv compiles with pdflatex
+  \ifPDFTeX\DeclareUnicodeCharacter{2212}{\textminus}\fi
   \usepackage{float}
   \floatplacement{figure}{htbp}

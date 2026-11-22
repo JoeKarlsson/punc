@@ -233,6 +233,8 @@ test('a copy that the browser refuses says so', async ({ page }) => {
 
 test('the figures rest on their finished still and play when asked', async ({ page }) => {
   await page.goto('numbers.html');
+  // The method figures sit in the closed "How this was counted"
+  await page.locator('.how-counted summary').click();
   const figure = page.locator('.anim-figure').first();
   await figure.scrollIntoViewIfNeeded();
   await expect(figure.locator('.figure-wide .anim-still')).toBeVisible();

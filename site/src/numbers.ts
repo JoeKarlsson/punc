@@ -412,8 +412,11 @@ export const spanText = (p: TrendPoint) => `${p.from}–\u2060${p.to - 1}`;
 
 // "10.1 semicolons per 1,000 words in 1775–1799, 1.8 in 1950–1974": the
 // medians of the first and last 25-year spans with enough books.
+// The first and last 25-year spans with enough books, for a measure.
+export const trendEnds = (books: BookNumbers[], key: MetricKey) => firstAndLast(trend(books, key, TIMELINE_FROM, TIMELINE_TO, 25, SPAN_MIN_BOOKS));
+
 export function trendSentence(books: BookNumbers[], key: MetricKey): string {
-  const ends = firstAndLast(trend(books, key, TIMELINE_FROM, TIMELINE_TO, 25, SPAN_MIN_BOOKS));
+  const ends = trendEnds(books, key);
   if (!ends) return 'too few dated books to say';
   return `${describeValue(key, ends.first.value)} in ${spanText(ends.first)}, ${formatValue(key, ends.last.value)} in ${spanText(ends.last)}`;
 }

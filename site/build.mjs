@@ -582,14 +582,27 @@ const mostDialogue = genresBy('dialogue').at(-1);
 const [quietest, nextQuietest] = genresBy('exclaim');
 const genreFinding = `${mostDialogue} has the most dialogue, ${N.formatValue('dialogue', genreMedian(mostDialogue, 'dialogue'))} of its words inside quotation marks. The quietest are ${quietest} (${N.formatValue('exclaim', genreMedian(quietest, 'exclaim'))} exclamation marks per 1,000 words) and ${nextQuietest} (${N.formatValue('exclaim', genreMedian(nextQuietest, 'exclaim'))}).`;
 const [twinA, twinB] = twinPairs[0];
-const twinText = b => `<cite><a href="books/${b.slug}/">${escapeHTML(b.title)}</a></cite> (${escapeHTML(N.yearText(b))})`;
 const percent = rate => `${Math.round(rate * 100)}%`;
+
+// The six tiles at the top of the page.
+const semiEnds = N.trendEnds(shelfNumbers, 'semicolon');
+const twinSpan = Math.abs(twinA.year - twinB.year);
+const tiles = {
+  semiFrom: N.formatValue('semicolon', semiEnds.first.value),
+  semiTo: N.formatValue('semicolon', semiEnds.last.value),
+  semiFirstSpan: N.spanText(semiEnds.first),
+  semiLastSpan: N.spanText(semiEnds.last),
+  dialogueGenre: escapeHTML(mostDialogue.toLowerCase()),
+  dialogueShare: N.formatValue('dialogue', genreMedian(mostDialogue, 'dialogue')),
+  // Rounded to the century once the gap is that wide: the oldest years are approximate.
+  twinYears: fmt(twinSpan >= 200 ? Math.round(twinSpan / 100) * 100 : twinSpan),
+  twinTitles: `${escapeHTML(twinA.title)} and ${escapeHTML(twinB.title)}`,
+};
 
 const fetchedText = new Date(`${fetched}T12:00:00Z`).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' });
 const fill = {
   books: fmt(books.length),
   modernBooks: fmt(modern.length),
-  semicolons: escapeHTML(N.trendSentence(shelfNumbers, 'semicolon')),
   firstSpan: N.spanText(shrink.first),
   lastSpan: N.spanText(shrink.last),
   sentenceFrom: N.formatValue('wps', shrink.sentence[0]),
@@ -601,7 +614,6 @@ const fill = {
   withoutHigh: percent(withoutMarks.at(-1).rate),
   markMost: withoutMarks[0].name,
   markLeast: withoutMarks.at(-1).name,
-  twins: `${twinText(twinA)} and ${twinText(twinB)}`,
   ancient: shelfNumbers.filter(b => b.year !== null && b.year < N.TIMELINE_FROM).length,
   authors: authors.length,
   hits,
@@ -611,6 +623,7 @@ const fill = {
   popularity: escapeHTML(popularity),
   popularityClaim,
   fetched: fetchedText,
+  ...tiles,
 };
 const numbersBody = (await fragment('numbers.html'))
   .replace(/\{\{(\w+)\}\}/g, (_, name) => {

@@ -1,19 +1,21 @@
 <article class="numbers-page">
   <h1 class="page-title">The numbers</h1>
-  <p class="lede">Punc took every word out of {{books}} books and counted what was left. Every chart here measures the marks; the year, genre, author and download rank only sort the books into groups. Point at or tap a dot to see its book.</p>
+  <p class="lede">Punc took the words out of {{books}} books and counted the punctuation that was left. Here's what changed.</p>
 
-  <section id="found" class="numbers-section" aria-labelledby="found-heading">
-    <h2 id="found-heading" class="section-title">What Punc found</h2>
-    <p class="numbers-note">From the {{books}} most downloaded Project Gutenberg books with a plain text, fetched {{fetched}}. Most measures are marks per 1,000 words. The data for every book is in <a href="numbers.json">numbers.json</a>.</p>
-    <ol class="found-list">
-      <li><a href="#time">Semicolons nearly vanished.</a> The typical book had {{semicolons}}.</li>
-      <li><a href="#time">Sentences got shorter, but not by as much as it looks.</a> The typical sentence fell from {{sentenceFrom}} words in {{firstSpan}} to {{sentenceTo}} in {{lastSpan}}. Older writers joined their thoughts with ; and : where newer ones put a period. Count every semicolon and colon as a sentence end and {{punctuationShare}} of that fall goes away, but not every one really ends a sentence, so about 40% of it is punctuation.</li>
-      <li><a href="#genres">Genre shows in the marks.</a> {{genreFinding}}</li>
-      <li><a href="#authors">The marks alone can name the author.</a> Punc's test gets {{hitRate}} of books right, where guessing would get {{chance}}, and no single mark gives the author away.</li>
-      <li><a href="#twins">Books centuries apart can punctuate alike.</a> {{twins}} are each other's closest match on the shelf.</li>
-      <li><a href="#popularity">{{popularityClaim}}</a> {{popularity}}</li>
-    </ol>
-  </section>
+  <ul class="tiles" aria-label="What Punc found">
+    <li><a class="tile" href="#time"><img src="features/semicolons.webp" alt="" width="720" height="300" loading="lazy"><span class="tile-num">{{semiFrom}}<small> to </small>{{semiTo}}</span><span class="tile-say"><u>Semicolons nearly vanished.</u> Per 1,000 words, {{semiFirstSpan}} against {{semiLastSpan}}.</span></a></li>
+    <li><a class="tile" href="#time"><img src="features/sentences.webp" alt="" width="720" height="300" loading="lazy"><span class="tile-num">{{sentenceFrom}}<small> to </small>{{sentenceTo}}</span><span class="tile-say"><u>Sentences got shorter.</u> Words per sentence, {{firstSpan}} against {{lastSpan}}. About 40% of that is punctuation.</span></a></li>
+    <li><a class="tile" href="#authors"><img src="features/authors.webp" alt="" width="720" height="300" loading="lazy"><span class="tile-num">{{hitRate}}</span><span class="tile-say"><u>The marks alone can name the author.</u> Guessing gets {{chance}}.</span></a></li>
+    <li><a class="tile" href="#genres"><img src="features/genres.webp" alt="" width="720" height="300" loading="lazy"><span class="tile-num">{{dialogueShare}}</span><span class="tile-say"><u>Of the words in {{dialogueGenre}} books are dialogue,</u> the most of any genre.</span></a></li>
+    <li><a class="tile" href="#twins"><img src="features/twins.webp" alt="" width="720" height="300" loading="lazy"><span class="tile-num">{{twinYears}}<small> years</small></span><span class="tile-say"><u>{{twinTitles}}</u> punctuate alike.</span></a></li>
+    <li><a class="tile" href="#map"><img src="features/map.webp" alt="" width="720" height="300" loading="lazy"><span class="tile-num">{{books}}</span><span class="tile-say"><u>Every book on one map,</u> placed by its punctuation alone.</span></a></li>
+  </ul>
+
+  <aside class="paper-panel" aria-labelledby="paper-heading">
+    <h2 id="paper-heading" class="paper-panel-title">The paper</h2>
+    <p>How much of the shorter sentence is punctuation? I wrote it up as a research paper, measured on these books: about 40%.</p>
+    <p class="paper-panel-acts"><a class="paper-panel-button" href="paper.pdf">Read the paper (PDF)</a> <a href="https://www.joekarlsson.com/blog/sentence-length-semicolons-punctuation/">The short version on my blog</a></p>
+  </aside>
 
   <nav class="numbers-contents" aria-label="On this page">
     <a href="#time">Over time</a>
@@ -26,17 +28,20 @@
     <a href="#records">Records</a>
     <a href="#map">The map</a>
   </nav>
+  <p class="numbers-source">Data: the {{books}} most downloaded Project Gutenberg books with a plain text, fetched {{fetched}}. Most measures are marks per 1,000 words. Every book's numbers are in <a href="numbers.json">numbers.json</a>.</p>
 
   <section id="time" class="numbers-section">
     <h2 class="section-title">Over time</h2>
-    <p class="numbers-finding">Sentences got shorter and semicolons nearly vanished.</p>
-    <p class="numbers-note">Each dot is a book at the year it first came out, and the white line is the median for every 25 years. Translations count by the year of the original. The {{ancient}} books from before 1600, Homer and Plato among them, are off the left edge.</p>
-    <p class="numbers-note">The pink line carries on from 1930: the median for each decade of {{modernBooks}} novels counted from <a href="https://wiki.htrc.illinois.edu/display/COM/HTRC+Derived+Datasets">HathiTrust's page counts</a>. Those counts get commas, semicolons, question marks and sentence ends right, so only those charts have it. The two sources meet in the 1920s and 1930s at about the same values. The numbers in the text are the Gutenberg books alone.</p>
-    <p class="numbers-note">Part of the shorter sentence is punctuation. Older writers joined clauses with semicolons and colons where a newer writer puts a period, so the dotted line on the words per sentence chart counts both as sentence ends too. Counted that way, {{punctuationShare}} of the fall from {{firstSpan}} to {{lastSpan}} goes away. By {{lastSpan}} the two lines meet, at {{sentenceTo}} and {{clauseTo}} words, because books barely use either mark any more. The rest of the fall is sentences really getting shorter.</p>
-    <p class="numbers-context">Linguists have seen both changes. Karolina Rudnicka's <a href="https://doi.org/10.1075/scl.85.10rud">study of sentence length</a> (2018) traces the shrinking sentence back to writers who noticed it in the 1890s, finds semicolons falling sharply between 1810 and 1900 in a large corpus of American English, and discusses the argument that shorter sentences are partly a by-product of changing punctuation. The dotted line puts a size on that argument.</p>
-    <p class="numbers-note">That {{punctuationShare}} counts every semicolon and colon as a sentence end, and not all of them are. I had two separate Claude agents code 100 random semicolons and colons from 1700s prose, and they agreed on 95. Of those, 72% of the semicolons and 58% of the colons joined two clauses that could each stand alone; the rest separated list items or introduced a quotation. Count each mark only as often as it really ends a sentence, check it every other way I could think of, and about 40% of the fall is punctuation. The method and the limits are in <a href="https://www.joekarlsson.com/blog/sentence-length-semicolons-punctuation/">the write-up</a>, and in full in <a href="paper.pdf">the paper</a> (PDF).</p>
-    <!--FIGURE:chart-hand-coded|One hundred paper slips, one for each semicolon and colon pulled at random from 1700s English prose and coded twice, by two separate Claude agents that agreed on 95 of 100. Each turns over to pink if the mark glues two clauses that could each stand as a sentence. 43 of 60 semicolons do (72%), and 23 of 40 colons do (58%).-->
-    <!--FIGURE:chart-every-count|The share of the 1700-49 to 1900-49 drop in sentence length that disappears when semicolons and colons count as sentence ends, measured eleven ways with 95% intervals. Weighted by the hand-coded rate it's 38%; the counts that treat every mark as a sentence end land between 42% and 58%. A line marks about 40%.-->
+    <p class="numbers-finding">Sentences got shorter and semicolons nearly vanished. About 40% of the shorter sentence is punctuation: writers putting a period where they used to put a semicolon.</p>
+    <details class="how-counted">
+      <summary>How this was counted</summary>
+      <p class="numbers-note">Each dot is a book at the year it first came out, and the white line is the median for every 25 years. Translations count by the year of the original. The {{ancient}} books from before 1600, Homer and Plato among them, are off the left edge.</p>
+      <p class="numbers-note">The pink line carries on from 1930: the median for each decade of {{modernBooks}} novels counted from <a href="https://wiki.htrc.illinois.edu/display/COM/HTRC+Derived+Datasets">HathiTrust's page counts</a>. Those counts get commas, semicolons, question marks and sentence ends right, so only those charts have it. The numbers in the text are the Gutenberg books alone.</p>
+      <p class="numbers-note">The dotted line on the words per sentence chart counts every semicolon and colon as a sentence end too. Counted that way, {{punctuationShare}} of the fall from {{firstSpan}} to {{lastSpan}} goes away, and by {{lastSpan}} the two lines meet, at {{sentenceTo}} and {{clauseTo}} words. But not every semicolon or colon ends a thought. Two Claude agents coded 100 random ones from 1700s prose, and in the 82 from English originals, 36 of 50 semicolons (72%) and 19 of 32 colons (59%) joined two clauses that could each stand alone. Counting each mark only that often, the paper puts the punctuation share at about 40% (95% interval 24% to 51%), and every other way of counting it lands between 39% and 48%.</p>
+<!--FIGURE:chart-hand-coded|Eighty-two paper slips, one for each semicolon and colon from English-original 1700s prose in a random sample of 100. Each turns over to pink if the mark glues two clauses that could each stand as a sentence. 36 of 50 semicolons do (72%), and 19 of 32 colons do (59%).-->
+<!--FIGURE:chart-every-count|The share of the 1700-49 to 1900-49 drop in sentence length that is punctuation, measured eleven ways with 95% intervals. The main estimate is 40% (24% to 51%); counting every semicolon and colon as a sentence end gives 48%; the other ways land between 39% and 45%. A line marks about 40%.-->
+      <p class="numbers-note">The method and its limits are in <a href="paper.pdf">the paper</a> (PDF) and the <a href="https://www.joekarlsson.com/blog/sentence-length-semicolons-punctuation/">write-up</a>. Karolina Rudnicka's <a href="https://doi.org/10.1075/scl.85.10rud">2018 study</a> found the same fall in semicolons in American English, sharpest between 1810 and 1900.</p>
+    </details>
     <div class="shelf-controls numbers-controls">
       <label>Genre
         <select id="genre-pick">

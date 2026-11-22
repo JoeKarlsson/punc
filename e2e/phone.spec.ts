@@ -25,6 +25,12 @@ test('nothing scrolls sideways at 390 or 320 pixels wide', async ({ page }) => {
   }
 });
 
+test('the numbers page shows its first finding on the first screen', async ({ page }) => {
+  await page.goto('numbers.html');
+  const tile = (await page.locator('.tiles .tile').first().boundingBox())!;
+  expect(tile.y).toBeLessThan(page.viewportSize()!.height);
+});
+
 test('the shelf shows a page of books, and the next page on a tap', async ({ page }) => {
   await page.goto('./');
   const shelf = page.locator('#shelf li:visible');
@@ -69,7 +75,7 @@ test('form fields are big enough that Safari does not zoom in on them', async ({
 
 test('nav, buttons, links and fields are at least 44 pixels tall to tap', async ({ page }) => {
   const selector =
-    '.site-header nav a, .site-footer a, .share a, .share button, .views button, .explorer-controls button, .shelf-controls input, .shelf-controls select, .shelf-page, .numbers-contents a, .map-table summary';
+    '.site-header nav a, .site-footer a, .share a, .share button, .views button, .explorer-controls button, .shelf-controls input, .shelf-controls select, .shelf-page, .numbers-contents a, .map-table summary, .how-counted summary, .paper-panel-button';
   for (const [path, ready] of [
     ['./', '#shelf-controls:not([hidden])'],
     ['books/frankenstein/', '#book[data-ready]'],

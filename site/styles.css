@@ -1506,7 +1506,8 @@ main {
 
 /* about */
 
-.about {
+.about > section,
+.about > .lede {
   max-width: 34em;
 }
 
@@ -1514,8 +1515,7 @@ main {
   margin-bottom: var(--space-8);
 }
 
-/* The same space above the first heading as above every other one */
-.about .page-title + section {
+.about .tiles + section {
   margin-top: var(--space-8);
 }
 
@@ -1940,19 +1940,172 @@ code {
   color: var(--muted);
 }
 
-.found-list {
-  max-width: 34em;
-  margin: 0;
-  padding-left: 1.6em;
+/* Big-number tiles: the numbers page's findings and the About page's features */
+.tiles {
+  display: grid;
+  /* Three across at most, so six tiles make two full rows */
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, max(300px, 30%)), 1fr));
+  gap: var(--space-6) var(--space-5);
+  margin: var(--space-6) 0 0;
+  padding: 0;
+  list-style: none;
 }
 
-.found-list li + li {
-  margin-top: var(--space-3);
+.tile {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  color: var(--paper);
+  text-decoration: none;
 }
 
-.found-list li::marker {
+.tile img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 12 / 5;
+  object-fit: cover;
+  margin-bottom: var(--space-2);
+  background: var(--ink);
+}
+
+.tile-num,
+.tile-name {
   font-family: var(--poster);
+  line-height: 1;
+}
+
+.tile-num {
   color: var(--pink);
+  font-size: clamp(2.6rem, 2rem + 2.5vw, 3.6rem);
+}
+
+.tile-num small {
+  font-size: 0.45em;
+  color: var(--paper);
+}
+
+.tile-name {
+  font-size: 2rem;
+  text-transform: uppercase;
+}
+
+.tile-say {
+  margin-top: var(--space-1);
+  font-size: 1.05rem;
+  line-height: 1.4;
+}
+
+.tile-say u {
+  text-decoration-color: var(--pink);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 4px;
+}
+
+.tile:hover .tile-say u,
+.tile:hover .tile-name {
+  color: var(--pink);
+}
+
+.tile:focus-visible {
+  outline: 3px solid var(--pink);
+  outline-offset: 6px;
+}
+
+/* The paper: the read page's tilted pink panel */
+.paper-panel {
+  max-width: 900px;
+  margin: var(--space-7) 0 0;
+  padding: var(--space-5) clamp(1.25rem, 3vw, 2.5rem);
+  background: var(--pink);
+  color: var(--ink);
+  transform: rotate(-0.8deg);
+}
+
+.paper-panel p {
+  max-width: 38em;
+  margin: 0 0 var(--space-3);
+  font-size: 1.1rem;
+}
+
+.paper-panel a {
+  color: var(--ink);
+}
+
+.paper-panel-title {
+  display: block;
+  margin: 0 0 var(--space-2);
+  font-family: var(--poster);
+  font-size: clamp(2rem, 1.5rem + 2vw, 2.8rem);
+  font-weight: 400;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.paper-panel-acts {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2) var(--space-5);
+}
+
+.paper-panel .paper-panel-button {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0.3em 0.8em;
+  background: var(--ink);
+  color: var(--pink);
+  font-family: var(--poster);
+  font-size: 1.2rem;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+
+.paper-panel-tile {
+  margin: 0;
+  transform: rotate(-1.5deg);
+}
+
+.paper-panel-tile .paper-panel-button {
+  align-self: flex-start;
+  margin-top: auto;
+}
+
+.paper-panel-tile .tile-say {
+  margin-bottom: var(--space-3);
+}
+
+.paper-panel-tile:focus-visible {
+  outline-color: var(--paper);
+}
+
+.numbers-source {
+  max-width: 40em;
+  margin: var(--space-3) 0 0;
+  font-size: 0.95rem;
+  color: var(--muted);
+}
+
+/* How a finding was counted: closed until asked for */
+.how-counted {
+  max-width: 900px;
+  margin: 0 0 var(--space-5);
+}
+
+.how-counted summary {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  cursor: pointer;
+  font-family: var(--poster);
+  font-size: 1.2rem;
+  text-transform: uppercase;
+  color: var(--pink);
+}
+
+.how-counted[open] summary {
+  margin-bottom: var(--space-3);
 }
 
 .numbers-controls {

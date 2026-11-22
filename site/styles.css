@@ -2753,8 +2753,7 @@ code {
   content-visibility: auto;
   contain-intrinsic-size: auto var(--section-height, 1400px);
 }
-#found { --section-height: 990px; }
-#time { --section-height: 4400px; }
+#time { --section-height: 1680px; }
 #genres { --section-height: 930px; }
 #authors { --section-height: 2230px; }
 #compare { --section-height: 740px; }
@@ -2765,8 +2764,7 @@ code {
 #map { --section-height: 560px; }
 
 @media (max-width: 720px) {
-  #found { --section-height: 1200px; }
-  #time { --section-height: 5030px; }
+  #time { --section-height: 2330px; }
   #genres { --section-height: 2580px; }
   #authors { --section-height: 3920px; }
   #compare { --section-height: 1130px; }

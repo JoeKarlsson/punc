@@ -1,6 +1,4 @@
 ---
-title: "How much of the decline in English sentence length is punctuation? Evidence from dated Project Gutenberg books, 1600-1974"
-author: Joe Karlsson (independent researcher)
 target: Journal of Cultural Analytics (article); arXiv preprint (cs.CL)
 status: draft 3, 2026-11-22 (after review rounds 1-3)
 ---
@@ -86,7 +84,7 @@ Table 1. Dated books by 50-year period, before deduplication. Translated: flagge
 
 ### 5.1 About 40% of the decline is punctuation
 
-Table 2 gives the three series on the deduplicated corpus. Words between periods fall from 31.1 in 1700-1749 to 14.5 by 1900-1949. Counting every semicolon and colon as a stop, the series falls from 21.9 to 13.3, so 48% of the decline disappears (47% before deduplication). By 1950-1974 all three series nearly meet (12.4 to 12.5), as the punctuation explanation predicts once the semicolon has become rare. The small early periods are fragile: removing one volume of *Don Quixote* moves the 1600-1649 median from 20.9 to 16.2.
+Table 2 and Figure 1 give the three series on the deduplicated corpus. Words between periods fall from 31.1 in 1700-1749 to 14.5 by 1900-1949. Counting every semicolon and colon as a stop, the series falls from 21.9 to 13.3, so 48% of the decline disappears (47% before deduplication). By 1950-1974 all three series nearly meet (12.4 to 12.5), as the punctuation explanation predicts once the semicolon has become rare. The small early periods are fragile: removing one volume of *Don Quixote* moves the 1600-1649 median from 20.9 to 16.2.
 
 Table 2. Median words between periods, between stops (every semicolon and colon counted) and between weighted stops (each mark counted at its glue rate), by period, duplicates removed.
 
@@ -100,6 +98,8 @@ Table 2. Median words between periods, between stops (every semicolon and colon 
 | 1850-1899 | 284 | 17.9 | 15.0 | 15.8 |
 | 1900-1949 | 445 | 14.5 | 13.3 | 13.6 |
 | 1950-1974 | 25 | 12.5 | 12.4 | 12.4 |
+
+![Median words between periods, between weighted stops and between all stops, by period of first publication, duplicates removed. Weighted stops count each semicolon and colon at its glue rate (72% and 59%). Numbers above the points are books per period.](figure1.pdf){width=85%}
 
 Not every mark joins clauses. In the 82 English-original marks, 36 of 50 semicolons (72%) and 19 of 32 colons (59%) joined clauses that could stand alone. The others separated parallel *that*-clauses or relative clauses, introduced quotations or lists, or sat in headings and footnotes. On all 100 marks, the blind second coder agreed with the first on 95 (kappa 0.89); its rates on the 82 English-original marks were 68% and 56%.
 

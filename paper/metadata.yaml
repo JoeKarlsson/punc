@@ -1,0 +1,35 @@
+# The paper's front matter, read by build.sh and by anything that lists the paper (e.g. the website).
+# The abstract is the "## Abstract" section of draft.md.
+title: "How Much of the Decline in English Sentence Length Is Punctuation? Evidence from Dated Project Gutenberg Books, 1600–1974"
+author:
+  - name: Joe Karlsson
+    affiliation: Independent researcher
+    orcid: ""  # 0000-0000-0000-0000 once registered
+date: November 22, 2026
+version: Preprint, draft 3
+keywords: [sentence length, punctuation, semicolon, historical linguistics, Project Gutenberg, cultural analytics]
+doi: ""  # Zenodo or arXiv DOI once deposited
+repository: https://github.com/JoeKarlsson/punc
+
+# Citation style: swap this one line for a journal's CSL file.
+csl: chicago-author-date.csl
+bibliography: references.bib
+link-citations: true
+
+# LaTeX layout
+documentclass: article
+fontsize: 11pt
+indent: true
+geometry: margin=1in
+numbersections: true
+colorlinks: true
+linkcolor: black
+citecolor: black
+urlcolor: blue
+header-includes: |
+  \usepackage{etoolbox}
+  \AtBeginEnvironment{longtable}{\small\setlength{\tabcolsep}{4pt}}
+  \usepackage{needspace}
+  \ifPDFTeX\DeclareUnicodeCharacter{2212}{\textminus}\fi % arXiv compiles with pdflatex
+  \usepackage{float}
+  \floatplacement{figure}{htbp}

@@ -19,7 +19,9 @@ import { gunzipSync, gzipSync } from 'node:zlib';
 const UA = { 'User-Agent': 'punc-site-builder (https://github.com/JoeKarlsson/punc)' };
 const PAUSE_MS = 1500;
 const MAX_TEXT_BYTES = 3.5 * 1024 * 1024;
-const DEFAULT_TOP = 2000;
+const DEFAULT_TOP = 2500;
+// Project Gutenberg's own mirror (PGLAF): www.gutenberg.org answers bulk downloads with 503.
+const GUTENBERG = 'https://gutenberg.pglaf.org';
 // Books kept on the shelf even when they drop out of the top list
 const EXTRA_IDS = ['1079', '12242', '67138'];
 // Other editions of books already on the shelf under a different title, or parts of them
@@ -328,7 +330,7 @@ export function cleanTitle(raw) {
 // <pgterms:ebook rdf:about="ebooks/N"> per book with a <pgterms:downloads>.
 async function rankedByDownloads() {
   const archive = join(tmpdir(), 'punc-rdf-files.tar.bz2');
-  await writeFile(archive, await get('https://www.gutenberg.org/cache/epub/feeds/rdf-files.tar.bz2'));
+  await writeFile(archive, await get(`${GUTENBERG}/cache/epub/feeds/rdf-files.tar.bz2`));
   const tar = spawn('tar', ['-xjOf', archive]);
   const exited = new Promise((resolve, reject) => tar.on('close', code => (code === 0 ? resolve() : reject(new Error(`tar exited with ${code}`)))));
   const downloads = new Map();
@@ -386,7 +388,7 @@ async function main() {
   const ranked = await rankedByDownloads();
   if (ranked.length < 10000) throw new Error(`Download counts look wrong: ${ranked.length} books`);
 
-  const csv = parseCSV(gunzipSync(await get('https://www.gutenberg.org/cache/epub/feeds/pg_catalog.csv.gz')).toString('utf8'));
+  const csv = parseCSV(gunzipSync(await get(`${GUTENBERG}/cache/epub/feeds/pg_catalog.csv.gz`)).toString('utf8'));
   const header = csv[0];
   const col = name => header.indexOf(name);
   const byId = new Map(csv.slice(1).map(r => [r[col('Text#')], r]));
@@ -421,7 +423,7 @@ async function main() {
     if (!existsSync(textPath)) {
       let raw;
       try {
-        raw = await get(`https://www.gutenberg.org/cache/epub/${id}/pg${id}.txt`);
+        raw = await get(`${GUTENBERG}/cache/epub/${id}/pg${id}.txt`);
       } catch (e) {
         // Some books (math, music) have no plain-text edition.
         console.warn(`skip ${id}: ${e.message}`);
@@ -444,7 +446,7 @@ async function main() {
     let cover = existsSync(coverPath);
     if (!cover) {
       try {
-        await writeFile(coverPath, await get(`https://www.gutenberg.org/cache/epub/${id}/pg${id}.cover.medium.jpg`));
+        await writeFile(coverPath, await get(`${GUTENBERG}/cache/epub/${id}/pg${id}.cover.medium.jpg`));
         cover = true;
       } catch (e) {
         console.warn(`no cover for ${id}: ${e.message}`);

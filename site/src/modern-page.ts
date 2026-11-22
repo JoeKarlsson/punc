@@ -2,6 +2,7 @@
 // site/modern.json (site/src/modern.ts). Counts have no order, so no score,
 // spiral or pages view; and the error in a fingerprint from a scan is often
 // more than the gap to a book's closest twin, so no twin or map spot either.
+import type { BookNumbers } from './numbers';
 import { countsHTML, fingerprintHTML, TRACKED_MARKS, throughBookHTML } from './patterns';
 
 export interface ModernBook {
@@ -32,11 +33,32 @@ const MODERN_METRICS: Array<{ key: ModernMetric; label: string }> = [
   { key: 'wps', label: 'Words per sentence' },
 ];
 
-export type ModernNumbers = Record<ModernMetric, number> & { slug: string; year: number };
-
-export function modernNumbers(book: ModernBook): ModernNumbers {
+// The same measures as a Gutenberg book's (numbers.ts bookNumbers). Dialogue
+// needs the text, and the map spot is off by too much, so those are NaN.
+export function modernNumbers(book: ModernBook): BookNumbers {
   const per1000 = (mark: string) => (book.counts[TRACKED_MARKS.findIndex(t => t.mark === mark)]! / book.words) * 1000;
-  return { slug: book.slug, year: book.year, semicolon: per1000(';'), comma: per1000(','), colon: per1000(':'), question: per1000('?'), exclaim: per1000('!'), wps: book.wps };
+  return {
+    slug: book.slug,
+    title: book.title,
+    author: book.author,
+    year: book.year,
+    yearLabel: String(book.year),
+    genres: [],
+    rank: null,
+    words: book.words,
+    shares: modernShares(book),
+    semicolon: per1000(';'),
+    comma: per1000(','),
+    colon: per1000(':'),
+    dash: per1000('-'),
+    exclaim: per1000('!'),
+    question: per1000('?'),
+    marks: (modernMarkCount(book) / book.words) * 1000,
+    wps: book.wps,
+    dialogue: NaN,
+    pausesPerStop: NaN,
+    loudness: NaN,
+  };
 }
 
 const median = (values: number[]) => {
@@ -45,7 +67,7 @@ const median = (values: number[]) => {
   return sorted.length % 2 ? sorted[mid]! : (sorted[mid - 1]! + sorted[mid]!) / 2;
 };
 
-export const modernMedians = (books: ModernNumbers[]): Record<ModernMetric, number> =>
+export const modernMedians = (books: BookNumbers[]): Record<ModernMetric, number> =>
   Object.fromEntries(MODERN_METRICS.map(({ key }) => [key, median(books.map(b => b[key]))])) as Record<ModernMetric, number>;
 
 const escapeHTML = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');

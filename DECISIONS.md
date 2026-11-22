@@ -2,6 +2,11 @@
 
 Joe's verdicts on Punc's design and data, newest first. Read before changing what they cover.
 
+## 2026-11-22: modern books on the main shelf and the numbers page (option A)
+
+- **One shelf.** Modern books sit on the main shelf with the Gutenberg books; "Most read" takes turns between the two lists, each in its own order (Gutenberg downloads, Wikipedia languages). A "From" menu narrows to Project Gutenberg or 1930 on. Chosen over a separate "Since 1930" row below the Gutenberg shelf (option B).
+- **The numbers page shows the modern books' data**: a faint dot per modern book on the over-time charts behind the pink decade line, and modern books in compare any two, the full table, authors and records. The map, the twins, and the written findings and the paper's numbers stay Gutenberg only.
+
 ## 2026-11-22: every matched modern novel, not just the best known
 
 - **The modern shelf takes every Wikidata novel from 1930–2010 that matched a HathiTrust volume well** (6,388), not only the best known (2,927). More books steady the decade line; the shelf is no longer only famous books. Same rules: no late editions, nothing under 20,000 words, one page per scanned volume.

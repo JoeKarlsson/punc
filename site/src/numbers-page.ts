@@ -11,6 +11,7 @@ import {
   bookProfile,
   careerSVGs,
   compareHTML,
+  modernTimelineDots,
   numbersTableRows,
   popularityDots,
   timelineDots,
@@ -30,6 +31,7 @@ const need = <T extends Element>(selector: string, within: ParentNode = document
   return el;
 };
 
+const TABLE_PAGE = 500;
 const tooltips = (chart: HTMLElement) => setUpMapTooltips(chart, need<HTMLElement>('.map-tip', chart));
 
 const genrePick = need<HTMLSelectElement>('#genre-pick');
@@ -46,8 +48,9 @@ const authorDetail = need<HTMLElement>('#author-detail');
 const career = need<HTMLElement>('#author-career');
 const careerNone = need<HTMLElement>('#career-none');
 const picks = [...document.querySelectorAll<HTMLButtonElement>('.author-pick')];
-// numbers.json, once it has loaded
+// numbers.json, once it has loaded, and modern-numbers.json (the modern shelf)
 let loadedShelf: BookNumbers[] | null = null;
+let loadedModern: BookNumbers[] = [];
 let pickedAuthor = '';
 
 // Genre: that genre's books stay pink, on top, and its median line shows;
@@ -66,13 +69,13 @@ function showGenre(): void {
     : 'The white line is the median of every book.';
 }
 
-// The options read "author:Name" or "book:slug".
+// The options read "author:Name" or "book:slug". An author is their Gutenberg books.
 function profileFor(value: string, shelf: BookNumbers[]): Profile {
   const split = value.indexOf(':');
   const [kind, id] = [value.slice(0, split), value.slice(split + 1)];
   if (kind === 'author') return authorProfile(id, shelf.filter(b => b.author === id));
-  const book = shelf.find(b => b.slug === id);
-  if (!book) throw new Error(`No book ${id} in numbers.json`);
+  const book = shelf.find(b => b.slug === id) ?? loadedModern.find(b => b.slug === id);
+  if (!book) throw new Error(`No book ${id} in numbers.json or modern-numbers.json`);
   return bookProfile(book);
 }
 
@@ -95,7 +98,7 @@ function pickAuthor(button: HTMLButtonElement, shelf: BookNumbers[] | null): voi
   if (!shelf) return;
   const guessed = new Map([...button.querySelectorAll<HTMLElement>('[data-slug]')].map(s => [s.dataset['slug'] ?? '', s.dataset['guessed'] ?? '']));
   const books = shelf.filter(b => b.author === pickedAuthor);
-  authorDetail.innerHTML = authorDetailHTML(pickedAuthor, books, guessed, Number(button.dataset['spread']));
+  authorDetail.innerHTML = authorDetailHTML(pickedAuthor, books, guessed, Number(button.dataset['spread']), '', loadedModern.filter(b => b.author === pickedAuthor));
   // The same career chart, picker and all, moves into the new author.
   need('.author-detail-side', authorDetail).append(career);
   drawCareer(shelf);
@@ -104,8 +107,9 @@ function pickAuthor(button: HTMLButtonElement, shelf: BookNumbers[] | null): voi
 // Lets the browser paint and answer taps between the charts: drawn in one go,
 // every book on every chart blocked the page for over half a second on a phone.
 
-async function drawBooks(shelf: BookNumbers[]): Promise<void> {
+async function drawBooks([shelf, modern]: [BookNumbers[], BookNumbers[]]): Promise<void> {
   loadedShelf = shelf;
+  loadedModern = modern;
   findAuthor(shelf);
   const picked = picks.find(p => p.dataset['author'] === pickedAuthor);
   if (picked && picked !== picks[0]) pickAuthor(picked, shelf);
@@ -113,7 +117,9 @@ async function drawBooks(shelf: BookNumbers[]): Promise<void> {
     await yieldToBrowser();
     const key = group.dataset['metric'] as MetricKey;
     const max = Number(group.dataset['max']);
-    group.innerHTML = group.closest('#time') ? timelineDots(shelf, key, max) : popularityDots(shelf, key, max);
+    group.innerHTML = group.closest('#time')
+      ? timelineDots(shelf, key, max) + (group.dataset['modern'] === undefined ? '' : modernTimelineDots(modern, key, max))
+      : popularityDots(shelf, key, max);
     tooltips(group.closest<HTMLElement>('figure.chart')!);
   }
   showGenre();
@@ -127,7 +133,7 @@ async function drawBooks(shelf: BookNumbers[]): Promise<void> {
 
   await yieldToBrowser();
 
-  const byTitle = [...shelf].sort((a, b) => a.title.localeCompare(b.title));
+  const byTitle = [...shelf, ...modern].sort((a, b) => a.title.localeCompare(b.title));
   for (const pick of [pickA, pickB]) {
     const books = need<HTMLOptGroupElement>('optgroup[label="Books"]', pick);
     books.append(...byTitle.map(b => new Option(`${b.title}, ${b.author}`, `book:${b.slug}`)));
@@ -137,18 +143,21 @@ async function drawBooks(shelf: BookNumbers[]): Promise<void> {
   await yieldToBrowser();
   drawCareer(shelf);
   careerPick.addEventListener('change', () => drawCareer(shelf));
-  // The table has a row for every book; it's drawn the first time it's opened,
-  // a few hundred rows at a time so opening it stays quick on a slow phone.
-  let tableStarted = false;
-  table.addEventListener('toggle', async () => {
-    if (!table.open || tableStarted) return;
-    tableStarted = true;
-    const body = need<HTMLElement>('tbody', table);
-    const byTitle = [...shelf].sort((a, b) => a.title.localeCompare(b.title));
-    for (let i = 0; i < byTitle.length; i += 200) {
-      body.insertAdjacentHTML('beforeend', numbersTableRows(byTitle.slice(i, i + 200)));
-      await yieldToBrowser();
-    }
+  // The table has a row for every book, by title: the first rows are drawn the
+  // first time it's opened, and the rest a page at a time, as asked for. All
+  // of both shelves at once is tens of thousands of cells, slow on a phone.
+  const body = need<HTMLElement>('tbody', table);
+  const more = need<HTMLButtonElement>('#table-more', table);
+  let drawn = 0;
+  const drawTablePage = () => {
+    body.insertAdjacentHTML('beforeend', numbersTableRows(byTitle.slice(drawn, drawn + TABLE_PAGE)));
+    drawn = Math.min(drawn + TABLE_PAGE, byTitle.length);
+    more.hidden = drawn === byTitle.length;
+    more.textContent = `Show ${Math.min(TABLE_PAGE, byTitle.length - drawn).toLocaleString('en-US')} more (${drawn.toLocaleString('en-US')} of ${byTitle.length.toLocaleString('en-US')} shown)`;
+  };
+  more.addEventListener('click', drawTablePage);
+  table.addEventListener('toggle', () => {
+    if (table.open && drawn === 0) drawTablePage();
   });
 }
 
@@ -177,7 +186,7 @@ function findAuthor(shelf: BookNumbers[] | null): void {
   // Until numbers.json loads there's no shelf to look further in.
   authorFound.hidden = terms.length === 0 || shown.length > 0 || shelf === null;
   if (authorFound.hidden || shelf === null) return;
-  const books = shelf.filter(b => matches(b.author));
+  const books = [...shelf, ...loadedModern].filter(b => matches(b.author));
   if (!books.length) {
     authorFound.textContent = `No author on the shelf matches "${authorSearch.value}".`;
     return;
@@ -219,12 +228,16 @@ else {
 }
 
 // The page's text and medians are in the HTML; the dots for every book can wait.
+const loadJSON = async (file: string) => {
+  const response = await fetch(file, { priority: 'low' });
+  if (!response.ok) throw new Error(`${file}: ${response.status}`);
+  return response.json() as Promise<BookNumbers[]>;
+};
+// JSON has no NaN: a measure a modern book doesn't have arrives as null.
+const MISSING: Array<keyof BookNumbers> = ['dialogue', 'pausesPerStop', 'loudness'];
+const withMissing = (books: BookNumbers[]) => books.map(b => ({ ...b, ...Object.fromEntries(MISSING.map(k => [k, b[k] ?? NaN])) }));
 afterFirstPaint()
-  .then(() => fetch('numbers.json', { priority: 'low' }))
-  .then(response => {
-    if (!response.ok) throw new Error(`numbers.json: ${response.status}`);
-    return response.json() as Promise<BookNumbers[]>;
-  })
+  .then(() => Promise.all([loadJSON('numbers.json'), loadJSON('modern-numbers.json').then(withMissing)]))
   .then(drawBooks)
   .catch((error: unknown) => {
     genreKey.textContent = "The books couldn't load, so the charts show only their median lines. Reload the page to try again.";

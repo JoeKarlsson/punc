@@ -10,7 +10,7 @@ export interface ShelfBook {
   byline: string;
   authorSort: string;
   genres: string[];
-  // Popularity on Gutenberg; null for favorites outside the top list
+  // Popularity on Gutenberg; null for favorites outside the top list and for modern books
   rank: number | null;
   publishedSort: number | null;
   words: number;

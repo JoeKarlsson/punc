@@ -138,7 +138,7 @@ const modernShelfBook = book => ({
   author: book.author,
   byline: `${book.author}, ${book.year}`,
   authorSort: book.author.split(' ').at(-1),
-  genres: ['modern'],
+  genres: [],
   rank: null,
   modern: book.rank,
   publishedSort: book.year,
@@ -150,11 +150,18 @@ const modernShelfBook = book => ({
   shares: modernShares(book).map(v => Number(v.toFixed(4))),
   cover: false,
 });
-await writeFile(join(OUT, 'shelf.json'), JSON.stringify([...byRank.map(shelfBook), ...modern.map(modernShelfBook)]));
+// "Most read" takes turns between the two shelves, each in its own order: Gutenberg
+// downloads, and Wikipedia languages for the modern books (site/modern.json is in that order).
+const shelfOrder = Array.from({ length: Math.max(byRank.length, modern.length) }, (_, i) => [byRank[i] && shelfBook(byRank[i]), modern[i] && modernShelfBook(modern[i])])
+  .flat()
+  .filter(Boolean);
+await writeFile(join(OUT, 'shelf.json'), JSON.stringify(shelfOrder));
 
 // Book pages and uploads draw themselves on the shelf map from this.
 // The numbers page compares books and authors from this.
 await writeFile(join(OUT, 'numbers.json'), JSON.stringify(shelfNumbers.map(N.forBrowser)));
+// NaN (a measure a modern book doesn't have) is written as null.
+await writeFile(join(OUT, 'modern-numbers.json'), JSON.stringify(modernShelfNumbers.map(N.forBrowser)));
 await writeFile(join(OUT, 'books.json'), JSON.stringify(books.map(({ slug, title, author, pausesPerStop, loudness }) => ({ slug, title, author, pausesPerStop, loudness }))));
 await cp(join(SITE, 'marks'), join(OUT, 'marks'), { recursive: true });
 await cp(join(SITE, 'covers'), join(OUT, 'covers'), { recursive: true });
@@ -312,14 +319,14 @@ const indexBody = (await fragment('index.html'))
   .replace('<!--SCANNEROPENINGS-->', () => JSON.stringify(scannerOpenings).replace(/</g, '\\u003c'))
   .replace('<!--SCANNERTEXT-->', () => escapeHTML(scannerOpenings[0].text))
   // Only the first page is in the HTML; site/src/shelf.ts draws the rest from shelf.json.
-  .replace('<!--SHELF-->', byRank.slice(0, SHELF_PAGE_SIZE).map((book, i) => cardHTML(shelfBook(book), i)).join('\n'))
-  .replace('<!--GENRES-->', `${genres.map(g => `<option>${escapeHTML(g)}</option>`).join('')}<option value="modern">From 1930 on (counts only)</option>`);
+  .replace('<!--SHELF-->', shelfOrder.slice(0, SHELF_PAGE_SIZE).map((book, i) => cardHTML(book, i)).join('\n'))
+  .replace('<!--GENRES-->', genres.map(g => `<option>${escapeHTML(g)}</option>`).join(''));
 await writePage({
   path: 'index.html',
   nav: 'shelf',
   title: 'Punc: famous books as punctuation only, without words',
   socialTitle: 'Punc: what does a book look like without words?',
-  description: `${fmt(books.length)} famous books with every word taken out and only the punctuation left. Browse the shelf or bring your own text.`,
+  description: `${fmt(books.length + modern.length)} books with every word taken out and only the punctuation left. Browse the shelf or bring your own text.`,
   body: indexBody,
   script: 'shelf.js',
   sources: ['site/pages/index.html'],
@@ -513,7 +520,7 @@ ${N.METRICS.map(({ key, label }) => `                  <option value="${key}">${
             <p class="map-tip" hidden></p>
           </figure>`;
 const firstAuthor = authors[0];
-const firstAuthorDetail = N.authorDetailHTML(firstAuthor.author, firstAuthor.books, guessedBySlug, Math.round(N.authorSpread(firstAuthor.books, typical)), careerFigure);
+const firstAuthorDetail = N.authorDetailHTML(firstAuthor.author, firstAuthor.books, guessedBySlug, Math.round(N.authorSpread(firstAuthor.books, typical)), careerFigure, modernShelfNumbers.filter(b => b.author === firstAuthor.author));
 
 // Compare: every author with two or more books, then every book. The books
 // are added in the browser, from numbers.json.
@@ -553,6 +560,10 @@ const popularity = `Across the ${fmt(ranked.length)} ranked books, the closest l
 const rankLinks = links.map(({ label, rho }) => `      <li>${label}: ${N.correlationWords(rho)} (${signed(rho)})</li>`).join('\n');
 
 const recordBooks = shelfNumbers.filter(b => b.words >= 2000);
+// Modern books can hold the records their counts get right: not dialogue (it needs
+// the text), dashes (a fifth high) or all marks (only the ten tracked ones).
+const MODERN_RECORD_METRICS = ['semicolon', 'colon', 'comma', 'exclaim', 'question', 'wps'];
+const modernSlugs = new Set(modern.map(b => b.slug));
 const recordList = [
   ['Most semicolons', 'semicolon', -1],
   ['Most colons', 'colon', -1],
@@ -568,8 +579,9 @@ const recordList = [
 const records = recordList
   .map(([heading, key, order]) => {
     // One book per author, or the volumes of one collected works fill a list.
-    const top = [...recordBooks].sort((a, b) => order * (a[key] - b[key])).filter((b, i, all) => all.findIndex(o => o.author === b.author) === i).slice(0, 3);
-    return `      <div class="record"><h3 class="record-name">${heading}</h3><ol>${top.map(b => `<li><a href="books/${b.slug}/">${escapeHTML(b.title)}</a>, ${escapeHTML(b.author)}: ${escapeHTML(N.describeValue(key, b[key]))}</li>`).join('')}</ol></div>`;
+    const candidates = MODERN_RECORD_METRICS.includes(key) ? [...recordBooks, ...modernShelfNumbers] : recordBooks;
+    const top = [...candidates].sort((a, b) => order * (a[key] - b[key])).filter((b, i, all) => all.findIndex(o => o.author === b.author) === i).slice(0, 3);
+    return `      <div class="record"><h3 class="record-name">${heading}</h3><ol>${top.map(b => `<li><a href="books/${b.slug}/">${escapeHTML(b.title)}</a>, ${escapeHTML(b.author)}: ${escapeHTML(N.describeValue(key, b[key]))}${modernSlugs.has(b.slug) ? ' (counted from HathiTrust)' : ''}</li>`).join('')}</ol></div>`;
   })
   .join('\n');
 

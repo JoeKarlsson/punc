@@ -1,4 +1,4 @@
-// Search, genre filter, sort and pages for the shelf. The page arrives with
+// Search, source and genre filters, sort and pages for the shelf. The page arrives with
 // the first page of cards built in; the whole shelf comes from shelf.json,
 // and only the cards on the page in view are ever drawn, so a shelf of
 // hundreds costs no more than one page. The choices live in the URL so they
@@ -21,12 +21,12 @@ interface Card {
   text: string;
   // Drawn the first time it's on the page in view
   el: HTMLElement | undefined;
+  // Its place in shelf.json, which comes in "Most read" order
+  order: number;
 }
 
-// Modern books come after every Gutenberg book, in their own order.
-const rankOf = (c: Card) => c.book.rank ?? (c.book.modern === undefined ? Infinity : 1e6 + c.book.modern);
 const SORTS: Record<string, (a: Card, b: Card) => number> = {
-  popular: (a, b) => rankOf(a) - rankOf(b),
+  popular: (a, b) => a.order - b.order,
   title: (a, b) => a.book.title.localeCompare(b.book.title),
   author: (a, b) => a.book.authorSort.localeCompare(b.book.authorSort) || a.book.title.localeCompare(b.book.title),
   // Books without a year go last either way
@@ -48,6 +48,7 @@ function byId<T extends HTMLElement>(id: string): T {
 async function setUpShelf(): Promise<void> {
   const list = byId<HTMLUListElement>('shelf');
   const search = byId<HTMLInputElement>('shelf-search');
+  const from = byId<HTMLSelectElement>('shelf-from');
   const genre = byId<HTMLSelectElement>('shelf-genre');
   const sort = byId<HTMLSelectElement>('shelf-sort');
   const count = byId('shelf-count');
@@ -63,18 +64,20 @@ async function setUpShelf(): Promise<void> {
   const books = (await res.json()) as ShelfBook[];
   // Reuse the cards already in the page.
   const built = new Map([...list.querySelectorAll<HTMLElement>('li[data-slug]')].map(el => [el.dataset['slug'], el]));
-  const cards: Card[] = books.map(book => ({
+  const cards: Card[] = books.map((book, order) => ({
     book,
     text: normalizeForSearch(`${book.title} ${book.author}`),
     el: built.get(book.slug),
+    order,
   }));
+  const fromMatches = (c: Card) => !from.value || (from.value === 'modern') === (c.book.modern !== undefined);
   // A search term that matches nothing gets the nearest word on the shelf
   // instead, if that finds something: "frankenstien" offers "frankenstein".
   const vocabulary = new Set(cards.flatMap(c => c.text.split(' ').filter(word => word.length >= 3)));
   const suggestion = (terms: string[]): string | null => {
     const fixed = terms.map(t => (cards.some(c => c.text.includes(t)) ? t : t.length >= 4 ? closestMatch(t, vocabulary) : null));
     if (fixed.some(t => t === null) || fixed.every((t, i) => t === terms[i])) return null;
-    const found = cards.some(c => fixed.every(t => c.text.includes(t!)) && (!genre.value || c.book.genres.includes(genre.value)));
+    const found = cards.some(c => fixed.every(t => c.text.includes(t!)) && fromMatches(c) && (!genre.value || c.book.genres.includes(genre.value)));
     return found ? fixed.join(' ') : null;
   };
   const suggest = byId('shelf-suggest');
@@ -90,6 +93,7 @@ async function setUpShelf(): Promise<void> {
 
   const params = new URLSearchParams(location.search);
   search.value = params.get('q') ?? '';
+  if (params.get('from')) from.value = params.get('from')!;
   if (params.get('genre')) genre.value = params.get('genre')!;
   if (params.get('sort') && SORTS[params.get('sort')!]) sort.value = params.get('sort')!;
   let page = Math.max(1, Math.floor(Number(params.get('page'))) || 1);
@@ -125,8 +129,7 @@ async function setUpShelf(): Promise<void> {
   const apply = () => {
     const terms = normalizeForSearch(search.value).split(' ').filter(Boolean);
     const shown = cards
-      // Modern books show under their own genre, or in a search; not on the plain shelf.
-      .filter(c => terms.every(t => c.text.includes(t)) && (genre.value ? c.book.genres.includes(genre.value) : c.book.modern === undefined || terms.length > 0))
+      .filter(c => terms.every(t => c.text.includes(t)) && fromMatches(c) && (!genre.value || c.book.genres.includes(genre.value)))
       .sort(SORTS[sort.value] ?? SORTS['popular']);
     const pageSize = wideScreen.matches ? SHELF_PAGE_SIZE : SHELF_PAGE_SIZE_PHONE;
     const pageCount = Math.max(1, Math.ceil(shown.length / pageSize));
@@ -137,7 +140,7 @@ async function setUpShelf(): Promise<void> {
     if (onPage.length !== list.children.length || onPage.some((el, i) => list.children[i] !== el)) list.replaceChildren(...onPage);
     list.dataset['paged'] = '';
     const fmt = (n: number) => n.toLocaleString('en-US');
-    const matching = !terms.length && !genre.value ? `${fmt(shown.length)} books` : `${fmt(shown.length)} matching books (${fmt(cards.length)} on the shelf)`;
+    const matching = shown.length === cards.length ? `${fmt(shown.length)} books` : `${fmt(shown.length)} matching books (${fmt(cards.length)} on the shelf)`;
     count.textContent = onPage.length ? `Showing ${start + 1}–${start + onPage.length} of ${matching}` : `Showing 0 of ${fmt(cards.length)} books`;
     empty.hidden = shown.length > 0;
     reportSearch(terms.join(' '), shown.length);
@@ -178,6 +181,7 @@ async function setUpShelf(): Promise<void> {
 
     const next = new URLSearchParams();
     if (search.value) next.set('q', search.value);
+    if (from.value) next.set('from', from.value);
     if (genre.value) next.set('genre', genre.value);
     if (sort.value !== 'popular') next.set('sort', sort.value);
     if (page > 1) next.set('page', String(page));
@@ -197,7 +201,7 @@ async function setUpShelf(): Promise<void> {
       track('Shelf Search', { results: found === 0 ? 'none' : 'some' });
     }, 1000);
   }
-  // A new search, genre or order starts again at the first page.
+  // A new search, source, genre or order starts again at the first page.
   const fromFirstPage = () => {
     page = 1;
     apply();
@@ -205,11 +209,13 @@ async function setUpShelf(): Promise<void> {
   search.addEventListener('input', fromFirstPage);
   byId('shelf-clear').addEventListener('click', () => {
     search.value = '';
+    from.value = '';
     genre.value = '';
     fromFirstPage();
     search.focus();
   });
   wideScreen.addEventListener('change', apply);
+  from.addEventListener('change', fromFirstPage);
   genre.addEventListener('change', fromFirstPage);
   sort.addEventListener('change', fromFirstPage);
   // The search filters as you type; Enter shouldn't reload the page.

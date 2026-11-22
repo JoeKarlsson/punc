@@ -6,6 +6,8 @@ import { dirname, join, normalize } from 'node:path';
 
 const catalog = JSON.parse(readFileSync('site/catalog.json', 'utf8')) as Array<{ slug: string; title: string; author: string; genres: string[]; rank: number | null; published: string | null; publishedSort: number | null }>;
 const modern = JSON.parse(readFileSync('site/modern.json', 'utf8')) as Array<{ slug: string; title: string; author: string; year: number }>;
+// Gutenberg and modern books share one shelf.
+const shelfSize = catalog.length + modern.length;
 // How many shelf books a one-word search finds in a title or author; a search finds modern books too.
 const shelfMatches = (word: string) => [...catalog, ...modern].filter(b => `${b.title} ${b.author}`.toLowerCase().includes(word)).length;
 
@@ -31,7 +33,7 @@ test('the front page opens on the shelf, most read first, a page at a time', asy
   await page.goto('./');
   // Only the page in view is drawn.
   await expect(page.locator('#shelf .cover')).toHaveCount(72);
-  await expect(page.locator('#shelf-count')).toHaveText(`Showing 1–72 of ${catalog.length.toLocaleString("en-US")} books`);
+  await expect(page.locator('#shelf-count')).toHaveText(`Showing 1–72 of ${shelfSize.toLocaleString("en-US")} books`);
   // Covers get dithered into pink-and-black posters.
   await expect(page.locator('#shelf .poster-art').first()).toBeVisible();
   await page.locator('#shelf').getByRole('link', { name: /Pride and Prejudice/ }).click();
@@ -64,7 +66,7 @@ test('the shelf searches by title or author, filters by genre, and sorts', async
   await page.getByLabel('Genre').selectOption('');
   await page.getByLabel('Sort').selectOption('short-sentences');
   const shelf = (await (await page.request.get('shelf.json')).json()) as Array<{ slug: string; wps: number; modern?: number }>;
-  const shortest = shelf.filter(b => b.modern === undefined).sort((a, b) => a.wps - b.wps).slice(0, 72).map(b => b.slug);
+  const shortest = [...shelf].sort((a, b) => a.wps - b.wps).slice(0, 72).map(b => b.slug);
   await expect.poll(() => visible.evaluateAll(els => els.map(el => (el as HTMLElement).dataset['slug']))).toEqual(shortest);
 
   await page.getByLabel('Sort').selectOption('oldest');
@@ -77,22 +79,22 @@ test('the shelf searches by title or author, filters by genre, and sorts', async
 });
 
 test('the shelf turns pages, keeps the page in the URL, and a new search starts at page one', async ({ page }) => {
-  const byRank = [...catalog].filter(b => b.rank !== null).sort((a, b) => a.rank! - b.rank!);
   await page.goto('./');
+  const shelf = (await (await page.request.get('shelf.json')).json()) as Array<{ slug: string }>;
   const visible = page.locator('#shelf .cover:not([hidden])');
   const pages = page.getByRole('navigation', { name: 'Shelf pages' });
   await pages.getByRole('button', { name: '2', exact: true }).click();
   await expect(page).toHaveURL(/\?page=2/);
-  await expect(page.locator('#shelf-count')).toHaveText(`Showing 73–144 of ${catalog.length.toLocaleString("en-US")} books`);
-  await expect(visible.first()).toHaveAttribute('data-slug', byRank[72]!.slug);
+  await expect(page.locator('#shelf-count')).toHaveText(`Showing 73–144 of ${shelfSize.toLocaleString("en-US")} books`);
+  await expect(visible.first()).toHaveAttribute('data-slug', shelf[72]!.slug);
   await expect(pages.getByRole('button', { name: '2', exact: true })).toHaveAttribute('aria-current', 'page');
   await expect(page.locator('#shelf-heading')).toBeFocused();
   await pages.getByRole('button', { name: 'Next' }).click();
   await expect(page).toHaveURL(/\?page=3/);
   await page.reload();
-  await expect(page.locator('#shelf-count')).toHaveText(`Showing 145–216 of ${catalog.length.toLocaleString("en-US")} books`);
+  await expect(page.locator('#shelf-count')).toHaveText(`Showing 145–216 of ${shelfSize.toLocaleString("en-US")} books`);
   // A computer screen offers every page, from Previous to Next.
-  const pageCount = Math.ceil(catalog.length / 72);
+  const pageCount = Math.ceil(shelfSize / 72);
   await expect(pages.getByRole('button')).toHaveCount(pageCount + 2);
   await expect(pages.getByRole('button', { name: String(pageCount), exact: true })).toBeVisible();
   await page.getByLabel('Search').fill('dracula');
@@ -351,17 +353,21 @@ test('a book page shows its fingerprint, how its marks change, and describes its
   await expect(rows.first().locator('rect')).toHaveCount(10);
 });
 
-test('modern books show under their own filter and in a search, not on the plain shelf', async ({ page }) => {
+test('modern books take turns with Gutenberg books on the shelf, and From narrows to either', async ({ page }) => {
   await page.goto('./');
   const visible = page.locator('#shelf .cover:not([hidden])');
-  await expect(page.locator('#shelf .cover-modern')).toHaveCount(0);
-  await page.getByLabel('Genre').selectOption('modern');
-  await expect(visible).toHaveCount(72);
+  // Most read: the most read Gutenberg book, then the best known modern one.
+  await expect(visible.nth(1)).toContainText(modern[0]!.title);
+  await expect(page.locator('#shelf .cover-modern')).toHaveCount(36);
+  await page.getByLabel('From').selectOption('modern');
   await expect(page.locator('#shelf .cover-modern .fingerprint')).toHaveCount(72);
-  await expect(visible.first()).toContainText(modern[0]!.title);
   await expect(page.locator('#shelf-count')).toContainText(`of ${modern.length.toLocaleString('en-US')} matching books`);
+  await expect(page).toHaveURL(/from=modern/);
+  await page.getByLabel('From').selectOption('gutenberg');
+  await expect(page.locator('#shelf .cover-modern')).toHaveCount(0);
+  await expect(page.locator('#shelf-count')).toContainText(`of ${catalog.length.toLocaleString('en-US')} matching books`);
 
-  await page.getByLabel('Genre').selectOption('');
+  await page.getByLabel('From').selectOption('');
   await page.getByLabel('Search').fill('orwell');
   await expect(visible).toHaveCount(shelfMatches('orwell'));
   await expect(page.locator('#shelf .cover-modern', { hasText: 'Nineteen Eighty-Four' })).toBeVisible();
@@ -397,7 +403,10 @@ test('the map places every book, with a tooltip and a table', async ({ page }) =
   await expect(page.locator('#map-tip')).toBeVisible();
   await expect(page.locator('#map-tip')).toContainText(/^Alice's Adventures in Wonderland, Lewis Carroll: [\d.]+ pauses per stop, [\d.]+% \? and !$/);
   await page.getByText("Every book's numbers as a table").click();
-  await expect(page.locator('.map-table tbody tr')).toHaveCount(catalog.length);
+  const rows = page.locator('.map-table tbody tr');
+  await expect(rows).toHaveCount(500);
+  await page.getByRole('button', { name: `Show 500 more (500 of ${shelfSize.toLocaleString('en-US')} shown)` }).click();
+  await expect(rows).toHaveCount(1000);
   await alice.press('Enter');
   await expect(page).toHaveURL(/books\/alice\/$/);
 });
@@ -408,6 +417,8 @@ test('the numbers page filters by genre, switches career measures and compares a
   await expect(charts).toHaveCount(6);
   const dated = await charts.first().locator('.chart-dot').count();
   expect(dated).toBeGreaterThan(300);
+  // A faint dot for each modern book on the charts with the modern line.
+  await expect(charts.first().locator('.chart-dot-modern')).toHaveCount(modern.filter(b => b.year < 2010).length);
   await page.selectOption('#genre-pick', 'Plays');
   await expect(page.locator('#genre-key')).toContainText('plays books');
   expect(await charts.first().locator('.chart-dot:not(.chart-dot-out)').count()).toBeLessThan(dated);
@@ -420,6 +431,10 @@ test('the numbers page filters by genre, switches career measures and compares a
   await page.selectOption('#compare-b', 'book:moby-dick');
   await expect(page.locator('#compare-out .compare-name').nth(1)).toHaveText('Moby-Dick');
   await expect(page.locator('#compare-out .compare-detail').nth(1)).toHaveText('Herman Melville, 1851');
+  // A modern book compares too; its dialogue needs the text, so it shows a dash.
+  await page.selectOption('#compare-a', 'book:nineteen-eighty-four');
+  await expect(page.locator('#compare-out .compare-name').first()).toHaveText('Nineteen Eighty-Four');
+  await expect(page.locator('#compare-out tr', { hasText: 'Dialogue' }).locator('td').first()).toHaveText('–');
 });
 
 test('Tab moves past the chart dots, and hovering a dot still shows its tooltip', async ({ page }) => {
@@ -580,7 +595,7 @@ test('every page type passes axe (WCAG 2.2 AA)', async ({ page }) => {
   }
 });
 
-test('the numbers page passes axe at phone width with the full table open', async ({ page }) => {
+test('the numbers page passes axe at phone width with the table open', async ({ page }) => {
   // Every book is a table row and a map dot, so axe needs longer than the default on CI.
   test.slow();
   // On a phone the map and the full table scroll sideways in their own frames.
@@ -588,7 +603,7 @@ test('the numbers page passes axe at phone width with the full table open', asyn
   await page.goto('numbers.html');
   await page.waitForLoadState('networkidle');
   await page.getByText("Every book's numbers as a table").click();
-  await expect(page.locator('.map-table tbody tr')).toHaveCount(catalog.length);
+  await expect(page.locator('.map-table tbody tr')).toHaveCount(500);
   await expectNoAxeViolations(page, 'numbers.html at phone width');
 });
 

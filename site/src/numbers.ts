@@ -29,7 +29,9 @@ export const METRICS: Metric[] = [
 
 export const metric = (key: MetricKey): Metric => METRICS.find(m => m.key === key)!;
 
+// NaN is a measure a book doesn't have: a modern book's dialogue needs its text.
 export function formatValue(key: MetricKey, value: number): string {
+  if (Number.isNaN(value)) return '–';
   return key === 'dialogue' ? `${Math.round(value * 100)}%` : value.toFixed(1);
 }
 
@@ -388,13 +390,22 @@ export function timelineSVG(books: BookNumbers[], key: MetricKey, genres: string
   const modernLine = modernPoints.length > 1 ? `<path class="chart-line chart-line-modern-outline" d="${modernPath}"/><path class="chart-line chart-line-modern" d="${modernPath}"/>` : '';
   const modernLabel = modernLine ? `; the modern shelf, by decade: ${formatValue(key, modernPoints[0]!.value)} in the ${modernPoints[0]!.from}s, ${formatValue(key, modernPoints.at(-1)!.value)} in the ${modernPoints.at(-1)!.from}s` : '';
   const m = metric(key);
-  return `<svg class="chart-svg" viewBox="0 0 ${W} ${H}" role="img" aria-label="${escapeHTML(`${m.label} over time, ${dated.length} books from ${TIMELINE_FROM} on: ${trendSentence(books, key)}${modernLabel}`)}">${grid}<g class="chart-dots" data-metric="${key}" data-max="${axis.max}"></g>${clauseLine}${line(dated, 'chart-line chart-line-all')}${modernLine}${genreLines}</svg>`;
+  return `<svg class="chart-svg" viewBox="0 0 ${W} ${H}" role="img" aria-label="${escapeHTML(`${m.label} over time, ${dated.length} books from ${TIMELINE_FROM} on: ${trendSentence(books, key)}${modernLabel}`)}">${grid}<g class="chart-dots" data-metric="${key}" data-max="${axis.max}"${modernLine ? ' data-modern=""' : ''}></g>${clauseLine}${line(dated, 'chart-line chart-line-all')}${modernLine}${genreLines}</svg>`;
 }
 
 export function timelineDots(books: BookNumbers[], key: MetricKey, axisMax: number): string {
   const y = valueY(TIMELINE, key, axisMax);
   return timelineBooks(books)
     .map(b => `<circle class="chart-dot" cx="${r1(timelineX(b.year!))}" cy="${r1(y(b[key]))}" r="4" data-genres="${escapeHTML(b.genres.join('|'))}" data-tip="${escapeHTML(bookTip(b, key))}"/>`)
+    .join('');
+}
+
+// The modern shelf's dots: faint, with no genre, from MODERN_FROM to the chart's end.
+export function modernTimelineDots(books: BookNumbers[], key: MetricKey, axisMax: number): string {
+  const y = valueY(TIMELINE, key, axisMax);
+  return books
+    .filter(b => b.year !== null && b.year >= MODERN_FROM && b.year < CHART_TO)
+    .map(b => `<circle class="chart-dot chart-dot-modern" cx="${r1(timelineX(b.year!))}" cy="${r1(y(b[key]))}" r="2" data-tip="${escapeHTML(bookTip(b, key))}"/>`)
     .join('');
 }
 
@@ -528,7 +539,7 @@ export const TABLE_METRICS: MetricKey[] = ['semicolon', 'comma', 'colon', 'excla
 // That table's rows, in the order given; the map's two measures close each row.
 export function numbersTableRows(books: BookNumbers[]): string {
   return books
-    .map(b => `<tr><th scope="row"><a href="books/${b.slug}/">${escapeHTML(b.title)}</a>, ${escapeHTML(b.author)}</th><td>${escapeHTML(b.yearLabel ?? '')}</td>${TABLE_METRICS.map(key => `<td>${formatValue(key, b[key])}</td>`).join('')}<td>${b.pausesPerStop.toFixed(1)}</td><td>${(b.loudness * 100).toFixed(1)}%</td></tr>`)
+    .map(b => `<tr><th scope="row"><a href="books/${b.slug}/">${escapeHTML(b.title)}</a>, ${escapeHTML(b.author)}</th><td>${escapeHTML(b.yearLabel ?? '')}</td>${TABLE_METRICS.map(key => `<td>${formatValue(key, b[key])}</td>`).join('')}${Number.isNaN(b.pausesPerStop) ? '<td>–</td><td>–</td>' : `<td>${b.pausesPerStop.toFixed(1)}</td><td>${(b.loudness * 100).toFixed(1)}%</td>`}</tr>`)
     .join('');
 }
 
@@ -639,7 +650,8 @@ export function authorPickHTML(author: string, books: BookNumbers[], guessed: Gu
 // were taken for, their average fingerprint, and every book with its guess.
 // Their career chart goes in under the fingerprint: `career` is its markup,
 // or empty where the page moves the chart in itself.
-export function authorDetailHTML(author: string, books: BookNumbers[], guessed: GuessedBySlug, spread: number, career = ''): string {
+// modernBooks: the author's books on the modern shelf, listed but not guessed or averaged.
+export function authorDetailHTML(author: string, books: BookNumbers[], guessed: GuessedBySlug, spread: number, career = '', modernBooks: BookNumbers[] = []): string {
   const dated = byYear(books);
   const named = dated.filter(b => guessedFor(b, guessed) === author).length;
   const missed = takenFor(author, books, guessed);
@@ -654,7 +666,11 @@ export function authorDetailHTML(author: string, books: BookNumbers[], guessed: 
         <p class="author-summary">${escapeHTML(summary)}</p>
         <div class="author-detail-body">
           <div class="author-detail-side"><p class="author-detail-label">Their average fingerprint</p>${fingerprintHTML(averageShares(books.map(b => b.shares)), 'fingerprint fingerprint-large')}${career}</div>
-          <ol class="author-detail-books">${rows}</ol>
+          <div><ol class="author-detail-books">${rows}</ol>${
+            modernBooks.length
+              ? `<p class="author-detail-label">On the modern shelf, counted from HathiTrust</p><ul class="modern-others">${byYear(modernBooks).map(b => `<li><a href="books/${b.slug}/">${escapeHTML(b.title)}</a> <span class="author-book-year">${escapeHTML(yearText(b))}</span></li>`).join('')}</ul>`
+              : ''
+          }</div>
         </div>`;
 }
 

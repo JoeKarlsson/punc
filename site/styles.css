@@ -2219,7 +2219,18 @@ code {
   }
 }
 
-/* The modern shelf has no dots, only its median for each decade from 1930. */
+/* The modern shelf: thousands of books in eighty years, so its dots are faint
+   and its median for each decade is a thick pink line over them. */
+.chart-dot-modern {
+  fill: var(--chalk);
+  stroke: none;
+  opacity: 0.16;
+}
+
+.genre-picked .chart-dot-modern {
+  display: none;
+}
+
 .chart-line-modern {
   stroke: var(--pink);
   stroke-width: 4;
@@ -2907,4 +2918,9 @@ code {
 .modern-credit {
   color: var(--muted);
   font-size: 0.9rem;
+}
+
+/* The numbers table draws a page of rows at a time. */
+.table-more {
+  margin: var(--space-3) 0 0;
 }

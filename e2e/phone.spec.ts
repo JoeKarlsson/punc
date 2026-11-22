@@ -3,6 +3,7 @@ import { readFileSync } from 'node:fs';
 
 // Runs in the iphone (iPhone 13 in WebKit, Safari's engine) and pixel (Pixel 7 in Chromium) projects.
 const catalog = JSON.parse(readFileSync('site/catalog.json', 'utf8')) as Array<{ slug: string }>;
+const shelfSize = catalog.length + (JSON.parse(readFileSync('site/modern.json', 'utf8')) as unknown[]).length;
 const PAGES = ['./', 'books/ulysses/', 'read.html', 'numbers.html', 'about.html'];
 
 test.beforeEach(({ page }) => {
@@ -36,7 +37,7 @@ test('the shelf shows a page of books, and the next page on a tap', async ({ pag
   const shelf = page.locator('#shelf li:visible');
   await expect(shelf).toHaveCount(24);
   await page.getByRole('navigation', { name: 'Shelf pages' }).getByRole('button', { name: 'Next' }).tap();
-  await expect(page.locator('#shelf-count')).toHaveText(`Showing 25–48 of ${catalog.length.toLocaleString("en-US")} books`);
+  await expect(page.locator('#shelf-count')).toHaveText(`Showing 25–48 of ${shelfSize.toLocaleString("en-US")} books`);
   await expect(shelf).toHaveCount(24);
 });
 

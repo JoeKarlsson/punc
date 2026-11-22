@@ -22,8 +22,10 @@ const MAX_TEXT_BYTES = 3.5 * 1024 * 1024;
 const DEFAULT_TOP = 2000;
 // Books kept on the shelf even when they drop out of the top list
 const EXTRA_IDS = ['1079', '12242', '67138'];
-// Other editions of books already on the shelf under a different title
-const REPEAT_EDITIONS = new Set(['2489', '15877', '55317', '2009', '41537', '1728', '50742', '5314', '27200', '25525']);
+// Other editions of books already on the shelf under a different title, or parts of them
+const REPEAT_EDITIONS = new Set(['2489', '15877', '55317', '2009', '41537', '1728', '50742', '5314', '27200', '25525', '39270', '7100', '47529']);
+// Not prose: The Fibonacci Number Series is a list of numbers, off the map's scale
+const NOT_PROSE = new Set(['302']);
 const SKIP_SHELVES = /Encyclopedias|Dictionaries|Reference|Language & Communication/;
 // Shorter titles and plain names where the catalog's don't read well
 const TITLES = {
@@ -405,7 +407,7 @@ async function main() {
     const row = byId.get(id);
     if (!row) { console.warn(`skip ${id}: not in catalog`); continue; }
     const [type, language, rawTitle, authors, shelves] = ['Type', 'Language', 'Title', 'Authors', 'Bookshelves'].map(c => row[col(c)] ?? '');
-    if (type !== 'Text' || language !== 'en' || SKIP_SHELVES.test(shelves)) { console.warn(`skip ${id}: ${type} ${language} ${rawTitle.slice(0, 30)}`); continue; }
+    if (type !== 'Text' || language !== 'en' || SKIP_SHELVES.test(shelves) || NOT_PROSE.has(id)) { console.warn(`skip ${id}: ${type} ${language} ${rawTitle.slice(0, 30)}`); continue; }
     const title = TITLES[id] ?? cleanTitle(rawTitle);
     const slug = SLUGS[id] ?? slugify(title);
     // Same title or slug ("Moby Dick", "Moby-Dick"): another edition, which would share the files.

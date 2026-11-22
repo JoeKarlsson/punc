@@ -2,6 +2,10 @@
 
 Joe's verdicts on Punc's design and data, newest first. Read before changing what they cover.
 
+## 2026-11-22: every matched modern novel, not just the best known
+
+- **The modern shelf takes every Wikidata novel from 1930–2010 that matched a HathiTrust volume well** (6,388), not only the best known (2,927). More books steady the decade line; the shelf is no longer only famous books. Same rules: no late editions, nothing under 20,000 words, one page per scanned volume.
+
 ## 2026-11-22: fingerprints for modern books
 
 - **Modern books get fingerprints and all ten marks.** Counted character by character the way Punc counts a text (brackets decoded from -LRB-/-RRB-, `` and '' as quotes), a novel's HathiTrust fingerprint is typically 18% of the gap between two shelf books from its Punc fingerprint, and finds its own book first of 2,456 for 10 of 17 test novels. Dashes run about a fifth high (cause not confirmed). Twins and the map stay off: the error is often bigger than the gap to a book's twin, and the map spot moves more than 10% for 7 of 17.

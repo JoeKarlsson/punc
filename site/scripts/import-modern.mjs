@@ -47,9 +47,13 @@ const worker = async () => {
 await Promise.all(Array.from({ length: 8 }, worker));
 
 const books = [];
+const usedVolumes = new Set();
 for (const [i, entry] of manifest.entries()) {
   const { words, wordsPerSentence, counts, tenths } = reduced[i];
   if (words < MIN_WORDS) continue;
+  // Wikidata lists some works twice; both match the same scanned volume.
+  if (usedVolumes.has(entry.htid)) continue;
+  usedVolumes.add(entry.htid);
   if (onGutenberg.has(`${slugify(entry.title)} ${surname(entry.author)}`)) { console.log(`skip ${entry.title}: on the Gutenberg shelf`); continue; }
   // A title another book already has gets its year: Gutenberg's Ulysses keeps "ulysses".
   let slug = slugify(entry.title);

@@ -70,9 +70,10 @@ function Pandoc(doc)
   for _, a in ipairs(doc.meta.author or {}) do
     local parts = {stringify(a.name)}
     if a.affiliation then table.insert(parts, "\\\\ \\small " .. stringify(a.affiliation)) end
-    if a.orcid and stringify(a.orcid) ~= "" then
-      table.insert(parts, "\\\\ \\small ORCID \\href{https://orcid.org/" .. stringify(a.orcid) .. "}{"
-        .. stringify(a.orcid) .. "}")
+    -- Metadata is read as Markdown, whose smart punctuation turns the iD's hyphens into en dashes
+    local orcid = a.orcid and stringify(a.orcid):gsub("\u{2013}", "-") or ""
+    if orcid ~= "" then
+      table.insert(parts, "\\\\ \\small ORCID \\href{https://orcid.org/" .. orcid .. "}{" .. orcid .. "}")
     end
     table.insert(authors, pandoc.MetaInlines({pandoc.RawInline("latex", table.concat(parts, " "))}))
   end

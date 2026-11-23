@@ -386,6 +386,9 @@ test('a modern book page shows its HathiTrust counts and fingerprint, credits Ha
   await expect(page.locator('.book-poster')).toHaveAttribute('href', /^https:\/\/hdl\.handle\.net\/2027\//);
   await expect(page.locator('.modern-credit')).toContainText('CC BY 4.0');
   await expect(page.locator('[data-view], #score, #spiral-canvas')).toHaveCount(0);
+  await page.getByRole('link', { name: 'the modern shelf' }).click();
+  await expect(page).toHaveURL(/\/\?from=modern$/);
+  await expect(page.getByLabel('From')).toHaveValue('modern');
 });
 
 test('every shelf card has a fingerprint', async ({ page }) => {

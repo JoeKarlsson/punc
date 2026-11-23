@@ -139,7 +139,7 @@ export function modernPageHTML(book: ModernBook, context: ModernPageContext): st
     <ol id="counts" class="counts">${countsHTML(counts)}</ol>
   </section>
 
-  <p class="another">Go back to <a href="./?genre=modern">the modern shelf</a></p>
+  <p class="another">Go back to <a href="?from=modern">the modern shelf</a></p>
   <p class="modern-credit">Counts from the HathiTrust Research Center's <a href="${HATHITRUST_DATASET}">Extracted Features dataset</a>, CC BY 4.0. <a href="${hathiTrustRecord(book.htid)}">This edition on HathiTrust</a>.</p>
 </article>`;
 }

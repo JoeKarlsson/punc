@@ -95,3 +95,53 @@ test('nav, buttons, links and fields are at least 44 pixels tall to tap', async 
     expect(small, path).toEqual([]);
   }
 });
+
+// The heaviest pages, scrolled top to bottom with every view opened, without a
+// crash, a reload or an error: WebKit on an iPhone reloads a tab that runs out
+// of memory (from the 2026-11-23 performance review).
+test('the heaviest pages load and scroll to the bottom without a crash or reload', async ({ page }) => {
+  test.setTimeout(120_000);
+  let crashed = false;
+  page.on('crash', () => (crashed = true));
+  // One action for the whole scroll: the trace snapshots the page after every
+  // action, which takes seconds on pages this big.
+  const scrollToBottom = () =>
+    page.evaluate(async () => {
+      for (let y = 0; y < document.documentElement.scrollHeight; y += 4000) {
+        window.scrollTo(0, y);
+        await new Promise(resolve => requestAnimationFrame(() => setTimeout(resolve, 50)));
+      }
+    });
+  // Every view of a long book, and every view but the spiral of the longest (below).
+  const VIEWS: Record<string, string[]> = {
+    'books/moby-dick/': ['Spiral', 'Pages', 'Counts', 'Score'],
+    'books/the-manual-of-the-botany-of-the-northern-united-states/': ['Pages', 'Counts', 'Score'],
+  };
+  for (const path of ['./', ...Object.keys(VIEWS), 'numbers.html', 'books/']) {
+    let loads = 0;
+    const countLoad = () => loads++;
+    page.on('load', countLoad);
+    await page.goto(path);
+    if (VIEWS[path]) {
+      await expect(page.locator('#book[data-ready]')).toBeAttached();
+      for (const view of VIEWS[path]!) {
+        await page.getByRole('button', { name: view, exact: true }).tap();
+        await scrollToBottom();
+        await page.evaluate(() => window.scrollTo(0, 0));
+      }
+    } else await scrollToBottom();
+    page.off('load', countLoad);
+    expect(crashed, path).toBe(false);
+    expect(loads, `${path} reloaded`).toBe(1);
+  }
+});
+
+// Safari paints the spiral on the main thread (canvas.ts), and WebKit takes about
+// two minutes to show a frame of the whole spiral for this book's 208,040 marks.
+// Found 2026-11-23; open until the spiral draws marks too small to read more cheaply.
+test.fixme('the spiral of the longest book shows within a few seconds', async ({ page }) => {
+  await page.goto('books/the-manual-of-the-botany-of-the-northern-united-states/');
+  await expect(page.locator('#book[data-ready]')).toBeAttached();
+  await page.getByRole('button', { name: 'Spiral', exact: true }).tap();
+  await page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve))));
+});

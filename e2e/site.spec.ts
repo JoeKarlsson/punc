@@ -3,6 +3,7 @@ import { expect, test, type Page } from '@playwright/test';
 import { execFileSync } from 'node:child_process';
 import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import { dirname, join, normalize } from 'node:path';
+import { gzipSync } from 'node:zlib';
 
 const catalog = JSON.parse(readFileSync('site/catalog.json', 'utf8')) as Array<{ slug: string; title: string; author: string; genres: string[]; rank: number | null; published: string | null; publishedSort: number | null }>;
 const modern = JSON.parse(readFileSync('site/modern.json', 'utf8')) as Array<{ slug: string; title: string; author: string; year: number }>;
@@ -65,8 +66,8 @@ test('the shelf searches by title or author, filters by genre, and sorts', async
 
   await page.getByLabel('Genre').selectOption('');
   await page.getByLabel('Sort').selectOption('short-sentences');
-  const shelf = (await (await page.request.get('shelf.json')).json()) as Array<{ slug: string; wps: number; modern?: number }>;
-  const shortest = [...shelf].sort((a, b) => a.wps - b.wps).slice(0, 72).map(b => b.slug);
+  const { slug, wps } = (await (await page.request.get('shelf-index.json')).json()) as { slug: string[]; wps: number[] };
+  const shortest = slug.map((s, i) => ({ s, wps: wps[i]! })).sort((a, b) => a.wps - b.wps).slice(0, 72).map(b => b.s);
   await expect.poll(() => visible.evaluateAll(els => els.map(el => (el as HTMLElement).dataset['slug']))).toEqual(shortest);
 
   await page.getByLabel('Sort').selectOption('oldest');
@@ -80,13 +81,13 @@ test('the shelf searches by title or author, filters by genre, and sorts', async
 
 test('the shelf turns pages, keeps the page in the URL, and a new search starts at page one', async ({ page }) => {
   await page.goto('./');
-  const shelf = (await (await page.request.get('shelf.json')).json()) as Array<{ slug: string }>;
+  const { slug: shelf } = (await (await page.request.get('shelf-index.json')).json()) as { slug: string[] };
   const visible = page.locator('#shelf .cover:not([hidden])');
   const pages = page.getByRole('navigation', { name: 'Shelf pages' });
   await pages.getByRole('button', { name: '2', exact: true }).click();
   await expect(page).toHaveURL(/\?page=2/);
   await expect(page.locator('#shelf-count')).toHaveText(`Showing 73–144 of ${shelfSize.toLocaleString("en-US")} books`);
-  await expect(visible.first()).toHaveAttribute('data-slug', shelf[72]!.slug);
+  await expect(visible.first()).toHaveAttribute('data-slug', shelf[72]!);
   await expect(pages.getByRole('button', { name: '2', exact: true })).toHaveAttribute('aria-current', 'page');
   await expect(page.locator('#shelf-heading')).toBeFocused();
   await pages.getByRole('button', { name: 'Next' }).click();
@@ -391,6 +392,13 @@ test('a modern book page shows its HathiTrust counts and fingerprint, credits Ha
   await expect(page.getByLabel('From')).toHaveValue('modern');
 });
 
+test('every book, A to Z, links each title to its page', async ({ page }) => {
+  await page.goto('books/');
+  await expect(page.locator('.az-list a')).toHaveCount(shelfSize);
+  await page.locator('.az-list a', { hasText: 'Moby-Dick' }).first().click();
+  await expect(page).toHaveURL(/\/books\/moby-dick\/$/);
+});
+
 test('every shelf card has a fingerprint', async ({ page }) => {
   await page.goto('./');
   await expect(page.locator('#shelf .cover .fingerprint')).toHaveCount(72);
@@ -407,9 +415,9 @@ test('the map places every book, with a tooltip and a table', async ({ page }) =
   await expect(page.locator('#map-tip')).toContainText(/^Alice's Adventures in Wonderland, Lewis Carroll: [\d.]+ pauses per stop, [\d.]+% \? and !$/);
   await page.getByText("Every book's numbers as a table").click();
   const rows = page.locator('.map-table tbody tr');
-  await expect(rows).toHaveCount(500);
-  await page.getByRole('button', { name: `Show 500 more (500 of ${shelfSize.toLocaleString('en-US')} shown)` }).click();
-  await expect(rows).toHaveCount(1000);
+  await expect(rows).toHaveCount(150);
+  await page.getByRole('button', { name: `Show 150 more (150 of ${shelfSize.toLocaleString('en-US')} shown)` }).click();
+  await expect(rows).toHaveCount(300);
   await alice.press('Enter');
   await expect(page).toHaveURL(/books\/alice\/$/);
 });
@@ -432,11 +440,14 @@ test('the numbers page filters by genre, switches career measures and compares a
   await expect(career).toHaveAttribute('aria-label', /words per sentence against the shelf/);
   await expect(page.locator('#author-career .chart-dot').first()).toHaveAttribute('data-tip', /words per sentence$/);
   await expect(page.locator('#compare-out .compare-name').first()).toHaveText('Jane Austen');
-  await page.selectOption('#compare-b', 'book:moby-dick');
+  await expect(page.locator('#compare-list option[value="Moby-Dick, Herman Melville"]')).toHaveCount(1);
+  await page.locator('#compare-b').fill('Moby-Dick, Herman Melville');
+  await page.locator('#compare-b').press('Enter');
   await expect(page.locator('#compare-out .compare-name').nth(1)).toHaveText('Moby-Dick');
   await expect(page.locator('#compare-out .compare-detail').nth(1)).toHaveText('Herman Melville, 1851');
   // A modern book compares too; its dialogue needs the text, so it shows a dash.
-  await page.selectOption('#compare-a', 'book:nineteen-eighty-four');
+  await page.locator('#compare-a').fill('Nineteen Eighty-Four, George Orwell');
+  await page.locator('#compare-a').press('Enter');
   await expect(page.locator('#compare-out .compare-name').first()).toHaveText('Nineteen Eighty-Four');
   await expect(page.locator('#compare-out tr', { hasText: 'Dialogue' }).locator('td').first()).toHaveText('–');
 });
@@ -607,7 +618,7 @@ test('the numbers page passes axe at phone width with the table open', async ({ 
   await page.goto('numbers.html');
   await page.waitForLoadState('networkidle');
   await page.getByText("Every book's numbers as a table").click();
-  await expect(page.locator('.map-table tbody tr')).toHaveCount(500);
+  await expect(page.locator('.map-table tbody tr')).toHaveCount(150);
   await expectNoAxeViolations(page, 'numbers.html at phone width');
 });
 
@@ -722,4 +733,74 @@ test('every built page has complete metadata, and every internal link and asset 
   const aboutLastmod = readFileSync(join(OUT, 'sitemap.xml'), 'utf8').match(/about\.html<\/loc><lastmod>([^<]+)</)?.[1];
   const aboutCommitted = execFileSync('git', ['log', '-1', '--format=%cs', '--', 'site/pages/about.html'], { encoding: 'utf8' }).trim();
   expect(aboutLastmod! >= aboutCommitted).toBe(true);
+});
+
+// The shelf's search and sort data is all the front page loads; the cards past
+// the first page wait until one is wanted (finding 5 of the 2026-11-23 performance review).
+test('the front page loads only the shelf index until a card past the first page is wanted', async ({ page }) => {
+  const fetched: string[] = [];
+  page.on('request', r => fetched.push(new URL(r.url()).pathname));
+  await page.goto('./');
+  await expect(page.locator('#shelf-controls')).toBeVisible();
+  await expect(page.locator('#shelf-count')).toContainText(shelfSize.toLocaleString('en-US'));
+  expect(fetched).toContain('/shelf-index.json');
+  expect(fetched).not.toContain('/shelf-faces.json');
+  await page.getByRole('navigation', { name: 'Shelf pages' }).getByRole('button', { name: '2', exact: true }).click();
+  await expect(page.locator('#shelf .cover').first()).toHaveAttribute('data-slug', /.+/);
+  expect(fetched).toContain('/shelf-faces.json');
+});
+
+const gzippedSize = async (page: Page, file: string) => gzipSync(await (await page.request.get(file)).body()).length;
+// A number's significant digits: 0.003612 has 4.
+const significantDigits = (n: number) => String(Math.abs(n)).replace('.', '').replace(/^0+/, '').length;
+
+test('the shelf and numbers data stay within their download budgets, rounded to what the page shows', async ({ page }) => {
+  // Budgets: the 2026-11-23 sizes plus about 5%, for a growing shelf.
+  expect(await gzippedSize(page, 'shelf-index.json')).toBeLessThan(350_000);
+  expect(await gzippedSize(page, 'numbers-columns.json') + (await gzippedSize(page, 'modern-numbers.json'))).toBeLessThan(600_000);
+  for (const file of ['numbers-columns.json', 'modern-numbers.json', 'books.json']) {
+    const loose: number[] = [];
+    JSON.parse((await (await page.request.get(file)).text()), (_, value: unknown) => {
+      if (typeof value === 'number' && !Number.isInteger(value) && significantDigits(value) > 5) loose.push(value);
+      return value;
+    });
+    expect(loose, file).toEqual([]);
+  }
+});
+
+test('the first feature tile on the numbers and about pages loads at once', async ({ page }) => {
+  for (const path of ['numbers.html', 'about.html']) {
+    await page.goto(path);
+    await expect(page.locator('.tiles li:first-child img'), path).not.toHaveAttribute('loading', 'lazy');
+  }
+});
+
+// On a slow phone the page paints before its fonts arrive. The fallback fonts
+// are sized to Fraunces and Anton, so nothing jumps when they swap in (finding 1
+// of the 2026-11-23 performance review).
+test('the front page does not jump when its fonts arrive after it paints', async ({ browser }) => {
+  const context = await browser.newContext({ viewport: { width: 412, height: 823 }, isMobile: true, hasTouch: true, deviceScaleFactor: 2 });
+  const page = await context.newPage();
+  // Every shift counts: the test never touches the page, though Chrome's phone
+  // emulation marks the font swap's shift as just after input.
+  await page.addInitScript(() => {
+    const state = { total: 0, observer: new PerformanceObserver(list => (state.total += sum(list.getEntries()))) };
+    const sum = (entries: PerformanceEntryList) => entries.reduce((s, e) => s + (e as PerformanceEntry & { value: number }).value, 0);
+    state.observer.observe({ type: 'layout-shift', buffered: true });
+    (window as unknown as { shiftTotal: () => number }).shiftTotal = () => state.total + sum(state.observer.takeRecords());
+  });
+  // The fonts arrive only once the page has painted in the fallbacks, as on a slow phone.
+  await page.route(/\.woff2$/, async route => {
+    await page.waitForFunction(() => performance.getEntriesByName('first-contentful-paint').length > 0);
+    await route.continue();
+  });
+  await page.goto('./');
+  const total = await page.evaluate(async () => {
+    await Promise.all([document.fonts.load('400 16px Fraunces'), document.fonts.load('16px Anton')]);
+    // The swap's shift is reported with the next frames.
+    await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+    return (window as unknown as { shiftTotal: () => number }).shiftTotal();
+  });
+  expect(total).toBeLessThan(0.1);
+  await context.close();
 });

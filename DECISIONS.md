@@ -2,6 +2,11 @@
 
 Joe's verdicts on Punc's design and data, newest first. Read before changing what they cover.
 
+## 2026-11-23: performance fixes (fonts never swap late; compare by typing)
+
+- **Fraunces and Anton use `font-display: optional`** (option B), with fallbacks sized to them. If the fonts aren't there within about a tenth of a second, that page view stays in the resized Georgia and Impact and never swaps; later pages and visits get the cached fonts. Chosen over a late swap with resized fallbacks (option A), which still jumped 0.1 to 0.5 depending on screen width.
+- **Compare any two is two text fields sharing one list of suggestions**, in place of two menus of every book.
+
 ## 2026-11-22: modern books on the main shelf and the numbers page (option A)
 
 - **One shelf.** Modern books sit on the main shelf with the Gutenberg books; "Most read" takes turns between the two lists, each in its own order (Gutenberg downloads, Wikipedia languages). A "From" menu narrows to Project Gutenberg or 1930 on. Chosen over a separate "Since 1930" row below the Gutenberg shelf (option B).

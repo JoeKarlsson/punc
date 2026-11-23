@@ -1,9 +1,11 @@
 // Search, source and genre filters, sort and pages for the shelf. The page arrives with
-// the first page of cards built in; the whole shelf comes from shelf.json,
-// and only the cards on the page in view are ever drawn, so a shelf of
-// hundreds costs no more than one page. The choices live in the URL so they
+// the first page of cards built in; what search and sort need comes from
+// shelf-index.json, and what the other cards show from shelf-faces.json, fetched
+// only once a card past the first page is wanted. Only the cards on the page in
+// view are ever drawn, so a shelf of thousands costs no more than one page. The choices live in the URL so they
 // can be shared.
-import { cardHTML, type ShelfBook } from './card';
+import { cardHTML, withFace, type ShelfFaces, type ShelfIndexBook } from './card';
+import { fromColumns, type Columns } from './columns';
 import { closestMatch } from './closest-page';
 import { afterFirstPaint } from './first-paint';
 import { initPosters } from './posters';
@@ -16,19 +18,21 @@ import { normalizeForSearch, pageLinks, SHELF_PAGE_SIZE, SHELF_PAGE_SIZE_PHONE }
 const wideScreen = window.matchMedia('(min-width: 900px)');
 
 interface Card {
-  book: ShelfBook;
+  book: ShelfIndexBook;
   // Search text: title and author, normalized
   text: string;
+  // The author's last name, for sorting by author
+  authorSort: string;
   // Drawn the first time it's on the page in view
   el: HTMLElement | undefined;
-  // Its place in shelf.json, which comes in "Most read" order
+  // Its place in the shelf files, which come in "Most read" order
   order: number;
 }
 
 const SORTS: Record<string, (a: Card, b: Card) => number> = {
   popular: (a, b) => a.order - b.order,
   title: (a, b) => a.book.title.localeCompare(b.book.title),
-  author: (a, b) => a.book.authorSort.localeCompare(b.book.authorSort) || a.book.title.localeCompare(b.book.title),
+  author: (a, b) => a.authorSort.localeCompare(b.authorSort) || a.book.title.localeCompare(b.book.title),
   // Books without a year go last either way
   oldest: (a, b) => (a.book.publishedSort ?? Infinity) - (b.book.publishedSort ?? Infinity),
   newest: (a, b) => (b.book.publishedSort ?? -Infinity) - (a.book.publishedSort ?? -Infinity),
@@ -59,18 +63,27 @@ async function setUpShelf(): Promise<void> {
 
   // The first page of cards is already in the HTML, so the whole shelf can wait.
   await afterFirstPaint();
-  const res = await fetch('shelf.json', { priority: 'low' });
-  if (!res.ok) throw new Error(`Couldn't load the shelf (${res.status})`);
-  const books = (await res.json()) as ShelfBook[];
+  const books = fromColumns(await loadJSON<Columns<ShelfIndexBook>>('shelf-index.json'));
   // Reuse the cards already in the page.
   const built = new Map([...list.querySelectorAll<HTMLElement>('li[data-slug]')].map(el => [el.dataset['slug'], el]));
   const cards: Card[] = books.map((book, order) => ({
     book,
     text: normalizeForSearch(`${book.title} ${book.author}`),
+    authorSort: book.author.split(' ').at(-1)!,
     el: built.get(book.slug),
     order,
   }));
-  const fromMatches = (c: Card) => !from.value || (from.value === 'modern') === (c.book.modern !== undefined);
+  // Fetched the first time a card that isn't in the page is wanted, or the
+  // controls are touched, so the wait is usually over by the time it's needed.
+  let faces: ShelfFaces | undefined;
+  let facesLoading: Promise<void> | undefined;
+  const loadFaces = () =>
+    (facesLoading ??= loadJSON<ShelfFaces>('shelf-faces.json').then(loaded => {
+      faces = loaded;
+    }));
+  controls.addEventListener('focusin', () => void loadFaces(), { once: true });
+  pages.addEventListener('pointerover', () => void loadFaces(), { once: true });
+  const fromMatches = (c: Card) => !from.value || (from.value === 'modern') === (c.book.modern !== null);
   // A search term that matches nothing gets the nearest word on the shelf
   // instead, if that finds something: "frankenstien" offers "frankenstein".
   const vocabulary = new Set(cards.flatMap(c => c.text.split(' ').filter(word => word.length >= 3)));
@@ -82,9 +95,9 @@ async function setUpShelf(): Promise<void> {
   };
   const suggest = byId('shelf-suggest');
   const template = document.createElement('template');
-  const draw = (card: Card, i: number): HTMLElement => {
+  const draw = (card: Card, i: number, loaded: ShelfFaces): HTMLElement => {
     if (!card.el) {
-      template.innerHTML = cardHTML(card.book, i);
+      template.innerHTML = cardHTML(withFace(card.book, loaded, card.order), i);
       card.el = template.content.firstElementChild as HTMLElement;
       initPosters(card.el);
     }
@@ -135,7 +148,13 @@ async function setUpShelf(): Promise<void> {
     const pageCount = Math.max(1, Math.ceil(shown.length / pageSize));
     page = Math.min(page, pageCount);
     const start = (page - 1) * pageSize;
-    const onPage = shown.slice(start, start + pageSize).map((c, i) => draw(c, start + i));
+    const wanted = shown.slice(start, start + pageSize);
+    if (!faces && wanted.some(c => !c.el)) {
+      // Drawn once the faces arrive, from whatever is picked by then.
+      loadFaces().then(apply, showLoadError);
+      return;
+    }
+    const onPage = wanted.map((c, i) => draw(c, start + i, faces!));
     // The first page as built needs no redraw.
     if (onPage.length !== list.children.length || onPage.some((el, i) => list.children[i] !== el)) list.replaceChildren(...onPage);
     list.dataset['paged'] = '';
@@ -224,11 +243,19 @@ async function setUpShelf(): Promise<void> {
   apply();
 }
 
-initPosters();
-initShare();
-void afterFirstPaint().then(initScanner);
-setUpShelf().catch((error: unknown) => {
+async function loadJSON<T>(file: string): Promise<T> {
+  const res = await fetch(file, { priority: 'low' });
+  if (!res.ok) throw new Error(`Couldn't load ${file} (${res.status})`);
+  return res.json() as Promise<T>;
+}
+
+function showLoadError(error: unknown): never {
   byId('shelf-empty').textContent = "The rest of the shelf didn't load. Reload the page to try again.";
   byId('shelf-empty').hidden = false;
   throw error;
-});
+}
+
+initPosters();
+initShare();
+void afterFirstPaint().then(initScanner);
+setUpShelf().catch(showLoadError);

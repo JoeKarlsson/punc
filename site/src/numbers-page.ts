@@ -1,5 +1,5 @@
 // The numbers page. The build draws each chart's frame and median lines;
-// this loads numbers.json and draws the books into them and the map
+// this loads numbers-columns.json and draws the books into them and the map
 // (thousands of dots would make the page slow to arrive), and runs the
 // tooltips, the genre and measure pickers, the comparison and the table of
 // every book.
@@ -19,6 +19,7 @@ import {
   type MetricKey,
   type Profile,
 } from './numbers';
+import { fromColumns, type Columns } from './columns';
 import { normalizeForSearch } from './paging';
 import { mapSVG } from './patterns';
 import { initFigures } from './figures';
@@ -31,15 +32,19 @@ const need = <T extends Element>(selector: string, within: ParentNode = document
   return el;
 };
 
-const TABLE_PAGE = 500;
+const TABLE_PAGE = 150;
 const tooltips = (chart: HTMLElement) => setUpMapTooltips(chart, need<HTMLElement>('.map-tip', chart));
 
 const genrePick = need<HTMLSelectElement>('#genre-pick');
 const genreKey = need<HTMLElement>('#genre-key');
 const time = need<HTMLElement>('#time');
 const careerPick = need<HTMLSelectElement>('#career-pick');
-const pickA = need<HTMLSelectElement>('#compare-a');
-const pickB = need<HTMLSelectElement>('#compare-b');
+const pickA = need<HTMLInputElement>('#compare-a');
+const pickB = need<HTMLInputElement>('#compare-b');
+const compareList = need<HTMLDataListElement>('#compare-list');
+// What each compare choice reads, "author:Name" or "book:slug". The build lists
+// the authors; the books join once the shelf loads.
+const compareKeys = new Map([...compareList.options].map(o => [o.value, `author:${o.value}`]));
 const out = need<HTMLElement>('#compare-out');
 const table = need<HTMLDetailsElement>('#numbers-table');
 const authorSearch = need<HTMLInputElement>('#author-search');
@@ -48,7 +53,7 @@ const authorDetail = need<HTMLElement>('#author-detail');
 const career = need<HTMLElement>('#author-career');
 const careerNone = need<HTMLElement>('#career-none');
 const picks = [...document.querySelectorAll<HTMLButtonElement>('.author-pick')];
-// numbers.json, once it has loaded, and modern-numbers.json (the modern shelf)
+// numbers-columns.json, once it has loaded, and modern-numbers.json (the modern shelf)
 let loadedShelf: BookNumbers[] | null = null;
 let loadedModern: BookNumbers[] = [];
 let pickedAuthor = '';
@@ -69,13 +74,13 @@ function showGenre(): void {
     : 'The white line is the median of every book.';
 }
 
-// The options read "author:Name" or "book:slug". An author is their Gutenberg books.
+// "author:Name" or "book:slug". An author is their Gutenberg books.
 function profileFor(value: string, shelf: BookNumbers[]): Profile {
   const split = value.indexOf(':');
   const [kind, id] = [value.slice(0, split), value.slice(split + 1)];
   if (kind === 'author') return authorProfile(id, shelf.filter(b => b.author === id));
   const book = shelf.find(b => b.slug === id) ?? loadedModern.find(b => b.slug === id);
-  if (!book) throw new Error(`No book ${id} in numbers.json or modern-numbers.json`);
+  if (!book) throw new Error(`No book ${id} in numbers-columns.json or modern-numbers.json`);
   return bookProfile(book);
 }
 
@@ -91,7 +96,7 @@ function drawCareer(shelf: BookNumbers[]): void {
 }
 
 // Show one author in full. The build wrote in the first; the rest are drawn
-// from numbers.json and the guesses carried by their list row.
+// from numbers-columns.json and the guesses carried by their list row.
 function pickAuthor(button: HTMLButtonElement, shelf: BookNumbers[] | null): void {
   pickedAuthor = button.dataset['author'] ?? '';
   for (const other of picks) other.setAttribute('aria-pressed', String(other === button));
@@ -134,15 +139,24 @@ async function drawBooks([shelf, modern]: [BookNumbers[], BookNumbers[]]): Promi
   await yieldToBrowser();
 
   const byTitle = [...shelf, ...modern].sort((a, b) => a.title.localeCompare(b.title));
-  for (const pick of [pickA, pickB]) {
-    const books = need<HTMLOptGroupElement>('optgroup[label="Books"]', pick);
-    // Thousands of options: a share at a time, so the page keeps answering taps.
-    for (let i = 0; i < byTitle.length; i += 1000) {
-      books.append(...byTitle.slice(i, i + 1000).map(b => new Option(`${b.title}, ${b.author}`, `book:${b.slug}`)));
-      await yieldToBrowser();
-    }
-    pick.addEventListener('change', () => (out.innerHTML = compareHTML(profileFor(pickA.value, shelf), profileFor(pickB.value, shelf))));
+  // Thousands of options: a share at a time, so the page keeps answering taps.
+  for (let i = 0; i < byTitle.length; i += 1000) {
+    compareList.append(
+      ...byTitle.slice(i, i + 1000).map(b => {
+        let label = `${b.title}, ${b.author}`;
+        if (compareKeys.has(label)) label += ` (${b.year ?? b.slug})`;
+        compareKeys.set(label, `book:${b.slug}`);
+        return new Option(label, label);
+      })
+    );
+    await yieldToBrowser();
   }
+  // Text that names nothing on the list leaves the comparison as it was.
+  const compare = () => {
+    const [a, b] = [compareKeys.get(pickA.value), compareKeys.get(pickB.value)];
+    if (a && b) out.innerHTML = compareHTML(profileFor(a, shelf), profileFor(b, shelf));
+  };
+  for (const pick of [pickA, pickB]) pick.addEventListener('change', compare);
 
   await yieldToBrowser();
   drawCareer(shelf);
@@ -187,7 +201,7 @@ function findAuthor(shelf: BookNumbers[] | null): void {
     rememberAuthor();
   }
 
-  // Until numbers.json loads there's no shelf to look further in.
+  // Until numbers-columns.json loads there's no shelf to look further in.
   authorFound.hidden = terms.length === 0 || shown.length > 0 || shelf === null;
   if (authorFound.hidden || shelf === null) return;
   const books = [...shelf, ...loadedModern].filter(b => matches(b.author));
@@ -235,13 +249,13 @@ else {
 const loadJSON = async (file: string) => {
   const response = await fetch(file, { priority: 'low' });
   if (!response.ok) throw new Error(`${file}: ${response.status}`);
-  return response.json() as Promise<BookNumbers[]>;
+  return fromColumns((await response.json()) as Columns<BookNumbers>);
 };
 // modern-numbers.json leaves out what every modern book has the same (build.mjs).
 const asModern = (books: BookNumbers[]) =>
   books.map(b => ({ ...b, yearLabel: String(b.year), genres: [], rank: null, dialogue: NaN, pausesPerStop: NaN, loudness: NaN }));
 afterFirstPaint()
-  .then(() => Promise.all([loadJSON('numbers.json'), loadJSON('modern-numbers.json').then(asModern)]))
+  .then(() => Promise.all([loadJSON('numbers-columns.json'), loadJSON('modern-numbers.json').then(asModern)]))
   .then(drawBooks)
   .catch((error: unknown) => {
     genreKey.textContent = "The books couldn't load, so the charts show only their median lines. Reload the page to try again.";

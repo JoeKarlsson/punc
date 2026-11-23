@@ -3,7 +3,7 @@
   <p class="lede">Punc took the words out of {{books}} books and counted the punctuation that was left. Here's what changed.</p>
 
   <ul class="tiles" aria-label="What Punc found">
-    <li><a class="tile" href="#time"><img src="features/semicolons.webp" alt="" width="720" height="300" loading="lazy"><span class="tile-num">{{semiFrom}}<small> to </small>{{semiTo}}</span><span class="tile-say"><u>Semicolons nearly vanished.</u> Per 1,000 words, {{semiFirstSpan}} against {{semiLastSpan}}.</span></a></li>
+    <li><a class="tile" href="#time"><img src="features/semicolons.webp" alt="" width="720" height="300" fetchpriority="high"><span class="tile-num">{{semiFrom}}<small> to </small>{{semiTo}}</span><span class="tile-say"><u>Semicolons nearly vanished.</u> Per 1,000 words, {{semiFirstSpan}} against {{semiLastSpan}}.</span></a></li>
     <li><a class="tile" href="#time"><img src="features/sentences.webp" alt="" width="720" height="300" loading="lazy"><span class="tile-num">{{sentenceFrom}}<small> to </small>{{sentenceTo}}</span><span class="tile-say"><u>Sentences got shorter.</u> Words per sentence, {{firstSpan}} against {{lastSpan}}. About 40% of that is punctuation.</span></a></li>
     <li><a class="tile" href="#authors"><img src="features/authors.webp" alt="" width="720" height="300" loading="lazy"><span class="tile-num">{{hitRate}}</span><span class="tile-say"><u>The marks alone can name the author.</u> Guessing gets {{chance}}.</span></a></li>
     <li><a class="tile" href="#genres"><img src="features/genres.webp" alt="" width="720" height="300" loading="lazy"><span class="tile-num">{{dialogueShare}}</span><span class="tile-say"><u>Of the words in {{dialogueGenre}} books are dialogue,</u> the most of any genre.</span></a></li>
@@ -95,18 +95,17 @@
 
   <section id="compare" class="numbers-section">
     <h2 class="section-title">Compare any two</h2>
-    <p class="numbers-note">Pick two books, two authors, or one of each. An author's numbers are the average of their books on the shelf.</p>
+    <p class="numbers-note">Pick two books, two authors, or one of each: type a title or a name. An author's numbers are the average of their books on the shelf.</p>
     <div class="shelf-controls numbers-controls">
       <label>One
-        <select id="compare-a">
-<!--COMPAREOPTIONS-A-->
-        </select>
+        <input id="compare-a" list="compare-list" value="Jane Austen" autocomplete="off" spellcheck="false">
       </label>
       <label>The other
-        <select id="compare-b">
-<!--COMPAREOPTIONS-B-->
-        </select>
+        <input id="compare-b" list="compare-list" value="Charles Dickens" autocomplete="off" spellcheck="false">
       </label>
+      <datalist id="compare-list">
+<!--COMPAREOPTIONS-->
+      </datalist>
     </div>
     <div id="compare-out" class="compare" aria-live="polite">
 <!--COMPARE-->

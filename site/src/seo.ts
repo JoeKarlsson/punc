@@ -29,7 +29,8 @@ export interface IndexBook {
 }
 
 // Every book under its letter, each title linking to its page. Links are from the site root, as build.mjs roots every page's links.
-export function booksIndexHTML(books: IndexBook[]): string {
+// base: where the book pages are from the page the index is on.
+export function booksIndexHTML(books: IndexBook[], base = 'books/'): string {
   const sorted = [...books].sort((a, b) => titleSortKey(a.title).localeCompare(titleSortKey(b.title), 'en'));
   const groups = new Map<string, IndexBook[]>();
   for (const book of sorted) {
@@ -45,7 +46,7 @@ export function booksIndexHTML(books: IndexBook[]): string {
       letter =>
         `<section class="az-letter" aria-labelledby="${id(letter)}"><h2 id="${id(letter)}" class="az-heading">${letter}</h2><ul class="az-list">${groups
           .get(letter)!
-          .map(b => `<li><a href="books/${b.slug}/">${escapeHTML(b.title)}</a>, ${escapeHTML(b.author)}</li>`)
+          .map(b => `<li><a href="${base}${b.slug}/">${escapeHTML(b.title)}</a>, ${escapeHTML(b.author)}</li>`)
           .join('')}</ul></section>`
     )
     .join('\n');

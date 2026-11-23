@@ -604,11 +604,17 @@ export function compareHTML(a: Profile, b: Profile): string {
   return `<div class="compare-pair">${head(a)}${head(b)}</div><table class="compare-table"><caption>Marks per 1,000 words, except words per sentence and dialogue (the share of words inside quotation marks).</caption><thead><tr><td></td><th scope="col">${escapeHTML(a.name)}</th><th scope="col">${escapeHTML(b.name)}</th></tr></thead><tbody>${rows}</tbody></table>`;
 }
 
-// A book's numbers rounded for numbers.json, which the comparison reads.
+// A book's numbers rounded for numbers.json, which the comparison reads. The map's
+// two measures need no more than four digits: a dot can't land finer.
 export const forBrowser = (b: BookNumbers): BookNumbers => ({
   ...b,
   ...(Object.fromEntries(METRICS.map(({ key }) => [key, Number(b[key].toFixed(4))])) as Record<MetricKey, number>),
   shares: b.shares.map(s => Number(s.toFixed(5))),
+  ...mapPosition(b),
+});
+export const mapPosition = ({ pausesPerStop, loudness }: Pick<BookNumbers, 'pausesPerStop' | 'loudness'>) => ({
+  pausesPerStop: Number(pausesPerStop.toPrecision(4)),
+  loudness: Number(loudness.toPrecision(4)),
 });
 
 // "Mark Twain, Jules Verne and Plato"

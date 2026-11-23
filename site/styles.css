@@ -4,13 +4,15 @@
 
 /* Anton and Fraunces (SIL Open Font License), self-hosted from Google Fonts'
    latin and latin-ext subsets, so the first paint doesn't wait on another
-   site and visits don't ping Google. */
+   site and visits don't ping Google. font-display: optional: a page that
+   painted without them keeps its fallbacks rather than jump when they land
+   (DECISIONS.md, 2026-11-23); later pages get them from the cache. */
 /* Anton, latin-ext */
 @font-face {
   font-family: 'Anton';
   font-style: normal;
   font-weight: 400;
-  font-display: swap;
+  font-display: optional;
   src: url(fonts/anton-latin-ext.woff2) format('woff2');
   unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
 }
@@ -19,7 +21,7 @@
   font-family: 'Anton';
   font-style: normal;
   font-weight: 400;
-  font-display: swap;
+  font-display: optional;
   src: url(fonts/anton-latin.woff2) format('woff2');
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
@@ -28,7 +30,7 @@
   font-family: 'Fraunces';
   font-style: normal;
   font-weight: 400 700;
-  font-display: swap;
+  font-display: optional;
   src: url(fonts/fraunces-latin-ext.woff2) format('woff2');
   unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
 }
@@ -37,22 +39,31 @@
   font-family: 'Fraunces';
   font-style: normal;
   font-weight: 400 700;
-  font-display: swap;
+  font-display: optional;
   src: url(fonts/fraunces-latin.woff2) format('woff2');
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 
-/* Local fonts sized to the web fonts' widths, so the page doesn't jump when they arrive */
+/* Local fonts sized to the web fonts' widths and line heights, so a page
+   that never gets the web fonts looks as close as it can. Widths measured in Chromium: Anton on
+   uppercase titles against Impact, Fraunces on the scanner's openings against
+   Georgia. Overrides are the web font's ascent and descent over size-adjust. */
 @font-face {
   font-family: 'Anton fallback';
   src: local('Impact'), local('AvenirNextCondensed-Heavy'), local('Arial Narrow Bold');
   size-adjust: 95%;
+  ascent-override: 123.8%;
+  descent-override: 34.6%;
+  line-gap-override: 0%;
 }
 
 @font-face {
   font-family: 'Fraunces fallback';
   src: local('Georgia');
-  size-adjust: 85%;
+  size-adjust: 104.5%;
+  ascent-override: 93.6%;
+  descent-override: 24.4%;
+  line-gap-override: 0%;
 }
 
 :root {
@@ -374,6 +385,14 @@ main {
   border-top: 1px solid var(--surface-line);
   color: var(--muted);
   font-size: 11px;
+}
+
+/* A phone wraps the filled readout onto a second line: hold room for it from
+   the start, so the bar doesn't grow while the page loads. */
+@media (max-width: 40rem) {
+  .scanner-readout {
+    min-height: calc(2lh + 2 * var(--space-1) + 1px);
+  }
 }
 
 /* The ending: the page's marks gathered into one line */
@@ -2730,7 +2749,8 @@ code {
   }
 }
 
-.numbers-controls select {
+.numbers-controls select,
+.numbers-controls input {
   width: 22rem;
   max-width: 100%;
   min-width: 0;
@@ -2842,6 +2862,9 @@ code {
 
 .az-letter {
   margin-bottom: var(--space-7);
+  /* Thousands of titles: letters off screen skip layout until they near the view */
+  content-visibility: auto;
+  contain-intrinsic-size: auto 2000px;
 }
 
 .az-list {

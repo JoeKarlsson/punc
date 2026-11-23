@@ -31,7 +31,7 @@ await build({
 // The browser's own code, bundled for Node so the pages match what it draws.
 const analyzerPath = join(tmpdir(), `punc-site-analyze-${process.pid}.mjs`);
 await build({ entryPoints: [join(SITE, 'src/node-entry.ts')], bundle: true, platform: 'node', format: 'esm', outfile: analyzerPath });
-const { bookPageTitle, booksIndexHTML, cardHTML, countsHTML, fingerprintHTML, markShares, marksThroughBook, modernMarkCount, modernMedians, modernNumbers, modernPageHTML, modernShares, numbers: N, TRACKED_MARKS, shelfPosition, SHELF_PAGE_SIZE, throughBookHTML } = await import(pathToFileURL(analyzerPath).href);
+const { bookPageTitle, booksIndexHTML, cardHTML, perMille, toColumns, countsHTML, fingerprintHTML, markShares, marksThroughBook, modernMarkCount, modernMedians, modernNumbers, modernPageHTML, modernShares, numbers: N, TRACKED_MARKS, shelfPosition, SHELF_PAGE_SIZE, throughBookHTML } = await import(pathToFileURL(analyzerPath).href);
 await rm(analyzerPath);
 
 // GitHub Pages can't send headers, so the policy rides in a meta tag, first in
@@ -128,16 +128,31 @@ const genres = [...new Set(books.flatMap(b => b.genres))].sort();
 
 
 // The whole shelf for site/src/shelf.ts, which searches, sorts and pages it
-// and draws cards past the first page. Shares are rounded: a fingerprint bar
-// can't show more.
-const shelfBook = ({ slug, title, author, byline, authorSort, genres, rank, publishedSort, words, marks, wps, density, sample, shares, cover }) =>
-  ({ slug, title, author, byline, authorSort, genres, rank, publishedSort, words, marks, wps: Number(wps.toFixed(2)), density: Number(density.toFixed(2)), sample, shares: shares.map(s => Number(s.toFixed(4))), cover });
+// and draws cards past the first page. Shares are rounded to the thousandths
+// shelf-faces.json carries, so the cards built here match the ones drawn there.
+const shelfShares = shares => shares.map(s => perMille(s) / 1000);
+const shelfBook = ({ slug, title, author, published, publishedSort, genres, rank, words, marks, wps, density, sample, shares, cover }) => ({
+  slug,
+  title,
+  author,
+  yearLabel: String(published ?? '') === String(publishedSort ?? '') ? null : String(published ?? ''),
+  genres,
+  rank,
+  modern: null,
+  publishedSort,
+  words,
+  marks,
+  wps: Number(wps.toFixed(2)),
+  density: Number(density.toFixed(2)),
+  sample,
+  shares: shelfShares(shares),
+  cover,
+});
 const modernShelfBook = book => ({
   slug: book.slug,
   title: book.title,
   author: book.author,
-  byline: `${book.author}, ${book.year}`,
-  authorSort: book.author.split(' ').at(-1),
+  yearLabel: null,
   genres: [],
   rank: null,
   modern: book.rank,
@@ -147,7 +162,7 @@ const modernShelfBook = book => ({
   wps: book.wps,
   density: Number(((modernMarkCount(book) / book.words) * 100).toFixed(2)),
   sample: '',
-  shares: modernShares(book).map(v => Number(v.toFixed(4))),
+  shares: shelfShares(modernShares(book)),
   cover: false,
 });
 // "Most read" takes turns between the two shelves, each in its own order: Gutenberg
@@ -155,22 +170,29 @@ const modernShelfBook = book => ({
 const shelfOrder = Array.from({ length: Math.max(byRank.length, modern.length) }, (_, i) => [byRank[i] && shelfBook(byRank[i]), modern[i] && modernShelfBook(modern[i])])
   .flat()
   .filter(Boolean);
-await writeFile(join(OUT, 'shelf.json'), JSON.stringify(shelfOrder));
+await writeFile(join(OUT, 'shelf-index.json'), JSON.stringify(toColumns(shelfOrder.map(({ sample, shares, ...book }) => book))));
+await writeFile(join(OUT, 'shelf-faces.json'), JSON.stringify({ sample: shelfOrder.map(b => b.sample), shares: shelfOrder.map(b => b.shares.map(perMille)) }));
 
-// Book pages and uploads draw themselves on the shelf map from this.
-// The numbers page compares books and authors from this.
-await writeFile(join(OUT, 'numbers.json'), JSON.stringify(shelfNumbers.map(N.forBrowser)));
+// The public dataset (llms.txt, the paper's scripts): one object per book.
+const browserNumbers = shelfNumbers.map(N.forBrowser);
+await writeFile(join(OUT, 'numbers.json'), JSON.stringify(browserNumbers));
+// The numbers page reads the same as columns, rounded to what its charts and
+// tables show: four digits, and shares in the thousandths a fingerprint shows.
+const forNumbersPage = b => ({
+  ...b,
+  ...Object.fromEntries(N.METRICS.map(({ key }) => [key, Number(b[key].toPrecision(4))])),
+  shares: b.shares.map(s => perMille(s) / 1000),
+});
+await writeFile(join(OUT, 'numbers-columns.json'), JSON.stringify(toColumns(browserNumbers.map(forNumbersPage))));
 // Without what every modern book has the same, which numbers-page.ts puts back:
 // it's thousands of books, parsed while the page loads.
 const SAME_FOR_EVERY_MODERN_BOOK = ['yearLabel', 'genres', 'rank', 'dialogue', 'pausesPerStop', 'loudness'];
 await writeFile(
   join(OUT, 'modern-numbers.json'),
-  JSON.stringify(modernShelfNumbers.map(b => {
-    const slim = Object.fromEntries(Object.entries(N.forBrowser(b)).filter(([k]) => !SAME_FOR_EVERY_MODERN_BOOK.includes(k)));
-    return { ...slim, shares: b.shares.map(v => Number(v.toFixed(3))) };
-  }))
+  JSON.stringify(toColumns(modernShelfNumbers.map(b => Object.fromEntries(Object.entries(forNumbersPage(b)).filter(([k]) => !SAME_FOR_EVERY_MODERN_BOOK.includes(k))))))
 );
-await writeFile(join(OUT, 'books.json'), JSON.stringify(books.map(({ slug, title, author, pausesPerStop, loudness }) => ({ slug, title, author, pausesPerStop, loudness }))));
+// Book pages and uploads draw themselves on the shelf map from this.
+await writeFile(join(OUT, 'books.json'), JSON.stringify(books.map(({ slug, title, author, pausesPerStop, loudness }) => ({ slug, title, author, ...N.mapPosition({ pausesPerStop, loudness }) }))));
 await cp(join(SITE, 'marks'), join(OUT, 'marks'), { recursive: true });
 await cp(join(SITE, 'covers'), join(OUT, 'covers'), { recursive: true });
 await cp(join(SITE, 'static'), OUT, { recursive: true });
@@ -287,9 +309,10 @@ ${notFound ? '' : shareLinks(url, socialTitle ?? title)}
 </body>
 </html>
 `;
-  // Pages in subfolders reach shared files through `root`; "./" is the shelf.
+  // Pages in subfolders reach shared files through `root`; "./" is the shelf, and
+  // "./x" is already relative to the page.
   const rooted = depth
-    ? html.replace(/(href|src)="(?!https?:|#|data:|mailto:)([^"]*)"/g, (_, attr, target) => `${attr}="${root}${target === './' ? '' : target}"`)
+    ? html.replace(/(href|src)="(?!https?:|#|data:|mailto:|\.\/[^"])([^"]*)"/g, (_, attr, target) => `${attr}="${root}${target === './' ? '' : target}"`)
     : html;
   await mkdir(join(OUT, path, '..'), { recursive: true });
   await writeFile(join(OUT, path), rooted);
@@ -326,7 +349,7 @@ const scannerOpenings = JSON.parse(await readFile(join(SITE, 'scanner-openings.j
 const indexBody = (await fragment('index.html'))
   .replace('<!--SCANNEROPENINGS-->', () => JSON.stringify(scannerOpenings).replace(/</g, '\\u003c'))
   .replace('<!--SCANNERTEXT-->', () => escapeHTML(scannerOpenings[0].text))
-  // Only the first page is in the HTML; site/src/shelf.ts draws the rest from shelf.json.
+  // Only the first page is in the HTML; site/src/shelf.ts draws the rest from the shelf files.
   .replace('<!--SHELF-->', shelfOrder.slice(0, SHELF_PAGE_SIZE).map((book, i) => cardHTML(book, i)).join('\n'))
   .replace('<!--GENRES-->', genres.map(g => `<option>${escapeHTML(g)}</option>`).join(''));
 await writePage({
@@ -531,12 +554,9 @@ const firstAuthor = authors[0];
 const firstAuthorDetail = N.authorDetailHTML(firstAuthor.author, firstAuthor.books, guessedBySlug, Math.round(N.authorSpread(firstAuthor.books, typical)), careerFigure, modernShelfNumbers.filter(b => b.author === firstAuthor.author));
 
 // Compare: every author with two or more books, then every book. The books
-// are added in the browser, from numbers.json.
+// are added in the browser, from numbers-columns.json.
 const compareAuthors = N.authorsWithWorks(shelfNumbers, 2);
-const compareOptions = picked => `          <optgroup label="Authors">
-${compareAuthors.map(({ author }) => `            <option value="author:${escapeHTML(author)}"${author === picked ? ' selected' : ''}>${escapeHTML(author)}</option>`).join('\n')}
-          </optgroup>
-          <optgroup label="Books"></optgroup>`;
+const compareOptions = compareAuthors.map(({ author }) => `        <option value="${escapeHTML(author)}">`).join('\n');
 const authorBooks = name => compareAuthors.find(a => a.author === name).books;
 const compareDefault = N.compareHTML(N.authorProfile('Jane Austen', authorBooks('Jane Austen')), N.authorProfile('Charles Dickens', authorBooks('Charles Dickens')));
 
@@ -655,8 +675,7 @@ const numbersBody = (await fragment('numbers.html'))
   .replace('<!--GENREPRINTS-->', genrePrints)
   .replace('<!--AUTHORPICKS-->', authorPicks)
   .replace('<!--AUTHORDETAIL-->', firstAuthorDetail)
-  .replace('<!--COMPAREOPTIONS-A-->', compareOptions('Jane Austen'))
-  .replace('<!--COMPAREOPTIONS-B-->', compareOptions('Charles Dickens'))
+  .replace('<!--COMPAREOPTIONS-->', compareOptions)
   .replace('<!--COMPARE-->', compareDefault)
   .replace('<!--TWINS-->', twinItems)
   .replace('<!--NEXTGRID-->', N.nextMarkTableHTML(nextGrid))
@@ -726,7 +745,7 @@ await writePage({
   body: `<article class="az">
   <h1 class="page-title">Every book, A to Z</h1>
   <p class="lede">All ${fmt(books.length + modern.length)} books on the shelf, filed by title without "The", "A" or "An": ${fmt(books.length)} from Project Gutenberg, which open as punctuation only, and ${fmt(modern.length)} novels from 1930 on, counted from HathiTrust.</p>
-${booksIndexHTML([...books, ...modern])}
+${booksIndexHTML([...books, ...modern], './')}
 </article>`,
   script: 'page.js',
 });

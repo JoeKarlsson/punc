@@ -57,13 +57,14 @@ ${ransom}
 );
 
 // One card per book: its shelf poster, drawn by the shelf's own cardHTML from
-// the build's shelf.json (the front page only holds the first page of books),
+// the build's shelf files (the front page only holds the first page of books),
 // taped on the left, with the title and the fingerprint big.
 const cardModulePath = join(tmpdir(), `punc-share-card-${process.pid}.mjs`);
 await build({ entryPoints: ['site/src/node-entry.ts'], bundle: true, platform: 'node', format: 'esm', outfile: cardModulePath, logLevel: 'error' });
-const { cardHTML } = await import(pathToFileURL(cardModulePath).href);
+const { cardHTML, shelfBooksFrom } = await import(pathToFileURL(cardModulePath).href);
 await rm(cardModulePath);
-const shelfBooks = JSON.parse(await readFile(join(DIST, 'shelf.json'), 'utf8'));
+const readDist = async file => JSON.parse(await readFile(join(DIST, file), 'utf8'));
+const shelfBooks = shelfBooksFrom(await readDist('shelf-index.json'), await readDist('shelf-faces.json'));
 const shelfCards = shelfBooks.map((book, i) => cardHTML(book, i));
 const bookCardPage = card => {
   const slug = card.match(/href="books\/([^/]+)\//)[1];

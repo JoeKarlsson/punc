@@ -60,6 +60,7 @@ export function paintSpiral(
   height: number
 ): void {
   ctx.setTransform(1, 0, 0, 1, 0, 0);
+  if (layout.fontSize * scale < DOTS_BELOW_PX) return paintSpiralDots(ctx, marks, layout, { ink, paper, pink }, scale, offsetX, offsetY, width, height);
   ctx.fillStyle = ink;
   ctx.fillRect(0, 0, width, height);
   ctx.textAlign = 'center';
@@ -79,6 +80,90 @@ export function paintSpiral(
     ctx.fillStyle = ENDS_SENTENCE.has(mark) ? pink : paper;
     ctx.fillText(mark, 0, 0);
   });
+}
+
+// Marks smaller than this, in device pixels, are specks that can't be read, and
+// Safari took two minutes to draw a long book's 200,000 of them as text. They're
+// drawn as dots instead (DECISIONS.md, 2026-11-23).
+const DOTS_BELOW_PX = 5;
+// Small text shows about 1.4 times brighter than its raw coverage; measured
+// against the text spiral, this keeps the dots as bright as it to within 3%.
+const SMALL_TEXT_GAIN = 1.4;
+
+// The share of a 1 px square each mark's glyph covers, measured once by
+// drawing it large: a quotation mark leaves more ink than a period.
+const inkShares = new Map<string, number>();
+function inkShare(mark: string): number {
+  let share = inkShares.get(mark);
+  if (share === undefined) {
+    const R = 64;
+    const ctx = new OffscreenCanvas(R * 2, R * 2).getContext('2d');
+    if (!ctx) throw new Error("This browser couldn't open a 2D canvas");
+    ctx.font = `${R}px Fraunces, Georgia, serif`;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(mark, R, R);
+    const alpha = ctx.getImageData(0, 0, R * 2, R * 2).data;
+    let sum = 0;
+    for (let i = 3; i < alpha.length; i += 4) sum += alpha[i]!;
+    share = sum / 255 / (R * R);
+    inkShares.set(mark, share);
+  }
+  return share;
+}
+
+// A color as 0-1 channels: the canvas normalizes any CSS color to #rrggbb.
+function channels(ctx: CanvasRenderingContext2D | OffscreenCanvasRenderingContext2D, color: string): number[] {
+  ctx.fillStyle = color;
+  const hex = String(ctx.fillStyle);
+  return [1, 3, 5].map(i => parseInt(hex.slice(i, i + 2), 16) / 255);
+}
+
+// Each mark as the ink its glyph would leave, spread over the four nearest
+// pixels so the rings don't alias, written into the canvas in one pass.
+function paintSpiralDots(
+  ctx: CanvasRenderingContext2D | OffscreenCanvasRenderingContext2D,
+  marks: string[],
+  layout: SpiralLayout,
+  { ink, paper, pink }: SpiralColors,
+  scale: number,
+  offsetX: number,
+  offsetY: number,
+  width: number,
+  height: number
+): void {
+  const ground = channels(ctx, ink);
+  // What a full pixel of each color adds over the ground
+  const [toPaper, toPink] = [paper, pink].map(c => channels(ctx, c).map((v, i) => v - ground[i]!));
+  const glyphArea = SMALL_TEXT_GAIN * (layout.fontSize * scale) ** 2;
+  const added = new Float32Array(width * height * 3);
+  marks.forEach((mark, i) => {
+    const { x, y } = layout.points[i]!;
+    const fx = x * scale + offsetX - 0.5;
+    const fy = y * scale + offsetY - 0.5;
+    const x0 = Math.floor(fx);
+    const y0 = Math.floor(fy);
+    const ax = fx - x0;
+    const ay = fy - y0;
+    const amount = inkShare(mark) * glyphArea;
+    const color = ENDS_SENTENCE.has(mark) ? toPink! : toPaper!;
+    for (const [px, py, weight] of [
+      [x0, y0, (1 - ax) * (1 - ay)],
+      [x0 + 1, y0, ax * (1 - ay)],
+      [x0, y0 + 1, (1 - ax) * ay],
+      [x0 + 1, y0 + 1, ax * ay],
+    ] as const) {
+      if (px < 0 || py < 0 || px >= width || py >= height) continue;
+      const at = (py * width + px) * 3;
+      for (let c = 0; c < 3; c++) added[at + c]! += color[c]! * amount * weight;
+    }
+  });
+  const image = ctx.createImageData(width, height);
+  for (let p = 0, q = 0; p < added.length; p += 3, q += 4) {
+    for (let c = 0; c < 3; c++) image.data[q + c] = Math.min(1, Math.max(0, ground[c]! + added[p + c]!)) * 255;
+    image.data[q + 3] = 255;
+  }
+  ctx.putImageData(image, 0, 0);
 }
 
 export interface SpiralExplorer {

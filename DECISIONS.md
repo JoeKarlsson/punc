@@ -2,6 +2,10 @@
 
 Joe's verdicts on Punc's design and data, newest first. Read before changing what they cover.
 
+## 2026-11-23: the spiral draws specks as ink-matched dots (option C)
+
+- **Where a mark would be under 5 device pixels, the spiral draws it as a dot carrying the ink its glyph would have** (measured per mark; pink for sentence ends), in every browser. Zoomed in past that, marks are text as before. Chosen over hiding the spiral on phones (Mac Safari froze too) and over plain 2-pixel dots (option B), which turned the spiral into a glowing disk. Whole-book views of long books (Moby-Dick and up) are dots.
+
 ## 2026-11-23: performance fixes (fonts never swap late; compare by typing)
 
 - **Fraunces and Anton use `font-display: optional`** (option B), with fallbacks sized to them. If the fonts aren't there within about a tenth of a second, that page view stays in the resized Georgia and Impact and never swaps; later pages and visits get the cached fonts. Chosen over a late swap with resized fallbacks (option A), which still jumped 0.1 to 0.5 depending on screen width.

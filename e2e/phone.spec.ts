@@ -112,10 +112,10 @@ test('the heaviest pages load and scroll to the bottom without a crash or reload
         await new Promise(resolve => requestAnimationFrame(() => setTimeout(resolve, 50)));
       }
     });
-  // Every view of a long book, and every view but the spiral of the longest (below).
+  // Every view of a long book and of the longest.
   const VIEWS: Record<string, string[]> = {
     'books/moby-dick/': ['Spiral', 'Pages', 'Counts', 'Score'],
-    'books/the-manual-of-the-botany-of-the-northern-united-states/': ['Pages', 'Counts', 'Score'],
+    'books/the-manual-of-the-botany-of-the-northern-united-states/': ['Spiral', 'Pages', 'Counts', 'Score'],
   };
   for (const path of ['./', ...Object.keys(VIEWS), 'numbers.html', 'books/']) {
     let loads = 0;
@@ -136,12 +136,14 @@ test('the heaviest pages load and scroll to the bottom without a crash or reload
   }
 });
 
-// Safari paints the spiral on the main thread (canvas.ts), and WebKit takes about
-// two minutes to show a frame of the whole spiral for this book's 208,040 marks.
-// Found 2026-11-23; open until the spiral draws marks too small to read more cheaply.
-test.fixme('the spiral of the longest book shows within a few seconds', async ({ page }) => {
+// Safari paints the spiral on the main thread (canvas.ts). As text, the whole
+// spiral of this book's 208,040 marks took WebKit about two minutes to show; as
+// dots, a frame follows at once.
+test('the spiral of the longest book shows within a few seconds', async ({ page }) => {
   await page.goto('books/the-manual-of-the-botany-of-the-northern-united-states/');
   await expect(page.locator('#book[data-ready]')).toBeAttached();
   await page.getByRole('button', { name: 'Spiral', exact: true }).tap();
+  const started = Date.now();
   await page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve))));
+  expect(Date.now() - started).toBeLessThan(5000);
 });

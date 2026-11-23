@@ -472,10 +472,15 @@ export function careerAuthors(books: BookNumbers[]): Array<{ author: string; boo
 
 // Every career chart, for one measure, keyed by author. The measure's scale
 // is shared by all of them.
-export function careerSVGs(shelf: BookNumbers[], key: MetricKey): Map<string, string> {
+// One author's career chart, or undefined when they haven't one. Every author's
+// chart shares the axis; only the one shown is drawn (all of them took a slow
+// phone 80 ms on every author or measure picked).
+export function careerChart(shelf: BookNumbers[], key: MetricKey, author: string): string | undefined {
   const authors = careerAuthors(shelf);
+  const career = authors.find(a => a.author === author);
+  if (!career) return undefined;
   const axis = axisFor(authors.flatMap(a => a.books).map(b => b[key]), key);
-  return new Map(authors.map(({ author, books }) => [author, careerSVG(books, shelf, key, axis)]));
+  return careerSVG(career.books, shelf, key, axis);
 }
 
 // An author's books in order of year against the shelf around them: their

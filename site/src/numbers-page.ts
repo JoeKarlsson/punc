@@ -9,7 +9,7 @@ import {
   authorDetailHTML,
   authorProfile,
   bookProfile,
-  careerSVGs,
+  careerChart,
   compareHTML,
   modernTimelineDots,
   numbersTableRows,
@@ -86,7 +86,7 @@ function profileFor(value: string, shelf: BookNumbers[]): Profile {
 
 // The picked author's career chart, or a note when they haven't one.
 function drawCareer(shelf: BookNumbers[]): void {
-  const svg = careerSVGs(shelf, careerPick.value as MetricKey).get(pickedAuthor);
+  const svg = careerChart(shelf, careerPick.value as MetricKey, pickedAuthor);
   const chart = need<HTMLElement>('.career-chart', career);
   chart.innerHTML = svg ?? '';
   chart.hidden = svg === undefined;
@@ -138,11 +138,13 @@ async function drawBooks([shelf, modern]: [BookNumbers[], BookNumbers[]]): Promi
 
   await yieldToBrowser();
 
-  const byTitle = [...shelf, ...modern].sort((a, b) => a.title.localeCompare(b.title));
+  // A collator sorts in the same order as localeCompare, several times faster.
+  const byTitleOrder = new Intl.Collator().compare;
+  const byTitle = [...shelf, ...modern].sort((a, b) => byTitleOrder(a.title, b.title));
   // Thousands of options: a share at a time, so the page keeps answering taps.
-  for (let i = 0; i < byTitle.length; i += 1000) {
+  for (let i = 0; i < byTitle.length; i += 500) {
     compareList.append(
-      ...byTitle.slice(i, i + 1000).map(b => {
+      ...byTitle.slice(i, i + 500).map(b => {
         let label = `${b.title}, ${b.author}`;
         if (compareKeys.has(label)) label += ` (${b.year ?? b.slug})`;
         compareKeys.set(label, `book:${b.slug}`);

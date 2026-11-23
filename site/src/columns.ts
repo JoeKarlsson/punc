@@ -14,5 +14,12 @@ export function fromColumns<T extends object>(columns: Columns<T>): T[] {
   const length = keys.length ? columns[keys[0]!].length : 0;
   const ragged = keys.find(key => columns[key].length !== length);
   if (ragged !== undefined) throw new Error(`Column ${String(ragged)} has ${columns[ragged].length} entries, not ${length}`);
-  return Array.from({ length }, (_, i) => Object.fromEntries(keys.map(key => [key, columns[key][i]])) as T);
+  // Plain loops: thousands of rows are rebuilt while the page loads.
+  const rows: T[] = new Array(length);
+  for (let i = 0; i < length; i++) {
+    const row = {} as T;
+    for (const key of keys) row[key] = columns[key][i]!;
+    rows[i] = row;
+  }
+  return rows;
 }

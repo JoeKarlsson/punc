@@ -346,11 +346,16 @@ const scannerOpenings = JSON.parse(await readFile(join(SITE, 'scanner-openings.j
   return { slug, title: book.title, author: book.author, text };
 });
 
+const PICK_SIZE = 6;
 const indexBody = (await fragment('index.html'))
   .replace('<!--SCANNEROPENINGS-->', () => JSON.stringify(scannerOpenings).replace(/</g, '\\u003c'))
   .replace('<!--SCANNERTEXT-->', () => escapeHTML(scannerOpenings[0].text))
   // Only the first page is in the HTML; site/src/shelf.ts draws the rest from the shelf files.
   .replace('<!--SHELF-->', shelfOrder.slice(0, SHELF_PAGE_SIZE).map((book, i) => cardHTML(book, i)).join('\n'))
+  // A row of the most-read books under the headline, so a first visit sees books on its first screen
+  // (2026-11-27: the shelf started below the fold and 10% of front-page visits opened a book).
+  .replace('<!--PICK-->', shelfOrder.slice(0, PICK_SIZE).map((book, i) => cardHTML(book, i)).join('\n'))
+  .replace('<!--BOOKCOUNT-->', fmt(books.length + modern.length))
   .replace('<!--GENRES-->', genres.map(g => `<option>${escapeHTML(g)}</option>`).join(''));
 await writePage({
   path: 'index.html',

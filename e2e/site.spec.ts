@@ -42,6 +42,16 @@ test('the front page opens on the shelf, most read first, a page at a time', asy
   await expect(page.locator('#book-title')).toHaveText('Pride and Prejudice');
 });
 
+test('the front page shows books on its first screen, and one opens', async ({ page }) => {
+  await page.goto('./');
+  // Before the Pick a book row the shelf started below the fold, and 10% of front-page visits opened a book (2026-11).
+  const first = page.locator('.pick-shelf .cover a').first();
+  await expect(first).toBeInViewport({ ratio: 0.3 });
+  await expect(page.locator('.pick-all')).toHaveText(`All ${shelfSize.toLocaleString('en-US')} books\u00a0\u2193`);
+  await first.click();
+  await expect(page).toHaveURL(/books\/pride-and-prejudice\/$/);
+});
+
 test('the front page scanner reads a first page and leaves its marks lit', async ({ page }) => {
   await page.goto('./');
   await page.locator('#scanner-stage').scrollIntoViewIfNeeded();

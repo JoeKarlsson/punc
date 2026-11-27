@@ -2,6 +2,10 @@
 
 Joe's verdicts on Punc's design and data, newest first. Read before changing what they cover.
 
+## 2026-11-27: a "Pick a book" row on the front page (option A)
+
+- **Six of the most-read books sit right under the headline**, with a link to all of them on the shelf below; the scanner follows. Phones show four (two rows) so the scanner is still a scroll away. Chosen over buttons in the headline (B) and a button at the end of the scanner (C). Why: the shelf started below the fold on desktop and phone, and 10% of front-page visits opened a book (39 to 4, Oct 28 to Nov 26).
+
 ## 2026-11-23: the spiral draws specks as ink-matched dots (option C)
 
 - **Where a mark would be under 5 device pixels, the spiral draws it as a dot carrying the ink its glyph would have** (measured per mark; pink for sentence ends), in every browser. Zoomed in past that, marks are text as before. Chosen over hiding the spiral on phones (Mac Safari froze too) and over plain 2-pixel dots (option B), which turned the spiral into a glowing disk. Whole-book views of long books (Moby-Dick and up) are dots.

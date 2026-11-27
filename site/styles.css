@@ -295,6 +295,31 @@ main {
   font-size: clamp(1.15rem, 1rem + 0.6vw, 1.45rem);
 }
 
+/* The front page's "Pick a book" row: the first six of the shelf, right under the headline */
+.pick {
+  margin-bottom: var(--space-8);
+}
+
+.pick-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-2) var(--space-4);
+  margin-bottom: var(--space-4);
+}
+
+.pick-head .section-title {
+  margin: 0;
+}
+
+/* Phones show four, two rows of two, so the scanner is still a scroll away */
+@media (max-width: 899px) {
+  .pick-shelf > li:nth-child(n + 5) {
+    display: none;
+  }
+}
+
 /* The front page scanner (site/src/scanner.ts) */
 .scanner {
   margin-bottom: var(--space-8);

@@ -86,6 +86,23 @@ function lastmodFor(sources) {
   }
   return lastmodBySources.get(key);
 }
+// Book pages are dated by their own data only: a Gutenberg book by its counted
+// text (site/marks/<slug>.json.gz), a modern one by site/modern.json, plus the
+// page fragment. Counting the shared build code too re-dated all 8,849 URLs on
+// every code commit, which teaches Google to ignore lastmod. One git log pass,
+// not one per book.
+const lastCommitByFile = new Map();
+if (!shallowClone) {
+  let date;
+  for (const line of git('log', '--format=%cs', '--name-only', '--', 'site/marks', 'site/modern.json', 'site/pages/read.html').split('\n')) {
+    if (/^\d{4}-\d{2}-\d{2}$/.test(line)) date = line;
+    else if (line && !lastCommitByFile.has(line)) lastCommitByFile.set(line, date);
+  }
+}
+function lastmodOfOwnData(files) {
+  const committed = files.map(f => lastCommitByFile.get(f) ?? '').sort().at(-1);
+  return committed || fetched;
+}
 const books = [];
 // For the numbers page: each book's measures, the clusters of touching marks
 // across the shelf, and each book's "which mark comes next" grid.
@@ -235,7 +252,7 @@ const sitemapURLs = [];
 
 // notFound: GitHub Pages serves 404.html at any missing path, so its links
 // resolve from the site root, and it stays out of search and the sitemap.
-async function writePage({ path, nav, title, socialTitle, description, body, script, depth = 0, dataset = {}, image = 'og.png', imageAlt, structuredData, notFound = false, sources = [] }) {
+async function writePage({ path, nav, title, socialTitle, description, body, script, depth = 0, dataset = {}, image = 'og.png', imageAlt, structuredData, notFound = false, sources = [], lastmod }) {
   const url = SITE_URL + path.replace(/index\.html$/, '');
   const root = '../'.repeat(depth);
   const navHTML = NAV.map(n => `<a href="${n.href}"${n.key === nav ? ' aria-current="page"' : ''}>${n.label}</a>`).join('');
@@ -244,7 +261,7 @@ async function writePage({ path, nav, title, socialTitle, description, body, scr
   const jsonLD = structuredData
     ? `<script type="application/ld+json">${JSON.stringify({ '@context': 'https://schema.org', ...structuredData }).replace(/</g, '\\u003c')}</script>\n`
     : '';
-  if (!notFound) sitemapURLs.push({ url, lastmod: lastmodFor(sources) });
+  if (!notFound) sitemapURLs.push({ url, lastmod: lastmod ?? lastmodFor(sources) });
   const alt = imageAlt ?? 'A ransom note cut from pink and white paper asks: What does a book look like without words?';
   const html = `<!doctype html>
 <html lang="en">
@@ -456,7 +473,7 @@ for (const book of books) {
         sameAs: `https://www.gutenberg.org/ebooks/${book.id}`,
       },
     },
-    sources: ['site/pages/read.html'],
+    lastmod: lastmodOfOwnData([`site/marks/${book.slug}.json.gz`, 'site/pages/read.html']),
     // The head is written in at build time, so search engines get a real h1
     // and nothing below it jumps when the script fills in the rest.
     body: readBody
@@ -509,7 +526,7 @@ for (const book of modern) {
       author: AUTHOR,
       about: { '@type': 'Book', name: book.title, author: { '@type': 'Person', name: book.author }, datePublished: String(book.year) },
     },
-    sources: ['site/modern.json'],
+    lastmod: lastmodOfOwnData(['site/modern.json']),
     body: modernPageHTML(book, { ...modernContext, otherBooks }),
     script: 'page.js',
   });

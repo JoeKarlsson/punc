@@ -747,6 +747,10 @@ test('every built page has complete metadata, and every internal link and asset 
   const aboutLastmod = readFileSync(join(OUT, 'sitemap.xml'), 'utf8').match(/about\.html<\/loc><lastmod>([^<]+)</)?.[1];
   const aboutCommitted = execFileSync('git', ['log', '-1', '--format=%cs', '--', 'site/pages/about.html'], { encoding: 'utf8' }).trim();
   expect(aboutLastmod! >= aboutCommitted).toBe(true);
+  // A book page is dated by its own counted text, not by commits to the shared build code.
+  const mobyLastmod = readFileSync(join(OUT, 'sitemap.xml'), 'utf8').match(/books\/moby-dick\/<\/loc><lastmod>([^<]+)</)?.[1];
+  const mobyCommitted = execFileSync('git', ['log', '-1', '--format=%cs', '--', 'site/marks/moby-dick.json.gz', 'site/pages/read.html'], { encoding: 'utf8' }).trim();
+  expect(mobyLastmod).toBe(mobyCommitted);
 });
 
 // The shelf's search and sort data is all the front page loads; the cards past

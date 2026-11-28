@@ -804,6 +804,11 @@ await writePage({
   notFound: true,
 });
 
+// Site pages first, then books in the shelf's "most read" order, so a crawler that
+// stops partway has the best-known books (Gutenberg and modern alike).
+const shelfRank = new Map(shelfOrder.map((book, i) => [`${SITE_URL}books/${book.slug}/`, i]));
+sitemapURLs.sort((a, b) => (shelfRank.get(a.url) ?? -1) - (shelfRank.get(b.url) ?? -1));
+
 // robots.txt and .well-known/security.txt come from site/static: the site has its own
 // domain, so GitHub Pages serves them at the root.
 await writeFile(

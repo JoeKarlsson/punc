@@ -738,6 +738,10 @@ test('every built page has complete metadata, and every internal link and asset 
   expect(repeats('description')).toEqual([]);
   const sitemap = [...readFileSync(join(OUT, 'sitemap.xml'), 'utf8').matchAll(/<loc>([^<]+)<\/loc>/g)].map(m => m[1]).sort();
   expect(sitemap).toEqual(indexable.map(p => p.url).sort());
+  // Site pages, then the books in the shelf's "most read" order.
+  const sitemapBooks = [...readFileSync(join(OUT, 'sitemap.xml'), 'utf8').matchAll(/<loc>[^<]+\/books\/([^<]+)\/<\/loc>/g)].map(m => m[1]);
+  const { slug: shelfSlugs } = JSON.parse(readFileSync(join(OUT, 'shelf-index.json'), 'utf8')) as { slug: string[] };
+  expect(sitemapBooks).toEqual(shelfSlugs);
 
   // A page's lastmod is never older than the last commit to its own fragment.
   const aboutLastmod = readFileSync(join(OUT, 'sitemap.xml'), 'utf8').match(/about\.html<\/loc><lastmod>([^<]+)</)?.[1];

@@ -2,12 +2,16 @@
 // who want every book on one page. Run by site/build.mjs.
 import { escapeHTML } from './patterns';
 
-// Search results show about 60 characters of a title; past that the site name goes first.
+// Search results show about 60 characters of a title; past that the site name goes
+// first, then "The". A book title too long even then stays whole: cutting it would
+// cut the words people search for ("...the Wealth of Nations").
 const TITLE_LIMIT = 60;
 
 export function bookPageTitle(title: string): string {
   const full = `The punctuation of ${title} · Punc`;
-  return full.length <= TITLE_LIMIT ? full : `The punctuation of ${title}`;
+  if (full.length <= TITLE_LIMIT) return full;
+  const plain = `The punctuation of ${title}`;
+  return plain.length <= TITLE_LIMIT ? plain : `Punctuation of ${title}`;
 }
 
 // Filed the way a library files them: "The Time Machine" under T for Time.

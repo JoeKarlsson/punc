@@ -5,7 +5,10 @@ describe('bookPageTitle', () => {
     expect(bookPageTitle('Moby-Dick')).toBe('The punctuation of Moby-Dick · Punc');
   });
   test('drops the site name from a long title', () => {
-    expect(bookPageTitle('The Extraordinary Adventures of Arsène Lupin')).toBe('The punctuation of The Extraordinary Adventures of Arsène Lupin');
+    expect(bookPageTitle('Twenty Thousand Leagues Under the Sea')).toBe('The punctuation of Twenty Thousand Leagues Under the Sea');
+  });
+  test('drops the leading "The" when the site name alone is not enough', () => {
+    expect(bookPageTitle('The Extraordinary Adventures of Arsène Lupin')).toBe('Punctuation of The Extraordinary Adventures of Arsène Lupin');
   });
 });
 

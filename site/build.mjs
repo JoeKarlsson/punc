@@ -381,6 +381,17 @@ await writePage({
     .replace('<h1 id="book-title" class="book-title"></h1>', '<h2 id="book-title" class="book-title"></h2>'),
   script: 'reader.js',
   sources: ['site/pages/read.html'],
+  structuredData: {
+    '@type': 'WebApplication',
+    name: 'Punc: read your own',
+    url: `${SITE_URL}read.html`,
+    description: 'Open a plain text file or paste some text and see it as punctuation only. It never leaves your browser.',
+    applicationCategory: 'UtilitiesApplication',
+    operatingSystem: 'Any',
+    isAccessibleForFree: true,
+    isPartOf: WEBSITE,
+    author: AUTHOR,
+  },
 });
 
 // Each book's closest fingerprint on the shelf, named under its own.
